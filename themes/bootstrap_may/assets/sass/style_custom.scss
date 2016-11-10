@@ -1,0 +1,114 @@
+@import "variables";
+@import "../../bootstrap/stylesheets/bootstrap/mixins";
+// Sticky header
+@import "sticky-header";
+@import "yamm-menu";
+
+
+.test {
+  color: red;
+ .test_sub {
+	  color: red;
+	}
+
+   &.test_sub2 {
+	float: right;
+	color: violet;
+	display: flex;
+	flex: 0;
+	}
+}
+
+// Container widths
+//
+// Set the container width, and override it for fixed navbars in media queries.
+
+.container {
+  @include container-fixed;
+
+  @media (min-width: $screen-sm-min) {
+    width: 100%; //$container-sm;
+  }
+  @media (min-width: $screen-md-min) {
+    width: 100%; //$container-md;
+  }
+  @media (min-width: $screen-lg-min) {
+    width: 100%; //$container-lg;
+  }
+}
+
+
+.main-container {
+  padding: 0;
+  .row {
+    margin: 0;
+    #row-main-column {
+      //padding: 0; 
+      .node-wrapper-outer {
+        margin: 0 -15px 0 -15px;
+        //background-color: bisque;
+        article {
+            width: 100%;
+            padding: 20px 20px;
+            margin: auto;
+            @include MQ(M) {
+                width: $screen-sm; //768px;
+                padding: 50px 0px;
+            }
+        }
+      }
+    }
+  }
+}
+
+/*
+ // Moved to the Seven (admin theme) style.css 
+.jquery_colorpicker {
+  .inner_wrapper {
+    width: 100% !important;
+    overflow: hidden;
+    height: 200px !important;
+    background: none !important;
+    border: 1px solid gray;
+  }
+  .color_picker{
+    height: 300px !important;
+    background-image: none !important;
+    position: static !important;
+    width: 100% !important;
+  }
+}
+*/
+
+
+.foo::before {
+  content: "foo on small";
+}
+
+@media (min-width: 768px) {
+  .foo::before {
+    content: "foo on medium";
+  }
+}
+
+.bar::before {
+  content: "bar on small";
+}
+
+@media (min-width: 768px) {
+  .bar::before {
+    content: "bar on medium";
+  }
+}
+
+
+footer {
+    background: #2f0342;
+    padding: 100px 30px !important;
+}
+
+.region-footer {
+    color: white;
+    width: $screen-sm; //768px;
+    margin: auto;
+}
