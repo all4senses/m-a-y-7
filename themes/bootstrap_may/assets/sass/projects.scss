@@ -83,11 +83,11 @@ article.node-project {
             top: 45%;
             cursor: pointer;
             &.first {
-                background: url(/f/images/slides_arrows_2.png) no-repeat -120px 0;
+                background: url(/f/images/slides_arrows.png) no-repeat -120px 0;
                 left: -15px;
             }
             &.second {
-                background: url(/f/images/slides_arrows_2.png) no-repeat -135px 0;
+                background: url(/f/images/slides_arrows.png) no-repeat -135px 0;
                 right: -15px;
             }
         }
@@ -216,11 +216,11 @@ article.proj-id-1-1 {
                 left: 43% !important;
                 right: initial;
                 &.first {
-                    background: url(/f/images/slides_arrows_2.png) no-repeat 0 0;
+                    background: url(/f/images/slides_arrows.png) no-repeat 0 0;
                     top: 15px;
                 }
                 &.second {
-                    background: url(/f/images/slides_arrows_2.png) no-repeat -61px 0;
+                    background: url(/f/images/slides_arrows.png) no-repeat -61px 0;
                     bottom: 10px;
                     top: initial;
                 }

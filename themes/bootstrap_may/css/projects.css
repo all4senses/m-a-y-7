@@ -50,12 +50,12 @@ article.node-project .slides-wrapper .slides-arrow {
 }
 /* line 85, ../assets/sass/projects.scss */
 article.node-project .slides-wrapper .slides-arrow.first {
-  background: url(/f/images/slides_arrows_2.png) no-repeat -120px 0;
+  background: url(/f/images/slides_arrows.png) no-repeat -120px 0;
   left: -15px;
 }
 /* line 89, ../assets/sass/projects.scss */
 article.node-project .slides-wrapper .slides-arrow.second {
-  background: url(/f/images/slides_arrows_2.png) no-repeat -135px 0;
+  background: url(/f/images/slides_arrows.png) no-repeat -135px 0;
   right: -15px;
 }
 
@@ -189,11 +189,11 @@ article.node-project .slides-wrapper .slides-arrow.second {
     right: initial;
   }/* line 218, ../assets/sass/projects.scss */
   article.proj-id-1-1 .slides-wrapper .slides-arrow.first {
-    background: url(/f/images/slides_arrows_2.png) no-repeat 0 0;
+    background: url(/f/images/slides_arrows.png) no-repeat 0 0;
     top: 15px;
   }/* line 222, ../assets/sass/projects.scss */
   article.proj-id-1-1 .slides-wrapper .slides-arrow.second {
-    background: url(/f/images/slides_arrows_2.png) no-repeat -61px 0;
+    background: url(/f/images/slides_arrows.png) no-repeat -61px 0;
     bottom: 10px;
     top: initial;
   }/* line 231, ../assets/sass/projects.scss */
@@ -223,4 +223,5 @@ article.node-project .slides-wrapper .slides-arrow.second {
     color: #996633;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */
