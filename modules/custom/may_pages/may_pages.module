@@ -9,6 +9,7 @@
  * Implements hook_menu().
  */
 function may_pages_menu() {
+  $items = array();
   /*
     $items['sh-get'] = array(
     'title' => 'Sh Get',
