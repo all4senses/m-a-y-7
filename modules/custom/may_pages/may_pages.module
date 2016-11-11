@@ -1,0 +1,1111 @@
+<?php
+
+/**
+ * @file 2
+ * Module for building and managing site's pages.
+ */
+
+/**
+ * Constants for ratins titles, etc.
+ */
+//module_load_include('inc', 'may_misc', 'inc/constants');
+
+
+/**
+ * Implements hook_menu().
+ */
+function may_pages_menu() {
+
+//  $items['home'] = array(
+//    'title' => 'Home page',
+//    'page callback' => 'may_pages_buildHome',
+//    'access arguments' => array('access content'),  
+//    'type' => MENU_CALLBACK,
+//  );
+  
+  $items['sh'] = array(
+    'title' => 'Sh1',
+    'page callback' => 'may_pages_sh1',
+    //'access callback' => 'may_misc_userIsAdmin',
+    'access arguments' => array('access content'),  
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['sh-get'] = array(
+    'title' => 'Sh Get',
+    'page callback' => 'may_pages_sh_get',
+    //'access callback' => 'may_misc_userIsAdmin',
+    'access arguments' => array('access content'),  
+    'type' => MENU_CALLBACK,
+  );
+   
+  return $items;
+}
+
+
+/**
+ * Implements hook_access().
+ */
+function may_pages_access($type = null) {
+  switch ($type) {
+    default:
+      if (arg(1) == 'edit') {
+        if(!user_access('administer site configuration')) {
+          return false;
+        }
+      }
+    break;
+  }
+  return true;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * @param array &$form
+ *   Array with declared form.
+ *
+ * @param array &$form_state
+ *   Array with current form state.
+ *
+ * @param string $form_id
+ *   Form ID.
+ *
+ * @return void
+ *   Return nothing.
+ */
+function may_pages_form_alter(&$form, &$form_state, $form_id) {
+  
+   //dpm($form_id);  dpm($form);
+  // $conf['locale_custom_strings_en']['old string'] = 'new string'
+  
+   
+    
+  switch ($form_id) {
+    
+    /*
+    case 'user_login_block':
+    case 'user_login':
+      
+      // Disable login for disabled users
+      $form['#validate'][] = 'may_pages_validateForm_disableUserLoginForDisabled';
+                
+      break;
+    */
+
+    
+    case 'article_node_form':
+        may_pages_passExtraParametersToCKEditor();
+      
+        //$extra_data = unserialize($form['field_extra_data']['und'][0]['value']['#default_value']);
+        /*
+        $form['author']['guest_author'] = array(
+          '#type' => 'textfield',
+          '#title' => 'Guest Post author',
+          '#default_value' => !empty($extra_data['guest_author']) ? $extra_data['guest_author'] : '',
+        );
+        */
+        
+        // Restore aliased pdfs links, from /pdfs/ to /sites/default/files/pdfs/
+        //$form['body'] = may_misc_rewriteLinks('pdfs', $form, 'back');
+        
+      
+        //$form['field_a_teaser']['und'][0]['#format'] = 'full_html';
+        //$form['field_a_teaser']['#access'] = FALSE;
+        //$form['field_main_image']['#access'] = FALSE;
+        $form['field_extra_data']['#access'] = FALSE;
+        
+        $form['#validate'][] = 'may_pages_validateForm_article';
+                
+      break;
+    
+    
+    
+    
+    case 'project_node_form':
+        
+        may_pages_passExtraParametersToCKEditor();
+        // Restore aliased pdfs links, from /pdfs/ to /sites/default/files/pdfs/
+        //$form['body'] = may_misc_rewriteLinks('pdfs', $form, 'back');
+        
+      
+        //$form['field_a_teaser']['und'][0]['#format'] = 'full_html';
+        //$form['field_a_teaser']['#access'] = FALSE;
+        //$form['field_main_image']['#access'] = FALSE;
+        $form['field_extra_data']['#access'] = FALSE;
+        
+        $form['#validate'][] = 'may_pages_validateForm_project';
+                
+      break;
+    
+    
+    
+    /*
+    case 'user_profile_form':
+      
+      // Disallow edit own profile for a Guest user.
+      global $user;
+      if($user->name == 'guest') {
+        drupal_goto('');
+      }
+      
+      $form['field_u_bio']['und'][0]['#format'] = 'full_html';
+      
+      break;
+      */
+    
+    
+    
+  
+    /*
+    case 'preface_node_form':
+      
+//
+//      // Deny editing titles for everyone except the root.
+//      if(arg(1) != 'add') {
+//        global $user;
+//        if($user->uid == 1) {
+//          $form['title'] = array(
+//            '#type' => 'item',
+//            '#title' => t('Title'),
+//            '#markup' => '<div class="title">' . $form['title']['#default_value'] . '</div>',
+//            '#description' => t('This field can be edited only by the Root administrator. Used only as id for loading to the listing page and will be hidden on the page.'),
+//          );
+//        }
+//      } // End of if(arg(1) != 'add') {
+
+      
+      
+      // Hide some options for all.
+      $form['comment_settings']['#access'] = FALSE;
+      $form['revision_information']['#access'] = FALSE;
+      
+      // And leave some options for the root.
+      global $user;
+      if ($user->uid != 1) {
+        $form['field_preface_key']['#access'] = FALSE;
+      }
+      if (!in_array('administrator', $user->roles)) {
+        // Deny to change the status of the node (it should always be unpublished).
+        $form['options']['#access'] = FALSE;
+        // Hide url aliasing options.
+        $form['path']['#access'] = FALSE;
+      }
+      
+      
+      // Connect Ckeditor for additional fields.
+      
+      //$form['body']['und'][0]['#format'] = 'may_full_html'; // link
+      //$form['body']['und'][0]['#format'] = 'filtered_html'; // unlink
+      $keys = element_children($form['field_preface_bottom']['und']);
+      foreach ($keys as $key) {
+        $form['field_preface_bottom']['und'][$key]['field_preface_b_body']['und'][0]['#format'] = 'full_html'; // link Ckeditor
+      }
+      
+      
+    break; // End of case 'preface_node_form':
+    */
+    
+  } // End of switch ($form_id) {
+  
+  
+  // Add a Save Draft button.
+  switch ($form_id) {
+    
+    case 'blog_post_node_form':
+    case 'article_node_form':
+      
+        $form['actions']['save_draft'] = array(
+          '#type' => 'submit',
+          '#value' => 'Save Draft',
+          '#submit' => array('node_form_submit'),
+          '#weight' => 6,
+        );
+      
+        $form['#submit'][] = 'may_pages_submitForm_saveDraft';
+        
+        break;
+      
+  } // End of switch ($form_id) { // Save Draft button
+  
+}
+
+
+
+/**
+ * Custom validate of project type form.
+ *
+ * @param array &$form
+ *   Array with declared form.
+ *
+ * @param array &$form_state
+ *   Array with current form state.
+
+ * @return void
+ *   Return nothing.
+ */
+function may_pages_validateForm_project(&$form, &$form_state) {
+  
+  return;
+  
+  
+  
+  
+  $extra_data = array(
+    'title' => $form_state['values']['title'], 
+    'images' => may_misc_getImagesFromBody($form_state['values']['body']['und'][0]['value'], $form_state['values']['nid']), 
+  );
+  
+  form_set_value($form['field_extra_data'], array('und' => array(0 => array('value' => serialize($extra_data), 'format' => 'full_html') )), $form_state);
+}
+
+
+/**
+ * Custom validate of article type form.
+ *
+ * @param array &$form
+ *   Array with declared form.
+ *
+ * @param array &$form_state
+ *   Array with current form state.
+
+ * @return void
+ *   Return nothing.
+ */
+function may_pages_validateForm_article(&$form, &$form_state) {
+
+  return;
+  
+  
+  
+  
+  
+  
+  
+  // Define a main image and build a custom teaser.
+  $teaser_data = may_misc_getArticleTeaserData('all', $form_state['values']['body']['und'][0]['value'], $form_state['values']['nid']);
+
+  
+  //form_set_value($form['field_a_teaser'], array('und' => array(0 => array('value' => $teaser_data['teaser'], 'format' => 'full_html') )), $form_state);
+  //form_set_value($form['field_main_image'], array('und' => array(0 => array('value' => serialize($teaser_data['main_image']), 'format' => 'full_html') )), $form_state);
+  
+  
+  $extra_data = array(
+    //'title' => $form_state['values']['title'], 
+    //'teaser_block' => $teaser_data['teaser_block'], 
+    //'teaser_home' => $teaser_data['teaser_home'],
+    //'teaser_side_block' => $teaser_data['teaser_side_block'],
+    //'side_block_main_image' => $teaser_data['side_block_main_image'],
+    'images' => $teaser_data['images'], 
+  );
+  
+  
+  //if (!empty($form_state['values']['guest_author'])) {
+  //  $extra_data['guest_author'] = $form_state['values']['guest_author'];
+  //}
+  
+  form_set_value($form['field_extra_data'], array('und' => array(0 => array('value' => serialize($extra_data), 'format' => 'full_html') )), $form_state);
+  
+}
+
+
+/**
+ * Custom validate of article type form.
+ *
+ * @param array &$form
+ *   Array with declared form.
+ *
+ * @param array &$form_state
+ *   Array with current form state.
+
+ * @return void
+ *   Return nothing.
+ */
+function may_pages_submitForm_saveDraft(&$form, &$form_state) {
+
+  return;
+  
+  
+  
+  
+  
+  
+  
+  if ($form_state['values']['op'] == 'Save' && @$form_state['build_info']['args'][0]->status == 0) {
+    // NOT publish ---> Publish
+    drupal_set_message('NOT publish ---> Publish', 'warning');
+
+    $form_state['values']['status'] = 1;
+    drupal_set_message(t('This article is now published!'), 'warning');
+    $status_changed = TRUE;
+  }
+  elseif (($form_state['values']['op'] == 'Save Draft' ||  $form_state['values']['status'] == 0) && @$form_state['build_info']['args'][0]->status == 1) {
+    // Publish ---> NOT publish
+    drupal_set_message('Publish ---> NOT publish', 'warning');
+
+    $form_state['values']['status'] = 0;
+    drupal_set_message(t('Attention! This article is saved as draft and is not published now!'), 'warning');
+    $status_changed = TRUE;
+  }
+  elseif (!$form_state['values']['nid'] || @$form_state['build_info']['args'][0]->field_show_in_block['und'][0]['value'] != @$form_state['values']['field_show_in_block']['und'][0]['value'] || $form_state['values']['op'] == 'Delete') {
+    $status_changed = TRUE;
+  }
+  else {
+    $status_changed = FALSE;
+  }
+  
+  //if ($status_changed) 
+  {
+    // Clear the views cache.
+    ///////drupal_flush_all_caches(); // This would clear a Boost cache as well.
+    ///////drupal_set_message('All caches has been flushed!', 'warning');
+    //
+    //
+    //
+    // So we clear here only a views caches.
+//    cache_clear_all('*', 'cache_views', TRUE);
+//    cache_clear_all('*', 'cache_views_data', TRUE);
+//    drupal_set_message('A cache has been flushed.', 'warning');
+  }
+
+//  if ($form_state['values']['op'] == 'Save Draft') {
+//    $form_state['values']['status'] = 0;
+//    drupal_set_message(t('Attention! This article is saved as draft and is not published now!'), 'warning');
+//      // Doesn't work
+//      //form_set_value($form['options'], array('status' => array('#default_value' => 0)), $form_state);
+//      //form_set_value($form['options']['status'], array('#default_value' => 0), $form_state);
+//  }
+//  else {
+//    $form_state['values']['status'] = 1;
+//  }
+  
+  
+}
+
+
+/**
+ * Implements hook_node_view().
+ *
+ * @return void
+ *   Return nothing.
+ */
+function may_pages_node_view($node, $view_mode) {
+
+  //return;
+  
+  
+  //dpm($node, '$node in node_view');
+  
+  
+  switch ($node->type) {
+    
+    case 'project':
+      ///dpm('yyy---');
+      /*
+      dpm($node, '$node in node_view');
+      
+       $custom_pages_css_added = TRUE;
+        $project_custom_css = path_to_theme() . '/css/projects.css';
+        if (file_exists($project_custom_css)) {
+            //dpm('added ' . $project_custom_css);
+            drupal_add_css($project_custom_css, array('weight' => 99, 'group' => 200));
+        }
+        
+        drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
+        drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
+        drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
+        
+        drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');
+        drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.css', array('weight' => 99, 'group' => 200));
+        
+        $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
+        drupal_add_js($path_to_custom_js . 'may_slick.js');
+        
+         $node->content['#attached']['js'][] = $path_to_custom_js . 'may_slick.js';
+         */
+      break;
+    
+    
+    /*
+    case 'preface':
+      
+      $preface_key = @$node->field_preface_key['und'][0]['value'];
+      
+      // Disable ?page* links for /sitemap.
+      if (@$_SERVER['REDIRECT_URL'] == '/sitemap' && $_SERVER['REQUEST_URI'] != '/sitemap') {
+        //drupal_not_found();
+        may_misc_drupal_not_found();
+        drupal_exit();
+      }
+      
+      
+      
+      // Set metatags from the preface to a page where the preface is placed
+      // Except of the front page, where it can be set via admin interface of the Metatags.
+      // AND except of published prefaces, because thier metatags will be pulled automatically!
+
+      if (isset($node->metatags) && count($node->metatags) && !$node->status) {
+        
+        foreach($node->metatags as $metatag_title => $metatag_data) {
+          may_misc_addMetatag($metatag_title, $metatag_data['value']);
+
+        }
+      }
+      
+    break;
+    */
+  
+  } // End of switch ($node->type) {
+  
+  /*
+  if ($view_mode == 'full') {
+    may_misc_addSocialShareData_toPage($node);
+    
+//    $types_with_floating_share = array ('article', 'blog_post', 'news_post', 'preface', 'provider', 'phone');
+//    if (in_array($node->type, $types_with_floating_share)) {
+//      
+//        // Floating share buttons box.
+//        drupal_add_js('sites/all/libraries/jquery.plugins/stickyfloat/stickyfloat2.js');
+//        $module_path = drupal_get_path('module', 'may_misc');
+//        drupal_add_js( $module_path . '/js/may_floatingSocials.js'); 
+//      
+//      
+//    }
+  }
+  */
+}
+
+
+/**
+ * Returns SH 1.
+ */
+function may_pages_sh1() {
+  
+  $out = '';
+          
+  $lights = array(
+    'l-0' => array('title' => 'РџРѕСЃС‚РёСЂРѕС‡РЅР°СЏ, РўРѕС‡РєРё Рё РІРµРЅС‚ Р‘Р•Р— РЎР•РќРЎРћР Рђ (BL1)'), // -------------------
+    'l-1' => array('title' => 'РЎРїР°Р»СЊРЅСЏ, РќРµРѕРЅ (BL11)'), // --------------------------------
+    'l-2' => array('title' => 'РљРѕСЂРёРґРѕСЂ РґРѕ СЃРїР°Р»СЊРЅРё, РўРѕС‡РєРё (BL8)'), // -----------------------
+    'l-3' => array('title' => 'РљР°Р±РёРЅРµС‚, Р›СЋСЃС‚СЂР° (BL7)'), // ------------------------------
+    'l-4' => array('title' => 'РЎРїР°Р»СЊРЅСЏ, РџРѕРґРІРµСЃС‹ (BL6)'), // ------------------------------
+    'l-5' => array('title' => 'РљРѕСЂРёРґРѕСЂ, РўРѕС‡РєРё (BL5)'), // --------------------------------
+    'l-6' => array('title' => 'РљРѕСЂРёРґРѕСЂ, РџРѕРґРІРµСЃС‹ (BL4)'), // ---------------------------------
+    'l-7' => array('title' => 'Р”РµС‚СЃРєР°СЏ, РќР°Рґ СЃС‚РѕР»РѕРј (BL3)'), // -------------------
+    'l-8' => array('title' => 'Р”РµС‚СЃРєР°СЏ, РќР°Рґ РєСЂРѕРІР°С‚СЏРјРё (BL2)'), // -------------------
+    'l-9' => array('title' => 'Р”РµС‚СЃРєР°СЏ, РўРѕС‡РєРё (BL12)'), // ---------------------------
+    'l-10' => array('title' => 'Р’Р°РЅРЅР°СЏ, Р›СЋСЃС‚СЂР° (BL13)'), // ---------------------------
+    'l-11' => array('title' => 'РљСѓС…РЅСЏ, РЎРІРµС‚ РёР· РІС‹С‚СЏР¶РєРё (BL14)'), // -------------------
+    'l-12' => array('title' => 'Р—Р°Р», Р›СЋСЃС‚СЂР° (BL15)'), // ------------------------------------
+    'l-13' => array('title' => 'РљСѓС…РЅСЏ, РџРѕРґСЃРІРµС‚РєР° С€РєР°С„РѕРІ (BL16)'), // on the board L16: S-22 (3 СЃ РєРѕРЅС†Р° Р РµР»Рµ 2), A8 (Р±РµР»С‹Р№ РЅР° С‚РѕРє СЃРµРЅСЃ. 2)
+    'l-14' => array('title' => 'Р—Р°Р», РќРµРѕРЅ РЅР° 3Рґ-РїР°РЅРµР»СЏС… (BL18)'), // -------------------------
+    'l-15' => array('title' => 'РљСѓС…РЅСЏ, РўРѕС‡РєРё (BL17)'), // -------------------- 
+    /* ------  */ 'l-16' => array('title' => '----> РќР• РџРћР”РљР›Р®Р§Р•РќРћ (BL9)'), // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  СЃР»РѕРјР°РЅР° РєРЅРѕРїРєР° РѕС‚РєР». СЂРµР»Рµ.
+    'l-17' => array('title' => 'Р’Р°РЅРЅР°СЏ, Р’РµРЅС‚РёР»СЏС‚РѕСЂ (BL10)'), // ------------------------------------  
+  );
+  
+  
+  //$out .= '<a class="light" id="l-00" href=#>Kitchen wall</a>';
+ 
+  $form['access'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Access',
+    '#attributes' => array('class'=> array('access')),
+      
+  );
+        $form['access']['pass'] = array(
+          '#type' => 'password',
+          '#title' => 'Password',
+          '#value' => NULL,
+          '#attributes' => array('id'=> 'pass'),
+        );
+  
+        
+        
+  $flat_markup = '
+    
+      <div class="flat">
+        <div class="part-1">
+          <div class="child">Р”РµС‚СЃРєР°СЏ
+            ' . may_pages_sh_renderLight($lights, 'l-9') . '
+            ' . may_pages_sh_renderLight($lights, 'l-7') . '  
+            ' . may_pages_sh_renderLight($lights, 'l-8') . '
+          </div>
+          <div class="hall">
+            <div class="living">Р—Р°Р»
+              ' . may_pages_sh_renderLight($lights, 'l-12') . '
+              ' . may_pages_sh_renderLight($lights, 'l-14') . '  
+            </div>
+            <div class="kitchen">РљСѓС…РЅСЏ
+              ' . may_pages_sh_renderLight($lights, 'l-15') . '
+              ' . may_pages_sh_renderLight($lights, 'l-13') . '  
+              ' . may_pages_sh_renderLight($lights, 'l-11') . '
+            </div>
+          </div>  
+        </div>
+        <div class="part-2">
+          <div class="koridor">РљРѕСЂРёРґРѕСЂ
+            ' . may_pages_sh_renderLight($lights, 'l-5') . '
+            ' . may_pages_sh_renderLight($lights, 'l-6') . '
+          </div>  
+          <div class="kabinet">РљР°Р±РёРЅРµС‚
+            ' . may_pages_sh_renderLight($lights, 'l-3') . '
+          </div>  
+        </div>
+        <div class="part-3">
+          <div class="part-3-1">
+            <div class="koridor-do-spalni">РљРѕСЂРёРґРѕСЂ РґРѕ СЃРїР°Р»СЊРЅРё
+              ' . may_pages_sh_renderLight($lights, 'l-2') . '
+            </div>  
+            <div class="part-3-2">
+              <div class="vannaya">Р’Р°РЅРЅР°СЏ
+                ' . may_pages_sh_renderLight($lights, 'l-10') . ' 
+                ' . may_pages_sh_renderLight($lights, 'l-17') . '  
+              </div>
+              <div class="postirochnaya">РџРѕСЃС‚РёСЂРѕС‡РЅР°СЏ
+                ' . may_pages_sh_renderLight($lights, 'l-0') . '
+              </div>
+            </div>  
+          </div>
+          <div class="spalnia">РЎРїР°Р»СЊРЅСЏ 
+            ' . may_pages_sh_renderLight($lights, 'l-1') . '
+            ' . may_pages_sh_renderLight($lights, 'l-4') . '  
+          </div>
+        </div>
+      </div>
+
+  ';
+  
+  $form['lights-bulk-ops'] = array(
+    '#markup' => '<div class="light" id="l-99">All lights <a class="refresh" href=#>-upd-</a><a class="off" href=#>off-</a><div class="wait" style="display: none;">Please, wait...</div></div>' 
+                 . $flat_markup,
+  );
+  
+  /*
+  
+  <fieldset class="light fieldset form-wrapper titled" id="l-1">
+                <legend>
+                  <span class="fieldset-title fieldset-legend">РЎРїР°Р»СЊРЅСЏ, РЅРµРѕРЅ (BL11), l-1</span>
+                </legend>
+
+                <div class="fieldset-content fieldset-wrapper clearfix" id="l-1">
+                  <a class="on" href="#">On-</a><a class="off" href="#">Off-</a><a class="switch" href="#">Switch</a><div class="form-item form-type-checkbox form-disabled">
+                  <input class="state form-checkbox" disabled="disabled" type="checkbox" value="1">  <label class="option">Last/current state </label>
+
+                 <div class="description">Last refresh: <span>Never</span></div>
+                </div>
+                <a class="refresh" href="#">Refresh light</a><div class="wait" style="display: none;">Please, wait...</div>    </div>
+            </fieldset>
+   
+  */
+//  $form['lights'] = array(
+//    '#type' => 'fieldset',
+//    '#title' => 'Lights',
+//    '#attributes' => array('class'=> array('lights')),
+//  );    
+//        $form['lights']['refresh-lights'] = array(
+//          '#markup' => '<a class="refresh-lights" href=#>Refresh all lights</a>',
+//        );
+       /* 
+        foreach ($lights as $id => $light) {
+          
+            $form['lights'][$id] = array(
+              '#type' => 'fieldset',
+              '#title' => $light['title'] . ', ' . $id,
+              '#attributes' => array('class'=> array('light'), 'id' => $id),
+            );
+
+                    $form['lights'][$id]['on'] = array(
+                      '#markup' => '<a class="on" href=#>On-</a>',
+                    );
+                    $form['lights'][$id]['off'] = array(
+                      '#markup' => '<a class="off" href=#>Off-</a>',
+                    );
+                    $form['lights'][$id]['switch'] = array(
+                      '#markup' => '<a class="switch" href=#>Switch</a>',
+                    );
+                    
+                    $form['lights'][$id]['state'] = array(
+                      '#type' => 'checkbox',
+                      '#title' => 'Last/current state',
+                      '#default_value' => FALSE,
+                      //'#value' => 1,  
+                      '#description' => 'Last refresh: <span>Never</span>',
+                      '#disabled' => TRUE,
+                      '#attributes' => array('class'=> array('state'), 'disabled' => 'disabled'),
+                    );
+                    $form['lights'][$id]['refresh'] = array(
+                      '#markup' => '<a class="refresh" href=#>Refresh light</a><div class="wait" style="display: none;">Please, wait...</div>',
+                    );
+                    
+                    
+        } // End of foreach ($lights as $id => $light) {
+      */
+  $form['other'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'other',
+  );
+      $form['other']['other-1'] = array(
+        '#markup' => '<a class="light" id="l-00" href=#>Kitchen wall</a>',
+      );
+  
+  $out = drupal_render($form);
+  
+  $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
+  drupal_add_js($path_to_custom_js . 'may_sh.js');
+     
+  return $out;
+}
+
+
+function may_pages_sh_renderLight($lights, $id) {
+  
+  $form = array();
+  
+  $form['lights'][$id] = array(
+    '#type' => 'container',
+    //'#title' => $lights[$id]['title'] . ', ' . $id,
+    '#attributes' => array('class'=> array('light'), 'id' => $id),
+  );
+  
+          list( , $title) = explode(', ', $lights[$id]['title']);
+          
+          $form['lights'][$id]['state_div'] = array(
+            '#markup' => '<div class="state"></div>'
+              . '<div class="title">' . $title . ', ' . $id . '</div>',
+          );
+          $form['lights'][$id]['on'] = array(
+            '#markup' => '<a class="on" href=#>On-</a>',
+          );
+          $form['lights'][$id]['off'] = array(
+            '#markup' => '<a class="off" href=#>Off-</a>',
+          );
+          $form['lights'][$id]['switch'] = array(
+            '#markup' => '<a class="switch" href=#>Switch-</a>',
+          );
+          $form['lights'][$id]['update'] = array(
+            '#markup' => '<a class="refresh" href=#>Upd</a>',
+          );
+          $form['lights'][$id]['refresh'] = array(
+            '#markup' => '<div class="description">Refreshed: <span>Never</span></div>'
+              . '<div class="wait" style="display: none;">Please, wait...</div>',
+          );
+//          $form['lights'][$id]['state'] = array(
+//            '#type' => 'checkbox',
+//            '#title' => 'Last/current state',
+//            '#default_value' => FALSE,
+//            //'#value' => 1,  
+//            '#description' => 'Last refresh: <span>Never</span>',
+//            '#disabled' => TRUE,
+//            '#attributes' => array('class'=> array('state'), 'disabled' => 'disabled'),
+//          );
+//          $form['lights'][$id]['refresh'] = array(
+//            '#markup' => '<a class="refresh" href=#>Refresh</a><div class="wait" style="display: none;">Please, wait...</div>',
+//          );
+          
+   return render($form);       
+}
+
+
+/**
+ * Returns SH Get.
+ */
+function may_pages_sh_get() {
+  
+  $post = array();
+  $p = 'xxx';
+  $url = NULL;
+  $status = FALSE;
+  
+  // MApping pairs.
+  $map_main = array(
+    //'First Name' => 'FirstName',
+  );
+  // Set initial fields.
+  $data_to = array(
+    //'op' => 4,
+    //'lamp' => 0,
+  );
+  
+  // Map data to remote vars names.
+  foreach ($_POST as $input_key => $input_data) {
+    $output_key = !empty($map_main[$input_key]) ? $post[$input_key] : $input_key;
+    $post[$output_key] = check_plain(strip_tags($input_data));
+  }
+  
+  if ($post['access'] == $p) {
+      $status = TRUE;
+      $url = 'http://a4s.ddns.net:8080'; //'http://smart1977.ddns.net';
+      
+      $data_to['access'] = $post['access'];
+      
+      if ($post['type'] == 'button_light') {
+        
+          $data_to['target_1'] = str_replace('l-', '', $post['id']);
+          switch ($post['class']) {
+            case 'on':
+              $data_to['op'] = 3;
+              break;
+            case 'off':
+              $data_to['op'] = 2;
+              break;
+            case 'switch':
+              $data_to['op'] = 4;
+              break;
+            case 'refresh':
+              $data_to['op'] = 1;
+              break;
+          } // End of switch ($post['class']) {
+       
+      } // End of if ($post['type' == 'button_light']) {
+  }
+  
+  
+  /*
+  // http://100.65.21.29:88/?access=xxx&op=4&lamp=0
+  // $url = 'http://a4s.ddns.net:8080'; //  'http://smart1977.ddns.net/?access=xxx&op=4&lamp=0';
+  // $url = 'http://100.65.21.29:88';
+  // $url = 'http://100.65.21.29';
+  
+  $url = 'http://100.65.21.29/?access=xxx&op=4&lamp=0';
+  
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, $url);
+  //curl_setopt($curl, CURLOPT_PORT, 88);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($curl, CURLOPT_TIMEOUT, 300);
+  //curl_setopt($curl, CURLOPT_POST, FALSE);
+  //curl_setopt($curl, CURLOPT_POSTFIELDS, $data_to);
+  $data_from = curl_exec($curl);
+  if ($data_from === false) {
+    $data_from = 'Error!!! 
+' . curl_error($curl);
+  }
+  curl_close($curl);
+ */
+  
+/*  
+  //$data_from = gv_misc_curlGET($url);
+  $data_from = file_get_contents($url);
+  
+  if ($data_from) {
+    $data_from = json_decode($data_from);
+  }
+*/
+  
+  drupal_json_output(array('status' => $status, 'url' =>$url, 'post' => $post, 'data' => $data_to));
+}
+
+
+//function may_pages_css_alter(&$css) {
+// dpm($css, '$css');   
+//}
+
+
+/**
+ * 
+ * @param type $variables
+ * Works with page view only, not on edit form
+ */
+function may_pages_preprocess_node(&$variables) {
+    //dpm($variables, '$variables node');
+    
+    static $custom_pages_css_added;
+    if ($variables['type'] == 'project' && !$custom_pages_css_added) {
+      
+      //dpm('xxx---');
+      //dpm($variables, '$variables node');
+      
+        //dpm($variables, '$variables in bootstrap_may_preprocess_node');
+        //dpr($variables['theme_hook_suggestions']);
+        $custom_pages_css_added = TRUE;
+        $project_custom_css = path_to_theme() . '/css/projects.css';
+        if (file_exists($project_custom_css)) {
+            //dpm('added ' . $project_custom_css);
+            drupal_add_css($project_custom_css, array('weight' => 99, 'group' => 200));
+        }
+        
+        drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
+        drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
+        drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
+        
+        drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');
+        drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.css', array('weight' => 99, 'group' => 200));
+        
+        $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
+        drupal_add_js($path_to_custom_js . 'may_slick.js');
+    }
+    
+    
+    
+}
+
+
+/**
+ * 
+ * @param type $variables
+ * Works with page view and edit form
+ */
+function may_pages_preprocess_page($variables) {
+    
+    //dpm($variables, '$variables page');
+  
+  
+}
+
+/**
+ * 
+ * @param type $variables
+ * Works with page view and edit form
+ */
+function may_pages_preprocess_html(&$variables) {
+  $variables['head_title_array']['slogan'] = variable_get('site_slogan');
+  $variables['head_title'] = $variables['head_title_array']['title'] . ' | ' . $variables['head_title_array']['name'] . ' | ' . $variables['head_title_array']['slogan'];
+  //dpm($variables, '$variables in may_pages_preprocess_html');
+}
+
+/**
+ * Pass extra parameters to cKeditor
+ */
+function may_pages_passExtraParametersToCKEditor() {
+    
+    $extra_imagefield_attributes = imagefield_attributes_get_all_attributes_names(FALSE, TRUE);
+    $extraParametersToCKEditor = array(
+       // Add New Allowed Content attributes to tags in CKEditor
+      'custom_img_attr_fields' => array_merge(array('id', 'class', 'alt', 'title'), $extra_imagefield_attributes),
+      'custom_div_attr_fields' => array_merge(array('id', 'class', 'alt', 'title', 'style', 'parallax', 'parallaxx'), $extra_imagefield_attributes),  
+      'custom_attr_fields_textarea_type' => array('data-type', 'data-order', 'style'),
+       // Pass to CKEditor a css file for the Project page type 
+      'project_custom_css_file' => url(drupal_get_path('theme', variable_get('theme_default', NULL)) . '/css/projects.css', array('absolute' => TRUE)),
+    );
+    drupal_add_js($extraParametersToCKEditor,array('type' =>'setting'));
+}
+
+
+
+/**
+ * Implements hook_block_info().
+ */
+function may_pages_block_info() {
+ /* 
+   
+  $blocks['footer_menu'] = array(
+    'info' => 'Footer menu',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  
+  */
+  
+  
+  $blocks['sticky_header_big'] = array(
+    'info' => 'Big sticky header with menu',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );  
+  
+  $blocks['sticky_header_small'] = array(
+    'info' => 'Small sticky header with menu',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );  
+    
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_block_view().
+ */
+function may_pages_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {      
+/*    
+    case 'footer_menu':
+      $block['subject'] = 'Footer menu';
+      $block['content'] = may_blocks_get_footerMenu();
+      break; 
+*/    
+    
+    case 'sticky_header_big':
+      $block['subject'] = 'Big sticky header with menu';
+      $block['content'] = may_pages_getStickyHeader('big');
+      break;
+    
+    case 'sticky_header_small':
+      $block['subject'] = 'Small sticky header with menu';
+      $block['content'] = may_pages_getStickyHeader('small');
+      break;
+    
+  }
+
+  return $block;
+}
+
+
+function may_pages_getStickyHeader($target = 'big'){
+  
+  $upper_menu = may_pages_getStickyHeader_upperMenu();
+  $main_menu = may_pages_getStickyHeader_mainMenu();
+  
+  $output = <<<HTML
+  <div class="sticky-header $target">    
+    <header class="cd-auto-hide-header">
+      <div class="logo"><a href="/"><div style="width: 50px; height: 30px; background: violet;" alt="Logo"></div></a></div>
+      $upper_menu
+    </header> <!-- .cd-auto-hide-header -->    
+    <section class="cd-hero">
+      <div class="cd-hero-content">
+        <!-- your content here -->
+      </div>
+    </section> <!-- .cd-hero -->
+    $main_menu  
+   </div>
+HTML;
+  
+  return $output;
+}
+
+
+function may_pages_getStickyHeader_upperMenu() {
+  
+  $menu = menu_tree_all_data('menu-upper-menu');
+  $themed_menu = may_pages_get_menu_children_themed($menu);
+  $output = <<<HTML
+    <nav class="cd-primary-nav">
+      <div class="navbar navbar-default---2 yamm">
+          <div class="navbar-header">
+            <!-- <button type="button" data-toggle="collapse" data-target="#navbar-collapse-1" class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> -->
+            <!-- <a href="#" class="navbar-brand">Upper slogan/title line</a> -->
+            <div class="top-slogan-title navbar-brand">Мастерская Архитектурных Идей</div>
+          </div>
+      <!--
+          <div id="navbar-collapse-1" class="navbar-collapse collapse">
+            $themed_menu
+          </div>
+      -->
+      </div>
+    </nav> <!-- .cd-primary-nav -->
+HTML;
+  
+  return $output;
+}
+
+
+function may_pages_getStickyHeader_mainMenu() {
+  
+  $menu = menu_tree_all_data('main-menu');
+  $themed_menu = may_pages_get_menu_children_themed($menu);
+  $output = <<<HTML
+      <nav class="cd-secondary-nav">
+        <div class="navbar navbar-default yamm">
+          <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#navbar-collapse-2" class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            <a href="#" class="navbar-brand">М.А.Й.RU</a>
+          </div>
+          <div id="navbar-collapse-2" class="navbar-collapse collapse">
+            $themed_menu
+          </div>
+        </div>
+      </nav> <!-- .cd-secondary-nav -->
+HTML;
+  
+  return $output;
+}
+
+
+/**
+ * 
+ * @param type $menu_parent
+ * @param type $level
+ * @return string
+ */
+function may_pages_get_menu_children_themed($menu_parent, $level = 0) {
+    $ul_class = ' class="' . ($level == 0 ? 'nav navbar-nav' : 'dropdown-menu') . '"';
+    $layout = '<ul'. $ul_class . '>';
+    foreach ($menu_parent as $key => $item) {
+      $li_class = $a_class = $caret = null;
+      if ($item['link']['link_path'] == '<separator>') {
+        $layout .= '<li class="divider"></li>';
+        continue;
+      }
+      if ($level == 0) {
+        $li_class = ' class="dropdown"';
+      }
+      elseif (!empty($item['below'])) {
+        $li_class = ' class="dropdown dropdown-submenu"';
+      }
+      if (!empty($item['below'])) {
+        $a_class = ' class="dropdown-toggle" data-toggle="dropdown"';
+        if ($level == 0) {
+          $caret = ' <b class="caret"></b>';
+        }
+      }
+      $layout .= '<li' . $li_class . '><a' . $a_class . ' href="' . ($item['link']['link_path'] == '<nolink>' ? '#' : $item['link']['link_path']) . '">' . $item['link']['link_title'] . $caret . '</a>';
+      if (!empty($item['below'])) {
+        $layout .= may_pages_get_menu_children_themed($item['below'], $level + 1);
+      }
+      $layout .= '</li>';
+    }
+    $layout .= '</ul>';
+    return $layout;
+  }
+  
+  
+  /**
+   * 
+   * @param type $menu_parent
+   * @return type
+   */
+  function may_pages_get_menu_children($menu_parent) {
+    $menu_current = array();
+    $count = 0;
+    foreach ($menu_parent as $key => $item) {
+      $menu_current[$count]['title'] = $item['link']['link_title'];
+      $menu_current[$count]['link'] = $item['link']['link_path'];
+      if (!empty($item['below'])) {
+        $menu_current[$count]['below'] = may_pages_get_menu_children($item['below']);
+      }
+      $count++;
+    }
+    return $menu_current;
+  }
+  
+function may_pages_theme_registry_alter(&$theme_registry) {
+  //dpm($theme_registry, '$theme_registry');
+//  $theme_registry['menu_local_action']['function'] = 'MY_NEW_FUNCTION';
+//  $theme_registry['menu_local_action']['includes'] = array();
+//  $theme_registry['menu_local_action']['theme path'] = drupal_get_path('MYMODULE','umnw_local_task');
+//  
+  
+  
+  if (!empty($theme_registry['image_resize_filter_image'])) {
+      $theme_registry['image_resize_filter_image']['function'] = 'may_pages_resize_filter_image';
+      $theme_registry['image_resize_filter_image']['theme path'] = drupal_get_path('module', 'may_pages');
+  }
+}
+
+/**
+ * Generate a themed image tag based on an image array.
+ *
+ * @param $image
+ *   An array containing image information and properties.
+ * @param $settings
+ *   Settings for the input filter.
+ */
+function may_pages_resize_filter_image($variables) {
+  $image = $variables['image'];
+  
+  // a4s patch
+  if ($image['original'] != $image['attributes']['src']){
+    $image['attributes']['data-original'] = $image['original'];
+  }
+  else {
+    unset($image['attributes']['data-original']);
+  }
+  
+  //$output = '<img' . drupal_attributes($image['attributes']) . ' data-original="' . $image['original'] . '" />';
+  $output = '<img' . drupal_attributes($image['attributes']) . ' />';
+  if ($image['link']) {
+    $output = '<a'. drupal_attributes($image['link']['attributes']) . '>' . $output . '</a>';
+  }
+  //dpm('111');
+  return $output;
+}
