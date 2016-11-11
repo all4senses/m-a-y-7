@@ -102,6 +102,7 @@
             
           <?php print render($title_prefix); ?>
           <?php 
+          dpm($node, '$node...');
           if (!empty($node->title)) {
             if (!$page) { 
               // Teaser.
