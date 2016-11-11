@@ -115,7 +115,9 @@
             */
           ?>
           
-          <?php if ($page) { 
+          <?php 
+          //if ($page) { 
+          if ($view_mode == 'full') { 
           // If it's a Full page (a node itself or even on a Views list page)
           ?>
             <div class="caption-block">
