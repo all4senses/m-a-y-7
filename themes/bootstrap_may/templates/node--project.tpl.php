@@ -100,8 +100,26 @@
         <?php if ((!$page && !empty($title)) || !empty($node->title) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
         <header>
             
-          <?php print render($title_prefix); ?>
-          <?php 
+          
+            
+          
+            
+            <div class="caption-block">
+              <div class="proj">Проект <span class="proj-num">[node:field_project_id]</span> <span class="proj-year">[node:field_project_year]г.</span>
+              <div class="proj-type">Тип проекта: [node:field_project_types]</div>
+              </div>
+                <?php print render($title_prefix); ?>
+              <h1><span class="h1-1">150м.<span>кв. </span></span><span class="h1-2">свободы</span> <span class="h1-3">для дизайнера</span></h1>
+              <?php print render($title_suffix); ?>
+              <div class="address">Интерьер квартиры по улице Костычева, г. Новосибирск</div>
+            </div>
+            
+          <?php
+          
+          $text = '[node:field_project_id]';
+          $t =	token_replace($text/*, array $data = array(), array $options = array()*/);
+          dpm($t,'token');
+          
           if (!empty($node->title)) {
             if (!$page) { 
               // Teaser.
@@ -115,14 +133,15 @@
           ?>
           
             
-          <?php print render($title_suffix); ?>
           
+          <?php/*
           <?php if ($display_submitted): ?>
           <span class="submitted">
             <?php print $user_picture; ?>
             <?php print $submitted; ?>
           </span>
           <?php endif; ?>
+            */ ?>
         </header>
         <?php endif; ?>
         <?php
