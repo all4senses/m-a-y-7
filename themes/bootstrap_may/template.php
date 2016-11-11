@@ -30,6 +30,8 @@ function bootstrap_may_preprocess_page(&$variables) {
      */
   }
 
+  
+  /*
   drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
   drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
   drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
@@ -39,6 +41,7 @@ function bootstrap_may_preprocess_page(&$variables) {
 
   $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
   drupal_add_js($path_to_custom_js . 'may_slick.js');
+  */
 }
 
 function bootstrap_may_preprocess_node(&$variables) {
@@ -46,29 +49,29 @@ function bootstrap_may_preprocess_node(&$variables) {
   //dpm('in bootstrap_may_preprocess_node');
   //dpm(array_keys($variables), '$variables keys in bootstrap_may_preprocess_node');
 
-  /*
+  
     static $custom_pages_css_added;
     if ($variables['type'] == 'project' && !$custom_pages_css_added) {
-    //dpm($variables, '$variables in bootstrap_may_preprocess_node');
-    //dpr($variables['theme_hook_suggestions']);
-    $custom_pages_css_added = TRUE;
-    $project_custom_css = path_to_theme() . '/css/projects.css';
-    if (file_exists($project_custom_css)) {
-    //dpm('added ' . $project_custom_css);
-    drupal_add_css($project_custom_css, array('weight' => 99, 'group' => 200));
+      //dpm($variables, '$variables in bootstrap_may_preprocess_node');
+      //dpr($variables['theme_hook_suggestions']);
+      $custom_pages_css_added = TRUE;
+      $project_custom_css = path_to_theme() . '/css/projects.css';
+      if (file_exists($project_custom_css)) {
+      //dpm('added ' . $project_custom_css);
+      drupal_add_css($project_custom_css, array('weight' => 99, 'group' => 200));
+      }
+
+      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
+      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
+      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
+
+      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');
+      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.css', array('weight' => 99, 'group' => 200));
+
+      $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
+      drupal_add_js($path_to_custom_js . 'may_slick.js');
     }
-
-    drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
-    drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
-    drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
-
-    drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');
-    drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.css', array('weight' => 99, 'group' => 200));
-
-    $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
-    drupal_add_js($path_to_custom_js . 'may_slick.js');
-    }
-   */
+   
 }
 
 /**
