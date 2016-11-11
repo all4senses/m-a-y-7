@@ -117,7 +117,7 @@
           <?php
           
           $text = '[node:field_project_id]';
-          $t =	token_replace($text/*, array $data = array(), array $options = array()*/);
+          $t =	token_replace($text, array('node' => $node) /*, array $data = array(), array $options = array()*/);
           dpm($t,'token');
           
           if (!empty($node->title)) {
