@@ -139,7 +139,7 @@ article.node-project .slides-wrapper .slides-arrow.second {
   article.proj-id-1-1 .caption-block .proj .proj-year {
     color: black;
   }/* line 165, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block .address {
+  article.proj-id-1-1 .caption-block .type-n-address {
     position: absolute;
     top: 175px;
     left: 125px;
