@@ -218,6 +218,7 @@ function imagefield_attributes_field_attach_presave($entity_type, $entity) {
 
   // Collect all image fields in this entity & bundle.
   $image_fields = array();
+  dpm($fields, '$fields');
   foreach ($fields as $field) {
     if ($field['widget']['module'] == 'image') {
       $image_fields[] = $field['field_name'];
@@ -428,6 +429,7 @@ function imagefield_attributes_get_all_attributes_names($force = FALSE, $only_na
  * @param type $widgets
  */
 function imagefield_attributes_insert_widgets_alter(&$widgets) {
+  dpm($widgets, '$widgets in imagefield_attributes_insert_widgets_alter');
     if(isset($widgets['image_image']['fields'])) {
         $widgets['image_image']['fields'] += imagefield_attributes_get_all_attributes_names();
     }
