@@ -27,11 +27,12 @@
                 ]
              });
              */
-            $.each(".slides", function (index, value) {
+            $(".slides").each(function (index, value) {
                 console.log(index, "index");
                 console.log(value, "value");
                 console.log(this, 'this');
                 console.log($(this), '$this');
+                /*
                 $(this).slick({
                     dots: false,
                     infinite: true,
@@ -51,7 +52,8 @@
                             }
                         }
                     ]
-                 });
+                });
+                */
              
             });
 
