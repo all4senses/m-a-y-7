@@ -173,7 +173,6 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
 
               // Get any attributes associated with the given File ID.
               $attributes = _imagefield_attributes_get_attributes($current_value['fid']);
-              dpm($attributes, '$attributes for fid: ' . $current_value['fid']);
 
               // Loop through each attribute and set the default value of the
               // attribute textfield.
