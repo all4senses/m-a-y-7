@@ -17,7 +17,7 @@
                     {
                         breakpoint: 768,
                         settings: {
-                            slidesToShow: 4,
+                            slidesToShow: 1,//4,
                             slidesToScroll: 1,
                             vertical: true,
                             verticalSwiping: true,
