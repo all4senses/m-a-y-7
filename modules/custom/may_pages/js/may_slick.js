@@ -32,7 +32,7 @@
                 console.log(value, "value");
                 console.log(this, 'this');
                 console.log($(this), '$this');
-                /*
+                
                 $(this).slick({
                     dots: false,
                     infinite: true,
@@ -53,7 +53,7 @@
                         }
                     ]
                 });
-                */
+                
              
             });
 
