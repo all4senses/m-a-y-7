@@ -33,6 +33,11 @@
                 console.log(this, 'this');
                 console.log($(this), '$this');
                 
+                console.log($(this).attr('data-slidesdirection'), '$this data-slidesdirection');
+                console.log($(this).attr('data-slidesstepnum'), '$this data-slidesstepnum');
+                console.log($(this).attr('data-slidesvisiblenum'), '$this data-slidesvisiblenum');
+                
+                
                 $(this).slick({
                     dots: false,
                     infinite: true,
