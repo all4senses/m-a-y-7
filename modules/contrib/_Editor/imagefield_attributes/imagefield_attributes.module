@@ -220,7 +220,9 @@ function imagefield_attributes_field_attach_presave($entity_type, $entity) {
   $image_fields = array();
   dpm($fields, '$fields');
   foreach ($fields as $field) {
-    if ($field['widget']['module'] == 'image') {
+    //if ($field['widget']['module'] == 'image') {
+    if ($field['widget']['module'] == 'image' || $field['widget']['module'] == 'multiupload_imagefield_widget') {
+      
       $image_fields[] = $field['field_name'];
     }
   }
@@ -430,7 +432,19 @@ function imagefield_attributes_get_all_attributes_names($force = FALSE, $only_na
  */
 function imagefield_attributes_insert_widgets_alter(&$widgets) {
   dpm($widgets, '$widgets in imagefield_attributes_insert_widgets_alter');
-    if(isset($widgets['image_image']['fields'])) {
-        $widgets['image_image']['fields'] += imagefield_attributes_get_all_attributes_names();
+  
+  // a4s patch
+
+  // Original
+//    if(isset($widgets['image_image']['fields'])) {
+//        $widgets['image_image']['fields'] += imagefield_attributes_get_all_attributes_names();
+//    }
+    // The Patch
+    $widgets_to_alter = array('image_image', 'image_miw');
+    foreach ($widgets_to_alter as $widget_to_alter) {
+      if(isset($widgets[$widget_to_alter]['fields'])) {
+          $widgets[$widget_to_alter]['fields'] += imagefield_attributes_get_all_attributes_names();
+      }
     }
+    dpm($widgets, '$widgets in imagefield_attributes_insert_widgets_alter');
 }
