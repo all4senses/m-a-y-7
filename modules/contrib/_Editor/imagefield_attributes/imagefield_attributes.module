@@ -12,7 +12,6 @@
 function imagefield_attributes_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
   $field = $form['#field'];
 
-  dpm($field['type'], '$field[type]');
   // Only act on image fields.
   if ($field['type'] != 'image') {
     return '';
@@ -218,9 +217,14 @@ function imagefield_attributes_field_attach_presave($entity_type, $entity) {
 
   // Collect all image fields in this entity & bundle.
   $image_fields = array();
-  dpm($fields, '$fields');
   foreach ($fields as $field) {
+    // a4s patch
+    // Add image attributes in case of the multiupload widget.
+
+    // Original
     //if ($field['widget']['module'] == 'image') {
+
+    // The Patch
     if ($field['widget']['module'] == 'image' || $field['widget']['module'] == 'multiupload_imagefield_widget') {
       
       $image_fields[] = $field['field_name'];
@@ -431,20 +435,21 @@ function imagefield_attributes_get_all_attributes_names($force = FALSE, $only_na
  * @param type $widgets
  */
 function imagefield_attributes_insert_widgets_alter(&$widgets) {
-  dpm($widgets, '$widgets in imagefield_attributes_insert_widgets_alter');
   
   // a4s patch
+  // Add image attributes in case of the multiupload widget.
 
   // Original
-//    if(isset($widgets['image_image']['fields'])) {
-//        $widgets['image_image']['fields'] += imagefield_attributes_get_all_attributes_names();
-//    }
-    // The Patch
-    $widgets_to_alter = array('image_image', 'image_miw');
-    foreach ($widgets_to_alter as $widget_to_alter) {
-      if(isset($widgets[$widget_to_alter]['fields'])) {
-          $widgets[$widget_to_alter]['fields'] += imagefield_attributes_get_all_attributes_names();
-      }
+  /*
+  if(isset($widgets['image_image']['fields'])) {
+      $widgets['image_image']['fields'] += imagefield_attributes_get_all_attributes_names();
+  }
+  */
+  // The Patch
+  $widgets_to_alter = array('image_image', 'image_miw');
+  foreach ($widgets_to_alter as $widget_to_alter) {
+    if(isset($widgets[$widget_to_alter]['fields'])) {
+        $widgets[$widget_to_alter]['fields'] += imagefield_attributes_get_all_attributes_names();
     }
-    dpm($widgets, '$widgets in imagefield_attributes_insert_widgets_alter');
+  }
 }

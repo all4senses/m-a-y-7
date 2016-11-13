@@ -1,5 +1,5 @@
 name = ImageField Attributes
-description = Allows adding of customizable attributes to existing imagefields.
+description = Allows adding of customizable attributes to existing imagefields. Patched by a4s for the multiupload widget!!!
 core = 7.x
 
 dependencies[] = image
