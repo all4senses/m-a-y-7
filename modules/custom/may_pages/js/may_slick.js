@@ -5,7 +5,7 @@
 
             console.log('may_slick.....');
 
-            /*
+            /**/
              $(".slides").slick({
                 dots: false,
                 infinite: true,
@@ -26,7 +26,9 @@
                     }
                 ]
              });
-             */
+             /**/
+            
+            /*
             $(".slides").each(function (index, value) {
                 console.log(index, "index");
                 console.log(value, "value");
@@ -78,7 +80,7 @@
              
             });
 
-
+            */
 
 
             //$('.slides').slickLightbox({
