@@ -12,6 +12,7 @@
 function imagefield_attributes_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
   $field = $form['#field'];
 
+  dpm($field['type'], '$field[type]');
   // Only act on image fields.
   if ($field['type'] != 'image') {
     return '';
