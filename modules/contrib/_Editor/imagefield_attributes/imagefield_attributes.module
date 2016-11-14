@@ -158,6 +158,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               if (!is_array($attribute)) {
                 continue;
               }
+              dpm($attribute, '$attribute');
               $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
                 '#type' => 'textfield',
                 '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
