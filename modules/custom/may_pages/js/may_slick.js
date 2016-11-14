@@ -5,10 +5,10 @@
 
             console.log('may_slick.....');
 
-            /**/
+            /*
              $(".slides").slick({
                 dots: false,
-                infinite: true,
+                infinite: false,
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 mobileFirst: true,
@@ -26,9 +26,9 @@
                     }
                 ]
              });
-             /**/
+             */
             
-            /*
+            /**/
             $(".slides").each(function (index, value) {
                 console.log(index, "index");
                 console.log(value, "value");
@@ -57,7 +57,7 @@
                 $(this).slick({
                     // Mobile view
                     dots: false,
-                    infinite: true,
+                    infinite: false, //true,
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     mobileFirst: true,
@@ -67,8 +67,8 @@
                             // Full view
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: visible_num, //4,
-                                slidesToScroll: step_num, //1,
+                                slidesToShow: 1,//visible_num, //4,
+                                slidesToScroll: 1,//step_num, //1,
                                 vertical: vertical, //true,
                                 verticalSwiping: true,
                                 adaptiveHeight: false,
@@ -80,7 +80,7 @@
              
             });
 
-            */
+            /**/
 
 
             //$('.slides').slickLightbox({
