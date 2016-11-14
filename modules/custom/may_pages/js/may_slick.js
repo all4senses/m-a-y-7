@@ -57,7 +57,7 @@
                 $(this).slick({
                     // Mobile view
                     dots: false,
-                    infinite: true,
+                    infinite: false,
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     mobileFirst: true,
@@ -67,8 +67,8 @@
                             // Full view
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: 1,//visible_num, //4,
-                                slidesToScroll: 1,//step_num, //1,
+                                slidesToShow: visible_num, //4,
+                                slidesToScroll: step_num, //1,
                                 vertical: vertical, //true,
                                 verticalSwiping: true,
                                 //adaptiveHeight: true,//false,
