@@ -41,8 +41,8 @@
                 
                 
                 var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
-                var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : $(this).attr('data-slidesvisiblenum');
-                var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : $(this).attr('data-slidesstepnum');
+                var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
+                var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                 
                 console.log($(this).attr('data-slidesdirection'), '$this data-slidesdirection');
                 console.log($(this).attr('data-slidesstepnum'), '$this data-slidesstepnum');
@@ -67,8 +67,8 @@
                             // Full view
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: parseInt("1"),//visible_num, //4,
-                                slidesToScroll: parseInt("1"), ///step_num, //1,
+                                slidesToShow: visible_num, //4,
+                                slidesToScroll: step_num, //1,
                                 vertical: vertical, //true,
                                 verticalSwiping: true,
                                 //adaptiveHeight: true,//false,
