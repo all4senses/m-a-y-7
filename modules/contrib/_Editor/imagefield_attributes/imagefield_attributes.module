@@ -148,7 +148,10 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
 
           $element = &$form_element[$form_element['#language']];
 
+          // a4s patch...
+          // Add a selectbox for roomstype attribute field
           $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Санузлы' => 'Санузлы');
+          
           // Cycle through all items in the field.
           foreach (element_children($element) as $delta) {
 
@@ -159,7 +162,9 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               if (!is_array($attribute)) {
                 continue;
               }
-              dpm($attribute, '$attribute');
+              
+              // ...a4s patch 
+              // Add a selectbox for roomstype attribute field
               if ($attribute['attribute'] == 'data-roomtype') {
                 $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
                   '#type' => 'select',
