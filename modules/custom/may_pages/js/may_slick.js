@@ -57,7 +57,7 @@
                 $(this).slick({
                     // Mobile view
                     dots: false,
-                    infinite: false, //true,
+                    infinite: true,
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     mobileFirst: true,

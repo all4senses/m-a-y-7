@@ -221,6 +221,134 @@ article.node-project .slides-wrapper .slides-arrow.second {
     font-size: 30px;
     font-family: serif;
     color: #996633;
+  }/* line 264, ../assets/sass/projects.scss */
+  article.proj-id-1-4 {
+    height: 1350px;
+  }/* line 271, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block {
+    width: 340px;
+    height: 425px;
+    background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_caption_back.png) no-repeat;
+    position: absolute;
+    top: 35px;
+    left: 285px;
+    z-index: 4;
+  }/* line 280, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1, article.proj-id-1-4 .caption-block h2 {
+    position: absolute;
+    top: 225px;
+    left: 30px;
+    z-index: 3;
+    color: white;
+    font-size: 60px;
+    width: 300px;
+    display: block;
+    text-align: right;
+  }/* line 291, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-1, article.proj-id-1-4 .caption-block h2 .h1-1 {
+    font-size: 100px;
+    white-space: nowrap;
+    line-height: 0.9;
+  }/* line 295, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-1 span, article.proj-id-1-4 .caption-block h2 .h1-1 span {
+    font-size: 30px;
+  }/* line 299, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-2, article.proj-id-1-4 .caption-block h2 .h1-2 {
+    display: block;
+    font-size: 75px;
+  }/* line 303, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-3, article.proj-id-1-4 .caption-block h2 .h1-3 {
+    font-weight: bold;
+  }/* line 308, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .proj {
+    position: absolute;
+    top: 215px;
+    left: -135px;
+    font-size: 15px;
+    text-align: right;
+    color: #996633;
+  }/* line 316, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .proj .proj-num {
+    position: absolute;
+    font-size: 64px;
+    top: -23px;
+    font-family: serif;
+    font-weight: bold;
+    white-space: nowrap;
+  }/* line 324, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .proj .proj-year {
+    color: black;
+  }/* line 330, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .type-n-address {
+    position: absolute;
+    top: 175px;
+    left: 125px;
+    width: 200px;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #6666CC;
+    z-index: 3;
+  }/* line 343, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .im-1 {
+    width: 100%;
+    height: auto;
+    margin-top: 135px;
+  }/* line 349, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .im-2 {
+    width: 280px;
+    position: absolute;
+    top: 630px;
+    left: 260px;
+  }/* line 356, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .designer {
+    position: absolute;
+    z-index: 5;
+    top: 870px;
+    left: 110px;
+    text-align: right;
+    font-size: 17px;
+    color: white;
+    line-height: 1.3;
+    background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_designer_back.png) no-repeat 15px;
+    padding: 10px 25px 10px;
+    width: 217px;
+  }/* line 370, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper {
+    position: absolute;
+    top: 750px;
+    width: 220px;
+    background: red;
+    left: 550px;
+    height: 300px;
+  }/* line 377, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper img {
+    width: 220px;
+    height: auto;
+    margin: 10px 0px;
+  }/* line 382, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper .slides-arrow {
+    width: 50px;
+    height: 25px;
+    left: 43% !important;
+    right: initial;
+  }/* line 388, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper .slides-arrow.first {
+    background: url(/f/images/slides_arrows.png) no-repeat 0 0;
+    top: 15px;
+  }/* line 392, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper .slides-arrow.second {
+    background: url(/f/images/slides_arrows.png) no-repeat -61px 0;
+    bottom: 10px;
+    top: initial;
+  }/* line 401, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .txt {
+    text-align: right;
+    width: 240px;
+    position: absolute;
+  }/* line 407, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .txt.txt-2 {
+    top: 1070px;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */
