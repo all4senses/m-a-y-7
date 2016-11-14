@@ -67,8 +67,8 @@
                             // Full view
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: visible_num, //4,
-                                slidesToScroll: step_num, //1,
+                                slidesToShow: 1,//visible_num, //4,
+                                slidesToScroll: 1,//step_num, //1,
                                 vertical: vertical, //true,
                                 verticalSwiping: true,
                                 //adaptiveHeight: true,//false,
