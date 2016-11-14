@@ -71,8 +71,8 @@
                                 slidesToScroll: 1,//step_num, //1,
                                 vertical: vertical, //true,
                                 verticalSwiping: true,
-                                adaptiveHeight: true,//false,
-                                centerMode: true,
+                                //adaptiveHeight: true,//false,
+                                //centerMode: true,
                             }
                         }
                     ]
