@@ -28,31 +28,12 @@
              });
              */
             
-            /**/
             $(".slides").each(function (index, value) {
-                console.log(index, "index");
-                console.log(value, "value");
-                console.log(this, 'this');
-                console.log($(this), '$this');
-                
-                //var vertical = $(this).attr('data-slidesdirection');
-                //var visible_num = $(this).attr('data-slidesvisiblenum');
-                //var step_num = $(this).attr('data-slidesstepnum');
-                
                 
                 var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
                 var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
                 var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
-                
-                console.log($(this).attr('data-slidesdirection'), '$this data-slidesdirection');
-                console.log($(this).attr('data-slidesstepnum'), '$this data-slidesstepnum');
-                console.log($(this).attr('data-slidesvisiblenum'), '$this data-slidesvisiblenum');
-                
-                
-                console.log(vertical, 'vertical');
-                console.log(visible_num, 'visible_num');
-                console.log(step_num, 'step_num');
-                
+                var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
                 
                 $(this).slick({
                     // Mobile view
@@ -64,15 +45,16 @@
                     adaptiveHeight: true,
                     responsive: [
                         {
-                            // Full view
+                            // Full view, on res 768px or more
                             breakpoint: 768,
                             settings: {
                                 slidesToShow: visible_num, //4,
                                 slidesToScroll: step_num, //1,
                                 vertical: vertical, //true,
+                                infinite: infinite,
                                 verticalSwiping: true,
                                 //adaptiveHeight: true,//false,
-                                //centerMode: true,
+                                centerMode: true,
                             }
                         }
                     ]
@@ -80,9 +62,6 @@
                 
              
             });
-
-            /**/
-
 
             //$('.slides').slickLightbox({
             $('article').slickLightbox({
