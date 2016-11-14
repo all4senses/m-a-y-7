@@ -54,7 +54,7 @@
                                 infinite: infinite,
                                 verticalSwiping: true,
                                 //adaptiveHeight: true,//false,
-                                centerMode: true,
+                                //centerMode: true,
                             }
                         }
                     ]
