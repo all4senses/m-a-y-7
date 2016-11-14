@@ -72,6 +72,7 @@
                                 vertical: vertical, //true,
                                 verticalSwiping: true,
                                 adaptiveHeight: true,//false,
+                                centerMode: true,
                             }
                         }
                     ]
