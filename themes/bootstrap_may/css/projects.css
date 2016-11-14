@@ -317,9 +317,8 @@ article.node-project .slides-wrapper .slides-arrow.second {
     position: absolute;
     top: 750px;
     width: 220px;
-    background: red;
     left: 550px;
-    height: 300px;
+    height: 165px;
   }/* line 377, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper img {/*
     width: 220px;
@@ -331,28 +330,27 @@ article.node-project .slides-wrapper .slides-arrow.second {
     margin: 5px auto;
   }/* line 387, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper .slides-arrow {
-    width: 50px;
-    height: 25px;
-    left: 43% !important;
+    width: 60px;
+    height: 35px;
+    left: 36% !important;
     right: initial;
-  }/* line 393, ../assets/sass/projects.scss */
+  }/* line 392, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper .slides-arrow.first {
-    background: url(/f/images/slides_arrows.png) no-repeat 0 0;
-    top: 15px;
-  }/* line 397, ../assets/sass/projects.scss */
+    background: #8c4100 url(/f/images/slides_arrows.png) no-repeat 4px 3px;
+    top: -38px;
+  }/* line 396, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper .slides-arrow.second {
-    background: url(/f/images/slides_arrows.png) no-repeat -61px 0;
-    bottom: 10px;
+    background: #8c4100 url(/f/images/slides_arrows.png) no-repeat -56px 4px;
+    bottom: -38px;
     top: initial;
-  }/* line 406, ../assets/sass/projects.scss */
+  }/* line 405, ../assets/sass/projects.scss */
   article.proj-id-1-4 .txt {
     text-align: right;
     width: 240px;
     position: absolute;
-  }/* line 412, ../assets/sass/projects.scss */
+  }/* line 411, ../assets/sass/projects.scss */
   article.proj-id-1-4 .txt.txt-2 {
     top: 1070px;
   }
 }
-
 /*# sourceMappingURL=projects.css.map */
