@@ -165,7 +165,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
                   '#type' => 'select',
                   '#options' => $room_types,
                   '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
-                  '#default_value' => $room_types($attribute['default_value']),
+                  '#default_value' => $room_types[$attribute['default_value']],
                 );
               }
               else {
