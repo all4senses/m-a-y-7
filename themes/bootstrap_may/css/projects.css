@@ -347,6 +347,15 @@ article.node-project .slides-wrapper .slides-arrow.second {
   }/* line 405, ../assets/sass/projects.scss */
   article.proj-id-1-4 .txt.txt-2 {
     top: 1070px;
+  }/* line 410, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .bottom-decor {
+    position: absolute;
+    top: 1200px;
+    left: 100px;
+    width: 60px;
+    height: 35px;
+    background: #8c4100;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */
