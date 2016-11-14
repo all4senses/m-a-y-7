@@ -148,6 +148,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
 
           $element = &$form_element[$form_element['#language']];
 
+          $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Санузлы' => 'Санузлы');
           // Cycle through all items in the field.
           foreach (element_children($element) as $delta) {
 
@@ -159,11 +160,21 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
                 continue;
               }
               dpm($attribute, '$attribute');
-              $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
-                '#type' => 'textfield',
-                '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
-                '#default_value' => $attribute['default_value'],
-              );
+              if ($attribute['attribute'] == 'data-roomtype') {
+                $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
+                  '#type' => 'select',
+                  '#options' => $room_types,
+                  '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
+                  '#default_value' => $room_types($attribute['default_value']),
+                );
+              }
+              else {
+                $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
+                  '#type' => 'textfield',
+                  '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
+                  '#default_value' => $attribute['default_value'],
+                );
+              }
             }
 
             // Check to see if the item already exists.
