@@ -150,7 +150,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
 
           // a4s patch...
           // Add a selectbox for roomstype attribute field
-          $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Санузлы' => 'Санузлы');
+          $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Санузлы' => 'Санузлы', 'Кухни' => 'Кухни', 'Прихожие' => 'Прихожие', 'Детские' => 'Детские', 'Планы' => 'Планы');
           
           // Cycle through all items in the field.
           foreach (element_children($element) as $delta) {
