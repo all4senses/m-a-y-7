@@ -169,6 +169,10 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
                 
                 dpm($attribute, '$attribute in set');
                 
+                if (strpos($room_types[$attribute['default_value']], ',') !== FALSE) {
+                  $room_types[$attribute['default_value']] = explode(',', $room_types[$attribute['default_value']]);
+                }
+                
                 $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
                   '#type' => 'select',
                   '#multiple' => TRUE,
@@ -176,6 +180,9 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
                   '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
                   '#default_value' => $room_types[$attribute['default_value']],
                 );
+                
+                
+                dpm($element[$delta]['imagefield_attributes'][$attribute['attribute']], 'element');
               }
               else {
                 $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
@@ -200,6 +207,9 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               foreach ($attributes as $attribute => $value) {
                 if (isset($element[$delta]['imagefield_attributes'][$attribute])) {
                   dpm($value, '$value in set');
+                  if (strpos($value, ',') !== FALSE) {
+                    $value = explode(',', $value);
+                  }
                   $element[$delta]['imagefield_attributes'][$attribute]['#default_value'] = $value;
                 }
               }
@@ -271,6 +281,9 @@ function imagefield_attributes_field_attach_presave($entity_type, $entity) {
           // Add / overwrite the attribute.
           dpm($attribute, '$attribute');
           dpm($value, '$value');
+          if (is_array($value)) {
+            $value = implode(',', $value);
+          }
           _imagefield_attributes_add_attribute($item['fid'], $attribute, $value);
         }
       }
