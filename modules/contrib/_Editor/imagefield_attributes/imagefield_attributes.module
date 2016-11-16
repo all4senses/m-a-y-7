@@ -168,6 +168,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               if ($attribute['attribute'] == 'data-roomtype') {
                 $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
                   '#type' => 'select',
+                  '#multiple' => TRUE,
                   '#options' => $room_types,
                   '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
                   '#default_value' => $room_types[$attribute['default_value']],
