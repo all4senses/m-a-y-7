@@ -40,7 +40,6 @@ Drupal.behaviors.insert.attach = function(context) {
     var wrapper = $(this).parents(settings.wrapper).filter(':first').get(0);
     var style = $('.insert-style', wrapper).val();
     var content = $('input.insert-template[name$="[' + style + ']"]', wrapper).val();
-    console.log(content, 'content');
     var filename = $('input.insert-filename', wrapper).val();
     var options = {
       widgetType: widgetType,
@@ -49,12 +48,10 @@ Drupal.behaviors.insert.attach = function(context) {
       fields: {}
     };
 
-console.log(settings, 'settings');
     // Update replacements.
     for (var fieldName in settings.fields) {
       var fieldValue = $(settings.fields[fieldName], wrapper).val();
       if (fieldValue) {
-          console.log(fieldValue, 'fieldValue');
         fieldValue = fieldValue
           .replace(/&/g, '&amp;')
           .replace(/"/g, '&quot;')

@@ -28,9 +28,6 @@
 $additional_fields = NULL;
 
 foreach (imagefield_attributes_get_all_attributes_names(TRUE) as $additional_field_name => $additional_field) {
-  
-  dpm($additional_field_name, '$additional_field_name');
-  dpm($additional_field, '$additional_field');
     $additional_fields .= ' ' . $additional_field_name . '="__' . $additional_field_name . '__"';
 }
 ?>

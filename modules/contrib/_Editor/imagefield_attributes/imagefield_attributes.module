@@ -428,6 +428,10 @@ function imagefield_attributes_get_all_attributes_names($force = FALSE, $only_na
               if (!is_array($imagefield_attribute) || empty($imagefield_attribute['attribute'])) {
                       continue;
                   }
+                  
+                  // a4s patch
+                  // Add a selectbox using possibility
+                  //$attributes_names[$imagefield_attribute['attribute']] = 'input[name$="[' . $imagefield_attribute['attribute'] . ']"], textarea[name$="[' . $imagefield_attribute['attribute'] . ']"]';
                   $attributes_names[$imagefield_attribute['attribute']] = 'input[name$="[' . $imagefield_attribute['attribute'] . ']"], textarea[name$="[' . $imagefield_attribute['attribute'] . ']"], select[name$="[' . $imagefield_attribute['attribute'] . ']"]';
               }
           }
