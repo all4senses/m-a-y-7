@@ -150,7 +150,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
 
           // a4s patch...
           // Add a selectbox for roomstype attribute field
-          $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Студии' => 'Студии', 'Спальни' => 'Спальни', 'Санузлы' => 'Санузлы', 'Кухни' => 'Кухни', 'Прихожие' => 'Прихожие', 'Детские' => 'Детские', 'Планы' => 'Планы');
+          $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Студии' => 'Студии', 'Студии, Кухни' => 'Студии, Кухни', 'Гостиные, Кухни' => 'Гостиные, Кухни', 'Студии, Кухни, Гостиные' => 'Студии, Кухни, Гостиные', 'Студии, Гостиные' => 'Студии, Гостиные', 'Спальни' => 'Спальни', 'Санузлы' => 'Санузлы', 'Ванные' => 'Ванные', 'Санузлы, Ванные' => 'Санузлы, Ванные', 'Туалеты' => 'Туалеты', 'Санузлы, Туалеты' => 'Санузлы, Туалеты', 'Кухни' => 'Кухни', 'Прихожие' => 'Прихожие', 'Детские' => 'Детские', 'Планы' => 'Планы');
           
           // Cycle through all items in the field.
           foreach (element_children($element) as $delta) {
@@ -166,23 +166,12 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               // ...a4s patch 
               // Add a selectbox for roomstype attribute field
               if ($attribute['attribute'] == 'data-roomtype') {
-                
-                dpm($attribute, '$attribute in set');
-                
-                if (strpos($room_types[$attribute['default_value']], ',') !== FALSE) {
-                  $room_types[$attribute['default_value']] = explode(',', $room_types[$attribute['default_value']]);
-                }
-                
                 $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
                   '#type' => 'select',
-                  '#multiple' => TRUE,
                   '#options' => $room_types,
                   '#title' => empty($attribute['description']) ? $attribute['attribute'] : $attribute['description'],
                   '#default_value' => $room_types[$attribute['default_value']],
                 );
-                
-                
-                dpm($element[$delta]['imagefield_attributes'][$attribute['attribute']], 'element');
               }
               else {
                 $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
@@ -206,10 +195,6 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               // attribute textfield.
               foreach ($attributes as $attribute => $value) {
                 if (isset($element[$delta]['imagefield_attributes'][$attribute])) {
-                  dpm($value, '$value in set');
-                  if (strpos($value, ',') !== FALSE) {
-                    $value = explode(',', $value);
-                  }
                   $element[$delta]['imagefield_attributes'][$attribute]['#default_value'] = $value;
                 }
               }
@@ -279,11 +264,6 @@ function imagefield_attributes_field_attach_presave($entity_type, $entity) {
 
         foreach ($item['imagefield_attributes'] as $attribute => $value) {
           // Add / overwrite the attribute.
-          dpm($attribute, '$attribute');
-          dpm($value, '$value');
-          if (is_array($value)) {
-            $value = implode(',', $value);
-          }
           _imagefield_attributes_add_attribute($item['fid'], $attribute, $value);
         }
       }
