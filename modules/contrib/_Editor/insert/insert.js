@@ -49,10 +49,12 @@ Drupal.behaviors.insert.attach = function(context) {
       fields: {}
     };
 
+console.log(settings, 'settings');
     // Update replacements.
     for (var fieldName in settings.fields) {
       var fieldValue = $(settings.fields[fieldName], wrapper).val();
       if (fieldValue) {
+          console.log(fieldValue, 'fieldValue');
         fieldValue = fieldValue
           .replace(/&/g, '&amp;')
           .replace(/"/g, '&quot;')
