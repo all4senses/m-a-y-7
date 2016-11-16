@@ -52,7 +52,7 @@
                                 slidesToScroll: step_num, //1,
                                 vertical: vertical, //true,
                                 infinite: infinite,
-                                verticalSwiping: true,
+                                verticalSwiping: vertical,
                                 //adaptiveHeight: true,//false,
                                 //centerMode: true,
                             }
