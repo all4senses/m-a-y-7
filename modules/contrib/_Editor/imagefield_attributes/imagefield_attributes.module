@@ -150,7 +150,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
 
           // a4s patch...
           // Add a selectbox for roomstype attribute field
-          $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Спальни' => 'Спальни', 'Санузлы' => 'Санузлы', 'Кухни' => 'Кухни', 'Прихожие' => 'Прихожие', 'Детские' => 'Детские', 'Планы' => 'Планы');
+          $room_types = array(null => '- Please select -', 'Гостиные' => 'Гостиные', 'Студии' => 'Студии', 'Спальни' => 'Спальни', 'Санузлы' => 'Санузлы', 'Кухни' => 'Кухни', 'Прихожие' => 'Прихожие', 'Детские' => 'Детские', 'Планы' => 'Планы');
           
           // Cycle through all items in the field.
           foreach (element_children($element) as $delta) {
@@ -166,6 +166,9 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               // ...a4s patch 
               // Add a selectbox for roomstype attribute field
               if ($attribute['attribute'] == 'data-roomtype') {
+                
+                dpm($attribute, '$attribute in set');
+                
                 $element[$delta]['imagefield_attributes'][$attribute['attribute']] = array(
                   '#type' => 'select',
                   '#multiple' => TRUE,
@@ -196,6 +199,7 @@ function imagefield_attributes_field_attach_form($entity_type, $entity, &$form, 
               // attribute textfield.
               foreach ($attributes as $attribute => $value) {
                 if (isset($element[$delta]['imagefield_attributes'][$attribute])) {
+                  dpm($value, '$value in set');
                   $element[$delta]['imagefield_attributes'][$attribute]['#default_value'] = $value;
                 }
               }
@@ -265,6 +269,8 @@ function imagefield_attributes_field_attach_presave($entity_type, $entity) {
 
         foreach ($item['imagefield_attributes'] as $attribute => $value) {
           // Add / overwrite the attribute.
+          dpm($attribute, '$attribute');
+          dpm($value, '$value');
           _imagefield_attributes_add_attribute($item['fid'], $attribute, $value);
         }
       }
