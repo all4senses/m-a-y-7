@@ -41,7 +41,7 @@
              });
              */
             
-            $(".slides:not(.slick-initialized)").each(function (index, value) {
+            $(".slides:not(.slick-initialized)", context).each(function (index, value) {
                 
                 //console.log($(this),'$(this)');
                 
@@ -181,8 +181,11 @@
           
           $('.views-row').on('show', function() {
                     console.log('.views-row is now visible');
-              });
+          });
         
+          $('.views-row').on('infiniteScrollComplete', function() {
+                    console.log('.views-row is now infiniteScrollComplete');
+          });
         
         }
     };
