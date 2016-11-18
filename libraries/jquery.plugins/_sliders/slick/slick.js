@@ -1941,6 +1941,11 @@
                 });
             }
             console.log(_.$slides.first(), '_.$slides.first()');
+            
+            var first = _.$slides.first();
+            console.log(first, 'first');
+            console.log(first[0], 'first[0]');
+            console.log(first[0].offsetHeight, 'first[0].offsetHeight');
             console.log(_.$slides.first().outerHeight(true), '_.$slides.first().outerHeight(true)');
             console.log(_.$slides.first()[0].offsetHeight, '_.$slides.first()[0].offsetHeight');
             _.$list.height(_.$slides.first()[0].offsetHeight);
