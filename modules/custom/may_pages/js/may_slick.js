@@ -142,6 +142,7 @@
 //            $('.slick-next').click();
 //            $('.slick-prev').click();
 
+            $('.slides').resize();
         }
     };
 
