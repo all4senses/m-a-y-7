@@ -28,7 +28,7 @@
              });
              */
             
-            $(".slides").each(function (index, value) {
+            $(".slides:not(.slick-initialized)").each(function (index, value) {
                 
                 console.log($(this),'$(this)');
                 
