@@ -245,6 +245,7 @@
         var _ = this;
         if (_.options.slidesToShow === 1 && _.options.adaptiveHeight === true && _.options.vertical === false) {
             var targetHeight = _.$slides.eq(_.currentSlide).outerHeight(true);
+            console.log(targetHeight, 'targetHeight');
             _.$list.animate({
                 height: targetHeight
             }, _.options.speed);
