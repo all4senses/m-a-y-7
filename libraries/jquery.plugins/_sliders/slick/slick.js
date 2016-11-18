@@ -1952,7 +1952,7 @@
         _.listWidth = _.$list.width();
         _.listHeight = _.$list.height();
         
-        console.log(_.listHeight, '_.listHeight');
+        ///console.log(_.listHeight, '_.listHeight');
 
 
         if (_.options.vertical === false && _.options.variableWidth === false) {
