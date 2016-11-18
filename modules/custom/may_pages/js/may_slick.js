@@ -198,11 +198,11 @@
           
           
           
-          $(document).once('mousemove', function() {
+          $('body').once('mousemove', function() {
                     console.log('mouseMove...');
           });
         
-          $(document).once('scroll', function() {
+          $('body').once('scroll', function() {
                     console.log('scroll...');
           });
         }
