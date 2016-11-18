@@ -1,4 +1,17 @@
 (function ($) {
+    console.log('event reg');
+	  $.each(['show', 'hide'], function (i, ev) {
+	    var el = $.fn[ev];
+	    $.fn[ev] = function () {
+	      this.trigger(ev);
+	      return el.apply(this, arguments);
+	    };
+	  });
+})(jQuery);
+
+
+
+(function ($) {
 
     Drupal.behaviors.may_slick = {
         attach: function (context, settings) {
@@ -156,23 +169,15 @@
             });
             
             
-//            (function ($) {
-//	  $.each(['show', 'hide'], function (i, ev) {
+            
+
+//$.each(['show', 'hide'], function (i, ev) {
 //	    var el = $.fn[ev];
 //	    $.fn[ev] = function () {
 //	      this.trigger(ev);
 //	      return el.apply(this, arguments);
 //	    };
 //	  });
-//	})(jQuery);
-
-$.each(['show', 'hide'], function (i, ev) {
-	    var el = $.fn[ev];
-	    $.fn[ev] = function () {
-	      this.trigger(ev);
-	      return el.apply(this, arguments);
-	    };
-	  });
           
           $('.views-row').on('show', function() {
                     console.log('.views-row is now visible');
@@ -183,3 +188,4 @@ $.each(['show', 'hide'], function (i, ev) {
     };
 
 }(jQuery));
+
