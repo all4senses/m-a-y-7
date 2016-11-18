@@ -66,16 +66,18 @@
                 //xxx.slick('slickNext');
                 //xxx.slick('slickPrev');
              
+                $(this).find('.slick-list').attr('style','height: auto;');
             });
             
+            console.log($(this), 'this');
             
-            console.log($(this)[0].children[0].attributes['style'], 'attr style before');
-            console.log($(this)[0].children[0].attributes['style'].nodeValue, 'attr 2 style before');
-            
-            console.log($(this).find('.slick-list').attr('style'), 'style before');
-            $(this).find('.slick-list').attr('style','height: auto;');
-
-            console.log($(this).find('.slick-list').attr('style'), 'style fafter');
+//            console.log($(this)[0].children[0].attributes['style'], 'attr style before');
+//            console.log($(this)[0].children[0].attributes['style'].nodeValue, 'attr 2 style before');
+//            
+//            console.log($(this).find('.slick-list').attr('style'), 'style before');
+//            $(this).find('.slick-list').attr('style','height: auto;');
+//
+//            console.log($(this).find('.slick-list').attr('style'), 'style fafter');
             
             //$('.slides').slickLightbox({
             $('article').slickLightbox({
