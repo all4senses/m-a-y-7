@@ -81,7 +81,7 @@
                 sl.on('reInit', function(event, slick){
                     console.log(event, 'event');
                     console.log(slick, 'slick');
-                    $(this).find('.slick-list').attr('style','height: auto;');
+                    slick.find('.slick-list').attr('style','height: auto;');
                 });
                 
                 console.log($(this).find('.slick-list').attr('style'), 'style before');
