@@ -1,6 +1,6 @@
 (function ($) {
 
-    Drupal.behaviors.may_home_parallax = {
+    Drupal.behaviors.may_slick = {
         attach: function (context, settings) {
 
             console.log('may_slick.....');
@@ -131,6 +131,10 @@
 //        animation: "slide",
 //        directionNav: false
 //      });
+
+
+            $('.slick-next').click();
+            $('.slick-prev').click();
 
         }
     };
