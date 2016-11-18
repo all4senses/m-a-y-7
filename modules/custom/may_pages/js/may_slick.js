@@ -82,7 +82,9 @@
                     console.log(event, 'event');
                     console.log(slick, 'slick');
                     console.log(slick.$list[0].attributes.style, 'st before');
-                    slick.$list[0].attributes.style = 'height: auto;';
+                    slick.$list[0].attributes.style = 'height: 333px;';
+                    slick.$nextArrow.click();
+
                     console.log(slick.$list[0].attributes.style, 'st after');
                 });
                 
