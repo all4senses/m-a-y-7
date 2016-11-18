@@ -13,15 +13,18 @@
    * @param {object} $new_view The new view coming from the server.
    */
   $.fn.infiniteScrollInsertView = function ($new_view) {
+    console.log('+++ infiniteScrollInsertView finished');
     var $existing_view = this;
+    console.log($existing_view, '$existing_view');
     var $existing_content = $existing_view.find('.view-content').children();
     console.log($existing_content, '$existing_content');
     $new_view.find('.view-content').prepend($existing_content);
     $existing_view.replaceWith($new_view);
     $(document).trigger('infiniteScrollComplete', [$new_view, $existing_content]);
-    console.log('xxx');
-    console.log($existing_view, '$existing_view');
+    
+    console.log($existing_view, '$existing_view changed');
     $('.slides.slick-initialized').slick('reinit');
+    console.log('---- infiniteScrollInsertView finished');
   };
 
   /**

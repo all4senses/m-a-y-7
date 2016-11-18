@@ -75,6 +75,7 @@
                     ]
                 });
                 
+                sl.slick('reinit');
                 
                 /*
                 sl.slick('slickGoTo', 1);
@@ -109,7 +110,7 @@
                 $(this).find('.slick-list').attr('style','height: auto;');
                 
                 
-                sl.slick('reinit');
+                
                 
                 
                 
@@ -159,7 +160,7 @@
 
             $('.slides').resize();
             
-            
+            $('.slides').slick('reinit');
             
             
             

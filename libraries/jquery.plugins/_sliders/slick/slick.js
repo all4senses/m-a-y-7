@@ -1940,6 +1940,8 @@
                     padding: ('0px ' + _.options.centerPadding)
                 });
             }
+            
+            console.log(_.$list.height(), '_.$list.height(); in hor');
         } else {
             _.$list.height(_.$slides.first().outerHeight(true) * _.options.slidesToShow);
             if (_.options.centerMode === true) {
@@ -1947,6 +1949,7 @@
                     padding: (_.options.centerPadding + ' 0px')
                 });
             }
+            console.log(_.$list.height(), '_.$list.height(); in vert');
         }
 
         _.listWidth = _.$list.width();
