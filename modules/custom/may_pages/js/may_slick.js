@@ -73,6 +73,16 @@
                     console.log(nextSlide, 'nextSlide');
                 });
                 
+                sl.on('init', function(event, slick){
+                    console.log(event, 'event');
+                    console.log(slick, 'slick');
+                });
+                
+                sl.on('reInit', function(event, slick){
+                    console.log(event, 'event');
+                    console.log(slick, 'slick');
+                });
+                
                 console.log($(this).find('.slick-list').attr('style'), 'style before');
                 $(this).find('.slick-list').attr('style','height: auto;');
                 console.log($(this).find('.slick-list').attr('style'), 'style after');
