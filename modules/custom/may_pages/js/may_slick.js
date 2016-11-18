@@ -198,7 +198,7 @@
           
           
           
-          $(document).once()('mouseMove', function() {
+          $(document).once('mouseMove', function() {
                     console.log('mouseMove...');
           });
         
