@@ -66,7 +66,7 @@
                 //xxx.slick('slickNext');
                 //xxx.slick('slickPrev');
              
-                sl.slick('reinit');
+                
                 
                 sl.on('beforeChange', function(event, slick, currentSlide, nextSlide){
                     console.log(event, 'event');
@@ -83,9 +83,17 @@
                     console.log(slick, 'slick');
                 });
                 
+                sl.slick('reinit');
+                
                 console.log($(this).find('.slick-list').attr('style'), 'style before');
-                $(this).find('.slick-list').attr('style','height: auto;');
+                //$(this).find('.slick-list').attr('style','height: auto;');
+                
+                
+                $(this).parent().find('.slick-next').click();
+                $(this).parent().find('.slick-prev').click();
+                
                 console.log($(this).find('.slick-list').attr('style'), 'style after');
+                
             });
             
             
