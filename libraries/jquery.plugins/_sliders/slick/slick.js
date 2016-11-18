@@ -1941,7 +1941,7 @@
                 });
             }
             console.log(_.$slides.first(), '_.$slides.first()');
-            condole.log(_.$slides.first()[0].offsetHeight, '_.$slides.first()[0].offsetHeight');
+            console.log(_.$slides.first()[0].offsetHeight, '_.$slides.first()[0].offsetHeight');
             _.$list.height(_.$slides.first()[0].offsetHeight);
             console.log(_.$list.height(), '_.$list.height(); in hor');
         } else {
