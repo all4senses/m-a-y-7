@@ -60,6 +60,7 @@
                     ]
                 });
     
+    });
     
     console.log('---- infiniteScrollInsertView finished');
   };
