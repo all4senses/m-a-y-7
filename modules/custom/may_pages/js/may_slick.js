@@ -61,7 +61,9 @@
                         }
                     ]
                 });
-                xxx.slick('slickGoTo', 0);
+                //xxx.slick('slickGoTo', 1);
+                xxx.slick('slickNext');
+                xxx.slick('slickPrev');
              
             });
 
