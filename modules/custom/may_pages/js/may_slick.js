@@ -141,6 +141,8 @@
 
             $('.slick-next').click();
             $('.slick-prev').click();
+            $('.slick-next').slick('slickNext');
+            $('.slick-next').slick('slickPrev');
 
             $('.slides').resize();
         }
