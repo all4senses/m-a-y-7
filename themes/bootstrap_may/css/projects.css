@@ -35,10 +35,6 @@ article.node-project img {
 article.node-project .slides-wrapper {
   position: relative;
 }
-/* line 75, ../assets/sass/projects.scss */
-article.node-project .slides-wrapper .slides .slick-list {
-  height: auto !important;
-}
 /* line 78, ../assets/sass/projects.scss */
 article.node-project .slides-wrapper .slick-prev, article.node-project .slides-wrapper .slick-next {
   display: none !important;
@@ -361,4 +357,5 @@ article.node-project .slides-wrapper .slides-arrow.second {
     background: #8c4100;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */
