@@ -81,7 +81,9 @@
                 sl.on('reInit', function(event, slick){
                     console.log(event, 'event');
                     console.log(slick, 'slick');
-                    slick.find('.slick-list').attr('style','height: auto;');
+                    console.log(slick.$list[0].attributes.style, 'st before');
+                    slick.$list[0].attributes.style = 'height: auto;';
+                    console.log(slick.$list[0].attributes.style, 'st after');
                 });
                 
                 console.log($(this).find('.slick-list').attr('style'), 'style before');
