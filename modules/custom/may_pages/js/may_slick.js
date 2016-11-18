@@ -81,12 +81,15 @@
                 sl.on('reInit', function(event, slick){
                     console.log(event, 'event');
                     console.log(slick, 'slick');
+                    $(this).find('.slick-list').attr('style','height: auto;');
                 });
+                
+                console.log($(this).find('.slick-list').attr('style'), 'style before');
+                $(this).find('.slick-list').attr('style','height: auto;');
+                
                 
                 sl.slick('reinit');
                 
-                console.log($(this).find('.slick-list').attr('style'), 'style before');
-                //$(this).find('.slick-list').attr('style','height: auto;');
                 
                 
                 $(this).parent().find('.slick-next').click();
