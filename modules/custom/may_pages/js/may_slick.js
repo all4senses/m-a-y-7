@@ -66,6 +66,8 @@
                 //xxx.slick('slickPrev');
              
             });
+            
+            $(this).find('.slick-list').attr('style','height: auto;');
 
             //$('.slides').slickLightbox({
             $('article').slickLightbox({
