@@ -1940,7 +1940,7 @@
                     padding: ('0px ' + _.options.centerPadding)
                 });
             }
-            
+            _.$list.height(_.$slides.first().outerHeight(true));
             console.log(_.$list.height(), '_.$list.height(); in hor');
         } else {
             _.$list.height(_.$slides.first().outerHeight(true) * _.options.slidesToShow);
