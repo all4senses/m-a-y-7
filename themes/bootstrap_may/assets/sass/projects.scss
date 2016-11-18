@@ -71,6 +71,10 @@ article.node-project {
     
     .slides-wrapper {
         position: relative;
+        
+        .slides .slick-list {
+            height: auto !important;
+        }
         .slick-prev, .slick-next {
             //background: black !important;
             display: none !important;

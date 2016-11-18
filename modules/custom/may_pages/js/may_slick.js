@@ -37,7 +37,7 @@
                 var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                 var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
                 
-                var xxx = $(this).slick({
+                $(this).slick({
                     // Mobile view
                     dots: false,
                     infinite: false,
@@ -62,8 +62,8 @@
                     ]
                 });
                 //xxx.slick('slickGoTo', 1);
-                xxx.slick('slickNext');
-                xxx.slick('slickPrev');
+                //xxx.slick('slickNext');
+                //xxx.slick('slickPrev');
              
             });
 
