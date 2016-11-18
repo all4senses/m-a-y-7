@@ -61,7 +61,7 @@
                         }
                     ]
                 });
-                xxx.slick('slickGoTo', 1);
+                xxx.slick('slickGoTo', 0);
              
             });
 
