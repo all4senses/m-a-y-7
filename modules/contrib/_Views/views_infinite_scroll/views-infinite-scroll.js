@@ -19,6 +19,7 @@
     $existing_view.replaceWith($new_view);
     $(document).trigger('infiniteScrollComplete', [$new_view, $existing_content]);
     console.log('xxx');
+    $('.slides').slick('reinit');
   };
 
   /**
