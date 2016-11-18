@@ -121,7 +121,7 @@
                 console.log($(this).find('.slick-list').attr('style'), 'style after');
                 */
                
-               $(this).addClass('xxx111');
+               $(this).addClass('slidesJustAdded');
                
             });
             
@@ -198,12 +198,16 @@
           
           
           
-          $('body').once('mousemove', function() {
+          $('body').on('mousemove', function() {
                     console.log('mouseMove...');
+                    $('body').off('mousemove');
           });
         
-          $('body').once('scroll', function() {
+          $('body').on('scroll', function() {
                     console.log('scroll...');
+                    console.log($('slidesJustAdded').height(), "$('slidesJustAdded').height()");
+                    
+                    $('body').off('scroll');
           });
         }
     };
