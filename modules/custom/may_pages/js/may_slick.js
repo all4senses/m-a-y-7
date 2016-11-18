@@ -1,3 +1,4 @@
+/*
 (function ($) {
     console.log('event reg');
 	  $.each(['show', 'hide'], function (i, ev) {
@@ -8,7 +9,7 @@
 	    };
 	  });
 })(jQuery);
-
+*/
 
 
 (function ($) {
@@ -75,7 +76,7 @@
                     ]
                 });
                 
-                sl.slick('reinit');
+                //sl.slick('reinit');
                 
                 /*
                 sl.slick('slickGoTo', 1);
@@ -119,6 +120,9 @@
                 
                 console.log($(this).find('.slick-list').attr('style'), 'style after');
                 */
+               
+               $(this).addClass('xxx111');
+               
             });
             
             /*
@@ -153,6 +157,7 @@
 //      });
 
 
+            /*
             $('.slick-next').click();
             $('.slick-prev').click();
             $('.slides').slick('slickNext');
@@ -168,6 +173,7 @@
             $(".views-row").on('show', function () {
                 console.log('on show views-row...');
             });
+            */
             
             
             
@@ -180,12 +186,20 @@
 //	    };
 //	  });
           
+          /*
           $('.views-row').on('show', function() {
                     console.log('.views-row is now visible');
           });
         
           $('.views-row').on('infiniteScrollComplete', function() {
                     console.log('.views-row is now infiniteScrollComplete');
+          });
+          */
+          
+          
+          
+          $(document).once()('mouseMove', function() {
+                    console.log('mouseMove...');
           });
         
         }

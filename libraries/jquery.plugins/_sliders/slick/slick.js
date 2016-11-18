@@ -245,7 +245,6 @@
         var _ = this;
         if (_.options.slidesToShow === 1 && _.options.adaptiveHeight === true && _.options.vertical === false) {
             var targetHeight = _.$slides.eq(_.currentSlide).outerHeight(true);
-            //console.log(targetHeight, 'targetHeight');
             _.$list.animate({
                 height: targetHeight
             }, _.options.speed);
@@ -1940,22 +1939,6 @@
                     padding: ('0px ' + _.options.centerPadding)
                 });
             }
-            console.log(_.$slides.first(), '_.$slides.first()');
-            
-            var first = _.$slides.first();
-            console.log(first, 'first');
-            console.log($(first[0]), 'first[0]');
-            console.log($(first).offsetHeight, 'first.offsetHeight');
-            console.log($(first[0]).offsetHeight, 'first[0].offsetHeight');
-            
-            console.log(_.$slides.first().outerHeight(true), '_.$slides.first().outerHeight(true)');
-            console.log(_.$slides.first()[0].offsetHeight, '_.$slides.first()[0].offsetHeight');
-            
-            console.log(_.$slides.first()[0].clientHeight, '_.$slides.first()[0].clientHeight');
-            
-
-            _.$list.height(_.$slides.first()[0].offsetHeight);
-            console.log(_.$list.height(), '_.$list.height(); in hor');
         } else {
             _.$list.height(_.$slides.first().outerHeight(true) * _.options.slidesToShow);
             if (_.options.centerMode === true) {
@@ -1963,13 +1946,10 @@
                     padding: (_.options.centerPadding + ' 0px')
                 });
             }
-            console.log(_.$list.height(), '_.$list.height(); in vert');
         }
 
         _.listWidth = _.$list.width();
         _.listHeight = _.$list.height();
-        
-        ///console.log(_.listHeight, '_.listHeight');
 
 
         if (_.options.vertical === false && _.options.variableWidth === false) {
