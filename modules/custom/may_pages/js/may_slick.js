@@ -30,7 +30,7 @@
             
             $(".slides:not(.slick-initialized)").each(function (index, value) {
                 
-                console.log($(this),'$(this)');
+                //console.log($(this),'$(this)');
                 
                 var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
                 var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
