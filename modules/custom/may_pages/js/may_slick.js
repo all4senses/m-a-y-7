@@ -37,7 +37,7 @@
                 var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                 var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
                 
-                $(this).slick({
+                var sl = $(this).slick({
                     // Mobile view
                     dots: false,
                     infinite: false,
@@ -61,14 +61,18 @@
                         }
                     ]
                 });
-                //xxx.slick('slickGoTo', 1);
+                sl.slick('slickGoTo', 1);
+                sl.slick('slickGoTo', 0);
                 //xxx.slick('slickNext');
                 //xxx.slick('slickPrev');
              
             });
             
+            console.log($(this).find('.slick-list').attr('style'), 'style before');
             $(this).find('.slick-list').attr('style','height: auto;');
 
+            console.log($(this).find('.slick-list').attr('style'), 'style fafter');
+            
             //$('.slides').slickLightbox({
             $('article').slickLightbox({
                 src: 'data-original', // 'src',
