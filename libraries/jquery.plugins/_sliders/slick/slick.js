@@ -1941,6 +1941,7 @@
                 });
             }
             console.log(_.$slides.first(), '_.$slides.first()');
+            console.log(_.$slides.first().outerHeight(true), '_.$slides.first().outerHeight(true)');
             console.log(_.$slides.first()[0].offsetHeight, '_.$slides.first()[0].offsetHeight');
             _.$list.height(_.$slides.first()[0].offsetHeight);
             console.log(_.$list.height(), '_.$list.height(); in hor');
