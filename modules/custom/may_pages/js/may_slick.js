@@ -215,9 +215,12 @@
                             $(this).removeClass('slidesJustAdded');
                         }
                         else {
-                            console.log('too small');
+                            console.log(height, ' - too small');
                             completed = false;
                             $(this).slick('reinit');
+                            $(this).resize();
+                            height = $(this).height();
+                            console.log(height, ' - after trial.');
                         }
                         
                         
