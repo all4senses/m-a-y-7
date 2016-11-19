@@ -219,6 +219,8 @@
                             completed = false;
                             $(this).slick('reinit');
                             $(this).resize();
+                            $(this).parent().find('.slick-next').click();
+                            $(this).parent().find('.slick-prev').click();
                             height = $(this).height();
                             console.log(height, ' - after trial.');
                         }
