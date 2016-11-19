@@ -217,6 +217,7 @@
                         else {
                             console.log(height, ' - too small');
                             completed = false;
+                            $(this).slick('unslick');
                             $(this).slick('reinit');
 //                            $(this).resize();
 //                            $(this).parent().find('.slick-next').click();
