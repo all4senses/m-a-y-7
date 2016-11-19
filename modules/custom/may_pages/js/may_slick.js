@@ -197,13 +197,14 @@
           */
           
           
-          
+          /*
           $('body').on('mousemove', function() {
                     console.log('mouseMove...');
                     $('body').off('mousemove');
                     console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
           });
-        
+          */
+         
           $(window).on('scroll', function() {
                     var height, completed = true;
                     console.log('scroll...');
