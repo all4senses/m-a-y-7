@@ -201,12 +201,12 @@
           $('body').on('mousemove', function() {
                     console.log('mouseMove...');
                     $('body').off('mousemove');
-                    console.log($('slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
+                    console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
           });
         
           $('body').on('scroll', function() {
                     console.log('scroll...');
-                    console.log($('slidesJustAdded').height(), "$('slidesJustAdded').height()");
+                    console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
                     
                     $('body').off('scroll');
           });
