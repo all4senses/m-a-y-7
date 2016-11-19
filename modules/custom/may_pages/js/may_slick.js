@@ -17,7 +17,7 @@
     Drupal.behaviors.may_slick = {
         attach: function (context, settings) {
 
-            console.log('may_slick.....');
+            //console.log('may_slick.....');
 
             /*
              $(".slides").slick({
@@ -217,7 +217,7 @@
                     
                     reinit_processing = true;
                     var height, completed = true;
-                    console.log('scroll...');
+                    //console.log('scroll...');
                     
                     $('.slidesJustAdded').each(function(){
                         height = $(this).height();
@@ -225,7 +225,7 @@
                             $(this).removeClass('slidesJustAdded');
                         }
                         else {
-                            console.log(height, ' - too small');
+                            //console.log(height, ' - too small');
                             completed = false;
                             $(this).slick('unslick');
                             $(this).slick('reinit');
@@ -234,10 +234,10 @@
 //                            $(this).parent().find('.slick-prev').click();
 //                            $('.slick-next').click();
                             height = $(this).height();
-                            console.log(height, ' - after trial.');
-                            if (height < 70) {
-                                console.log($(this), 'this, bad');
-                            }
+                            //console.log(height, ' - after trial.');
+//                            if (height < 70) {
+//                                console.log($(this), 'this, bad');
+//                            }
                             
                         }
                         
@@ -245,10 +245,10 @@
                     });
                     if (completed) {
                         $(window).off('scroll.checkSlides touchmove.checkSlides');
-                        console.log('completed');
+                        //console.log('completed');
                     }
                     else {
-                        console.log('not completed');
+                        //console.log('not completed');
                     }
                     
                     //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");

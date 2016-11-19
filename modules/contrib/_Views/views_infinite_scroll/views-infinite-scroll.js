@@ -18,7 +18,6 @@
     $new_view.find('.view-content').prepend($existing_content);
     $existing_view.replaceWith($new_view);
     $(document).trigger('infiniteScrollComplete', [$new_view, $existing_content]);
-    console.log('in infiniteScrollInsertView...');
   };
 
   /**
