@@ -221,8 +221,10 @@
                             $(this).resize();
                             $(this).parent().find('.slick-next').click();
                             $(this).parent().find('.slick-prev').click();
+                            $('.slick-next').click();
                             height = $(this).height();
                             console.log(height, ' - after trial.');
+                            
                         }
                         
                         
