@@ -14,6 +14,9 @@ article {
 }
 
 
+.slick-lightbox .slick-arrow {
+    z-index: 5; // Fix for not clickable left arrow
+}
 
 article.node-project {
        
@@ -78,7 +81,6 @@ article.node-project {
         
         .slick-prev, .slick-next {
             //background: black !important;
-            z-index: 5;
             display: none !important; // hide in a normal (not mobile) size.
         }
         .slides-arrow {
