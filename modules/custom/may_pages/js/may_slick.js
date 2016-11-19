@@ -211,19 +211,22 @@
                     
                     $('.slidesJustAdded').each(function(){
                         height = $(this).height();
-                        if (height > 50) {
+                        if (height > 70) {
                             $(this).removeClass('slidesJustAdded');
                         }
                         else {
                             console.log(height, ' - too small');
                             completed = false;
                             $(this).slick('reinit');
-                            $(this).resize();
-                            $(this).parent().find('.slick-next').click();
-                            $(this).parent().find('.slick-prev').click();
-                            $('.slick-next').click();
+//                            $(this).resize();
+//                            $(this).parent().find('.slick-next').click();
+//                            $(this).parent().find('.slick-prev').click();
+//                            $('.slick-next').click();
                             height = $(this).height();
                             console.log(height, ' - after trial.');
+                            if (height < 70) {
+                                console.log($(this), 'this, bad');
+                            }
                             
                         }
                         
