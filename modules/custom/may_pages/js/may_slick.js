@@ -205,7 +205,15 @@
           });
           */
          
+         var reinit_processing = false;
+         
           $(window).on('scroll.checkSlides touchmove.checkSlides', function() {
+                    
+                    if (reinit_processing) {
+                        return;
+                    }
+                    
+                    reinit_processing = true;
                     var height, completed = true;
                     console.log('scroll...');
                     
@@ -244,6 +252,8 @@
                     //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
                     
                     //$('body').off('scroll');
+                    
+                    reinit_processing = false;
           });
          
           
