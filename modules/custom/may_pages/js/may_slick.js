@@ -201,6 +201,7 @@
           $('body').on('mousemove', function() {
                     console.log('mouseMove...');
                     $('body').off('mousemove');
+                    console.log($('slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
           });
         
           $('body').on('scroll', function() {
