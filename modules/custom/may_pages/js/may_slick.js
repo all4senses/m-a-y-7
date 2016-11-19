@@ -205,12 +205,24 @@
           });
         
           $(window).on('scroll', function() {
-                    var height;
+                    var height, completed = true;
                     console.log('scroll...');
+                    
                     $('.slidesJustAdded').each(function(){
                         height = $(this).height();
-                        console.log(height, 'height');
+                        if (height > 50) {
+                            $(this).removeClass('slidesJustAdded');
+                        }
+                        else {
+                            completed = false;
+                        }
+                        
+                        
                     });
+                    if (completed) {
+                        $(window).off('scroll');
+                    }
+                    
                     //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
                     
                     //$('body').off('scroll');
