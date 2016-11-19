@@ -137,18 +137,20 @@
 //            console.log($(this).find('.slick-list').attr('style'), 'style fafter');
             */
            
+           $("article:not(.slick_lightbox) .slides-arrow.first").click(function () {
+                $(this).parent().find('.slick-prev').click();
+            });
+            $("article:not(.slick_lightbox) .slides-arrow.second").click(function () {
+                $(this).parent().find('.slick-next').click();
+            });
+            
             //$('.slides').slickLightbox({
             $('article:not(.slick_lightbox)').slickLightbox({
                 src: 'data-original', // 'src',
                 itemSelector: 'img[data-original]'
             }).addClass('slick_lightbox');
 
-            $("article:not(.slick_lightbox) .slides-arrow.first").click(function () {
-                $(this).parent().find('.slick-prev').click();
-            });
-            $("article:not(.slick_lightbox) .slides-arrow.second").click(function () {
-                $(this).parent().find('.slick-next').click();
-            });
+            
             
 
 //      $('.flexslider').flexslider({
