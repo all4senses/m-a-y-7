@@ -204,7 +204,7 @@
                     console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
           });
           */
-         
+         /*
           $(window).on('scroll', function() {
                     var height, completed = true;
                     console.log('scroll...');
@@ -234,6 +234,9 @@
                     
                     //$('body').off('scroll');
           });
+         */ 
+          
+          
         }
     };
 
