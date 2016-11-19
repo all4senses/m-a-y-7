@@ -205,10 +205,15 @@
           });
         
           $(window).on('scroll', function() {
+                    var height;
                     console.log('scroll...');
-                    console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
+                    $('.slidesJustAdded').each(function(){
+                        height = $(this).height();
+                        console.log(height, 'height');
+                    });
+                    //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
                     
-                    $('body').off('scroll');
+                    //$('body').off('scroll');
           });
         }
     };
