@@ -12,7 +12,39 @@
 */
 
 
+
 (function ($) {
+
+function checkSlides() {
+                    var height, completed = true;
+                    console.log('scroll...');
+                    
+                    $('.slidesJustAdded').each(function(){
+                        height = $(this).height();
+                        if (height > 50) {
+                            $(this).removeClass('slidesJustAdded');
+                        }
+                        else {
+                            console.log('too small');
+                            completed = false;
+                            $(this).slick('reinit');
+                        }
+                        
+                        
+                    });
+                    if (completed) {
+                        $(window).off('scroll', false, 'checkSlides');
+                        console.log('completed');
+                    }
+                    else {
+                        console.log('not completed');
+                    }
+                    
+                    //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
+                    
+                    //$('body').off('scroll');
+          }
+
 
     Drupal.behaviors.may_slick = {
         attach: function (context, settings) {
@@ -214,33 +246,5 @@
 
 }(jQuery));
 
-function checkSlides() {
-                    var height, completed = true;
-                    console.log('scroll...');
-                    
-                    $('.slidesJustAdded').each(function(){
-                        height = $(this).height();
-                        if (height > 50) {
-                            $(this).removeClass('slidesJustAdded');
-                        }
-                        else {
-                            console.log('too small');
-                            completed = false;
-                            $(this).slick('reinit');
-                        }
-                        
-                        
-                    });
-                    if (completed) {
-                        $(window).off('scroll', false, 'checkSlides');
-                        console.log('completed');
-                    }
-                    else {
-                        console.log('not completed');
-                    }
-                    
-                    //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
-                    
-                    //$('body').off('scroll');
-          }
+
 
