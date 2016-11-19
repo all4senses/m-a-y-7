@@ -204,7 +204,7 @@
                     console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
           });
         
-          $('window').on('scroll', function() {
+          $(window).on('scroll', function() {
                     console.log('scroll...');
                     console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
                     
