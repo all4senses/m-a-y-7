@@ -75,9 +75,11 @@ article.node-project {
         .slides .slick-list {
             //height: auto !important;
         }
+        
         .slick-prev, .slick-next {
             //background: black !important;
-            display: none !important;
+            z-index: 5;
+            display: none !important; // hide in a normal (not mobile) size.
         }
         .slides-arrow {
             position: absolute;
