@@ -214,13 +214,19 @@
                             $(this).removeClass('slidesJustAdded');
                         }
                         else {
+                            console.log('too small');
                             completed = false;
+                            $(this).slick('reinit');
                         }
                         
                         
                     });
                     if (completed) {
                         $(window).off('scroll');
+                        console.log('completed');
+                    }
+                    else {
+                        console.log('not completed');
                     }
                     
                     //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
