@@ -205,7 +205,7 @@
           });
           */
          
-          $(window).on('scroll.checkSlides', function() {
+          $(window).on('scroll.checkSlides touchmove.checkSlides', function() {
                     var height, completed = true;
                     console.log('scroll...');
                     
@@ -223,7 +223,7 @@
                         
                     });
                     if (completed) {
-                        $(window).off('scroll.checkSlides');
+                        $(window).off('scroll.checkSlides touchmove.checkSlides');
                         console.log('completed');
                     }
                     else {
