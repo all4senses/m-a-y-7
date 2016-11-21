@@ -37,7 +37,7 @@
                 var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                 var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
                 
-                var sl = $(this).slick({
+                $(this).slick({
                     // Mobile view
                     dots: false,
                     infinite: false,
@@ -64,7 +64,7 @@
                 
                 //$(this).addClass('slides-just-added');
                 
-                console.log('sl', sl);
+                //console.log('sl', sl);
                 console.log('this', $(this));
                 
                 var article_class = $(this).parent().parent().parent().parent().parent().attr('class');
