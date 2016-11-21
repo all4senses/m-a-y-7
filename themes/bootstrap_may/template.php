@@ -61,9 +61,9 @@ function bootstrap_may_preprocess_node(&$variables) {
       drupal_add_css($project_custom_css, array('weight' => 99, 'group' => 200));
       }
 
-//      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
-//      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
-//      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
+      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
+      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
+      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
 
       
       
@@ -74,8 +74,8 @@ function bootstrap_may_preprocess_node(&$variables) {
 //      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/js/jquery.sliderPro.min.js');
 //      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/css/slider-pro.min.css', array('weight' => 99, 'group' => 200));
       
-      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/swiper/dist/js/swiper.min.js');
-      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/swiper/dist/css/swiper.min.css', array('weight' => 99, 'group' => 200));
+//      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/swiper/dist/js/swiper.min.js');
+//      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/swiper/dist/css/swiper.min.css', array('weight' => 99, 'group' => 200));
       
       
       drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');
@@ -85,8 +85,8 @@ function bootstrap_may_preprocess_node(&$variables) {
       
       
       $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
-      //drupal_add_js($path_to_custom_js . 'may_slick.js');
-      drupal_add_js($path_to_custom_js . 'may_slider.js');
+      drupal_add_js($path_to_custom_js . 'may_slick.js');
+//      drupal_add_js($path_to_custom_js . 'may_slider.js');
       
     }
    
