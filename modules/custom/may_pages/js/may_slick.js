@@ -44,7 +44,7 @@
             
             $(".slides:not(.slick-initialized)", context).each(function (index, value) {
                 
-                console.log($(this),'$(this)');
+                //console.log($(this),'$(this)');
                 
                 var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
                 var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
@@ -76,6 +76,7 @@
                     ]
                 });
                 
+                console.log(sl, 'sl');
                 //sl.slick('reinit');
                 
                 /*
@@ -217,7 +218,7 @@
                     
                     reinit_processing = true;
                     var height, completed = true;
-                    //console.log('scroll...');
+                    console.log('scroll...');
                     
                     $('.slidesJustAdded').each(function(){
                         height = $(this).height();
@@ -225,7 +226,7 @@
                             $(this).removeClass('slidesJustAdded');
                         }
                         else {
-                            //console.log(height, ' - too small');
+                            console.log(height, ' - too small');
                             completed = false;
                             $(this).slick('unslick');
                             $(this).slick('reinit');
@@ -234,7 +235,7 @@
 //                            $(this).parent().find('.slick-prev').click();
 //                            $('.slick-next').click();
                             height = $(this).height();
-                            //console.log(height, ' - after trial.');
+                            console.log(height, ' - after trial.');
 //                            if (height < 70) {
 //                                console.log($(this), 'this, bad');
 //                            }
@@ -245,10 +246,10 @@
                     });
                     if (completed) {
                         $(window).off('scroll.checkSlides touchmove.checkSlides');
-                        //console.log('completed');
+                        console.log('completed');
                     }
                     else {
-                        //console.log('not completed');
+                        console.log('not completed');
                     }
                     
                     //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
