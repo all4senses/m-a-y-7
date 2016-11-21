@@ -61,9 +61,9 @@ function bootstrap_may_preprocess_node(&$variables) {
       drupal_add_css($project_custom_css, array('weight' => 99, 'group' => 200));
       }
 
-      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
-      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
-      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
+//      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
+//      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
+//      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
 
       
       
@@ -71,8 +71,11 @@ function bootstrap_may_preprocess_node(&$variables) {
 //      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/lightslider/src/css/lightslider.css', array('weight' => 99, 'group' => 200));
       
       
-      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/js/jquery.sliderPro.min.js');
-      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/css/slider-pro.min.css', array('weight' => 99, 'group' => 200));
+//      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/js/jquery.sliderPro.min.js');
+//      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/css/slider-pro.min.css', array('weight' => 99, 'group' => 200));
+      
+      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/swiper/dist/js/swiper.min.js');
+      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/swiper/dist/css/swiper.min.css', array('weight' => 99, 'group' => 200));
       
       
       drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');

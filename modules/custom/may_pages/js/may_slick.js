@@ -1,3 +1,17 @@
+/*
+(function ($) {
+    console.log('event reg');
+	  $.each(['show', 'hide'], function (i, ev) {
+	    var el = $.fn[ev];
+	    $.fn[ev] = function () {
+	      this.trigger(ev);
+	      return el.apply(this, arguments);
+	    };
+	  });
+})(jQuery);
+*/
+
+
 (function ($) {
 
     Drupal.behaviors.may_slick = {
@@ -28,7 +42,7 @@
              });
              */
             
-            $(".slides:not(.slick-initialized)"/*, context*/).each(function (index, value) {
+            $(".slides:not(.slick-initialized)", context).each(function (index, value) {
                 
                 //console.log($(this),'$(this)');
                 
@@ -37,7 +51,7 @@
                 var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                 var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
                 
-                $(this).slick({
+                var sl = $(this).slick({
                     // Mobile view
                     dots: false,
                     infinite: false,
@@ -60,24 +74,68 @@
                             }
                         }
                     ]
-                }).addClass('slides-just-added');
-                
-                //$(this).addClass('slides-just-added');
-                
-                //console.log('sl', sl);
-                console.log('this', $(this));
-                
-                var article_class = $(this).parent().parent().parent().parent().parent().attr('class');
-                console.log('article_classes: ', article_class);
+                });
                 
                 //sl.slick('reinit');
-                //$('.slides').resize();
+                
+                /*
+                sl.slick('slickGoTo', 1);
+                sl.slick('slickGoTo', 0);
+                //xxx.slick('slickNext');
+                //xxx.slick('slickPrev');
              
+                
+                
+                sl.on('beforeChange', function(event, slick, currentSlide, nextSlide){
+                    console.log(event, 'event');
+                    console.log(nextSlide, 'nextSlide');
+                });
+                
+                sl.on('init', function(event, slick){
+                    console.log(event, 'event');
+                    console.log(slick, 'slick');
+                });
+                
+                sl.on('reInit', function(event, slick){
+                    console.log(event, 'event');
+                    console.log(slick, 'slick');
+                    console.log(slick.$list[0].attributes.style, 'st before');
+                    slick.$list[0].attributes.style = 'height: 333px;';
+                    slick.$nextArrow.click();
+
+                    console.log(slick.$list[0].attributes.style, 'st after');
+                });
+                
+                
+                console.log($(this).find('.slick-list').attr('style'), 'style before');
+                $(this).find('.slick-list').attr('style','height: auto;');
+                
+                
+                
+                
+                
+                
+                $(this).parent().find('.slick-next').click();
+                $(this).parent().find('.slick-prev').click();
+                
+                console.log($(this).find('.slick-list').attr('style'), 'style after');
+                */
+               
+               $(this).addClass('slidesJustAdded');
                
             });
-           
-           
-           console.log('slides not slicked: ', $(".slides:not(.slick-initialized)"));
+            
+            /*
+            console.log($(this), 'this');
+            
+//            console.log($(this)[0].children[0].attributes['style'], 'attr style before');
+//            console.log($(this)[0].children[0].attributes['style'].nodeValue, 'attr 2 style before');
+//            
+//            console.log($(this).find('.slick-list').attr('style'), 'style before');
+//            $(this).find('.slick-list').attr('style','height: auto;');
+//
+//            console.log($(this).find('.slick-list').attr('style'), 'style fafter');
+            */
            
            $("article:not(.slick_lightbox) .slides-arrow.first").click(function () {
                 $(this).parent().find('.slick-prev').click();
@@ -85,7 +143,6 @@
             $("article:not(.slick_lightbox) .slides-arrow.second").click(function () {
                 $(this).parent().find('.slick-next').click();
             });
-            
             //$('.slides').slickLightbox({
             $('article:not(.slick_lightbox)').slickLightbox({
                 src: 'data-original', // 'src',
@@ -94,9 +151,64 @@
 
             
             
-            var reinit_processing = false;
+
+//      $('.flexslider').flexslider({
+//        animation: "slide",
+//        directionNav: false
+//      });
+
+
+            /*
+            $('.slick-next').click();
+            $('.slick-prev').click();
+            $('.slides').slick('slickNext');
+            $('.slides').slick('slickPrev');
+
+            $('.slides').resize();
+            
+            $('.slides').slick('reinit');
+            
+            
+            
+            
+            $(".views-row").on('show', function () {
+                console.log('on show views-row...');
+            });
+            */
+            
+            
+            
+
+//$.each(['show', 'hide'], function (i, ev) {
+//	    var el = $.fn[ev];
+//	    $.fn[ev] = function () {
+//	      this.trigger(ev);
+//	      return el.apply(this, arguments);
+//	    };
+//	  });
+          
+          /*
+          $('.views-row').on('show', function() {
+                    console.log('.views-row is now visible');
+          });
+        
+          $('.views-row').on('infiniteScrollComplete', function() {
+                    console.log('.views-row is now infiniteScrollComplete');
+          });
+          */
+          
+          
+          /*
+          $('body').on('mousemove', function() {
+                    console.log('mouseMove...');
+                    $('body').off('mousemove');
+                    console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
+          });
+          */
          
-            $(window).on('scroll.checkSlides touchmove.checkSlides', function() {
+         var reinit_processing = false;
+         
+          $(window).on('scroll.checkSlides touchmove.checkSlides', function() {
                     
                     if (reinit_processing) {
                         return;
@@ -106,11 +218,10 @@
                     var height, completed = true;
                     console.log('scroll...');
                     
-                    $('.slides-just-added').each(function(){
-                        console.log('testing just-added for correct slick...');
+                    $('.slidesJustAdded').each(function(){
                         height = $(this).height();
                         if (height > 70) {
-                            $(this).removeClass('slides-just-added');
+                            $(this).removeClass('slidesJustAdded');
                         }
                         else {
                             console.log(height, ' - too small');
@@ -123,9 +234,9 @@
 //                            $('.slick-next').click();
                             height = $(this).height();
                             console.log(height, ' - after trial.');
-//                            if (height < 70) {
-//                                console.log($(this), 'this, bad');
-//                            }
+                            if (height < 70) {
+                                console.log($(this), 'this, bad');
+                            }
                             
                         }
                         
@@ -139,16 +250,17 @@
                         console.log('not completed');
                     }
                     
-                    //console.log($('.slides-just-added').height(), "$('slides-just-added').height()");
+                    //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
+                    
+                    //$('body').off('scroll');
                     
                     reinit_processing = false;
-                    
-          }); // End of $(window).on('scroll.checkSlides touchmove.checkSlides', function() {
+          });
          
           
           
-        } // End of Attach
-    }; // End of Behavior
+        }
+    };
 
 }(jQuery));
 

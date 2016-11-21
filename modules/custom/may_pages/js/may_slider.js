@@ -4,6 +4,18 @@
         attach: function (context, settings) {
 
             console.log('may_slider.....');
+            
+            /*
+            jQuery( '.slides' ).sliderPro({
+                    width: '300px',
+                    height: '300px',
+                    visibleSize: '100%',
+                    //forceSize: 'fullWidth',
+                    autoSlideSize: true,
+                    orientation: 'vertical',
+            });
+            */
+
 
             /*
             jQuery(".slides ul").lightSlider({
