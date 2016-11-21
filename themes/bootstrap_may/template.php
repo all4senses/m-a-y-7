@@ -67,13 +67,20 @@ function bootstrap_may_preprocess_node(&$variables) {
 
       
       
-      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/lightslider/src/js/lightslider.js');
-      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/lightslider/src/css/lightslider.css', array('weight' => 99, 'group' => 200));
+//      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/lightslider/src/js/lightslider.js');
+//      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/lightslider/src/css/lightslider.css', array('weight' => 99, 'group' => 200));
+      
+      
+      drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/js/jquery.sliderPro.min.js');
+      drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slider-pro/dist/css/slider-pro.min.css', array('weight' => 99, 'group' => 200));
       
       
       drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');
       drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.css', array('weight' => 99, 'group' => 200));
 
+      
+      
+      
       $path_to_custom_js = drupal_get_path('module', 'may_pages') . '/js/';
       //drupal_add_js($path_to_custom_js . 'may_slick.js');
       drupal_add_js($path_to_custom_js . 'may_slider.js');
