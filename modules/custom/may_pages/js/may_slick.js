@@ -1,17 +1,3 @@
-/*
-(function ($) {
-    console.log('event reg');
-	  $.each(['show', 'hide'], function (i, ev) {
-	    var el = $.fn[ev];
-	    $.fn[ev] = function () {
-	      this.trigger(ev);
-	      return el.apply(this, arguments);
-	    };
-	  });
-})(jQuery);
-*/
-
-
 (function ($) {
 
     Drupal.behaviors.may_slick = {
@@ -78,10 +64,11 @@
                 
                 //$(this).addClass('slides-just-added');
                 
-                console.log(sl, 'sl');
+                console.log('sl', sl);
+                console.log('this', $(this));
                 
                 var article_class = $(this).parent().parent().parent().parent().parent().attr('class');
-                console.log(article_class, 'article_class');
+                console.log('article_classes: ', article_class);
                 
                 //sl.slick('reinit');
                 //$('.slides').resize();
@@ -120,6 +107,7 @@
                     console.log('scroll...');
                     
                     $('.slides-just-added').each(function(){
+                        console.log('testing just-added for correct slick...');
                         height = $(this).height();
                         if (height > 70) {
                             $(this).removeClass('slides-just-added');
