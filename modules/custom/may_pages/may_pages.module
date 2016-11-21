@@ -295,7 +295,7 @@ function may_pages_get_menu_children_themed($menu_parent, $level = 0) {
         $caret = ' <b class="caret"></b>';
       }
     } 
-    $layout .= '<li' . $li_class . '><a' . $a_class . ' href="' . ($item['link']['link_path'] == '<nolink>' ? '#' : ($item['link']['link_path'] == '<front>' ? '/' : $item['link']['link_path'])    ) . '">' . $item['link']['link_title'] . $caret . '</a>';
+    $layout .= '<li' . $li_class . '><a' . $a_class . ' href="' . ($item['link']['link_path'] == '<nolink>' ? '#' : ($item['link']['link_path'] == '<front>' ? '/' : '/'. $item['link']['link_path'])    ) . '">' . $item['link']['link_title'] . $caret . '</a>';
     if (!empty($item['below'])) {
       $layout .= may_pages_get_menu_children_themed($item['below'], $level + 1);
     }
