@@ -42,7 +42,7 @@
              });
              */
             
-            $(".slides:not(.slick-initialized)", context).each(function (index, value) {
+            $(".slides:not(.slick-initialized)"/*, context*/).each(function (index, value) {
                 
                 //console.log($(this),'$(this)');
                 
