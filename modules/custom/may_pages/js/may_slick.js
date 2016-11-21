@@ -59,7 +59,7 @@
                     slidesToScroll: 1,
                     mobileFirst: true,
                     adaptiveHeight: true,
-                    lazyLoad: 'onDemand', //'progressive',
+                    lazyLoad: 'ondemand', //'progressive',
                     responsive: [
                         {
                             // Full view, on res 768px or more
