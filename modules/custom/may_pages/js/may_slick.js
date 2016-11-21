@@ -17,7 +17,7 @@
     Drupal.behaviors.may_slick = {
         attach: function (context, settings) {
 
-            //console.log('may_slick.....');
+            console.log('may_slick.....');
 
             /*
              $(".slides").slick({
@@ -44,7 +44,7 @@
             
             $(".slides:not(.slick-initialized)", context).each(function (index, value) {
                 
-                //console.log($(this),'$(this)');
+                console.log($(this),'$(this)');
                 
                 var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
                 var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
