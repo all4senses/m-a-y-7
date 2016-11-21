@@ -59,6 +59,7 @@
                     slidesToScroll: 1,
                     mobileFirst: true,
                     adaptiveHeight: true,
+                    lazyLoad: 'onDemand', //'progressive',
                     responsive: [
                         {
                             // Full view, on res 768px or more
@@ -226,8 +227,11 @@
                         else {
                             console.log(height, ' - too small');
                             completed = false;
-                            $(this).slick('unslick');
-                            $(this).slick('reinit');
+                            
+                            //$(this).slick('unslick');
+                            //$(this).slick('reinit');
+                            $(this).slick('unslick').slick('reinit');
+                            
 //                            $(this).resize();
 //                            $(this).parent().find('.slick-next').click();
 //                            $(this).parent().find('.slick-prev').click();
