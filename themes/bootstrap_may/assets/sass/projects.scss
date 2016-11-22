@@ -86,9 +86,6 @@ article.node-project {
         
         .slides-arrow {
             display: none;
-        }
-        &.slick-initialized-parent .slides-arrow {
-            display: block;
             position: absolute;
             z-index: 5;
             width: 15px;
@@ -222,7 +219,8 @@ article.proj-id-1-1 {
                 height: auto;
                 margin: 10px 75px;
             }
-            .slides-arrow {
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
                 //position: absolute;
                 width: 50px;
                 height: 25px;
@@ -391,7 +389,8 @@ article.proj-id-1-4 {
                 width: auto;
                 margin: 5px auto;
             }
-            .slides-arrow {
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
                 width: 60px;
                 height: 35px;
                 left: 36% !important;

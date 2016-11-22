@@ -64,8 +64,8 @@
                             // Full view, on res 768px or more
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum')), //visible_num, //4,
-                                slidesToScroll: ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum')), //step_num, //1,
+                                slidesToShow: ($(this).parent().attr('data-slidesvisiblenum') == null) ? 5 : parseInt($(this).attr('data-slidesvisiblenum')), //visible_num, //4,
+                                slidesToScroll: ($(this).$slider.attr('data-slidesstepnum') == null) ? 6 : parseInt($(this).attr('data-slidesstepnum')), //step_num, //1,
                                 vertical: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical, //true,
                                 infinite: ($(this).attr('data-slidesinfinite') == 'true') ? true :  false, //infinite,
                                 verticalSwiping: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical,
