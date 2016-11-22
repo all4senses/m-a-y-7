@@ -67,8 +67,8 @@
                         verticalSwiping: vertical,
                     };
                     
-                    
-                    $(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
+                    console.log('$(this): ', $(this));
+                    //$(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
                     console.log('+++> Slick: ', slick);
 
                 })
