@@ -45,7 +45,11 @@
             $("article .slides-wrapper .slides:not(.slick-initialized)", context).each(function (index, value) {
                 
                 //console.log($(this),'$(this)');
-                
+                // On Init Slick
+                $(this).on('init', function(event, slick){
+                  console.log('on init: ', event, '. slick: ', slick);
+                });
+
                 var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
                 var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
                 var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
@@ -132,10 +136,7 @@
                    $(this).addClass('PROBLEMS');
                }
                
-               // On before slide change
-                $(this).on('init', function(event, slick){
-                  console.log('on init: ', event, '. slick: ', slick);
-                });
+               
                
             });
             
