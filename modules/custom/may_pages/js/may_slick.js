@@ -67,11 +67,14 @@
                         verticalSwiping: vertical,
                     };
                     
+                    slick.options.responsive[0].settings.slidesToShow = visible_num;
+                        
+                    
                     console.log('$(this): ', $(this));
 //                    if ($(this).hasClass('p2-12 s1')) {
 //                        jQuery('.slides.p2-12.s1').slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: 2, vertical: true} }], true);
 //                    }
-                    //$(this)[0].slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
+                    //$(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
                     console.log('+++> Slick: ', slick);
                     //$(this).slick('unload').slick('reinit');
 
@@ -240,8 +243,8 @@
                     
                     $('.slidesJustAdded').each(function(){
 //                        if (!$(this).hasClass('slick-initialized')){
-                            console.log('Just added wasnt slick initialized. Reinit...');
-                            $(this).slick('unslick').slick('reinit');
+//                            console.log('Just added wasnt slick initialized. Reinit...');
+//                            $(this).slick('unslick').slick('reinit');
 //                        }
                         height = $(this).height();
                         if (height > 70) {
