@@ -46,14 +46,27 @@
             
             $("article .slides-wrapper .slides:not(.slick-initialized)", context)
                 .on('init', function(event, slick){
-                  console.log('on init obj: ', slick.$slider[0].className);
-                  console.log('--->Event: ', event, '. ---> Slick: ', slick);
-                  $(this).parent().addClass('slick-initialized-parent');
-                  //slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }, {} ], true);
-                  //$(slick.$slider).slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
-                  //slick.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
-                  
-                  slick.breakpointSettings[768] = {slidesToShow: 9};
+                    console.log('on init obj: ', slick.$slider[0].className);
+                    console.log('--->Event: ', event, '. ---> Slick: ', slick);
+                    $(this).parent().addClass('slick-initialized-parent');
+
+                    // Doesn't work.
+                    event.target.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
+
+//                    var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
+//                    var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
+//                    var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
+//                    var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
+//
+//                    slick.breakpointSettings[768] = {
+//                        slidesToShow: visible_num, //4,
+//                        slidesToScroll: step_num, //1,
+//                        vertical: vertical, //true,
+//                        infinite: infinite,
+//                        verticalSwiping: vertical,
+//                        //adaptiveHeight: true,
+//                        //centerMode: true,
+//                    };
 
                 })
                 .slick({
@@ -70,13 +83,12 @@
                             // Full view, on res 768px or more
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: ($(this).parent().attr('data-slidesvisiblenum') == null) ? 5 : parseInt($(this).attr('data-slidesvisiblenum')), //visible_num, //4,
-                                //slidesToScroll: ($(this).attr('data-slidesstepnum') == null) ? 6 : parseInt($(this).attr('data-slidesstepnum')), //step_num, //1,
-                                slidesToScroll: console.log('thiiiis: ', $(this)) ? 6 : 7,
-                                vertical: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical, //true,
-                                infinite: ($(this).attr('data-slidesinfinite') == 'true') ? true :  false, //infinite,
-                                verticalSwiping: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical,
-                                //adaptiveHeight: true,//false,
+                                slidesToShow: 1, 
+                                slidesToScroll: 1,
+                                vertical: false,
+                                infinite: true,
+                                verticalSwiping: false,
+                                //adaptiveHeight: true,
                                 //centerMode: true,
                             }
                         }
