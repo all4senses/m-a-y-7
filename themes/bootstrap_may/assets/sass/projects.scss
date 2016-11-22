@@ -87,7 +87,7 @@ article.node-project {
         .slides-arrow {
             display: none;
         }
-        .slick-initialized-parent .slides-arrow {
+        &.slick-initialized-parent .slides-arrow {
             display: block;
             position: absolute;
             z-index: 5;
