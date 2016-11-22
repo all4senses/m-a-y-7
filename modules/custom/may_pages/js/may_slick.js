@@ -239,10 +239,10 @@
                     console.log('scroll...');
                     
                     $('.slidesJustAdded').each(function(){
-                        if (!$(this).hasClass('slick-initialized')){
+//                        if (!$(this).hasClass('slick-initialized')){
                             console.log('Just added wasnt slick initialized. Reinit...');
                             $(this).slick('unslick').slick('reinit');
-                        }
+//                        }
                         height = $(this).height();
                         if (height > 70) {
                             $(this).removeClass('slidesJustAdded');

@@ -2899,6 +2899,8 @@
             l = _.length,
             i,
             ret;
+    
+    console.log('_:', _);
         for (i = 0; i < l; i++) {
             if (typeof opt == 'object' || typeof opt == 'undefined')
                 _[i].slick = new Slick(_[i], opt);
