@@ -1240,15 +1240,15 @@
 
         var _ = this;
 
-        console.log('slick. in init...');
+        //console.log('slick. in init...');
         if (!$(_.$slider).hasClass('slick-initialized')) {
 
             $(_.$slider).addClass('slick-initialized');
-            console.log('slick. in init... added slick-initialized');
+            //console.log('slick. in init... added slick-initialized');
 
             if (creation) {
-                _.$slider.trigger('init', [_]);
-                console.log('___after alter:', _);
+                _.$slider.trigger('before_slick_init', [_]);
+                console.log('___after alter before_init: ', _);
             }
 
 
@@ -1265,10 +1265,10 @@
 
         }
 
-//        if (creation) {
-//            _.$slider.trigger('init', [_]);
-//            console.log('___after alter:', _);
-//        }
+        if (creation) {
+            _.$slider.trigger('init', [_]);
+            console.log('___after alter:', _);
+        }
 
         if (_.options.accessibility === true) {
             _.initADA();

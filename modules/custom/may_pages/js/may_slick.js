@@ -46,7 +46,7 @@
             
             $("article .slides-wrapper .slides:not(.slick-initialized)", context)
                 .on('init', function(event, slick){
-                    console.log('on init obj: ', slick.$slider[0].className);
+                    //console.log('on init obj: ', slick.$slider[0].className);
                     //console.log('--->Event: ', event, '. ---> Slick: ', slick);
                     $(this).parent().addClass('slick-initialized-parent');
 
@@ -86,6 +86,9 @@
 //                    if ($(this).hasClass('p2-12 s1')) {
 //                        jQuery('.slides.p2-12.s1').slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: 2, vertical: true} }], true);
 //                    }
+//                    
+//                    
+//                    
                     //$(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
                     console.log('+++> Slick: ', slick);
                     //$(this).slick('unload').slick('reinit');
@@ -269,6 +272,26 @@
                             //$(this).slick('unslick');
                             //$(this).slick('reinit');
                             $(this).slick('unslick').slick('reinit');
+                            
+                            
+                            var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
+                            var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
+                            var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
+                            var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
+                            
+                            var bp_settings = {
+                                slidesToShow: visible_num,
+                                slidesToScroll: step_num,
+                                vertical: vertical,
+                                infinite: infinite,
+                                verticalSwiping: vertical,
+                            };
+                    
+                    
+                            //$(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
+                            $(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: bp_settings }], true);
+                            
+                            
                             
 //                            $(this).resize();
 //                            $(this).parent().find('.slick-next').click();
