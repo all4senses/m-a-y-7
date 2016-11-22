@@ -1246,6 +1246,12 @@
             $(_.$slider).addClass('slick-initialized');
             console.log('slick. in init... added slick-initialized');
 
+            if (creation) {
+                _.$slider.trigger('init', [_]);
+                console.log('___after alter:', _);
+            }
+
+
             _.buildRows();
             _.buildOut();
             _.setProps();
@@ -1259,10 +1265,10 @@
 
         }
 
-        if (creation) {
-            _.$slider.trigger('init', [_]);
-            console.log('___after alter:', _);
-        }
+//        if (creation) {
+//            _.$slider.trigger('init', [_]);
+//            console.log('___after alter:', _);
+//        }
 
         if (_.options.accessibility === true) {
             _.initADA();

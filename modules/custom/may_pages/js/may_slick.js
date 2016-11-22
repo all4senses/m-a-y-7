@@ -82,7 +82,7 @@
                     slick.options.responsive[0].settings.verticalSwiping = vertical;
 
                     
-                    console.log('$(this): ', $(this));
+                    //console.log('$(this): ', $(this));
 //                    if ($(this).hasClass('p2-12 s1')) {
 //                        jQuery('.slides.p2-12.s1').slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: 2, vertical: true} }], true);
 //                    }
