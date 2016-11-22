@@ -67,7 +67,13 @@
                         verticalSwiping: vertical,
                     };
                     
-                    slick.options.responsive[0].settings.slidesToShow = visible_num;
+                    slick.options.responsive[0].settings = {
+                        slidesToShow: visible_num,
+                        slidesToScroll: step_num,
+                        vertical: vertical,
+                        infinite: infinite,
+                        verticalSwiping: vertical,
+                    };
                         
                     
                     console.log('$(this): ', $(this));
