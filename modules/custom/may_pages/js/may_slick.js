@@ -51,22 +51,22 @@
                     $(this).parent().addClass('slick-initialized-parent');
 
                     // Doesn't work.
-                    event.target.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
+                    //slick.$slider.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
 
-//                    var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
-//                    var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
-//                    var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
-//                    var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
-//
-//                    slick.breakpointSettings[768] = {
-//                        slidesToShow: visible_num, //4,
-//                        slidesToScroll: step_num, //1,
-//                        vertical: vertical, //true,
-//                        infinite: infinite,
-//                        verticalSwiping: vertical,
-//                        //adaptiveHeight: true,
-//                        //centerMode: true,
-//                    };
+                    var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
+                    var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
+                    var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
+                    var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
+
+                    slick.breakpointSettings[768] = {
+                        slidesToShow: visible_num, //4,
+                        slidesToScroll: step_num, //1,
+                        vertical: vertical, //true,
+                        infinite: infinite,
+                        verticalSwiping: vertical,
+                        //adaptiveHeight: true,
+                        //centerMode: true,
+                    };
 
                 })
                 .slick({
