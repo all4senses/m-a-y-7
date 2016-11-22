@@ -65,7 +65,8 @@
                             breakpoint: 768,
                             settings: {
                                 slidesToShow: ($(this).parent().attr('data-slidesvisiblenum') == null) ? 5 : parseInt($(this).attr('data-slidesvisiblenum')), //visible_num, //4,
-                                slidesToScroll: ($(this).$slider.attr('data-slidesstepnum') == null) ? 6 : parseInt($(this).attr('data-slidesstepnum')), //step_num, //1,
+                                //slidesToScroll: ($(this).attr('data-slidesstepnum') == null) ? 6 : parseInt($(this).attr('data-slidesstepnum')), //step_num, //1,
+                                slidesToScroll: console.log('thiiiis: ', $(this)) ? 6 : 7,
                                 vertical: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical, //true,
                                 infinite: ($(this).attr('data-slidesinfinite') == 'true') ? true :  false, //infinite,
                                 verticalSwiping: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical,
