@@ -54,12 +54,12 @@
                 var sl = $(this).slick({
                     // Mobile view
                     dots: false,
-                    infinite: false,
+                    infinite: true,//false,
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     mobileFirst: true,
                     adaptiveHeight: true,
-                    lazyLoad: 'ondemand', //'progressive',
+                    //lazyLoad: 'ondemand', //'progressive',
                     responsive: [
                         {
                             // Full view, on res 768px or more
