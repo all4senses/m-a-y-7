@@ -48,6 +48,7 @@
                 // On Init Slick
                 $(this).on('init', function(event, slick){
                   console.log('on init: ', event, '. slick: ', slick);
+                  $(this).parent().addClass('slick-initialized-parent');
                 });
 
                 var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
@@ -69,7 +70,7 @@
                             // Full view, on res 768px or more
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: visible_num, //4,
+                                slidesToShow: ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum')), //visible_num, //4,
                                 slidesToScroll: step_num, //1,
                                 vertical: vertical, //true,
                                 infinite: infinite,
