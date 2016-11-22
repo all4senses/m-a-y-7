@@ -46,8 +46,7 @@
             
             $("article .slides-wrapper .slides:not(.slick-initialized)", context)
                 .on('before_slick_init', function(event, slick){
-                    //console.log('on init obj: ', slick.$slider[0].className);
-                    //console.log('--->Event: ', event, '. ---> Slick: ', slick);
+                    // Here i needed to hack the Slick.js and add there a new event before_slick_init to make it all work for me.
                     $(this).parent().addClass('slick-initialized-parent');
 
                     // Doesn't work.
@@ -58,7 +57,7 @@
                     var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                     var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
 
-                    console.log('vertical: ', vertical, ', visible_num: ', visible_num, ', step_num: ', step_num, ', infinite: ', infinite ? 'true' : 'false');
+                    //console.log('vertical: ', vertical, ', visible_num: ', visible_num, ', step_num: ', step_num, ', infinite: ', infinite ? 'true' : 'false');
                     
                     slick.breakpointSettings[768] = {
                         slidesToShow: visible_num,
@@ -68,30 +67,15 @@
                         verticalSwiping: vertical,
                     };
                     
-                   
-//                    slick.breakpointSettings[768].slidesToShow = visible_num;
-//                    slick.breakpointSettings[768].slidesToScroll = step_num;
-//                    slick.breakpointSettings[768].vertical = vertical;
-//                    slick.breakpointSettings[768].infinite = infinite;
-//                    slick.breakpointSettings[768].verticalSwiping = vertical;
-                                        
                     slick.options.responsive[0].settings.slidesToShow = visible_num;
                     slick.options.responsive[0].settings.slidesToScroll = step_num;
                     slick.options.responsive[0].settings.vertical = vertical;
                     slick.options.responsive[0].settings.infinite = infinite;
                     slick.options.responsive[0].settings.verticalSwiping = vertical;
 
-                    
-                    //console.log('$(this): ', $(this));
-//                    if ($(this).hasClass('p2-12 s1')) {
-//                        jQuery('.slides.p2-12.s1').slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: 2, vertical: true} }], true);
-//                    }
-//                    
-//                    
-//                    
+                    // Doesn't work here yet... :(
                     //$(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
-                    console.log('+++> Slick: ', slick);
-                    //$(this).slick('unload').slick('reinit');
+                    //console.log('+++> Slick: ', slick);
 
                 })
                 .slick({
@@ -125,7 +109,7 @@
             
             
             
-            // Works!!! Via each...
+            // Works, but not good!!! Via each...
             /*
             $("article .slides-wrapper .slides:not(.slick-initialized)", context).each(function (index, value) {
                 
@@ -194,7 +178,6 @@
 
             
             /*
-            
 //            console.log($(this)[0].children[0].attributes['style'], 'attr style before');
 //            console.log($(this)[0].children[0].attributes['style'].nodeValue, 'attr 2 style before');
 //            
@@ -254,7 +237,7 @@
                     
                     reinit_processing = true;
                     var height, completed = true;
-                    console.log('scroll...');
+                    //console.log('scroll...');
                     
                     $('.slidesJustAdded').each(function(){
 //                        if (!$(this).hasClass('slick-initialized')){
@@ -262,11 +245,11 @@
 //                            $(this).slick('unslick').slick('reinit');
 //                        }
                         height = $(this).height();
-                        if (height > 70) {
+                        if (height > 70 && $(this).hasClass('slick-initialized')) {
                             $(this).removeClass('slidesJustAdded');
                         }
                         else {
-                            console.log(height, ' - too small');
+                            //console.log(height, ' - too small');
                             completed = false;
                             
                             //$(this).slick('unslick');
@@ -287,7 +270,6 @@
                                 verticalSwiping: vertical,
                             };
                     
-                    
                             //$(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
                             $(this).slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: bp_settings }], true);
                             
@@ -298,9 +280,9 @@
 //                            $(this).parent().find('.slick-prev').click();
 //                            $('.slick-next').click();
                             height = $(this).height();
-                            console.log(height, ' - after trial.');
+                            //console.log(height, ' - after trial.');
                             if (height < 70) {
-                                console.log($(this), 'this, bad');
+                                //console.log($(this), 'this, bad');
                             }
                             
                         }
@@ -309,10 +291,10 @@
                     });
                     if (completed) {
                         $(window).off('scroll.checkSlides touchmove.checkSlides');
-                        console.log('completed');
+                        //console.log('completed');
                     }
                     else {
-                        console.log('not completed');
+                        //console.log('not completed');
                     }
                     
                     //console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height()");
