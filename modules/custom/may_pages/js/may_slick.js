@@ -73,7 +73,7 @@
 //                    }
                     //$(this)[0].slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
                     console.log('+++> Slick: ', slick);
-                    $(this).slick('unload').slick('reinit');
+                    //$(this).slick('unload').slick('reinit');
 
                 })
                 .slick({
