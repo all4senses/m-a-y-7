@@ -68,7 +68,8 @@
                     };
                     
                     console.log('$(this): ', $(this));
-                    $(this)[0].slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
+                    jQuery('.slides.p2-12.s1').slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: 2, vertical: true} }], true);
+                    //$(this)[0].slick('slickSetOption', 'responsive', [{ breakpoint: 768, settings: {slidesToShow: visible_num, } }], true);
                     console.log('+++> Slick: ', slick);
 
                 })
