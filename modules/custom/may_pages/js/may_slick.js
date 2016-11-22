@@ -42,6 +42,47 @@
              });
              */
             
+            
+            
+            $("article .slides-wrapper .slides:not(.slick-initialized)", context)
+                .on('init', function(event, slick){
+                  console.log('on init obj: ', slick.$slider[0].className);
+                  console.log('--->Event: ', event, '. ---> Slick: ', slick);
+                  $(this).parent().addClass('slick-initialized-parent');
+                })
+                .slick({
+                    // Mobile view
+                    dots: false,
+                    infinite: true,//false,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    mobileFirst: true,
+                    adaptiveHeight: true,
+                    //lazyLoad: 'ondemand', //'progressive',
+                    responsive: [
+                        {
+                            // Full view, on res 768px or more
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum')), //visible_num, //4,
+                                slidesToScroll: ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum')), //step_num, //1,
+                                vertical: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical, //true,
+                                infinite: ($(this).attr('data-slidesinfinite') == 'true') ? true :  false, //infinite,
+                                verticalSwiping: ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false, //vertical,
+                                //adaptiveHeight: true,//false,
+                                //centerMode: true,
+                            }
+                        }
+                    ]
+                })
+                .addClass('slidesJustAdded');
+                
+            
+            
+            
+            
+            // Works!!! Via each...
+            /*
             $("article .slides-wrapper .slides:not(.slick-initialized)", context).each(function (index, value) {
                 
                 //console.log($(this),'$(this)');
@@ -82,51 +123,6 @@
                     ]
                 });
                 
-                //sl.slick('reinit');
-                
-                /*
-                sl.slick('slickGoTo', 1);
-                sl.slick('slickGoTo', 0);
-                //xxx.slick('slickNext');
-                //xxx.slick('slickPrev');
-             
-                
-                
-                sl.on('beforeChange', function(event, slick, currentSlide, nextSlide){
-                    console.log(event, 'event');
-                    console.log(nextSlide, 'nextSlide');
-                });
-                
-                sl.on('init', function(event, slick){
-                    console.log(event, 'event');
-                    console.log(slick, 'slick');
-                });
-                
-                sl.on('reInit', function(event, slick){
-                    console.log(event, 'event');
-                    console.log(slick, 'slick');
-                    console.log(slick.$list[0].attributes.style, 'st before');
-                    slick.$list[0].attributes.style = 'height: 333px;';
-                    slick.$nextArrow.click();
-
-                    console.log(slick.$list[0].attributes.style, 'st after');
-                });
-                
-                
-                console.log($(this).find('.slick-list').attr('style'), 'style before');
-                $(this).find('.slick-list').attr('style','height: auto;');
-                
-                
-                
-                
-                
-                
-                $(this).parent().find('.slick-next').click();
-                $(this).parent().find('.slick-prev').click();
-                
-                console.log($(this).find('.slick-list').attr('style'), 'style after');
-                */
-               
                $(this).addClass('slidesJustAdded');
                
                if ($(this).hasClass('slick-initialized')) {
@@ -136,13 +132,24 @@
                    console.log('NOT INITIALIZED!!!...');
                    $(this).addClass('PROBLEMS');
                }
-               
-               
-               
+                 
             });
+            */
+            
             
             /*
-            console.log($(this), 'this');
+            sl.on('reInit', function(event, slick){
+                console.log(event, 'event');
+                console.log(slick, 'slick');
+                console.log(slick.$list[0].attributes.style, 'st before');
+                slick.$list[0].attributes.style = 'height: 333px;';
+                slick.$nextArrow.click();
+            });
+            */
+               
+
+            
+            /*
             
 //            console.log($(this)[0].children[0].attributes['style'], 'attr style before');
 //            console.log($(this)[0].children[0].attributes['style'].nodeValue, 'attr 2 style before');
@@ -165,66 +172,37 @@
                 itemSelector: 'img[data-original]'
             }).addClass('slick_lightbox');
 
-            
-            
-
-//      $('.flexslider').flexslider({
-//        animation: "slide",
-//        directionNav: false
-//      });
 
 
-            /*
-            $('.slick-next').click();
-            $('.slick-prev').click();
-            $('.slides').slick('slickNext');
-            $('.slides').slick('slickPrev');
-
-            $('.slides').resize();
             
-            $('.slides').slick('reinit');
-            
-            
-            
-            
-            $(".views-row").on('show', function () {
-                console.log('on show views-row...');
-            });
-            */
-            
-            
-            
-
-//$.each(['show', 'hide'], function (i, ev) {
-//	    var el = $.fn[ev];
-//	    $.fn[ev] = function () {
-//	      this.trigger(ev);
-//	      return el.apply(this, arguments);
-//	    };
-//	  });
+        /*
+          $.each(['show', 'hide'], function (i, ev) {
+	    var el = $.fn[ev];
+	    $.fn[ev] = function () {
+	      this.trigger(ev);
+	      return el.apply(this, arguments);
+	    };
+	  });
           
-          /*
+          
           $('.views-row').on('show', function() {
                     console.log('.views-row is now visible');
           });
-        
+        */
+       
+        /*
           $('.views-row').on('infiniteScrollComplete', function() {
                     console.log('.views-row is now infiniteScrollComplete');
           });
-          */
+        */
           
-          
-          /*
-          $('body').on('mousemove', function() {
-                    console.log('mouseMove...');
-                    $('body').off('mousemove');
-                    console.log($('.slidesJustAdded').height(), "$('slidesJustAdded').height() in mouse");
-          });
-          */
-         
-         var reinit_processing = false;
-         
-          $(window).on('scroll.checkSlides touchmove.checkSlides', function() {
+        $(".views-row").on('load', function () {
+            console.log('on LOAD views-row...');
+        });
+
+            
+        var reinit_processing = false;
+        $(window).on('scroll.checkSlides touchmove.checkSlides', function() {
                     
                     if (reinit_processing) {
                         return;
@@ -235,6 +213,10 @@
                     console.log('scroll...');
                     
                     $('.slidesJustAdded').each(function(){
+                        if (!$(this).hasClass('slick-initialized')){
+                            console.log('Just added wasnt slick initialized. Reinit...');
+                            $(this).slick('unslick').slick('reinit');
+                        }
                         height = $(this).height();
                         if (height > 70) {
                             $(this).removeClass('slidesJustAdded');

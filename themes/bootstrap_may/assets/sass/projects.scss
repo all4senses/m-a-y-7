@@ -84,7 +84,11 @@ article.node-project {
             display: none !important; // hide in a normal (not mobile) size.
         }
         
-        .slick-initialized .slides-arrow {
+        .slides-arrow {
+            display: none;
+        }
+        .slick-initialized-parent .slides-arrow {
+            display: block;
             position: absolute;
             z-index: 5;
             width: 15px;
