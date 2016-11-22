@@ -45,7 +45,7 @@
             
             
             $("article .slides-wrapper .slides:not(.slick-initialized)", context)
-                .on('init', function(event, slick){
+                .on('before_slick_init', function(event, slick){
                     //console.log('on init obj: ', slick.$slider[0].className);
                     //console.log('--->Event: ', event, '. ---> Slick: ', slick);
                     $(this).parent().addClass('slick-initialized-parent');

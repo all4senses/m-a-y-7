@@ -1248,7 +1248,7 @@
 
             if (creation) {
                 _.$slider.trigger('before_slick_init', [_]);
-                console.log('___after alter before_init: ', _);
+                //console.log('___after alter before_init: ', _);
             }
 
 
@@ -1267,7 +1267,7 @@
 
         if (creation) {
             _.$slider.trigger('init', [_]);
-            console.log('___after alter:', _);
+            //console.log('___after alter:', _);
         }
 
         if (_.options.accessibility === true) {
