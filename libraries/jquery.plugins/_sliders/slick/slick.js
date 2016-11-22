@@ -1240,9 +1240,11 @@
 
         var _ = this;
 
+        console.log('slick. in init...');
         if (!$(_.$slider).hasClass('slick-initialized')) {
 
             $(_.$slider).addClass('slick-initialized');
+            console.log('slick. in init... added slick-initialized');
 
             _.buildRows();
             _.buildOut();

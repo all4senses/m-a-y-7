@@ -83,6 +83,7 @@ article.node-project {
             //background: black !important;
             display: none !important; // hide in a normal (not mobile) size.
         }
+        
         .slick-initialized .slides-arrow {
             position: absolute;
             z-index: 5;
@@ -217,7 +218,7 @@ article.proj-id-1-1 {
                 height: auto;
                 margin: 10px 75px;
             }
-            .slick-initialized .slides-arrow {
+            .slides-arrow {
                 //position: absolute;
                 width: 50px;
                 height: 25px;

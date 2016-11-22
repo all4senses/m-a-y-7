@@ -125,12 +125,17 @@
                $(this).addClass('slidesJustAdded');
                
                if ($(this).hasClass('slick-initialized')) {
-                   
+                   console.log('INITIALIZED!!!...');
                }
                else {
                    console.log('NOT INITIALIZED!!!...');
                    $(this).addClass('PROBLEMS');
                }
+               
+               // On before slide change
+                $(this).on('init', function(event, slick){
+                  console.log('on init: ', event, '. slick: ', slick);
+                });
                
             });
             
