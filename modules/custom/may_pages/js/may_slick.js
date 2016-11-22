@@ -59,7 +59,7 @@
                     var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
 
                     console.log('vertical: ', vertical, ', visible_num: ', visible_num, ', step_num: ', step_num, ', infinite: ', infinite ? 'true' : 'false');
-                    /*
+                    
                     slick.breakpointSettings[768] = {
                         slidesToShow: visible_num,
                         slidesToScroll: step_num,
@@ -67,13 +67,13 @@
                         infinite: infinite,
                         verticalSwiping: vertical,
                     };
-                    */
+                    
                    
-                    slick.breakpointSettings[768].slidesToShow = visible_num;
-                    slick.breakpointSettings[768].slidesToScroll = step_num;
-                    slick.breakpointSettings[768].vertical = vertical;
-                    slick.breakpointSettings[768].infinite = infinite;
-                    slick.breakpointSettings[768].verticalSwiping = vertical;
+//                    slick.breakpointSettings[768].slidesToShow = visible_num;
+//                    slick.breakpointSettings[768].slidesToScroll = step_num;
+//                    slick.breakpointSettings[768].vertical = vertical;
+//                    slick.breakpointSettings[768].infinite = infinite;
+//                    slick.breakpointSettings[768].verticalSwiping = vertical;
                                         
                     slick.options.responsive[0].settings.slidesToShow = visible_num;
                     slick.options.responsive[0].settings.slidesToScroll = step_num;
