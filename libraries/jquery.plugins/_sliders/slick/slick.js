@@ -1261,6 +1261,7 @@
 
         if (creation) {
             _.$slider.trigger('init', [_]);
+            console.log('___after alter:', _);
         }
 
         if (_.options.accessibility === true) {
