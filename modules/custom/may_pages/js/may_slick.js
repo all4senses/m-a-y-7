@@ -42,7 +42,7 @@
              });
              */
             
-            $(".slides:not(.slick-initialized)", context).each(function (index, value) {
+            $("article .slides-wrapper .slides:not(.slick-initialized)", context).each(function (index, value) {
                 
                 //console.log($(this),'$(this)');
                 
@@ -123,6 +123,14 @@
                 */
                
                $(this).addClass('slidesJustAdded');
+               
+               if ($(this).hasClass('slick-initialized')) {
+                   
+               }
+               else {
+                   console.log('NOT INITIALIZED!!!...');
+                   $(this).addClass('PROBLEMS');
+               }
                
             });
             
