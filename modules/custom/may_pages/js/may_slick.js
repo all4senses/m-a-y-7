@@ -54,7 +54,7 @@
                   //slick.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
                   
                   slick.breakpointSettings[768] = {slidesToShow: 9};
-:
+
                 })
                 .slick({
                     // Mobile view
