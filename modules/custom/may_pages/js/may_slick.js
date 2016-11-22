@@ -50,8 +50,8 @@
                   console.log('--->Event: ', event, '. ---> Slick: ', slick);
                   $(this).parent().addClass('slick-initialized-parent');
                   //slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }, {} ], true);
-                  //slick.$slider.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
-                  slick.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
+                  $(slick.$slider).slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
+                  //slick.slick('slickSetOption', "responsive", [{ breakpoint: 768, settings: {slidesToShow: 9} }], true);
                 })
                 .slick({
                     // Mobile view
