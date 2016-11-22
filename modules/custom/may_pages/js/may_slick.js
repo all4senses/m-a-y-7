@@ -58,6 +58,7 @@
                     var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                     var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
 
+                    console.log('vertical: ', vertical, ', visible_num: ', visible_num, ', step_num: ', infinite ? 'true' : 'false');
                     slick.breakpointSettings[768] = {
                         slidesToShow: visible_num, //4,
                         slidesToScroll: step_num, //1,
@@ -67,6 +68,7 @@
                         //adaptiveHeight: true,
                         //centerMode: true,
                     };
+                    console.log('+++> Slick: ', slick);
 
                 })
                 .slick({
