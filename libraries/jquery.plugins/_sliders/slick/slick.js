@@ -1246,6 +1246,7 @@
             $(_.$slider).addClass('slick-initialized');
             //console.log('slick. in init... added slick-initialized');
 
+            // a4s patch
             if (creation) {
                 _.$slider.trigger('before_slick_init', [_]);
                 //console.log('___after alter before_init: ', _);
