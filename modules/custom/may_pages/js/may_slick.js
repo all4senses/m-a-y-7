@@ -259,7 +259,8 @@
                             
                             
                             if (!$(this).hasClass('slick-initialized')) {
-                                console.log(height, ' - not initialized, init from the scratch...');
+                                //console.log(height, ' - not initialized, init from the scratch...');
+                                console.log('--------');
                                 $(this).slick({
                                     // Mobile view
                                     dots: false,
@@ -288,7 +289,8 @@
                                 return;
                             }
                             
-                            console.log(height, ' - initialized, BUT too small');
+                            //console.log(height, ' - initialized, BUT too small');
+                            console.log('~~~~~~~');
                             
                             //$(this).slick('unslick');
                             //$(this).slick('reinit');
@@ -313,9 +315,10 @@
 //                            $(this).parent().find('.slick-prev').click();
 //                            $('.slick-next').click();
                             height = $(this).height();
-                            console.log(height, ' - after trial.');
+                            //console.log(height, ' - after trial.');
                             if (height < 70) {
                                 //console.log($(this), 'this, bad');
+                                console.log('~~~~~~~~*~~~~~~~~');
                             }
                             
                         }
@@ -324,7 +327,7 @@
                     });
                     if (completed) {
                         $(window).off('scroll.checkSlides touchmove.checkSlides');
-                        console.log('------>completed');
+                        console.log('++---+> completed');
                     }
                     else {
                         //console.log('not completed');
