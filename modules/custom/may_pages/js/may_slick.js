@@ -249,18 +249,51 @@
                             $(this).removeClass('slidesJustAdded');
                         }
                         else {
-                            //console.log(height, ' - too small');
+                            
                             completed = false;
-                            
-                            //$(this).slick('unslick');
-                            //$(this).slick('reinit');
-                            $(this).slick('unslick').slick('reinit');
-                            
                             
                             var vertical = ($(this).attr('data-slidesdirection') == 'vertical') ? true :  false;
                             var visible_num = ($(this).attr('data-slidesvisiblenum') == null) ? 1 : parseInt($(this).attr('data-slidesvisiblenum'));
                             var step_num = ($(this).attr('data-slidesstepnum') == null) ? 1 : parseInt($(this).attr('data-slidesstepnum'));
                             var infinite = ($(this).attr('data-slidesinfinite') == 'true') ? true :  false;
+                            
+                            
+                            if (!$(this).hasClass('slick-initialized')) {
+                                console.log(height, ' - not initialized, init from the scratch...');
+                                $(this).slick({
+                                    // Mobile view
+                                    dots: false,
+                                    infinite: true,//false,
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1,
+                                    mobileFirst: true,
+                                    adaptiveHeight: true,
+                                    //lazyLoad: 'ondemand', //'progressive',
+                                    responsive: [
+                                        {
+                                            // Full view, on res 768px or more
+                                            breakpoint: 768,
+                                            settings: {
+                                                slidesToShow: visible_num, //4,
+                                                slidesToScroll: step_num, //1,
+                                                vertical: vertical, //true,
+                                                infinite: infinite,
+                                                verticalSwiping: vertical,
+                                                //adaptiveHeight: true,//false,
+                                                //centerMode: true,
+                                            }
+                                        }
+                                    ]
+                                });
+                                return;
+                            }
+                            
+                            console.log(height, ' - initialized, BUT too small');
+                            
+                            //$(this).slick('unslick');
+                            //$(this).slick('reinit');
+                            $(this).slick('unslick').slick('reinit');
+                            
                             
                             var bp_settings = {
                                 slidesToShow: visible_num,
@@ -280,7 +313,7 @@
 //                            $(this).parent().find('.slick-prev').click();
 //                            $('.slick-next').click();
                             height = $(this).height();
-                            //console.log(height, ' - after trial.');
+                            console.log(height, ' - after trial.');
                             if (height < 70) {
                                 //console.log($(this), 'this, bad');
                             }
