@@ -324,7 +324,7 @@
                     });
                     if (completed) {
                         $(window).off('scroll.checkSlides touchmove.checkSlides');
-                        //console.log('completed');
+                        console.log('------>completed');
                     }
                     else {
                         //console.log('not completed');
