@@ -1508,6 +1508,7 @@ function theme_picture(array $variables) {
     }
 
     $output[] = '</picture>';
+    dpm($output, '$output');
 
     return implode("\n", $output);
   }
