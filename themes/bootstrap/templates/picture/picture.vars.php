@@ -20,6 +20,6 @@ function bootstrap_preprocess_picture(&$variables) {
     if (!is_array($variables['attributes']['class'])) {
       $variables['attributes']['class'] = array($variables['attributes']['class']);
     }
-    //$variables['attributes']['class'][] = 'img-responsive';
+    $variables['attributes']['class'][] = 'img-responsive';
   }
 }
