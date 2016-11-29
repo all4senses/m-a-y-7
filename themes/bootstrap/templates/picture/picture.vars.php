@@ -16,7 +16,7 @@
 function bootstrap_preprocess_picture(&$variables) {
   // Add responsiveness, if necessary.
   if ($shape = bootstrap_setting('image_responsive')) {
-    dpm($variables, '$variables');
+    //a4s fix/patch
     if (!is_array($variables['attributes']['class'])) {
       $variables['attributes']['class'] = array($variables['attributes']['class']);
     }
