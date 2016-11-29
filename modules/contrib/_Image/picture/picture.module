@@ -1372,6 +1372,7 @@ function theme_picture(array $variables) {
       $sizes = array();
       $srcset = array();
 
+      dpm($multipliers, '$multipliers for bp: ' . $breakpoint_name);
       foreach ($multipliers as $multiplier => $mapping_definition) {
         switch ($mapping_definition['mapping_type']) {
           case 'sizes':
