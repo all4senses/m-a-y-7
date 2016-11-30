@@ -361,8 +361,8 @@ function may_pages_resize_filter_image($variables) {
    }
   }
   
-  $image['attributes']['srcset'] = 'http://a4s-local.m-a-y-7.ru/f/styles/large/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=26nV71hC 480w, http://a4s-local.m-a-y-7.ru/f/styles/medium/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=co1erRKH 220w, http://a4s-local.m-a-y-7.ru/f/styles/thumbnail/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=IxNKc6hT 100w';
-  $image['attributes']['sizes'] = '(min-width:768px) 768px, (min-width:460px) 220px, (min-width:0px) 100vw';
+  //$image['attributes']['srcset'] = 'http://a4s-local.m-a-y-7.ru/f/styles/large/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=26nV71hC 480w, http://a4s-local.m-a-y-7.ru/f/styles/medium/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=co1erRKH 220w, http://a4s-local.m-a-y-7.ru/f/styles/thumbnail/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=IxNKc6hT 100w';
+  //$image['attributes']['sizes'] = '(min-width:768px) 768px, (min-width:460px) 220px, (min-width:0px) 100vw';
       
   dpm($image['attributes'], '$image[attributes]');
   
