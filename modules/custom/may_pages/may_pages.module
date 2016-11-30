@@ -334,7 +334,32 @@ function may_pages_resize_filter_image($variables) {
   else {
     unset($image['attributes']['data-original']);
   }
-
+  
+  
+  
+  // Reset the size to the original TEMPORARILY
+  $image['attributes']['src'] = $image['original'];
+  
+  $styles = array('large' => '480w', 'medium' => '220w', 'thumbnail' => '100w');
+  $sizes = array('min-width:768px' => '768px', '(min-width:460px)' => '220px', '(min-width:0px)' => '100vw');
+  list(,$original_path) = explode('public', $image['attributes']);
+  $image['attributes']['srcset'] = '';
+  foreach ($styles as $style_name => $style_size) {
+    $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public' . $original_path . ' ' . $style_size;
+  }
+  
+  foreach ($sizes as $size_name => $size_size) {
+   if ($size_name == 'min-width:768px') {
+     $image['attributes']['sizes'] = $size_name . ' ' . '50px';
+   }
+   else {
+     $image['attributes']['sizes'] .= ', ' . $size_name . ' ' . $size_size;
+   }
+  }
+  
+  $image['attributes']['srcset'] = 'http://a4s-local.m-a-y-7.ru/f/styles/large/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=26nV71hC 480w, http://a4s-local.m-a-y-7.ru/f/styles/medium/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=co1erRKH 220w, http://a4s-local.m-a-y-7.ru/f/styles/thumbnail/public/img/olga_yuskasova/interiors/1-9/777777.jpg?itok=IxNKc6hT 100w';
+  $image['attributes']['sizes'] = '(min-width:768px) 768px, (min-width:460px) 220px, (min-width:0px) 100vw';
+      
   $output = '<img' . drupal_attributes($image['attributes']) . ' />';
   if ($image['link']) {
     $output = '<a' . drupal_attributes($image['link']['attributes']) . '>' . $output . '</a>';
