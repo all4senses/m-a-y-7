@@ -1196,7 +1196,9 @@ function theme_picture_formatter($variables) {
  * Theme pictue sizes formatter.
  */
 function theme_picture_sizes_formatter($variables) {
+  
   $output_method = variable_get('picture_img_sizes_output_method', 'picture_element');
+  dpm($output_method, '$output_method');
   $variables['image_style'] = $variables['fallback_image_style'];
 
   if ($output_method == 'picture_element') {
