@@ -342,7 +342,7 @@ function may_pages_resize_filter_image($variables) {
   
   $styles = array('large' => '480w', 'medium' => '220w', 'thumbnail' => '100w');
   $sizes = array('min-width:768px' => '768px', '(min-width:460px)' => '220px', '(min-width:0px)' => '100vw');
-  list(,$original_path) = explode('public', $image['attributes']);
+  list(,$original_path) = explode('public', $image['attributes']['src']);
   $image['attributes']['srcset'] = '';
   foreach ($styles as $style_name => $style_size) {
     $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public' . $original_path . ' ' . $style_size;
