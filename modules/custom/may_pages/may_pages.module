@@ -336,14 +336,16 @@ function may_pages_resize_filter_image($variables) {
   }
   
   
-  dpm($image, '$image');
+  
   
   // Reset the size to the original TEMPORARILY
   $image['attributes']['src'] = $image['original'];
   
+  dpm($image, '$image');
+  
   $styles = array('large' => '480w', 'medium' => '220w', 'thumbnail' => '100w');
   
-  list(,$original_path) = explode('public', $image['attributes']['src']);
+  list(,$original_path) = explode('f', $image['attributes']['src']);
   $image['attributes']['srcset'] = '';
   foreach ($styles as $style_name => $style_size) {
     $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public' . $original_path . ' ' . $style_size;
