@@ -343,7 +343,8 @@ function may_pages_resize_filter_image($variables) {
   
   dpm($image, '$image');
   
-  $styles = array('large' => '480w', 'medium' => '220w', 'thumbnail' => '100w');
+  //$styles = array('large' => '480w', 'medium' => '220w', 'thumbnail' => '100w');
+  $styles = array('350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', '1200' => '1200w');
   
   list(,$original_path) = explode('f', $image['attributes']['src']);
   $image['attributes']['srcset'] = '';
@@ -351,10 +352,16 @@ function may_pages_resize_filter_image($variables) {
     $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public' . $original_path . ' ' . $style_size;
   }
   
-  $sizes = array('(min-width:768px)' => '768px', '(min-width:460px)' => '220px', '(min-width:0px)' => '100vw');
+  //$sizes = array('(min-width:768px)' => '768px', '(min-width:460px)' => '220px', '(min-width:0px)' => '100vw');
+  $sizes = array('(min-width:768px)' => '768px', '(min-width:0px)' => '100vw');
   foreach ($sizes as $size_name => $size_size) {
    if ($size_name == '(min-width:768px)') {
-     $image['attributes']['sizes'] = $size_name . ' ' . '50px';
+    if (!empty($image['attributes']['width']) && $image['attributes']['width'] != '400') {
+      $image['attributes']['sizes'] = $size_name . ' ' . $image['attributes']['width'] . 'px';
+    }
+    else {
+     $image['attributes']['sizes'] = $size_name . ' ' . $size_size;
+    }
    }
    else {
      $image['attributes']['sizes'] .= ', ' . $size_name . ' ' . $size_size;
