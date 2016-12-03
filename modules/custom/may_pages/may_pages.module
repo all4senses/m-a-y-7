@@ -278,6 +278,7 @@ function may_pages_get_menu_children_themed($menu_parent, $level = 0) {
   $ul_class = ' class="' . ($level == 0 ? 'nav navbar-nav' : 'dropdown-menu') . '"';
   $layout = '<ul' . $ul_class . '>';
   foreach ($menu_parent as $key => $item) {
+    dpm($item, '$item');
     $li_class = $a_class = $caret = null;
     if ($item['link']['link_path'] == '<separator>') {
       $layout .= '<li class="divider"></li>';
