@@ -278,7 +278,7 @@ function may_pages_get_menu_children_themed($menu_parent, $level = 0) {
   $ul_class = ' class="' . ($level == 0 ? 'nav navbar-nav' : 'dropdown-menu') . '"';
   $layout = '<ul' . $ul_class . '>';
   foreach ($menu_parent as $key => $item) {
-    if ($item['hidden']) {
+    if (!empty($item['link']['hidden'])) {
       continue;
     }
     //dpm($item, '$item');
