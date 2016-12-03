@@ -356,7 +356,7 @@ function may_pages_resize_filter_image($variables) {
   $sizes = array('(min-width:768px)' => '768px', '(min-width:0px)' => '100vw');
   foreach ($sizes as $size_name => $size_size) {
    if ($size_name == '(min-width:768px)') {
-    if (!empty($image['attributes']['width']) && $image['attributes']['width'] != '400') {
+    if (!empty($image['attributes']['width']) && $image['attributes']['width'] != '123') {
       $image['attributes']['sizes'] = $size_name . ' ' . $image['attributes']['width'] . 'px';
     }
     else {
