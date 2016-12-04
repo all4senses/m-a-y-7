@@ -293,8 +293,9 @@ article.proj-id-1-2 {
                 top: 248px;
                 left: 459px;
                 background: url(/f/img/olga_yuskasova/interiors/1-2/el/title_back.png) 0 0 no-repeat;
-                width: 175px;
+                width: 210px;
                 height: 1030px;
+                z-index: 2;
 
                 .h1-1 {
                     font-size: 65px;
@@ -403,6 +404,7 @@ article.proj-id-1-2 {
             left: 545px;
             height: 500px;
             overflow: hidden;
+            z-index: 3;
             img {
                 width: 143px;
             }
