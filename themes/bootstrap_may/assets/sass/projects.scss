@@ -273,6 +273,11 @@ article.proj-id-1-1 {
 
 
 article.proj-id-1-2 {
+    h1, h2 {
+        br {
+            display: none;
+        }
+    }
     
     @include MQ(M) {
     
@@ -296,7 +301,9 @@ article.proj-id-1-2 {
                 width: 210px;
                 height: 1030px;
                 z-index: 2;
-
+                br {
+                    display: block;
+                }
                 .h1-1 {
                     font-size: 65px;
                     left: 25px;
@@ -360,7 +367,6 @@ article.proj-id-1-2 {
         }
         
         .im-2 {
-            
             width: 270px;
             &.wrapper {
                 background: white;
@@ -378,6 +384,7 @@ article.proj-id-1-2 {
             top: 1270px;
             left: 185px;
             width: 255px;
+            /* // Doesn't work for img tag
             &:after {
                 content: attr(title); //Works in unicode, too!!!:   "\041f\043b\0430\043d\0020\043f\043e\043c\0435\0449\0435\043d\0438\044f"; // "План помещения"; // in Unicode: http://itpro.cz/juniconv/,  https://www.branah.com/unicode-converter
                 top: -20px;
@@ -387,6 +394,7 @@ article.proj-id-1-2 {
                 font-family: serif;
                 color: #996633;
             }
+            */
         }
         
         .im-9 {
@@ -442,6 +450,7 @@ article.proj-id-1-2 {
             position: absolute;
             left: 25px;
             margin-top: 10px;
+            top: 925px;
         }
         .txt-2 {
             width: 200px;
