@@ -209,16 +209,31 @@ function closest (num, arr) {
                 $(this).parent().find('.slick-next').click();
             });
             //$('.slides').slickLightbox({
-            var closest_style_width = closest($(window).width() - 150, Drupal.settings.slick_lightbox_source_data.sizes);
-            var sicklightfull;
-            //console.log('closest: ', closest_style_width);
+            
+
+            //Prepare data for slick-lightbox
+            var w_width = jQuery(window).width();
+            var w_height = jQuery(window).height();
+            
+            var sicklightfull, closest_style_width, newWidth, newHeight;
+            
             $('article:not(.slick_lightbox) img').each(function(index, value){
-                //var array = [2, 42, 82, 122, 162, 202, 242, 282, 322, 362];
-                //console.log('Drupal.settings.slick_lightbox_source_data.sizes: ', Drupal.settings.slick_lightbox_source_data.sizes);
-                //var number = 112;
-                //console.log('value: ', value);
+                
+                var i_aspect = $(this).attr('data-iaspect');
+            
+                if (w_height/w_width >= i_aspect) {
+                    newHeight = Math.floor(w_width * i_aspect);
+                    newWidth = newHeight * i_aspect;
+                }
+                else {
+                    newWidth = Math.floor(w_height * (1/i_aspect));
+                }
+                console.log('w_width: ', w_width, ', w_height: ',w_height);
+                console.log('newWidth: ', newWidth, ', newHeight: ',newHeight);
+                closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
+                console.log('closest: ', closest_style_width);
+                
                 sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                //console.log('sicklightfull: ', sicklightfull);
                 $(this).attr('data-sicklightfull', sicklightfull);
             });
             

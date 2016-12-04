@@ -368,6 +368,10 @@ function may_pages_resize_filter_image($variables) {
     $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public' . $original_path . ' ' . $style_size;
   }
   
+  if (!empty($image['attributes']['width']) && !empty($image['attributes']['height'])) {
+    $image['attributes']['data-iaspect'] = $image['attributes']['height']/$image['attributes']['width'];
+  }
+      
   //$sizes = array('(min-width:768px)' => '768px', '(min-width:460px)' => '220px', '(min-width:0px)' => '100vw');
   $sizes = array('(min-width:768px)' => '768px', '(min-width:0px)' => '100vw');
   foreach ($sizes as $size_name => $size_size) {
