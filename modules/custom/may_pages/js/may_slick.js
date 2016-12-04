@@ -211,18 +211,23 @@ function closest (num, arr) {
             //$('.slides').slickLightbox({
             var viewport_width = $(window).width();
             var closest_style_width = closest(viewport_width, Drupal.settings.slick_lightbox_source_data.sizes);
+            var sicklightfull;
             console.log('closest: ', closest_style_width);
             $('article:not(.slick_lightbox) img').each(function(index, value){
                 //var array = [2, 42, 82, 122, 162, 202, 242, 282, 322, 362];
                 //console.log('Drupal.settings.slick_lightbox_source_data.sizes: ', Drupal.settings.slick_lightbox_source_data.sizes);
                 //var number = 112;
                 console.log('value: ', value);
-                
+                sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                console.log('sicklightfull: ', sicklightfull);
+                $(this).attr('data-sicklightfull', sicklightfull);
             });
             
             $('article:not(.slick_lightbox)').slickLightbox({
-                src: 'data-original', // 'src',
-                itemSelector: 'img[data-original]'
+//                src: 'data-original', // 'src',
+//                itemSelector: 'img[data-original]'
+                src: 'data-sicklightfull', // 'src',
+                itemSelector: 'img[data-sicklightfull]'
             }).addClass('slick_lightbox');
 
 
