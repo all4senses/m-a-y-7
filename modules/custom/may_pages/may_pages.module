@@ -350,7 +350,17 @@ function may_pages_resize_filter_image($variables) {
   //$styles = array('large' => '480w', 'medium' => '220w', 'thumbnail' => '100w');
   $styles = array('350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', '1200' => '1200w');
   
+  $slick_lightbox_source_data = array(
+    // Add New Allowed Content attributes to tags in CKEditor
+    'slick_lightbox_source_data' => array('sizes' => array_keys($styles)),
+  );
+  drupal_add_js($slick_lightbox_data, array('type' => 'setting'));
+  
+  
+  
+  
   list(,$original_path) = explode('f', $image['attributes']['src']);
+  $image['attributes']['data-originalpath'] = $original_path;
   $image['attributes']['srcset'] = '';
   foreach ($styles as $style_name => $style_size) {
     $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public' . $original_path . ' ' . $style_size;

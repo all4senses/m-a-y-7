@@ -13,6 +13,20 @@
 
 
 (function ($) {
+    
+    function closest (num, arr) {
+        var curr = arr[0];
+        var diff = Math.abs (num - curr);
+        for (var val = 0; val < arr.length; val++) {
+            var newdiff = Math.abs (num - arr[val]);
+            if (newdiff < diff) {
+                diff = newdiff;
+                curr = arr[val];
+            }
+        }
+        return curr;
+    }
+            
 
     Drupal.behaviors.may_slick = {
         attach: function (context, settings) {
@@ -194,6 +208,15 @@
                 $(this).parent().find('.slick-next').click();
             });
             //$('.slides').slickLightbox({
+            var viewport_width = $(window).width();
+            $('article:not(.slick_lightbox) img').each(function(index, value){
+                var array = [2, 42, 82, 122, 162, 202, 242, 282, 322, 362];
+                console.log('Drupal.settings.slick_lightbox_source_data.sizes: ', Drupal.settings.slick_lightbox_source_data.sizes);
+                var number = 112;
+                var closest = closest (viewport_width, array);
+                console.log('closest: ', closest);
+            });
+            
             $('article:not(.slick_lightbox)').slickLightbox({
                 src: 'data-original', // 'src',
                 itemSelector: 'img[data-original]'
@@ -223,9 +246,9 @@
           });
         */
           
-        $(".views-row").on('load', function () {
-            console.log('on LOAD views-row...');
-        });
+//        $(".views-row").on('load', function () {
+//            console.log('on LOAD views-row...');
+//        });
 
             
         var reinit_processing = false;
