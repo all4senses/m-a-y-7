@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* line 5, ../assets/sass/projects.scss */
 .test {
   color: red;
@@ -65,33 +66,42 @@ article.node-project .slides-wrapper .slides-arrow.second {
   right: -15px;
 }
 
-@media only screen and (min-width: 768px) {/* line 24, ../assets/sass/projects.scss */
-  article.node-project .proj .proj-year {
+@media only screen and (min-width: 768px){
+  /* line 24, ../assets/sass/projects.scss */
+  article.node-project .proj .proj-year{
     display: block;
-  }/* line 30, ../assets/sass/projects.scss */
-  article.node-project .proj .proj-year::before {
+  }
+  /* line 30, ../assets/sass/projects.scss */
+  article.node-project .proj .proj-year::before{
     content: "";
-  }/* line 35, ../assets/sass/projects.scss */
-  article.node-project .proj .proj-type {
+  }
+  /* line 35, ../assets/sass/projects.scss */
+  article.node-project .proj .proj-type{
     display: none;
-  }/* line 42, ../assets/sass/projects.scss */
-  article.node-project .designer {
+  }
+  /* line 42, ../assets/sass/projects.scss */
+  article.node-project .designer{
     position: absolute;
-  }/* line 53, ../assets/sass/projects.scss */
-  article.node-project .designer .des-title {
+  }
+  /* line 53, ../assets/sass/projects.scss */
+  article.node-project .designer .des-title{
     font-weight: normal;
-  }/* line 55, ../assets/sass/projects.scss */
-  article.node-project .designer .des-title::after {
+  }
+  /* line 55, ../assets/sass/projects.scss */
+  article.node-project .designer .des-title::after{
     content: "";
-  }/* line 59, ../assets/sass/projects.scss */
-  article.node-project .designer .des-name {
+  }
+  /* line 59, ../assets/sass/projects.scss */
+  article.node-project .designer .des-name{
     display: block;
     font-weight: bold;
-  }/* line 109, ../assets/sass/projects.scss */
-  article.proj-id-1-1 {
+  }
+  /* line 109, ../assets/sass/projects.scss */
+  article.proj-id-1-1{
     height: 1850px;
-  }/* line 116, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block {
+  }
+  /* line 116, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block{
     width: 340px;
     height: 425px;
     background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_caption_back.png) no-repeat;
@@ -99,8 +109,9 @@ article.node-project .slides-wrapper .slides-arrow.second {
     top: 35px;
     left: 285px;
     z-index: 4;
-  }/* line 125, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block h1, article.proj-id-1-1 .caption-block h2 {
+  }
+  /* line 125, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block h1, article.proj-id-1-1 .caption-block h2{
     position: absolute;
     top: 225px;
     left: 30px;
@@ -110,42 +121,50 @@ article.node-project .slides-wrapper .slides-arrow.second {
     width: 300px;
     display: block;
     text-align: right;
-  }/* line 136, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block h1 .h1-1, article.proj-id-1-1 .caption-block h2 .h1-1 {
+  }
+  /* line 136, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block h1 .h1-1, article.proj-id-1-1 .caption-block h2 .h1-1{
     font-size: 100px;
     white-space: nowrap;
     line-height: 0.9;
-  }/* line 140, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block h1 .h1-1 span, article.proj-id-1-1 .caption-block h2 .h1-1 span {
+  }
+  /* line 140, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block h1 .h1-1 span, article.proj-id-1-1 .caption-block h2 .h1-1 span{
     font-size: 30px;
-  }/* line 144, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block h1 .h1-2, article.proj-id-1-1 .caption-block h2 .h1-2 {
+  }
+  /* line 144, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block h1 .h1-2, article.proj-id-1-1 .caption-block h2 .h1-2{
     display: block;
     font-size: 75px;
-  }/* line 148, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block h1 .h1-3, article.proj-id-1-1 .caption-block h2 .h1-3 {
+  }
+  /* line 148, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block h1 .h1-3, article.proj-id-1-1 .caption-block h2 .h1-3{
     font-weight: bold;
-  }/* line 153, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block .proj {
+  }
+  /* line 153, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block .proj{
     position: absolute;
     top: 215px;
     left: -135px;
     font-size: 15px;
     text-align: right;
     color: #996633;
-  }/* line 161, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block .proj .proj-num {
+  }
+  /* line 161, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block .proj .proj-num{
     position: absolute;
     font-size: 64px;
     top: -23px;
     font-family: serif;
     font-weight: bold;
     white-space: nowrap;
-  }/* line 169, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block .proj .proj-year {
+  }
+  /* line 169, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block .proj .proj-year{
     color: black;
-  }/* line 175, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .caption-block .type-n-address {
+  }
+  /* line 175, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .caption-block .type-n-address{
     position: absolute;
     top: 175px;
     left: 125px;
@@ -154,13 +173,15 @@ article.node-project .slides-wrapper .slides-arrow.second {
     line-height: 1.2;
     color: #6666CC;
     z-index: 3;
-  }/* line 188, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .im-1 {
+  }
+  /* line 188, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .im-1{
     width: 100%;
     height: auto;
     margin: 265px 0 0 0;
-  }/* line 194, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .designer {
+  }
+  /* line 194, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .designer{
     position: absolute;
     z-index: 5;
     top: 870px;
@@ -172,8 +193,9 @@ article.node-project .slides-wrapper .slides-arrow.second {
     background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_designer_back.png) no-repeat 15px;
     padding: 10px 25px 10px;
     width: 217px;
-  }/* line 208, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .slides-wrapper {
+  }
+  /* line 208, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .slides-wrapper{
     position: absolute;
     top: 730px;
     left: 310px;
@@ -182,36 +204,42 @@ article.node-project .slides-wrapper .slides-arrow.second {
     margin: 0;
     padding: 55px 0;
     height: 680px;
-  }/* line 217, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .slides-wrapper img {
+  }
+  /* line 217, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .slides-wrapper img{
     width: 180px;
     height: auto;
     margin: 10px 75px;
-  }/* line 222, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .slides-wrapper.slick-initialized-parent .slides-arrow {
+  }
+  /* line 222, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .slides-wrapper.slick-initialized-parent .slides-arrow{
     display: block;
     width: 50px;
     height: 25px;
     left: 43% !important;
     right: initial;
-  }/* line 229, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .slides-wrapper.slick-initialized-parent .slides-arrow.first {
+  }
+  /* line 229, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .slides-wrapper.slick-initialized-parent .slides-arrow.first{
     background: url(/f/img/slides_arrows.png) no-repeat 0 0;
     top: 15px;
-  }/* line 233, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .slides-wrapper.slick-initialized-parent .slides-arrow.second {
+  }
+  /* line 233, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .slides-wrapper.slick-initialized-parent .slides-arrow.second{
     background: url(/f/img/slides_arrows.png) no-repeat -61px 0;
     bottom: 10px;
     top: initial;
-  }/* line 242, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .txt-1 {
+  }
+  /* line 242, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .txt-1{
     width: 250px;
     text-align: right;
     position: absolute;
     top: 955px;
     left: 50px;
-  }/* line 250, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .plan-back {
+  }
+  /* line 250, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .plan-back{
     width: 400px;
     position: absolute;
     top: 1390px;
@@ -219,8 +247,9 @@ article.node-project .slides-wrapper .slides-arrow.second {
     background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_plan_back.png) no-repeat 0 90%;
     padding: 20px 40px;
     height: 500px;
-  }/* line 258, ../assets/sass/projects.scss */
-  article.proj-id-1-1 .plan-back:after {
+  }
+  /* line 258, ../assets/sass/projects.scss */
+  article.proj-id-1-1 .plan-back:after{
     content: attr(title);
     top: -20px;
     position: relative;
@@ -228,27 +257,33 @@ article.node-project .slides-wrapper .slides-arrow.second {
     font-size: 30px;
     font-family: serif;
     color: #996633;
-  }/* line 275, ../assets/sass/projects.scss */
-  article.proj-id-1-2 {
+  }
+  /* line 275, ../assets/sass/projects.scss */
+  article.proj-id-1-2{
     background: url(/f/img/olga_yuskasova/interiors/1-2/el/back.png) 0 55px no-repeat;
     height: 1850px;
-  }/* line 282, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .caption-block {/*            width: 340px;
+  }
+  /* line 282, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .caption-block{
+    /*            width: 340px;
                 height: 425px;
                 background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_caption_back.png) no-repeat;
                 position: absolute;
                 top: 35px;
                 left: 285px;
                 z-index: 4;*/
-  }/* line 291, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .caption-block h1, article.proj-id-1-2 .caption-block h2 {
+  }
+  /* line 291, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .caption-block h1, article.proj-id-1-2 .caption-block h2{
+    position: absolute;
     top: 248px;
     left: 459px;
     background: url(/f/img/olga_yuskasova/interiors/1-2/el/title_back.png) 0 0 no-repeat;
     width: 175px;
     height: 1030px;
-  }/* line 298, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .caption-block h1 .h1-1, article.proj-id-1-2 .caption-block h2 .h1-1 {
+  }
+  /* line 299, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .caption-block h1 .h1-1, article.proj-id-1-2 .caption-block h2 .h1-1{
     font-size: 65px;
     left: 25px;
     text-align: left;
@@ -256,8 +291,10 @@ article.node-project .slides-wrapper .slides-arrow.second {
     top: 65px;
     color: #cd36e8;
     line-height: 1.1;
-  }/* line 307, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .caption-block h1 .h1-2, article.proj-id-1-2 .caption-block h2 .h1-2 {
+    text-transform: lowercase;
+  }
+  /* line 309, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .caption-block h1 .h1-2, article.proj-id-1-2 .caption-block h2 .h1-2{
     top: 200px;
     position: absolute;
     left: 92px;
@@ -265,25 +302,30 @@ article.node-project .slides-wrapper .slides-arrow.second {
     font-weight: bold;
     font-size: 70px;
     text-align: center;
-  }/* line 318, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .caption-block .proj {
+    color: white;
+  }
+  /* line 321, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .caption-block .proj{
     position: absolute;
     top: 240px;
     left: 325px;
     text-align: right;
     color: white;
-    font-size: 17px;/*                .proj-year {
+    font-size: 17px;
+    /*                .proj-year {
                         color: black;
                     }*/
-  }/* line 326, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .caption-block .proj .proj-num {
+  }
+  /* line 329, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .caption-block .proj .proj-num{
     position: absolute;
     top: -20px;
     font-size: 55px;
     width: 100px;
     left: 45px;
-  }/* line 339, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .caption-block .type-n-address {
+  }
+  /* line 342, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .caption-block .type-n-address{
     position: absolute;
     top: 310px;
     left: 289px;
@@ -292,80 +334,92 @@ article.node-project .slides-wrapper .slides-arrow.second {
     text-align: right;
     line-height: 1.2;
     color: white;
-  }/* line 352, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .im-1 {
+  }
+  /* line 355, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .im-1{
     width: 100%;
     height: auto;
     margin: 335px 0 0 0;
-  }/* line 358, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .designer {
+  }
+  /* line 361, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .designer{
     top: 320px;
     color: white;
     left: 575px;
     text-align: right;
     font-size: 18px;
     line-height: 1.2;
-  }/* line 367, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .slides-wrapper {
-    position: absolute;
-    top: 730px;
-    left: 310px;
-    background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_slides_back.png) no-repeat;
-    width: 335px;
-    margin: 0;
-    padding: 55px 0;
-    height: 680px;
-  }/* line 376, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .slides-wrapper img {
-    width: 180px;
-    height: auto;
-    margin: 10px 75px;
-  }/* line 381, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .slides-wrapper.slick-initialized-parent .slides-arrow {
-    display: block;
-    width: 50px;
-    height: 25px;
-    left: 43% !important;
-    right: initial;
-  }/* line 388, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .slides-wrapper.slick-initialized-parent .slides-arrow.first {
-    background: url(/f/img/slides_arrows.png) no-repeat 0 0;
-    top: 15px;
-  }/* line 392, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .slides-wrapper.slick-initialized-parent .slides-arrow.second {
-    background: url(/f/img/slides_arrows.png) no-repeat -61px 0;
-    bottom: 10px;
-    top: initial;
-  }/* line 401, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .txt-1 {
-    width: 250px;
-    text-align: right;
-    position: absolute;
-    top: 955px;
-    left: 50px;
-  }/* line 409, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .plan-back {
-    width: 400px;
-    position: absolute;
-    top: 1390px;
-    left: 110px;
-    background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_plan_back.png) no-repeat 0 90%;
-    padding: 20px 40px;
-    height: 500px;
-  }/* line 417, ../assets/sass/projects.scss */
-  article.proj-id-1-2 .plan-back:after {
-    content: attr(title);
-    top: -20px;
-    position: relative;
-    left: 330px;
-    font-size: 30px;
-    font-family: serif;
-    color: #996633;
-  }/* line 432, ../assets/sass/projects.scss */
-  article.proj-id-1-4 {
+  }
+  /* line 370, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .slides-wrapper{
+    /*            position: absolute;
+                top: 730px;
+                left: 310px;
+                background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_slides_back.png) no-repeat;
+                width: 335px;
+                margin: 0;
+                padding: 55px 0;
+                height: 680px;*/
+  }
+  /* line 379, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .slides-wrapper img{
+    /*                width: 180px;
+                    height: auto;
+                    margin: 10px 75px;*/
+  }
+  /* line 384, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .slides-wrapper.slick-initialized-parent .slides-arrow{
+    /*                display: block;
+                    //position: absolute;
+                    width: 50px;
+                    height: 25px;
+                    left: 43% !important;
+                    right: initial;*/
+  }
+  /* line 391, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .slides-wrapper.slick-initialized-parent .slides-arrow.first{
+    /*                    background: url(/f/img/slides_arrows.png) no-repeat 0 0;
+                        top: 15px;*/
+  }
+  /* line 395, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .slides-wrapper.slick-initialized-parent .slides-arrow.second{
+    /*                    background: url(/f/img/slides_arrows.png) no-repeat -61px 0;
+                        bottom: 10px;
+                        top: initial;*/
+  }
+  /* line 404, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .txt-1{
+    /*            width: 250px;
+                text-align: right;
+                position: absolute;
+                top: 955px;
+                left: 50px;*/
+  }
+  /* line 412, ../assets/sass/projects.scss */
+  article.proj-id-1-2 .plan-back{
+    /*            width: 400px;
+                position: absolute;
+                top: 1390px;
+                left: 110px;
+                background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_plan_back.png) no-repeat 0 90%;
+                padding: 20px 40px;
+                height: 500px;*/
+    /*            &:after {
+                    content: attr(title); //Works in unicode, too!!!:   "\041f\043b\0430\043d\0020\043f\043e\043c\0435\0449\0435\043d\0438\044f"; // "╨Я╨╗╨░╨╜ ╨┐╨╛╨╝╨╡╤Й╨╡╨╜╨╕╤П"; // in Unicode: http://itpro.cz/juniconv/,  https://www.branah.com/unicode-converter
+                    top: -20px;
+                    position: relative;
+                    left: 330px;
+                    font-size: 30px;
+                    font-family: serif;
+                    color: #996633;
+                }*/
+  }
+  /* line 435, ../assets/sass/projects.scss */
+  article.proj-id-1-4{
     height: 1350px;
-  }/* line 439, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block {
+  }
+  /* line 442, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block{
     width: 340px;
     height: 425px;
     background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_caption_back.png) no-repeat;
@@ -373,8 +427,9 @@ article.node-project .slides-wrapper .slides-arrow.second {
     top: 35px;
     left: 285px;
     z-index: 4;
-  }/* line 448, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block h1, article.proj-id-1-4 .caption-block h2 {
+  }
+  /* line 451, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1, article.proj-id-1-4 .caption-block h2{
     position: absolute;
     top: 225px;
     left: 30px;
@@ -384,42 +439,50 @@ article.node-project .slides-wrapper .slides-arrow.second {
     width: 300px;
     display: block;
     text-align: right;
-  }/* line 459, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block h1 .h1-1, article.proj-id-1-4 .caption-block h2 .h1-1 {
+  }
+  /* line 462, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-1, article.proj-id-1-4 .caption-block h2 .h1-1{
     font-size: 100px;
     white-space: nowrap;
     line-height: 0.9;
-  }/* line 463, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block h1 .h1-1 span, article.proj-id-1-4 .caption-block h2 .h1-1 span {
+  }
+  /* line 466, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-1 span, article.proj-id-1-4 .caption-block h2 .h1-1 span{
     font-size: 30px;
-  }/* line 467, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block h1 .h1-2, article.proj-id-1-4 .caption-block h2 .h1-2 {
+  }
+  /* line 470, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-2, article.proj-id-1-4 .caption-block h2 .h1-2{
     display: block;
     font-size: 75px;
-  }/* line 471, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block h1 .h1-3, article.proj-id-1-4 .caption-block h2 .h1-3 {
+  }
+  /* line 474, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block h1 .h1-3, article.proj-id-1-4 .caption-block h2 .h1-3{
     font-weight: bold;
-  }/* line 476, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block .proj {
+  }
+  /* line 479, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .proj{
     position: absolute;
     top: 215px;
     left: -135px;
     font-size: 15px;
     text-align: right;
     color: #996633;
-  }/* line 484, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block .proj .proj-num {
+  }
+  /* line 487, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .proj .proj-num{
     position: absolute;
     font-size: 64px;
     top: -23px;
     font-family: serif;
     font-weight: bold;
     white-space: nowrap;
-  }/* line 492, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block .proj .proj-year {
+  }
+  /* line 495, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .proj .proj-year{
     color: black;
-  }/* line 498, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block .type-n-address {
+  }
+  /* line 501, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .caption-block .type-n-address{
     position: absolute;
     top: 175px;
     left: 125px;
@@ -428,19 +491,22 @@ article.node-project .slides-wrapper .slides-arrow.second {
     line-height: 1.2;
     color: #6666CC;
     z-index: 3;
-  }/* line 511, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .im-1 {
+  }
+  /* line 514, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .im-1{
     width: 100%;
     height: auto;
     margin-top: 135px;
-  }/* line 517, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .im-2 {
+  }
+  /* line 520, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .im-2{
     width: 280px;
     position: absolute;
     top: 630px;
     left: 260px;
-  }/* line 524, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .designer {
+  }
+  /* line 527, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .designer{
     position: absolute;
     z-index: 5;
     top: 870px;
@@ -452,44 +518,52 @@ article.node-project .slides-wrapper .slides-arrow.second {
     background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_designer_back.png) no-repeat 15px;
     padding: 10px 25px 10px;
     width: 217px;
-  }/* line 538, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .slides-wrapper {
+  }
+  /* line 541, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper{
     position: absolute;
     top: 750px;
     width: 220px;
     left: 550px;
     height: 165px;
-  }/* line 544, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .slides-wrapper img {
+  }
+  /* line 547, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper img{
     height: 150px;
     width: auto;
     margin: 5px auto;
-  }/* line 549, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow {
+  }
+  /* line 552, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow{
     display: block;
     width: 60px;
     height: 35px;
     left: 36% !important;
     right: initial;
-  }/* line 555, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow.first {
+  }
+  /* line 558, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow.first{
     background: #8c4100 url(/f/img/slides_arrows.png) no-repeat 4px 3px;
     top: -38px;
-  }/* line 559, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow.second {
+  }
+  /* line 562, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow.second{
     background: #8c4100 url(/f/img/slides_arrows.png) no-repeat -56px 4px;
     bottom: -38px;
     top: initial;
-  }/* line 568, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .txt {
+  }
+  /* line 571, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .txt{
     text-align: right;
     width: 240px;
     position: absolute;
-  }/* line 574, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .txt.txt-2 {
+  }
+  /* line 577, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .txt.txt-2{
     top: 1070px;
-  }/* line 579, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .bottom-decor {
+  }
+  /* line 582, ../assets/sass/projects.scss */
+  article.proj-id-1-4 .bottom-decor{
     position: absolute;
     top: 1250px;
     left: 180px;
