@@ -56,10 +56,20 @@ function bootstrap_may_preprocess_node(&$variables) {
       //dpr($variables['theme_hook_suggestions']);
       $custom_pages_css_added = TRUE;
       $project_custom_css = path_to_theme() . '/css/projects.css';
-      if (file_exists($project_custom_css)) {
       //dpm('added ' . $project_custom_css);
       drupal_add_css($project_custom_css, array('weight' => 99, 'group' => 200));
-      }
+      
+      // Add Googele fonts
+      $google_fonts = array('Tangerine', 'Marck Script');
+      $google_fonts = trim(implode('|', $google_fonts));
+      drupal_add_css('//fonts.googleapis.com/css?family=' . $google_fonts, array(
+        'group' => CSS_THEME,
+        'type' => 'external',
+        'weight' => -1,
+        'preprocess' => FALSE,
+        )
+      ); 
+      
 
       drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
       drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));

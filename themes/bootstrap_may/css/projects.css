@@ -78,6 +78,7 @@ article.node-project .slides-wrapper.slick-initialized-parent .slides-arrow {
 article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   display: none;
 }
+
 @media only screen and (min-width: 768px){
   /* line 24, ../assets/sass/projects.scss */
   article.node-project .proj .proj-year{
@@ -493,7 +494,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   }
   /* line 504, ../assets/sass/projects.scss */
   article.proj-id-1-4{
-    height: 1450px;
+    height: 1550px;
   }
   /* line 515, ../assets/sass/projects.scss */
   article.proj-id-1-4 .caption-block h1 .h1-1, article.proj-id-1-4 .caption-block h2 .h1-1{
@@ -634,4 +635,5 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     height: 400px;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */
