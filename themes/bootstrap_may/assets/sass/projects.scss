@@ -343,12 +343,12 @@ article.proj-id-1-2 {
             .type-n-address {
                 position: absolute;
                 top: 310px;
-                left: 289px;
-                width: 180px;
-                font-size: 18px;
+                left: 310px;
+                width: 150px;
                 text-align: right;
-                line-height: 1.2;
+                line-height: 1.4;
                 color: white;
+                font-size: 15px;
             }
 
         }
@@ -387,6 +387,13 @@ article.proj-id-1-2 {
                 font-family: serif;
                 color: #996633;
             }
+        }
+        
+        .im-9 {
+            width: 275px;
+            top: 1680px;
+            position: absolute;
+            left: 178px;
         }
         
         .designer {
@@ -430,10 +437,31 @@ article.proj-id-1-2 {
         
         .txt-1 {
             color: white;
-            width: 115px;
+            width: 110px;
             text-align: right;
             position: absolute;
-            left: 30px;
+            left: 25px;
+            margin-top: 10px;
+        }
+        .txt-2 {
+            width: 200px;
+            position: absolute;
+            top: 1390px;
+            left: 495px;
+        }
+        .txt-3 {
+            width: 190px;
+            position: absolute;
+            top: 1555px;
+            left: 495px;
+            color: white;
+        }
+        .txt-4 {
+            width: 280px;
+            position: absolute;
+            top: 1790px;
+            left: 495px;
+            font-size: 12px;
         }
 
         .plan-back {
