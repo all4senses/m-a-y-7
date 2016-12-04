@@ -109,7 +109,7 @@ article.node-project {
 
 }
   
-
+// 150 metrov svobody
 article.proj-id-1-1 {
     
     @include MQ(M) {
@@ -275,7 +275,7 @@ article.proj-id-1-1 {
 }
 
 
-
+// Sirenevaya mechta
 article.proj-id-1-2 {
     h1, h2 {
         br {
@@ -500,57 +500,54 @@ article.proj-id-1-2 {
     
 }
 
+// Klassika dlia pronicatelnoy
 article.proj-id-1-4 {
     
     @include MQ(M) {
     
         
-        height: 1350px;
+        height: 1450px;
 
         .caption-block {
-            width: 340px;
-            height: 425px;
-            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_caption_back.png) no-repeat;
-            position: absolute;
-            top: 35px;
-            left: 285px;
-            z-index: 4;
 
             h1, h2 {
-                position: absolute;
-                top: 225px;
-                left: 30px;
-                z-index: 3;
-                color: white;
-                font-size: 60px;
-                width: 300px;
-                display: block;
-                text-align: right;
 
                 .h1-1 {
-                    font-size: 100px;
-                    white-space: nowrap;
+                    font-size: 115px;
                     line-height: 0.9;
-                    span {
+                    position: absolute;
+                    top: 190px;
+                    left: 240px;
+                    font-style: italic;
+                    color: white;
+                    &:after {
+                        content: attr(title); //Works in unicode, too!!!:   "\041f\043b\0430\043d\0020\043f\043e\043c\0435\0449\0435\043d\0438\044f"; // "План помещения"; // in Unicode: http://itpro.cz/juniconv/,  https://www.branah.com/unicode-converter
+                        top: -20px;
+                        position: relative;
+                        left: 330px;
                         font-size: 30px;
+                        font-family: serif;
+                        color: #996633;
                     }
                 }
                 .h1-2 {
-                    display: block;
-                    font-size: 75px;
-                }
-                .h1-3 {
+                    font-size: 35px;
+                    position: absolute;
+                    top: 290px;
+                    width: 330px;
+                    left: 440px;
                     font-weight: bold;
+                    color: #663333;
+                    line-height: 1;
                 }
             }
 
             .proj {
                 position: absolute;
-                top: 215px;
-                left: -135px;
-                font-size: 15px;
+                top: 125px;
+                left: 275px;
+                font-size: 17px;
                 text-align: right;
-                color: #996633;
 
                 .proj-num {
                     position: absolute;
@@ -559,22 +556,22 @@ article.proj-id-1-4 {
                     font-family: serif;
                     font-weight: bold;
                     white-space: nowrap;
-                }
-                .proj-year {
-                    color: black;
+                    left: 62px;
+                    background: #e5c475;
+                    line-height: 1.3;
+                    color: white;
                 }
                 
             }
 
             .type-n-address {
                 position: absolute;
-                top: 175px;
-                left: 125px;
-                width: 200px;
+                top: 115px;
+                left: 435px;
+                width: 170px;
                 font-size: 18px;
                 line-height: 1.2;
-                color: #6666CC;
-                z-index: 3;
+                color: lightgray;
             }
 
         }
@@ -582,7 +579,7 @@ article.proj-id-1-4 {
         .im-1 {
             width: 100%;
             height: auto;
-            margin-top: 135px;
+            margin-top: 115px;
         }
         
         .im-2 {
@@ -594,15 +591,12 @@ article.proj-id-1-4 {
         
         .designer {
             position: absolute;
-            z-index: 5;
-            top: 870px;
-            left: 110px;
+            top: 640px;
+            left: 535px;
             text-align: right;
             font-size: 17px;
             color: white;
             line-height: 1.3;
-            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_designer_back.png) no-repeat 15px;
-            padding: 10px 25px 10px;
             width: 217px;
         }
         
@@ -649,11 +643,11 @@ article.proj-id-1-4 {
         
         .bottom-decor {
             position: absolute;
-            top: 1250px;
-            left: 180px;
-            width: 60px;
-            height: 35px;
-            background: #8c4100;
+            top: 1180px;
+            left: 140px;
+            width: 70px;
+            background: url(/f/img/olga_yuskasova/interiors/1-4/el/bottom_decor.png) no-repeat 15px;
+            height: 400px;
         }
         
     
