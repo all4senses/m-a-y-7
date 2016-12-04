@@ -214,8 +214,8 @@ function closest (num, arr) {
                 var array = [2, 42, 82, 122, 162, 202, 242, 282, 322, 362];
                 console.log('Drupal.settings.slick_lightbox_source_data.sizes: ', Drupal.settings.slick_lightbox_source_data.sizes);
                 var number = 112;
-                var closest = closest (viewport_width, array);
-                console.log('closest: ', closest);
+                var closest_num = closest(viewport_width, array);
+                console.log('closest: ', closest_num);
             });
             
             $('article:not(.slick_lightbox)').slickLightbox({
