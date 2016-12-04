@@ -502,11 +502,12 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     line-height: 0.9;
     position: absolute;
     top: 190px;
-    left: 240px;
+    left: 260px;
     font-style: italic;
     color: #996633;
+    font-family: "Marck Script", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
-  /* line 523, ../assets/sass/projects.scss */
+  /* line 524, ../assets/sass/projects.scss */
   article.proj-id-1-4 .caption-block h1 .h1-1:before, article.proj-id-1-4 .caption-block h2 .h1-1:before{
     content: attr(title);
     top: -3px;
@@ -514,9 +515,9 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: -6px;
     font-size: 115px;
     color: white;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Marck Script", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
-  /* line 533, ../assets/sass/projects.scss */
+  /* line 534, ../assets/sass/projects.scss */
   article.proj-id-1-4 .caption-block h1 .h1-2, article.proj-id-1-4 .caption-block h2 .h1-2{
     font-size: 35px;
     position: absolute;
@@ -527,7 +528,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     color: #663333;
     line-height: 1;
   }
-  /* line 545, ../assets/sass/projects.scss */
+  /* line 546, ../assets/sass/projects.scss */
   article.proj-id-1-4 .caption-block .proj{
     position: absolute;
     top: 125px;
@@ -535,7 +536,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     font-size: 17px;
     text-align: right;
   }
-  /* line 552, ../assets/sass/projects.scss */
+  /* line 553, ../assets/sass/projects.scss */
   article.proj-id-1-4 .caption-block .proj .proj-num{
     position: absolute;
     font-size: 64px;
@@ -548,7 +549,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     line-height: 1.3;
     color: white;
   }
-  /* line 567, ../assets/sass/projects.scss */
+  /* line 568, ../assets/sass/projects.scss */
   article.proj-id-1-4 .caption-block .type-n-address{
     position: absolute;
     top: 115px;
@@ -558,20 +559,20 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     line-height: 1.2;
     color: lightgray;
   }
-  /* line 579, ../assets/sass/projects.scss */
+  /* line 580, ../assets/sass/projects.scss */
   article.proj-id-1-4 .im-1{
     width: 100%;
     height: auto;
     margin-top: 115px;
   }
-  /* line 585, ../assets/sass/projects.scss */
+  /* line 586, ../assets/sass/projects.scss */
   article.proj-id-1-4 .im-2{
     width: 280px;
     position: absolute;
     top: 630px;
     left: 260px;
   }
-  /* line 592, ../assets/sass/projects.scss */
+  /* line 593, ../assets/sass/projects.scss */
   article.proj-id-1-4 .designer{
     position: absolute;
     top: 640px;
@@ -582,7 +583,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     line-height: 1.3;
     width: 217px;
   }
-  /* line 603, ../assets/sass/projects.scss */
+  /* line 604, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper{
     position: absolute;
     top: 750px;
@@ -590,13 +591,13 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 550px;
     height: 165px;
   }
-  /* line 609, ../assets/sass/projects.scss */
+  /* line 610, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper img{
     height: 150px;
     width: auto;
     margin: 5px auto;
   }
-  /* line 614, ../assets/sass/projects.scss */
+  /* line 615, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow{
     display: block;
     width: 60px;
@@ -604,28 +605,28 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 36% !important;
     right: initial;
   }
-  /* line 620, ../assets/sass/projects.scss */
+  /* line 621, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow.first{
     background: #8c4100 url(/f/img/slides_arrows.png) no-repeat 4px 3px;
     top: -38px;
   }
-  /* line 624, ../assets/sass/projects.scss */
+  /* line 625, ../assets/sass/projects.scss */
   article.proj-id-1-4 .slides-wrapper.slick-initialized-parent .slides-arrow.second{
     background: #8c4100 url(/f/img/slides_arrows.png) no-repeat -56px 4px;
     bottom: -38px;
     top: initial;
   }
-  /* line 633, ../assets/sass/projects.scss */
+  /* line 634, ../assets/sass/projects.scss */
   article.proj-id-1-4 .txt{
     text-align: right;
     width: 240px;
     position: absolute;
   }
-  /* line 639, ../assets/sass/projects.scss */
+  /* line 640, ../assets/sass/projects.scss */
   article.proj-id-1-4 .txt.txt-2{
     top: 1070px;
   }
-  /* line 644, ../assets/sass/projects.scss */
+  /* line 645, ../assets/sass/projects.scss */
   article.proj-id-1-4 .bottom-decor{
     position: absolute;
     top: 1180px;
@@ -635,5 +636,4 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     height: 400px;
   }
 }
-
 /*# sourceMappingURL=projects.css.map */

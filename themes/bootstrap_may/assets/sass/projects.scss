@@ -517,9 +517,10 @@ article.proj-id-1-4 {
                     line-height: 0.9;
                     position: absolute;
                     top: 190px;
-                    left: 240px;
+                    left: 260px;
                     font-style: italic;
                     color: #996633;
+                    font-family: "Marck Script", "Helvetica Neue", Helvetica, Arial, sans-serif;
                     &:before {
                         content: attr(title);
                         top: -3px;
@@ -527,7 +528,7 @@ article.proj-id-1-4 {
                         left: -6px;
                         font-size: 115px;
                         color: white;
-                        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                        font-family: "Marck Script", "Helvetica Neue", Helvetica, Arial, sans-serif;
                     }
                 }
                 .h1-2 {
