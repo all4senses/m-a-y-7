@@ -65,6 +65,7 @@ article.node-project .slides-wrapper .slides-arrow.second {
   background: url(/f/img/slides_arrows.png) no-repeat -135px 0;
   right: -15px;
 }
+
 @media only screen and (min-width: 768px){
   /* line 24, ../assets/sass/projects.scss */
   article.node-project .proj .proj-year{
@@ -260,7 +261,7 @@ article.node-project .slides-wrapper .slides-arrow.second {
   /* line 275, ../assets/sass/projects.scss */
   article.proj-id-1-2{
     background: url(/f/img/olga_yuskasova/interiors/1-2/el/back.png) 0 55px no-repeat;
-    height: 1850px;
+    height: 2150px;
   }
   /* line 282, ../assets/sass/projects.scss */
   article.proj-id-1-2 .caption-block{
@@ -599,4 +600,5 @@ article.node-project .slides-wrapper .slides-arrow.second {
     background: #8c4100;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */
