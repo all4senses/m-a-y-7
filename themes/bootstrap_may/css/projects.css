@@ -78,7 +78,6 @@ article.node-project .slides-wrapper.slick-initialized-parent .slides-arrow {
 article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   display: none;
 }
-
 @media only screen and (min-width: 768px){
   /* line 24, ../assets/sass/projects.scss */
   article.node-project .proj .proj-year{
@@ -504,17 +503,17 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     top: 190px;
     left: 240px;
     font-style: italic;
-    color: white;
+    color: #996633;
   }
   /* line 523, ../assets/sass/projects.scss */
-  article.proj-id-1-4 .caption-block h1 .h1-1:after, article.proj-id-1-4 .caption-block h2 .h1-1:after{
+  article.proj-id-1-4 .caption-block h1 .h1-1:before, article.proj-id-1-4 .caption-block h2 .h1-1:before{
     content: attr(title);
-    top: -20px;
-    position: relative;
-    left: 330px;
-    font-size: 30px;
-    font-family: serif;
-    color: #996633;
+    top: -3px;
+    position: absolute;
+    left: -6px;
+    font-size: 115px;
+    color: white;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
   /* line 533, ../assets/sass/projects.scss */
   article.proj-id-1-4 .caption-block h1 .h1-2, article.proj-id-1-4 .caption-block h2 .h1-2{

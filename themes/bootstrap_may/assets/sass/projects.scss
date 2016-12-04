@@ -519,15 +519,15 @@ article.proj-id-1-4 {
                     top: 190px;
                     left: 240px;
                     font-style: italic;
-                    color: white;
-                    &:after {
-                        content: attr(title); //Works in unicode, too!!!:   "\041f\043b\0430\043d\0020\043f\043e\043c\0435\0449\0435\043d\0438\044f"; // "План помещения"; // in Unicode: http://itpro.cz/juniconv/,  https://www.branah.com/unicode-converter
-                        top: -20px;
-                        position: relative;
-                        left: 330px;
-                        font-size: 30px;
-                        font-family: serif;
-                        color: #996633;
+                    color: #996633;
+                    &:before {
+                        content: attr(title);
+                        top: -3px;
+                        position: absolute;
+                        left: -6px;
+                        font-size: 115px;
+                        color: white;
+                        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
                     }
                 }
                 .h1-2 {
