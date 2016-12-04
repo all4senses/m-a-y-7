@@ -354,7 +354,7 @@ function may_pages_resize_filter_image($variables) {
     // Add New Allowed Content attributes to tags in CKEditor
     'slick_lightbox_source_data' => array('sizes' => array_keys($styles)),
   );
-  drupal_add_js($slick_lightbox_data, array('type' => 'setting'));
+  drupal_add_js($slick_lightbox_source_data, array('type' => 'setting'));
   
   
   
