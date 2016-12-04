@@ -211,10 +211,10 @@ function closest (num, arr) {
             //$('.slides').slickLightbox({
             var viewport_width = $(window).width();
             $('article:not(.slick_lightbox) img').each(function(index, value){
-                var array = [2, 42, 82, 122, 162, 202, 242, 282, 322, 362];
+                //var array = [2, 42, 82, 122, 162, 202, 242, 282, 322, 362];
                 console.log('Drupal.settings.slick_lightbox_source_data.sizes: ', Drupal.settings.slick_lightbox_source_data.sizes);
-                var number = 112;
-                var closest_num = closest(viewport_width, array);
+                //var number = 112;
+                var closest_num = closest(viewport_width, Drupal.settings.slick_lightbox_source_data.sizes);
                 console.log('closest: ', closest_num);
             });
             
