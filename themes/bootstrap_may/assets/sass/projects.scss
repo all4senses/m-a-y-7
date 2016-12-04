@@ -418,12 +418,13 @@ article.proj-id-1-2 {
         }
         
         .slides-wrapper {
-            position: absolute;
-            top: 870px;
-            left: 545px;
-            height: 500px;
-            overflow: hidden;
-            z-index: 3;
+                position: absolute;
+                top: 840px;
+                left: 545px;
+                height: 500px;
+                overflow: hidden;
+                z-index: 3;
+                padding-top: 30px;
             img {
                 width: 143px;
             }
@@ -431,11 +432,11 @@ article.proj-id-1-2 {
                 display: block;
                 width: 50px;
                 height: 25px;
-                left: 43% !important;
+                left: 38% !important;
                 right: initial;
                 &.first {
                     background: url(/f/img/slides_arrows.png) no-repeat 0 0;
-                    top: 15px;
+                    top: 0px;
                 }
                 &.second {
                     background: url(/f/img/slides_arrows.png) no-repeat -61px 0;
