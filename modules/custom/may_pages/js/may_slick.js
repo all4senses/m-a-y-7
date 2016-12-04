@@ -228,18 +228,13 @@ function closest (num, arr) {
                 else {
                     newWidth = Math.floor(w_height * (1/i_aspect));
                 }
-                console.log('w_width: ', w_width, ', w_height: ',w_height);
-                console.log('newWidth: ', newWidth, ', newHeight: ',newHeight);
                 closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
-                console.log('closest: ', closest_style_width);
                 
                 sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
                 $(this).attr('data-sicklightfull', sicklightfull);
             });
             
             $('article:not(.slick_lightbox)').slickLightbox({
-//                src: 'data-original', // 'src',
-//                itemSelector: 'img[data-original]'
                 src: 'data-sicklightfull', // 'src',
                 itemSelector: 'img[data-sicklightfull]'
             }).addClass('slick_lightbox');
