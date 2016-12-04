@@ -93,11 +93,11 @@ article.node-project {
             top: 45%;
             cursor: pointer;
             &.first {
-                background: url(/f/images/slides_arrows.png) no-repeat -120px 0;
+                background: url(/f/img/slides_arrows.png) no-repeat -120px 0;
                 left: -15px;
             }
             &.second {
-                background: url(/f/images/slides_arrows.png) no-repeat -135px 0;
+                background: url(/f/img/slides_arrows.png) no-repeat -135px 0;
                 right: -15px;
             }
         }
@@ -116,7 +116,7 @@ article.proj-id-1-1 {
         .caption-block {
             width: 340px;
             height: 425px;
-            background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_caption_back.png) no-repeat;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_caption_back.png) no-repeat;
             position: absolute;
             top: 35px;
             left: 285px;
@@ -200,7 +200,7 @@ article.proj-id-1-1 {
             font-size: 17px;
             color: white;
             line-height: 1.3;
-            background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_designer_back.png) no-repeat 15px;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_designer_back.png) no-repeat 15px;
             padding: 10px 25px 10px;
             width: 217px;
         }
@@ -209,7 +209,7 @@ article.proj-id-1-1 {
             position: absolute;
             top: 730px;
             left: 310px;
-            background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_slides_back.png) no-repeat;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_slides_back.png) no-repeat;
             width: 335px;
             margin: 0;
             padding: 55px 0;
@@ -227,11 +227,11 @@ article.proj-id-1-1 {
                 left: 43% !important;
                 right: initial;
                 &.first {
-                    background: url(/f/images/slides_arrows.png) no-repeat 0 0;
+                    background: url(/f/img/slides_arrows.png) no-repeat 0 0;
                     top: 15px;
                 }
                 &.second {
-                    background: url(/f/images/slides_arrows.png) no-repeat -61px 0;
+                    background: url(/f/img/slides_arrows.png) no-repeat -61px 0;
                     bottom: 10px;
                     top: initial;
                 }
@@ -252,7 +252,7 @@ article.proj-id-1-1 {
             position: absolute;
             top: 1390px;
             left: 110px;
-            background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_plan_back.png) no-repeat 0 90%;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_plan_back.png) no-repeat 0 90%;
             padding: 20px 40px;
             height: 500px;
             &:after {
@@ -272,6 +272,164 @@ article.proj-id-1-1 {
 
 
 
+article.proj-id-1-2 {
+    
+    @include MQ(M) {
+    
+        background: url(/f/img/olga_yuskasova/interiors/1-2/el/back.png) 0 55px no-repeat;
+        height: 1850px;
+
+        .caption-block {
+/*            width: 340px;
+            height: 425px;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_caption_back.png) no-repeat;
+            position: absolute;
+            top: 35px;
+            left: 285px;
+            z-index: 4;*/
+
+            h1, h2 {
+                position: absolute;
+                top: 225px;
+                left: 30px;
+                z-index: 3;
+                color: white;
+                font-size: 60px;
+                width: 300px;
+                display: block;
+                text-align: right;
+
+                .h1-1 {
+                    font-size: 100px;
+                    white-space: nowrap;
+                    line-height: 0.9;
+                    span {
+                        font-size: 30px;
+                    }
+                }
+                .h1-2 {
+                    display: block;
+                    font-size: 75px;
+                }
+                .h1-3 {
+                    font-weight: bold;
+                }
+            }
+
+            .proj {
+                position: absolute;
+                top: 240px;
+                left: 325px;
+                text-align: right;
+                color: white;
+                font-size: 17px;
+
+                .proj-num {
+                    position: absolute;
+                    top: -20px;
+                    font-size: 55px;
+                    width: 100px;
+                    left: 45px;
+                }
+/*                .proj-year {
+                    color: black;
+                }*/
+                
+            }
+
+            .type-n-address {
+                position: absolute;
+                top: 310px;
+                left: 285px;
+                width: 180px;
+                font-size: 18px;
+                text-align: right;
+                line-height: 1.2;
+                color: white;
+            }
+
+        }
+
+        .im-1 {
+            width: 100%;
+            height: auto;
+            margin: 335px 0 0 0;
+        }
+        
+        .designer {
+            top: 320px;
+            color: white;
+            left: 575px;
+            text-align: right;
+            font-size: 18px;
+            line-height: 1.2;
+        }
+        
+        .slides-wrapper {
+            position: absolute;
+            top: 730px;
+            left: 310px;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_slides_back.png) no-repeat;
+            width: 335px;
+            margin: 0;
+            padding: 55px 0;
+            height: 680px;
+            img {
+                width: 180px;
+                height: auto;
+                margin: 10px 75px;
+            }
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
+                //position: absolute;
+                width: 50px;
+                height: 25px;
+                left: 43% !important;
+                right: initial;
+                &.first {
+                    background: url(/f/img/slides_arrows.png) no-repeat 0 0;
+                    top: 15px;
+                }
+                &.second {
+                    background: url(/f/img/slides_arrows.png) no-repeat -61px 0;
+                    bottom: 10px;
+                    top: initial;
+                }
+            }
+            
+        }
+        
+        .txt-1 {
+            width: 250px;
+            text-align: right;
+            position: absolute;
+            top: 955px;
+            left: 50px;
+        }
+
+        .plan-back {
+            width: 400px;
+            position: absolute;
+            top: 1390px;
+            left: 110px;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_plan_back.png) no-repeat 0 90%;
+            padding: 20px 40px;
+            height: 500px;
+            &:after {
+                content: attr(title); //Works in unicode, too!!!:   "\041f\043b\0430\043d\0020\043f\043e\043c\0435\0449\0435\043d\0438\044f"; // "План помещения"; // in Unicode: http://itpro.cz/juniconv/,  https://www.branah.com/unicode-converter
+                top: -20px;
+                position: relative;
+                left: 330px;
+                font-size: 30px;
+                font-family: serif;
+                color: #996633;
+            }
+        }
+    
+    }
+    
+}
+
 article.proj-id-1-4 {
     
     @include MQ(M) {
@@ -282,7 +440,7 @@ article.proj-id-1-4 {
         .caption-block {
             width: 340px;
             height: 425px;
-            background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_caption_back.png) no-repeat;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_caption_back.png) no-repeat;
             position: absolute;
             top: 35px;
             left: 285px;
@@ -373,7 +531,7 @@ article.proj-id-1-4 {
             font-size: 17px;
             color: white;
             line-height: 1.3;
-            background: url(/f/images/olga_yuskasova/interiors/150_kvadratnyh_metrov_svobody_dlya_dizaynera/el/p_11_designer_back.png) no-repeat 15px;
+            background: url(/f/img/olga_yuskasova/interiors/1-1/el/p_11_designer_back.png) no-repeat 15px;
             padding: 10px 25px 10px;
             width: 217px;
         }
@@ -396,11 +554,11 @@ article.proj-id-1-4 {
                 left: 36% !important;
                 right: initial;
                 &.first {
-                    background: #8c4100 url(/f/images/slides_arrows.png) no-repeat 4px 3px;
+                    background: #8c4100 url(/f/img/slides_arrows.png) no-repeat 4px 3px;
                     top: -38px;
                 }
                 &.second {
-                    background: #8c4100 url(/f/images/slides_arrows.png) no-repeat -56px 4px;
+                    background: #8c4100 url(/f/img/slides_arrows.png) no-repeat -56px 4px;
                     bottom: -38px;
                     top: initial;
                 }
