@@ -443,7 +443,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
                 dpm($results,'$results');
                 $out = '';
                 foreach($results as $result) {
-                  $out .= '<div><img src="' . str_replace('public://', '/f/', $result->uri) . '"/></div>';
+                  $out .= '<div><img width="300" src="' . str_replace('public://', '/f/', $result->uri) . '"/></div>';
                 }
               }
               echo $out;
