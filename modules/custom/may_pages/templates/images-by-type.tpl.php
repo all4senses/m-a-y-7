@@ -58,7 +58,7 @@
             echo '<div>No results</div>';
           }
           else {
-            dpm($images,'$images');
+            //dpm($images,'$images');
             $out = '';
             foreach($images as $image) {
               //$out .= '<div class="item"><img class="item-img" style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
