@@ -21,7 +21,7 @@ function may_pages_menu() {
    */
   
   $items['projects/interiors/by-type/%'] = array(
-    'title' => 'Sh Get',
+    'title' => t('Изображения по типам помещений'),
     'page callback' => 'may_pages_get_pictures_by_type',
     'page arguments' => array(1,3),
     //'access callback' => 'may_misc_userIsAdmin',
@@ -409,9 +409,67 @@ function may_pages_resize_filter_image($variables) {
   return $output;
 }
 
-function may_pages_get_pictures_by_type($a1, $a2) {
-  dpm(arg(),'arg()');
-  dpm($a1, '$a1');
-  dpm($a2, '$a2');
-  return 'xxx';
+function may_pages_get_pictures_by_type($project_type, $image_type) {
+//  dpm(arg(),'arg()');
+//  dpm($a1, '$a1');
+//  dpm($a2, '$a2');
+  
+  $out = t('Нет результатов...');
+  switch ($project_type) {
+    case 'interiors':
+      switch ($image_type) {
+        case 'sanuzly':
+          
+              $query = db_select('imagefield_attributes_values', 'a');
+              $query->condition('a.type', 'data-roomtype');
+              $query->condition('a.value', '%%Санузлы%%', 'LIKE');
+              $query->fields('a', array('fid', 'type'));
+              $query->addField('a', 'value', 'data-roomtype');
+
+              $query->leftJoin('file_usage', 'u', 'u.fid = a.fid');
+              $query->addField('u', 'id', 'nid');
+
+              $query->leftJoin('node', 'n', 'n.nid = u.id');
+              $query->fields('n', array('title'));
+
+              $query->leftJoin('imagefield_attributes_values', 'a2', 'a2.fid = a.fid');
+              $query->condition('a2.type', 'data-roomweight');
+              $query->addField('a2', 'value', 'i_weight');
+
+              $query->leftJoin('file_managed', 'm', 'm.fid = a.fid');
+              $query->fields('m', array('uri'));
+
+              if ($results = $query->execute()->fetchAllAssoc('fid')) {
+                dpm($results,'$results');
+                $out = '';
+                foreach($results as $result) {
+                  $out .= '<div><img src="' . str_replace('public://', '/f/', $result->uri) . '"/></div>';
+                }
+              }
+              echo $out;
+
+              /*
+              $query->distinct();
+              $query->addExpression('COUNT(a.fid)', 'count');
+
+              $query = db_select('taxonomy_term_data', 'td')->extend('pagerDefault')->limit(80);
+              $query->fields('td', array('name', 'tid', 'vid', 'description'));
+              $query->leftJoin('taxonomy_index', 'ti', 'ti.tid = td.tid');
+              $query->leftJoin('node', 'n', 'n.nid = ti.nid');
+              //$query->where('n.nid = ti.nid AND n.type = :type', array(':type' => $content_type))
+              $query->addExpression('COUNT(n.nid)', 'count');
+              $query->groupBy('td.name');
+              $query->condition('td.vid', $voc->vid);
+              $query->orderBy('count', 'ASC');
+              $results = $query->execute();
+
+
+              $results->fetchAllAssoc('fid');
+              */
+          
+          break;
+      }
+  }
+  
+  return $out;
 }
