@@ -83,6 +83,7 @@ a {
   height: 100%;
   padding: 0 1em;
   font-size: 19.2px;
+  font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #25283D;
@@ -173,6 +174,7 @@ a {
   line-height: 50px;
   padding-left: 5%;
   color: #25283D;
+  font-size: 28.8px;
   font-size: 28.8px;
   font-size: 1.8rem;
   border-top: 1px solid #f2f2f2;
@@ -608,10 +610,11 @@ footer {
 /* line 119, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item {
   width: 200px;
+  padding: 10px;
 }
-/* line 121, ../assets/sass/style_custom.scss */
+/* line 122, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item img {
-  width: 90%;
+  width: 100%;
 }
 
 @media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
@@ -726,5 +729,4 @@ footer {
     width: 100%;
   }
 }
-
 /*# sourceMappingURL=style_custom.css.map */
