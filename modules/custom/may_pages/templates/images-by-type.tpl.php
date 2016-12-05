@@ -62,7 +62,8 @@
             $out = '';
             foreach($images as $image) {
               //$out .= '<div class="item"><img class="item-img" style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
-              $out .= '<div class="masonry-item"><img class="item-img" style="float:left;" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              //$out .= '<div class="masonry-item"><img class="masonry-item-img" style="float:left;" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              $out .= '<div class="masonry-item"><img class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
             }
             $out = '<div class="masonry-items">' . $out . '</div>';
           }
