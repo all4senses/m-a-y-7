@@ -33,7 +33,7 @@
             } );
             */
            
-            /*
+            
             $('.masonry-item img').addClass('not-loaded');
             $('.masonry-item img.not-loaded').lazyload({
                 effect: 'fadeIn',
@@ -44,8 +44,8 @@
                     $grid.masonry('layout');
                 }
             });
-            */
-            $('.masonry-item img').lazyload();
+            
+            //$('.masonry-item img').lazyload();
 
           
         } // End of Attach
