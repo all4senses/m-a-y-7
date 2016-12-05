@@ -446,6 +446,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
                   $out .= '<div><img style="float:left;" width="300" src="' . str_replace('public://', '/f/', $result->uri) . '"/></div>';
                 }
               }
+              
 
               /*
               $query->distinct();
@@ -470,5 +471,22 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
       }
   }
   
-  return $out;
+  //return $out;
+  return theme('images_by_type', array('images' => $results));
+}
+
+function may_pages_theme($existing, $type, $theme, $path) {
+  
+  if($type != 'module') {
+    return array();
+  }
+  
+  return array(
+    'images_by_type' => array(
+      'variables' => array('images' => array()),
+      'template' => 'templates/images-by-type',
+    ),
+  );
+  
+  
 }
