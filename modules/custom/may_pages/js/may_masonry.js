@@ -33,16 +33,19 @@
             } );
             */
            
-            //$('.masonry-item img').addClass('not-loaded');
+            /*
+            $('.masonry-item img').addClass('not-loaded');
             $('.masonry-item img.not-loaded').lazyload({
-//                effect: 'fadeIn',
-//                load: function() {
-//                    // Disable trigger on this image
-//                    $(this).removeClass("not-loaded");
-//                    //$container.isotope('reload');
-//                    $grid.masonry('layout');
-//                }
+                effect: 'fadeIn',
+                load: function() {
+                    // Disable trigger on this image
+                    $(this).removeClass("not-loaded");
+                    //$container.isotope('reload');
+                    $grid.masonry('layout');
+                }
             });
+            */
+            $('.masonry-item img').lazyload();
 
           
         } // End of Attach
