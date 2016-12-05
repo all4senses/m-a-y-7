@@ -4,7 +4,7 @@
         attach: function (context, settings) {
 
             console.log('may_masonry.....');
-            /*
+            
             var $grid = $('.masonry-items').masonry({
                 // options...
                 itemSelector: '.masonry-item',
@@ -24,14 +24,14 @@
             $grid.imagesLoaded().progress( function() {
                 $grid.masonry('layout');
             });
-            */
             
+            /*
             new AnimOnScroll( document.getElementById( 'grid' ), {
                     minDuration : 0.4,
                     maxDuration : 0.7,
                     viewportFactor : 0.2
             } );
-
+            */
 
           
         } // End of Attach
