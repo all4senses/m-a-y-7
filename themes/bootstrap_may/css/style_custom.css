@@ -611,7 +611,7 @@ footer {
 }
 /* line 121, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item img {
-  width: 100%;
+  width: 90%;
 }
 
 @media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
