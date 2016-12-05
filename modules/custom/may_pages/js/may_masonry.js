@@ -10,6 +10,7 @@
                 itemSelector: '.masonry-item',
                 //columnWidth: 200,
                 columnWidth: '.masonry-item',
+                gutter: 10,
             });
             
             

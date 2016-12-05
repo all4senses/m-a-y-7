@@ -84,6 +84,8 @@ a {
   padding: 0 1em;
   font-size: 19.2px;
   font-size: 19.2px;
+  font-size: 19.2px;
+  font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #25283D;
@@ -174,6 +176,8 @@ a {
   line-height: 50px;
   padding-left: 5%;
   color: #25283D;
+  font-size: 28.8px;
+  font-size: 28.8px;
   font-size: 28.8px;
   font-size: 28.8px;
   font-size: 1.8rem;
@@ -610,13 +614,12 @@ footer {
 /* line 119, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item {
   width: 200px;
-  padding: 10px;
+  margin-bottom: 10px;
 }
 /* line 122, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item img {
   width: 100%;
 }
-
 @media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
   .cd-auto-hide-header {
     height: 80px;
@@ -692,7 +695,6 @@ footer {
     margin-top: 80px;
   }
 }
-
 @media only screen and (min-width: 768px) {/* line 448, ../assets/sass/sticky-header.scss */
   .cd-hero {
     height: 500px;
@@ -705,7 +707,6 @@ footer {
     padding: 50px 0px;
   }
 }
-
 @media (min-width: 768px) {/* line 26, ../assets/sass/style_custom.scss */
   .container {
     width: 100%;
@@ -717,13 +718,11 @@ footer {
     content: "bar on medium";
   }
 }
-
 @media (min-width: 992px) {/* line 26, ../assets/sass/style_custom.scss */
   .container {
     width: 100%;
   }
 }
-
 @media (min-width: 1200px) {/* line 26, ../assets/sass/style_custom.scss */
   .container {
     width: 100%;
