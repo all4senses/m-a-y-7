@@ -414,6 +414,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
 //  dpm($a1, '$a1');
 //  dpm($a2, '$a2');
   
+  $results = NULL;
   $out = t('Нет результатов...');
   switch ($project_type) {
     case 'interiors':
@@ -438,14 +439,15 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
 
               $query->leftJoin('file_managed', 'm', 'm.fid = a.fid');
               $query->fields('m', array('uri'));
-
-              if ($results = $query->execute()->fetchAllAssoc('fid')) {
-                dpm($results,'$results');
-                $out = '';
-                foreach($results as $result) {
-                  $out .= '<div><img style="float:left;" width="300" src="' . str_replace('public://', '/f/', $result->uri) . '"/></div>';
-                }
-              }
+              $results = $query->execute()->fetchAllAssoc('fid');
+                  
+//              if ($results = $query->execute()->fetchAllAssoc('fid')) {
+//                dpm($results,'$results');
+//                $out = '';
+//                foreach($results as $result) {
+//                  $out .= '<div><img style="float:left;" width="300" src="' . str_replace('public://', '/f/', $result->uri) . '"/></div>';
+//                }
+//              }
               
 
               /*
