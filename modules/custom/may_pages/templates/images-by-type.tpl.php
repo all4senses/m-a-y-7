@@ -61,8 +61,10 @@
             dpm($images,'$images');
             $out = '';
             foreach($images as $image) {
-              $out .= '<div><img style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              //$out .= '<div class="item"><img class="item-img" style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              $out .= '<div class="item"><img class="item-img" style="float:left;" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
             }
+            $out = '<div class="items">' . $out . '</div>';
           }
 
           echo $out;      
