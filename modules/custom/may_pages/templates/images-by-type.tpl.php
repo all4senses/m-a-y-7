@@ -1,22 +1,5 @@
 <?php
 
-echo 'teeeest';
-
-
-if (!is_array($images) || empty($images)) {
-  echo '<div>No results</div>';
-}
-else {
-  dpm($images,'$images');
-  $out = '';
-  foreach($images as $image) {
-    $out .= '<div><img style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
-  }
-}
-
-echo $out;      
-
-return;
 
 /**
  * @file
@@ -108,15 +91,10 @@ return;
 
 ?>
 
-<div class="node-wrapper-outer" <?php echo (empty($node->field_background_color['und'][0]['jquery_colorpicker']) ? '' : ' style="background-color: #' . $node->field_background_color['und'][0]['jquery_colorpicker'] . '";');?>>
-  <?php 
-    if ($node->type == 'project' && !empty($node->field_project_id['und'][0]['safe_value'])) {
-      $classes .= ' proj-id-' . $node->field_project_id['und'][0]['safe_value'];
-    }
-  ?>
-  <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+<div class="node-wrapper-outer">
+  <article class="clearfix">
   
-        <?php if ((!$page && !empty($title)) || !empty($node->title) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
+        <?php// if ((!$page && !empty($title)) || !empty($node->title) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
         <header>
             
           
@@ -134,7 +112,7 @@ return;
             */
           ?>
           
-          <?php 
+          <?php /* 
           //if ($page) { 
           if ($view_mode == 'full') { 
           // If it's a Full page (a node itself or even on a Views list page)
@@ -155,6 +133,8 @@ return;
               // If it's asimple teaser
               print '<h2 ' . $title_attributes . '><a href="' . $node_url .'">' . $node->title .'</a></h2>';  
             }
+            
+            */
           ?>
             
             
@@ -184,21 +164,33 @@ return;
           <?php endif; ?>
             */ ?>
         </header>
-        <?php endif; ?>
+        <?php //endif; ?>
         <?php
           // Hide comments, tags, and links now so that we can render them later.
-          hide($content['comments']);
-          hide($content['links']);
-          hide($content['field_tags']);
-          print render($content);
+
+          //print render($content);
+          
+          if (!is_array($images) || empty($images)) {
+            echo '<div>No results</div>';
+          }
+          else {
+            dpm($images,'$images');
+            $out = '';
+            foreach($images as $image) {
+              $out .= '<div><img style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+            }
+          }
+
+          echo $out;      
+
+          //return;
+          
+          
+          
         ?>
-        <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
+
         <div class="footer">
-          <?php print render($content['field_tags']); ?>
-          <?php print render($content['links']); ?>
         </div>
-        <?php endif; ?>
-        <?php print render($content['comments']); ?>
     
   </article>
   
