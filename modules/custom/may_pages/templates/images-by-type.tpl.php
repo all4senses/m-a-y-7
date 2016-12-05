@@ -65,8 +65,12 @@
               $i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
               //$out .= '<div class="item"><img class="item-img" style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
               //$out .= '<div class="masonry-item"><img class="masonry-item-img" style="float:left;" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
-              $out .= '<div class="masonry-item"><img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
               //$out .= '<li class="masonry-item"><img class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></li>';
+              
+              ////$out .= '<div class="masonry-item"><img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              $out .= '<div class="masonry-item"><img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              
+              
             }
             $out = '<div class="masonry-items grid" id="grid">' . $out . '</div>';
             //$out = '<ul class="masonry-items grid effect-7" id="grid">' . $out . '</ul>';
