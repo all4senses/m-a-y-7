@@ -19,6 +19,15 @@ function may_pages_menu() {
     'type' => MENU_CALLBACK,
     );
    */
+  
+  $items['interiors/by-type/%'] = array(
+    'title' => 'Sh Get',
+    'page callback' => 'may_pages_get_pictures_by_type',
+    'page arguments' => array(1,3),
+    //'access callback' => 'may_misc_userIsAdmin',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    );
   return $items;
 }
 
@@ -398,4 +407,10 @@ function may_pages_resize_filter_image($variables) {
     $output = '<a' . drupal_attributes($image['link']['attributes']) . '>' . $output . '</a>';
   }
   return $output;
+}
+
+function may_pages_get_pictures_by_type($a1, $a2) {
+  dpm(arg(),'arg()');
+  dpm($a1, '$a1');
+  dpm($a2, '$a2');
 }
