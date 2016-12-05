@@ -14,7 +14,8 @@ else {
   }
 }
 
-              
+echo $out;      
+
 return;
 
 /**
