@@ -641,7 +641,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   }
   /* line 664, ../assets/sass/projects.scss */
   article.proj-id-1-5{
-    height: 1550px;
+    height: 1250px;
   }
   /* line 675, ../assets/sass/projects.scss */
   article.proj-id-1-5 .caption-block h1 .h1-1, article.proj-id-1-5 .caption-block h2 .h1-1{
@@ -831,5 +831,4 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     height: 40px;
   }
 }
-
 /*# sourceMappingURL=projects.css.map */
