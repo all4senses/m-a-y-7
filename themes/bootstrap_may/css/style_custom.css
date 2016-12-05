@@ -606,11 +606,11 @@ footer {
 }
 
 /* line 119, ../assets/sass/style_custom.scss */
-.masonry-items masonry-item {
+.masonry-items .masonry-item {
   width: 200px;
 }
 /* line 121, ../assets/sass/style_custom.scss */
-.masonry-items masonry-item img {
+.masonry-items .masonry-item img {
   width: 100%;
 }
 
