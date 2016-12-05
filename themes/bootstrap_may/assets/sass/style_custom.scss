@@ -112,3 +112,14 @@ footer {
     width: $screen-sm; //768px;
     margin: auto;
 }
+
+
+// Masonry images
+.masonry-items {
+    masonry-item {
+        width: 200px;
+        img {
+            width: 100%;
+        }
+    }
+}
