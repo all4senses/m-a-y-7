@@ -80,8 +80,9 @@ function closest (num, arr) {
                     $(this).removeClass("not-loaded");
                     //$container.isotope('reload');
                     $grid.masonry('layout');
+                    $(this).addClass("loaded");
                     
-                    $('.masonry-items img:not(.slick_lightbox)').slickLightbox({
+                    $('.masonry-items img.loaded').slickLightbox({
                         src: 'data-sicklightfull', // 'src',
                         itemSelector: 'img[data-sicklightfull]'
                     }).addClass('slick_lightbox');
