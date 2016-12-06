@@ -39,56 +39,57 @@
 
 
 .main-container {
-  padding: 0;
-  .row {
-    margin: 0;
-    #row-main-column {
-      //padding: 0; 
+    padding: 0;
+    .row {
+        margin: 0;
+        #row-main-column {
+        //padding: 0; 
       
-      // Project page
-      .node-wrapper-outer {
-        margin: 0 -15px 0 -15px;
-        //background-color: bisque;
-        
-        // Project node
-        article {
-            width: 100%;
-            padding: 20px 20px;
-            margin: auto;
-            @include MQ(M) {
-                width: $screen-sm; //768px;
-                padding: 50px 0px;
+            // Project page
+            .node-wrapper-outer {
+              margin: 0 -15px 0 -15px;
+              //background-color: bisque;
+
+              // Project node
+              article {
+                  width: 100%;
+                  padding: 20px 20px;
+                  margin: auto;
+                  @include MQ(M) {
+                      width: $screen-sm; //768px;
+                      padding: 50px 0px;
+                  }
+              }
             }
-        }
-      }
       
       
-      // Images by type page
-      .images-by-type {
-        width: 100%;
-        position: relative;
-        
-        //margin: 0 -15px 0 -15px;
-        //background-color: bisque;
-        article {
-            width: 100%;
-            padding: 20px 20px;
-            margin: auto;
-            @include MQ(M) {
-                width: 70%; //$screen-sm; //768px;
-                padding: 50px 0px;
-            }
-        }
-        @include MQ(M) {
-            .col-s {
-                width: 15%;
-            }
-          
-      }
+            // Images by type page
+            .images-by-type {
+                width: 100%;
+                position: relative;
+
+                //margin: 0 -15px 0 -15px;
+                //background-color: bisque;
+                article {
+                    width: 100%;
+                    padding: 20px 20px;
+                    margin: auto;
+                    @include MQ(M) {
+                        width: 70%; //$screen-sm; //768px;
+                        padding: 50px 0px;
+                    }
+                }
+                @include MQ(M) {
+                    .col-s {
+                        width: 15%;
+                    }
+
+                }
       
-      
-    }
-  }
+            } // .images-by-type
+            
+        } // #row-main-column
+    } // .row
 }
 
 /*
@@ -158,20 +159,18 @@ footer {
     
     @include MQ(M) {
         .masonry-item { 
-            width: 20% !important;
+            width: 24% !important;
             margin-bottom: 5px;
         }
     }
     
     @include MQ(S) {
         .masonry-item {
-            width: 32%;
-            margin-bottom: 4px;
+            width: 33%;
+            margin-bottom: 5px;
         } 
     }
-    
      
-    
 }
 
 
