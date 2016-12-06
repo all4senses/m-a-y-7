@@ -62,17 +62,6 @@
             //dpm($images,'$images');
             $out = '';
             
-            $styles = array('350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', '1200' => '1200w');
-  
-            static $slick_lightbox_source_data;
-            if (!isset($slick_lightbox_source_data)) {
-              $slick_lightbox_source_data = array(
-                // Add New Allowed Content attributes to tags in CKEditor
-                'slick_lightbox_source_data' => array('sizes' => array_keys($styles)),
-              );
-              drupal_add_js($slick_lightbox_source_data, array('type' => 'setting'));
-            }
-
             foreach($images as $image) {
               $imageinfo = getimagesize($image->uri);
               $i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
