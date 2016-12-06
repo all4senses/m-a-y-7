@@ -620,15 +620,15 @@ footer {
   height: auto;
 }
 
-/* line 147, ../assets/sass/style_custom.scss */
+/* line 149, ../assets/sass/style_custom.scss */
 .designer {
   margin-bottom: 20px;
 }
-/* line 149, ../assets/sass/style_custom.scss */
+/* line 151, ../assets/sass/style_custom.scss */
 .designer .des-title {
   font-weight: bold;
 }
-/* line 151, ../assets/sass/style_custom.scss */
+/* line 153, ../assets/sass/style_custom.scss */
 .designer .des-title::after {
   content: ":";
 }
@@ -719,20 +719,20 @@ footer {
   .main-container .row #row-main-column .node-wrapper-outer article {
     width: 768px;
     padding: 50px 0px;
-  }/* line 137, ../assets/sass/style_custom.scss */
+  }/* line 130, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 23%;
     margin-bottom: 5px;
-  }/* line 147, ../assets/sass/style_custom.scss */
+  }/* line 149, ../assets/sass/style_custom.scss */
   .designer {
     position: absolute;
-  }/* line 159, ../assets/sass/style_custom.scss */
+  }/* line 161, ../assets/sass/style_custom.scss */
   .designer .des-title {
     font-weight: normal;
-  }/* line 161, ../assets/sass/style_custom.scss */
+  }/* line 163, ../assets/sass/style_custom.scss */
   .designer .des-title::after {
     content: "";
-  }/* line 165, ../assets/sass/style_custom.scss */
+  }/* line 167, ../assets/sass/style_custom.scss */
   .designer .des-name {
     display: block;
     font-weight: bold;
@@ -763,7 +763,7 @@ footer {
   }
 }
 
-@media only screen and (min-width: 480px) {/* line 130, ../assets/sass/style_custom.scss */
+@media only screen and (min-width: 480px) {/* line 137, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 32%;
     margin-bottom: 4px;

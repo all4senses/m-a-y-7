@@ -126,6 +126,13 @@ footer {
         }
     }
     
+    @include MQ(M) {
+        .masonry-item {
+            width: 23%;
+            margin-bottom: 5px;
+        }
+    }
+    
     @include MQ(S) {
         .masonry-item {
             width: 32%;
@@ -133,12 +140,7 @@ footer {
         }
     }
     
-    @include MQ(M) {
-        .masonry-item {
-            width: 23%;
-            margin-bottom: 5px;
-        }
-    } 
+     
     
 }
 
