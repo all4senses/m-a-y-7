@@ -463,7 +463,7 @@ dpm(arg(),'arg()');
       $query->condition('a2.type', 'data-roomweight');
       $query->addField('a2', 'value', 'i_weight');
 
-      $query->leftJoin('file_managed', 'm', 'm.fid = a.fid');
+      $query->join('file_managed', 'm', 'm.fid = a.fid');
       $query->fields('m', array('uri'));
       $results = $query->execute()->fetchAllAssoc('fid');
 
