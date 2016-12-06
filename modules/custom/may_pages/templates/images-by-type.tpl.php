@@ -60,7 +60,7 @@
           }
           else {
             //dpm($images,'$images');
-            $out = '<div class="title">' . $image_type . '</div>';
+            $out = '';
             
             foreach($images as $image) {
               $imageinfo = getimagesize($image->uri);
@@ -84,7 +84,7 @@
               
               
             }
-            $out = '<div class="masonry-items grid" id="grid">' . $out . '</div>';
+            $out = '<div class="title">' . $image_type . '</div><div class="masonry-items grid" id="grid">' . $out . '</div>';
             //$out = '<ul class="masonry-items grid effect-7" id="grid">' . $out . '</ul>';
           }
 
