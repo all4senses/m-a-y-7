@@ -59,7 +59,7 @@
             echo '<div>No results</div>';
           }
           else {
-            //dpm($images,'$images');
+            dpm($images,'$images');
             $out = '';
             
             foreach($images as $image) {
