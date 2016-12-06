@@ -128,7 +128,7 @@ footer {
     
     @include MQ(M) {
         .masonry-item { 
-            width: 20%;
+            width: 20% !important;
             margin-bottom: 5px;
         }
     }
@@ -145,30 +145,3 @@ footer {
 }
 
 
-
-.designer {
-        margin-bottom: 20px;
-        .des-title {
-            font-weight: bold;
-            &::after {
-                content: ":";
-            }
-        }
-        
-        @include MQ(M) {
-
-                position: absolute;
-                .des-title {
-                    font-weight: normal;
-                    &::after {
-                        content: "";
-                    }
-                }
-                .des-name {
-                    display: block;
-                    font-weight: bold;
-                }
-
-        }
-        
-    }
