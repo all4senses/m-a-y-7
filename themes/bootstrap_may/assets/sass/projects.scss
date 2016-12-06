@@ -14,8 +14,9 @@ article {
 }
 
 
+// Fix for not clickable left arrow
 .slick-lightbox .slick-arrow {
-    z-index: 5; // Fix for not clickable left arrow
+    z-index: 5; 
 }
 
 article.node-project {

@@ -644,6 +644,11 @@ footer {
   color: white;
 }
 
+/* line 188, ../assets/sass/style_custom.scss */
+.slick-lightbox .slick-arrow {
+  z-index: 5;
+}
+
 @media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
   .cd-auto-hide-header {
     height: 80px;
