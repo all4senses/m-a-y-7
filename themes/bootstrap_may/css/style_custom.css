@@ -83,7 +83,6 @@ a {
   height: 100%;
   padding: 0 1em;
   font-size: 19.2px;
-  font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #25283D;
@@ -174,7 +173,6 @@ a {
   line-height: 50px;
   padding-left: 5%;
   color: #25283D;
-  font-size: 28.8px;
   font-size: 28.8px;
   font-size: 1.8rem;
   border-top: 1px solid #f2f2f2;
@@ -631,8 +629,9 @@ footer {
 .masonry-items .masonry-item img {
   width: 100%;
   height: auto;
+  cursor: pointer;
 }
-/* line 158, ../assets/sass/style_custom.scss */
+/* line 159, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item .info {
   position: absolute;
   bottom: 5px;
@@ -641,12 +640,12 @@ footer {
   width: 20px;
   padding: 0 5px;
 }
-/* line 165, ../assets/sass/style_custom.scss */
+/* line 166, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item .info .link a {
   color: white;
 }
 
-/* line 188, ../assets/sass/style_custom.scss */
+/* line 189, ../assets/sass/style_custom.scss */
 .slick-lightbox .slick-arrow {
   z-index: 5;
 }
@@ -744,7 +743,7 @@ footer {
   }/* line 83, ../assets/sass/style_custom.scss */
   .main-container .row #row-main-column .images-by-type .col-s {
     width: 15%;
-  }/* line 172, ../assets/sass/style_custom.scss */
+  }/* line 173, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 24% !important;
     margin-bottom: 5px;
@@ -775,10 +774,11 @@ footer {
   }
 }
 
-@media only screen and (min-width: 480px) {/* line 179, ../assets/sass/style_custom.scss */
+@media only screen and (min-width: 480px) {/* line 180, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 32%;
     margin-bottom: 5px;
   }
 }
+
 /*# sourceMappingURL=style_custom.css.map */

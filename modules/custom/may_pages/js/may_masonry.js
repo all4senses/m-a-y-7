@@ -47,10 +47,20 @@ function closest (num, arr) {
             var w_width = jQuery(window).width();
             var w_height = jQuery(window).height();
             
-            var sicklightfull, closest_style_width, newWidth, newHeight;
+            var sicklightfull, current_size_url, closest_style_width, newWidth, newHeight;
             
             $('.masonry-items img').each(function(index, value){
                 
+                
+                // Find out and set a current more appropriate size image url
+                //console.log();
+                
+                closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
+                current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                $(this).attr('data-original', current_size_url);
+                
+                
+                // Find out and set an image url for full screen slick lightbox slideshow
                 var i_aspect = $(this).attr('data-iaspect');
             
                 if (w_height/w_width >= i_aspect) {
