@@ -116,8 +116,9 @@ footer {
 
 // Masonry images
 .masonry-items {
+    margin: auto;
     .masonry-item {
-        width: 200px;
+        width: 32%;
         margin-bottom: 5px;
         img {
             width: 100%;

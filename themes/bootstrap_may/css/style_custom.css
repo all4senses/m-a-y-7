@@ -605,12 +605,16 @@ footer {
   margin: auto;
 }
 
-/* line 119, ../assets/sass/style_custom.scss */
+/* line 118, ../assets/sass/style_custom.scss */
+.masonry-items {
+  margin: auto;
+}
+/* line 120, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item {
-  width: 200px;
+  width: 32%;
   margin-bottom: 5px;
 }
-/* line 122, ../assets/sass/style_custom.scss */
+/* line 123, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item img {
   width: 100%;
   height: auto;
