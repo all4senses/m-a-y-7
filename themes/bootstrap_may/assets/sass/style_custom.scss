@@ -118,11 +118,55 @@ footer {
 .masonry-items {
     margin: auto;
     .masonry-item {
-        width: 32%;
-        margin-bottom: 5px;
+        width: 47%;
+        margin-bottom: 3px;
         img {
             width: 100%;
             height: auto;
         }
     }
+    
+    @include MQ(S) {
+        .masonry-item {
+            width: 32%;
+            margin-bottom: 4px;
+        }
+    }
+    
+    @include MQ(M) {
+        .masonry-item {
+            width: 23%;
+            margin-bottom: 5px;
+        }
+    }
+    
 }
+
+
+
+.designer {
+        margin-bottom: 20px;
+        .des-title {
+            font-weight: bold;
+            &::after {
+                content: ":";
+            }
+        }
+        
+        @include MQ(M) {
+
+                position: absolute;
+                .des-title {
+                    font-weight: normal;
+                    &::after {
+                        content: "";
+                    }
+                }
+                .des-name {
+                    display: block;
+                    font-weight: bold;
+                }
+
+        }
+        
+    }
