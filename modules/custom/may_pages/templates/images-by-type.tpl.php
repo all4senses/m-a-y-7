@@ -60,7 +60,7 @@
           }
           else {
             //dpm($images,'$images');
-            $out = '';
+            $out = '<div class="title">' . $image_type . '</div>';
             
             foreach($images as $image) {
               $imageinfo = getimagesize($image->uri);

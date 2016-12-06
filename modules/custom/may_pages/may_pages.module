@@ -517,7 +517,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
 
     drupal_add_js(drupal_get_path('module', 'may_pages') . '/js/may_masonry.js');
   }
-  return theme('images_by_type', array('images' => $results));
+  return theme('images_by_type', array('images' => $results, 'image_type' => $type_map[$image_type]));
 }
 
 function may_pages_theme($existing, $type, $theme, $path) {
