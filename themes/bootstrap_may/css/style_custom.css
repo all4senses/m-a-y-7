@@ -630,6 +630,19 @@ footer {
   width: 100%;
   height: auto;
 }
+/* line 158, ../assets/sass/style_custom.scss */
+.masonry-items .masonry-item .info {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: gray;
+  width: 20px;
+  padding: 0 5px;
+}
+/* line 165, ../assets/sass/style_custom.scss */
+.masonry-items .masonry-item .info .link a {
+  color: white;
+}
 
 @media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
   .cd-auto-hide-header {
@@ -724,7 +737,7 @@ footer {
   }/* line 83, ../assets/sass/style_custom.scss */
   .main-container .row #row-main-column .images-by-type .col-s {
     width: 15%;
-  }/* line 161, ../assets/sass/style_custom.scss */
+  }/* line 172, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 24% !important;
     margin-bottom: 5px;
@@ -755,7 +768,7 @@ footer {
   }
 }
 
-@media only screen and (min-width: 480px) {/* line 168, ../assets/sass/style_custom.scss */
+@media only screen and (min-width: 480px) {/* line 179, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 32%;
     margin-bottom: 5px;
