@@ -6,7 +6,7 @@
 */
 ?>
 
-<div class="node-wrapper-outer">
+<div class="images-by-type">
   <article class="clearfix">
   
         <header>

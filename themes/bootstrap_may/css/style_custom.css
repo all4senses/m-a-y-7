@@ -555,12 +555,22 @@ Intro Section
 .main-container .row {
   margin: 0;
 }
-/* line 47, ../assets/sass/style_custom.scss */
+/* line 49, ../assets/sass/style_custom.scss */
 .main-container .row #row-main-column .node-wrapper-outer {
   margin: 0 -15px 0 -15px;
 }
-/* line 50, ../assets/sass/style_custom.scss */
+/* line 54, ../assets/sass/style_custom.scss */
 .main-container .row #row-main-column .node-wrapper-outer article {
+  width: 100%;
+  padding: 20px 20px;
+  margin: auto;
+}
+/* line 67, ../assets/sass/style_custom.scss */
+.main-container .row #row-main-column .images-by-type {
+  margin: 0 -15px 0 -15px;
+}
+/* line 70, ../assets/sass/style_custom.scss */
+.main-container .row #row-main-column .images-by-type article {
   width: 100%;
   padding: 20px 20px;
   margin: auto;
@@ -584,37 +594,37 @@ Intro Section
   }
 }
 */
-/* line 84, ../assets/sass/style_custom.scss */
+/* line 106, ../assets/sass/style_custom.scss */
 .foo::before {
   content: "foo on small";
 }
-/* line 94, ../assets/sass/style_custom.scss */
+/* line 116, ../assets/sass/style_custom.scss */
 .bar::before {
   content: "bar on small";
 }
-/* line 105, ../assets/sass/style_custom.scss */
+/* line 127, ../assets/sass/style_custom.scss */
 footer {
   background: #2f0342;
   padding: 100px 30px !important;
 }
 
-/* line 110, ../assets/sass/style_custom.scss */
+/* line 132, ../assets/sass/style_custom.scss */
 .region-footer {
   color: white;
   width: 768px;
   margin: auto;
 }
 
-/* line 118, ../assets/sass/style_custom.scss */
+/* line 140, ../assets/sass/style_custom.scss */
 .masonry-items {
   margin: auto;
 }
-/* line 120, ../assets/sass/style_custom.scss */
+/* line 142, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item {
   width: 47%;
   margin-bottom: 3px;
 }
-/* line 123, ../assets/sass/style_custom.scss */
+/* line 145, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item img {
   width: 100%;
   height: auto;
@@ -702,11 +712,15 @@ footer {
   }/* line 474, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
-  }/* line 50, ../assets/sass/style_custom.scss */
+  }/* line 54, ../assets/sass/style_custom.scss */
   .main-container .row #row-main-column .node-wrapper-outer article {
     width: 768px;
     padding: 50px 0px;
-  }/* line 130, ../assets/sass/style_custom.scss */
+  }/* line 70, ../assets/sass/style_custom.scss */
+  .main-container .row #row-main-column .images-by-type article {
+    width: 70%;
+    padding: 50px 0px;
+  }/* line 152, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 20% !important;
     margin-bottom: 5px;
@@ -716,10 +730,10 @@ footer {
 @media (min-width: 768px) {/* line 26, ../assets/sass/style_custom.scss */
   .container {
     width: 100%;
-  }/* line 89, ../assets/sass/style_custom.scss */
+  }/* line 111, ../assets/sass/style_custom.scss */
   .foo::before {
     content: "foo on medium";
-  }/* line 99, ../assets/sass/style_custom.scss */
+  }/* line 121, ../assets/sass/style_custom.scss */
   .bar::before {
     content: "bar on medium";
   }
@@ -737,7 +751,7 @@ footer {
   }
 }
 
-@media only screen and (min-width: 480px) {/* line 137, ../assets/sass/style_custom.scss */
+@media only screen and (min-width: 480px) {/* line 159, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 32%;
     margin-bottom: 4px;
