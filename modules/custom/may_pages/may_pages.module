@@ -410,9 +410,9 @@ function may_pages_resize_filter_image($variables) {
 }
 
 function may_pages_get_pictures_by_type($project_type, $image_type) {
-//  dpm(arg(),'arg()');
+dpm(arg(),'arg()');
 //  dpm($a1, '$a1');
-//  dpm($a2, '$a2');
+  dpm($a2, '$a2');
   
   $results = NULL;
   $out = t('Нет результатов...');
