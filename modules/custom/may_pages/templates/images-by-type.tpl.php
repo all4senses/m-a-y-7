@@ -69,7 +69,12 @@
               //$out .= '<li class="masonry-item"><img class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></li>';
               
               ////$out .= '<div class="masonry-item"><img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
-              $out .= '<div class="masonry-item"><img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              $out .= '<div class="masonry-item">'
+                      . '<img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . str_replace('public://', '/f/', $image->uri) . '"/>'
+                      . '<div class="info">'
+                        . '<div class="link">' . l('>', 'node/' . $image->nid) . '</div>'
+                      . '<div>'
+                    . '</div>';
               
               
             }
