@@ -83,7 +83,6 @@ a {
   height: 100%;
   padding: 0 1em;
   font-size: 19.2px;
-  font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #25283D;
@@ -174,7 +173,6 @@ a {
   line-height: 50px;
   padding-left: 5%;
   color: #25283D;
-  font-size: 28.8px;
   font-size: 28.8px;
   font-size: 1.8rem;
   border-top: 1px solid #f2f2f2;
@@ -763,4 +761,5 @@ footer {
     margin-bottom: 5px;
   }
 }
+
 /*# sourceMappingURL=style_custom.css.map */
