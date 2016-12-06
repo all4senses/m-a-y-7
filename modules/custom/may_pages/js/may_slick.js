@@ -211,6 +211,8 @@ function closest (num, arr) {
             //$('.slides').slickLightbox({
             
 
+
+
             //Prepare data for slick-lightbox
             var w_width = jQuery(window).width();
             var w_height = jQuery(window).height();

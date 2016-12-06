@@ -69,8 +69,12 @@
               //$out .= '<li class="masonry-item"><img class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></li>';
               
               ////$out .= '<div class="masonry-item"><img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
+              
+              $image_path = str_replace('public://', '/f/', $image->uri);
+              list(,$original_path) = explode('f', $image_path);
+              
               $out .= '<div class="masonry-item">'
-                      . '<img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . str_replace('public://', '/f/', $image->uri) . '"/>'
+                      . '<img data-originalpath="' . $original_path . '" data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . $image_path . '"/>'
                       . '<div class="info">'
                         . '<div class="link">' . l('П', 'node/' . $image->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $image->title, 'target' => '_blank'))) . '</div>'
                       . '</div>'

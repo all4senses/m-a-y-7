@@ -1,3 +1,16 @@
+function closest (num, arr) {
+    var curr = arr[0];
+    var diff = Math.abs (num - curr);
+    for (var val = 0; val < arr.length; val++) {
+        var newdiff = Math.abs (num - arr[val]);
+        if (newdiff < diff) {
+            diff = newdiff;
+            curr = arr[val];
+        }
+    }
+    return curr;
+}
+
 (function ($) {
 
     Drupal.behaviors.may_masonry = {
@@ -29,7 +42,39 @@
             } );
             */
            
+           
+            //Prepare data for slick-lightbox
+            var w_width = jQuery(window).width();
+            var w_height = jQuery(window).height();
             
+            var sicklightfull, closest_style_width, newWidth, newHeight;
+            
+            $('.masonry-items img').each(function(index, value){
+                
+                var i_aspect = $(this).attr('data-iaspect');
+            
+                if (w_height/w_width >= i_aspect) {
+                    newHeight = Math.floor(w_width * i_aspect);
+                    newWidth = newHeight * i_aspect;
+                }
+                else {
+                    newWidth = Math.floor(w_height * (1/i_aspect));
+                }
+                closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
+                
+                sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                $(this).attr('data-sicklightfull', sicklightfull);
+            });
+            
+            $('.masonry-items img:not(.slick_lightbox)').slickLightbox({
+                src: 'data-sicklightfull', // 'src',
+                itemSelector: 'img[data-sicklightfull]'
+            }).addClass('slick_lightbox');
+            
+            
+            
+            
+            // Add images lazy load
             $('.masonry-item img').addClass('not-loaded');
             $('.masonry-item img.not-loaded').lazyload({
                 effect: 'fadeIn',
@@ -41,6 +86,7 @@
                 }
             });
             
+
 
           
         } // End of Attach
