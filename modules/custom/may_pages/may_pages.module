@@ -370,11 +370,11 @@ function may_pages_resize_filter_image($variables) {
   
   
   
-  list(,$original_path) = explode('f', $image['attributes']['src']);
-  $image['attributes']['data-originalpath'] = $original_path;
+  list(,$original_path) = explode('/f/', $image['attributes']['src']);
+  $image['attributes']['data-originalpath'] = '/' . $original_path;
   $image['attributes']['srcset'] = '';
   foreach ($styles as $style_name => $style_size) {
-    $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public' . $original_path . ' ' . $style_size;
+    $image['attributes']['srcset'] .= ($image['attributes']['srcset'] ? ', ' : '') . '/f/styles/' . $style_name . '/public/' . $original_path . ' ' . $style_size;
   }
   
   if (!empty($image['attributes']['width']) && !empty($image['attributes']['height'])) {
