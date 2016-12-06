@@ -7,6 +7,7 @@
 ?>
 
 <div class="images-by-type">
+  <div class="col-s"></div>  
   <article class="clearfix">
   
         <header>
@@ -83,5 +84,5 @@
         </div>
     
   </article>
-  
+  <div class="col-s"></div>  
 </div>  
