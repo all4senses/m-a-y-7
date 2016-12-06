@@ -66,10 +66,7 @@ function closest (num, arr) {
                 $(this).attr('data-sicklightfull', sicklightfull);
             });
             
-            $('.masonry-items img:not(.slick_lightbox)').slickLightbox({
-                src: 'data-sicklightfull', // 'src',
-                itemSelector: 'img[data-sicklightfull]'
-            }).addClass('slick_lightbox');
+            
             
             
             
@@ -83,6 +80,11 @@ function closest (num, arr) {
                     $(this).removeClass("not-loaded");
                     //$container.isotope('reload');
                     $grid.masonry('layout');
+                    
+                    $('.masonry-items img:not(.slick_lightbox)').slickLightbox({
+                        src: 'data-sicklightfull', // 'src',
+                        itemSelector: 'img[data-sicklightfull]'
+                    }).addClass('slick_lightbox');
                 }
             });
             
