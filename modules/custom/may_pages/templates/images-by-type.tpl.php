@@ -72,7 +72,7 @@
               $out .= '<div class="masonry-item">'
                       . '<img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . str_replace('public://', '/f/', $image->uri) . '"/>'
                       . '<div class="info">'
-                        . '<div class="link">' . l('P', 'node/' . $image->nid, array('attributes' => array('title' =>  $image->title))) . '</div>'
+                        . '<div class="link">' . l('П', 'node/' . $image->nid, array('attributes' => array('title' =>  'Проект: ' . $image->title, 'target' => '_blank'))) . '</div>'
                       . '</div>'
                     . '</div>';
               

@@ -155,6 +155,17 @@ footer {
             width: 100%;
             height: auto;
         }
+        .info {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: gray;
+            width: 20px;
+            padding: 0 5px;
+            .link a {
+                color: white;
+            }
+        }
     }
     
     @include MQ(M) {
