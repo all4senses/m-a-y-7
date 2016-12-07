@@ -505,7 +505,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
       
       if ($project_address) {
         $query->leftJoin('field_data_field_type_and_address', 'pa', 'pa.entity_id = n.nid');
-        $query->condition('pa.field_type_and_address_value', $project_address);
+        $query->condition('pa.field_type_and_address_value', '%%' . $project_address . '%%', 'LIKE');
       }
       
       $query->leftJoin('imagefield_attributes_values', 'a2', 'a2.fid = a.fid');
@@ -569,6 +569,15 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
   return theme('images_by_type', array('images' => $results, 'image_type' => $image_type_map[$image_type], 'project_type' => $project_type_map[$project_type]));
 }
 
+
+/**
+ * 
+ * @param type $existing
+ * @param type $type
+ * @param type $theme
+ * @param type $path
+ * @return type
+ */
 function may_pages_theme($existing, $type, $theme, $path) {
   
   if($type != 'module') {
