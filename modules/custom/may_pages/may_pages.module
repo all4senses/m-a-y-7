@@ -493,7 +493,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
       $query->fields('n', array('title'));
 
       if ($project_type && $project_type != 'all' && !empty($project_type_map[$project_type])) {
-        $query->leftJoin('field_data_field_main_project_type', 'pt', 'pt.nid = n.nid');
+        $query->leftJoin('field_data_field_main_project_type', 'pt', 'pt.entity_id = n.nid');
         //$query->fields('pt', array('field_main_project_type_value'));
         $query->condition('pt.field_main_project_type_value', $project_type_map[$project_type]);
       }
