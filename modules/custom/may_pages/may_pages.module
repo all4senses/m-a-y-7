@@ -20,23 +20,15 @@ function may_pages_menu() {
     );
    */
   
-  $items['projects/pictures-by-type/%/%'] = array(
+  $items['projects/pictures-by-type'] = array(
     'title' => t('Изображения по типам помещений'),
     'page callback' => 'may_pages_get_pictures_by_type',
-    'page arguments' => array(2,3),
+    //'page arguments' => array(2,3),
     //'access callback' => 'may_misc_userIsAdmin',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   
-  $items['projects/interiors/by-type/%'] = array(
-    'title' => t('Изображения по типам помещений'),
-    'page callback' => 'may_pages_get_pictures_by_type',
-    'page arguments' => array(1,3),
-    //'access callback' => 'may_misc_userIsAdmin',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
   return $items;
 }
 
@@ -461,11 +453,15 @@ function may_pages_get_project_types() {
  * @param type $image_type
  * @return type
  */
-function may_pages_get_pictures_by_type($project_type, $image_type) {
+function may_pages_get_pictures_by_type() {
   //dpm(arg(),'arg()');
   //dpm($project_type, '$project_type');
   //dpm($image_type, '$image_type');
   
+  $args = arg();
+  $project_type = !empty($args[2]) ? $args[2] : NULL;
+  $image_type = !empty($args[3]) ? $args[3] : NULL;
+      
   $image_type_map = array_merge(array('all' => 'Любой'), may_pages_get_image_types());
   $project_type_map = array_merge(array('all' => 'Любой'), may_pages_get_project_types());
   $project_title = !empty($_GET['project_title']) ? check_plain($_GET['project_title']) : NULL;
