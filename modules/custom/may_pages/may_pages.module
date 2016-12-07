@@ -476,7 +476,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
 //    
 //    case 'interiors':
       
-      if ( !$project_type || !$image_type || ($image_type != 'all' && empty($image_type_map[$image_type])) || ($project_type != 'all' && empty($image_type_map[$project_type])) ) {
+      if ( !$project_type || !$image_type || ($image_type != 'all' && empty($image_type_map[$image_type])) || ($project_type != 'all' && empty($project_type_map[$project_type])) ) {
         return theme('images_by_type', array('images' => NULL));
       }
           
