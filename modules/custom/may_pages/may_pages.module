@@ -463,8 +463,8 @@ function may_pages_get_project_types() {
  */
 function may_pages_get_pictures_by_type($project_type, $image_type) {
   //dpm(arg(),'arg()');
-  //dpm($project_type, '$project_type');
-  //dpm($image_type, '$image_type');
+  dpm($project_type, '$project_type');
+  dpm($image_type, '$image_type');
   
   $image_type_map = array_merge(array('all' => 'Любой'), may_pages_get_image_types());
   $project_type_map = array_merge(array('all' => 'Любой'), may_pages_get_project_types());
