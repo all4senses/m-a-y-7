@@ -732,8 +732,8 @@ function may_pages_newsletterSubscribe_form_validate(&$form, &$form_state) {
  */
 function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
   dpm($form_state, '$form_state');
-  dpm($_SERVER);
-  dpm(arg());
+  dpm($_SERVER, '$_SERVER');
+  dpm(arg(), 'arg()');
   dpm($_POST, '$_POST in submit');
   /*
   // Get a blog category
