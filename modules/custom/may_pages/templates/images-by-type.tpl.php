@@ -55,7 +55,7 @@
         </header>
 
         <?php
-          echo drupal_get_form('may_pages_newsletterSubscribe_form');
+          echo drupal_render(drupal_get_form('may_pages_newsletterSubscribe_form'));
           if (!is_array($images) || empty($images)) {
             echo '<div>No results</div>';
           }
