@@ -419,9 +419,9 @@ function may_pages_resize_filter_image($variables) {
 }
 
 function may_pages_get_pictures_by_type($project_type, $image_type) {
-  dpm(arg(),'arg()');
-  dpm($project_type, '$project_type');
-  dpm($image_type, '$image_type');
+  //dpm(arg(),'arg()');
+  //dpm($project_type, '$project_type');
+  //dpm($image_type, '$image_type');
   
   $type_map = array(
     'gostinye' => 'Гостиные',
