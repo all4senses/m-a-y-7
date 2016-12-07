@@ -476,13 +476,18 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
 //    
 //    case 'interiors':
       
-      if (empty($image_type_map[$image_type])) {
+      if ($image_type != 'all' && empty($image_type_map[$image_type])) {
         return theme('images_by_type', array('images' => NULL));
       }
           
       $query = db_select('imagefield_attributes_values', 'a');
+      
       $query->condition('a.type', 'data-roomtype');
-      $query->condition('a.value', '%%' . $image_type_map[$image_type] . '%%', 'LIKE');
+      
+      if ($image_type != 'all') {
+        $query->condition('a.value', '%%' . $image_type_map[$image_type] . '%%', 'LIKE');
+      }
+      
       $query->fields('a', array('fid', 'type'));
       $query->addField('a', 'value', 'data-roomtype');
 
