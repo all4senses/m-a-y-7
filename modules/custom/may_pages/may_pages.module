@@ -466,8 +466,8 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
   //dpm($project_type, '$project_type');
   //dpm($image_type, '$image_type');
   
-  $image_type_map = may_pages_get_image_types();
-  $project_type_map = may_pages_get_project_types();
+  $image_type_map = array_merge(array('all' => 'Любой'), may_pages_get_image_types());
+  $project_type_map = array_merge(array('all' => 'Любой'), may_pages_get_project_types());
   
   
   $results = NULL;
@@ -476,7 +476,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
 //    
 //    case 'interiors':
       
-      if ($image_type != 'all' && empty($image_type_map[$image_type])) {
+      if ( !$project_type || !$image_type || ($image_type != 'all' && empty($image_type_map[$image_type])) || ($project_type != 'all' && empty($image_type_map[$project_type])) ) {
         return theme('images_by_type', array('images' => NULL));
       }
           
@@ -563,7 +563,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
 
     drupal_add_js(drupal_get_path('module', 'may_pages') . '/js/may_masonry.js');
   }
-  return theme('images_by_type', array('images' => $results, 'image_type' => $image_type_map[$image_type]));
+  return theme('images_by_type', array('images' => $results, 'image_type' => $image_type_map[$image_type], 'project_type' => $project_type_map[$project_type]));
 }
 
 function may_pages_theme($existing, $type, $theme, $path) {
