@@ -60,7 +60,7 @@
           echo drupal_render($form_x);
           $out = '';
           if (!is_array($images) || empty($images)) {
-            $out = '<div>No results</div>';
+            $out = '<div>Ничего не найдено...</div>';
           }
           else {
             //dpm($images,'$images');
@@ -87,8 +87,10 @@
               
               
             }
-            $out = '<div class="title">Тип проекта: ' . $project_type . '. </div> <div class="title">Тип изображения: ' . $image_type . '</div><div class="masonry-items grid" id="grid">' . $out . '</div>';
             //$out = '<ul class="masonry-items grid effect-7" id="grid">' . $out . '</ul>';
+            //$out = '<div class="title">Тип проекта: ' . $project_type . '. </div> <div class="title">Тип изображения: ' . $image_type . '</div><div class="masonry-items grid" id="grid">' . $out . '</div>';
+            $out = '<div class="masonry-items grid" id="grid">' . $out . '</div>';
+            
           }
 
           echo $out;      

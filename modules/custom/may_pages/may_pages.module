@@ -463,12 +463,12 @@ function may_pages_get_project_types() {
  */
 function may_pages_get_pictures_by_type($project_type, $image_type) {
   //dpm(arg(),'arg()');
-  dpm($project_type, '$project_type');
-  dpm($image_type, '$image_type');
+  //dpm($project_type, '$project_type');
+  //dpm($image_type, '$image_type');
   
   $image_type_map = array_merge(array('all' => 'Любой'), may_pages_get_image_types());
   $project_type_map = array_merge(array('all' => 'Любой'), may_pages_get_project_types());
-  
+  $project_title = !empty(!$_GET['project_title']) ? check_plain($_GET['project_title']) : NULL;
   
   $results = NULL;
   $out = t('Нет результатов...');
@@ -495,14 +495,17 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
       $query->addField('u', 'id', 'nid');
 
       $query->leftJoin('node', 'n', 'n.nid = u.id');
+      if ($project_title) {
+        $query->condition('n.title', '%%' . $project_title . '%%', 'LIKE');
+      }
       $query->fields('n', array('title'));
 
       if ($project_type && $project_type != 'all' && !empty($project_type_map[$project_type])) {
         $query->leftJoin('field_data_field_main_project_type', 'pt', 'pt.entity_id = n.nid');
         //$query->fields('pt', array('field_main_project_type_value'));
         $query->condition('pt.field_main_project_type_value', $project_type_map[$project_type]);
-        dpm($project_type, '$project_type');
-        dpm($project_type_map[$project_type], '$project_type_map[$project_type]');
+        //dpm($project_type, '$project_type');
+        //dpm($project_type_map[$project_type], '$project_type_map[$project_type]');
       }
       
       $query->leftJoin('imagefield_attributes_values', 'a2', 'a2.fid = a.fid');
@@ -640,7 +643,7 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
   
   //dpm(arg(), 'arg in form');
   //dpm($_POST, '$_POST in form');
-    
+  /*  
   $form['#prefix'] = '<div id="subscribe" class="subscribe">
                         <svg class="subscribe-svg" version="1.1"
                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
@@ -687,18 +690,11 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
 
   ';
   $form['#suffix'] = '</div>';
-
+  */
   $form['title'] = array(
     //'#markup' => '<div class="title">Sign up to receive weekly updates</div>',
-    '#markup' => '<div class="subscribe-text">Join 100k readers and get the latest VoIP & Cloud Tech headlines delivered to your inbox.</div>',
+    '#markup' => t('Параметры поиска изображений:'),//'<div class="subscribe-text">Join 100k readers and get the latest VoIP & Cloud Tech headlines delivered to your inbox.</div>',
       
-  );
-  
-  $form['email'] = array(
-    '#type' => 'textfield',
-    //'#required' => TRUE,
-    '#attributes' => array('title' => 'EMAIL'),
-    '#attributes' => array('placeholder' => 'Email Address')
   );
   
   $args = arg();
@@ -707,9 +703,6 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
   $form['project_type'] = array(
     '#title' => 'Тип проекта',
     '#type' => 'select',
-    //'#required' => TRUE,
-    //'#attributes' => array('title' => 'EMAIL'),
-    //'#attributes' => array('placeholder' => 'Email Address')
     '#options' => $project_types,
     '#default_value' => $project_type
   );
@@ -719,11 +712,17 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
   $form['image_type'] = array(
     '#title' => 'Тип помещения',
     '#type' => 'select',
-    //'#required' => TRUE,
-    //'#attributes' => array('title' => 'EMAIL'),
-    //'#attributes' => array('placeholder' => 'Email Address')
     '#options' => $image_types,
     '#default_value' => $image_type,
+  );
+  
+  $project_title = !empty($_GET['project_title']) ? $_GET['project_title'] : NULL;
+  $form['project_title'] = array(
+    '#title' => 'Назвение проекта содержит...',
+    '#type' => 'textfield',
+    '#default_value' => $project_title,
+    //'#attributes' => array('title' => 'EMAIL'),
+    //'#attributes' => array('placeholder' => 'Email Address')
   );
   
   $form['actions'] = array('#type' => 'actions');
@@ -831,9 +830,10 @@ function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
     
   //gv_misc_sendMessage('email_verification', array('verification_code' => $verification_code . '=' . urlencode($form_state['values']['email']), 'email' => $form_state['values']['email']));
   */
-  drupal_set_message('Thank you for subscribing to our newsletter.');
+  //drupal_set_message('Thank you for subscribing to our newsletter.');
   //drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
   $project_type = !empty($form_state['values']['project_type']) ? $form_state['values']['project_type'] : 'all';
   $image_type = !empty($form_state['values']['image_type']) ? $form_state['values']['image_type'] : 'all';
-  drupal_goto('projects/pictures-by-type/' . $project_type . '/' . $image_type);
+  $options = !empty($form_state['values']['project_title']) ? array('query' => array('project_title' => $form_state['values']['project_title'])) : array();
+  drupal_goto('projects/pictures-by-type/' . $project_type . '/' . $image_type, $options);
 }
