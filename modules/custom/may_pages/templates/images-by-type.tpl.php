@@ -56,10 +56,14 @@
 
         <?php
           
-          $form_x = drupal_get_form('may_pages_filterPictures_form');
-          echo drupal_render($form_x);
-          $out = '';
-          if (!is_array($images) || empty($images)) {
+          $form_filter = drupal_get_form('may_pages_filterPictures_form');
+          echo drupal_render($form_filter);
+          
+          $args = arg(); $get = $_GET; unset($get['q']);
+          if (empty(arg(2)) && empty(arg(3)) && empty($get)) {
+            $out = '<div>Пожалуйста, задайте условия поиска...</div>';
+          }
+          elseif (!is_array($images) || empty($images)) {
             $out = '<div>Ничего не найдено...</div>';
           }
           else {
