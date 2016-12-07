@@ -679,7 +679,7 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Subscribe To The Blog'),
+    '#value' => t('Выбрать'),
   ); 
     
   return $form;
@@ -780,5 +780,5 @@ function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
   //gv_misc_sendMessage('email_verification', array('verification_code' => $verification_code . '=' . urlencode($form_state['values']['email']), 'email' => $form_state['values']['email']));
   */
   drupal_set_message('Thank you for subscribing to our newsletter.');
-  //drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
+  drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
 }
