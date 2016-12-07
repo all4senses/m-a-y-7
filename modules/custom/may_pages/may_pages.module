@@ -752,6 +752,8 @@ function may_pages_newsletterSubscribe_form_validate(&$form, &$form_state) {
  *   Return nothing.
  */
 function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
+  echo 'sss';
+  exit();
   //dpm($form_state['values'], '$form_state values');
   //dpm($_SERVER, '$_SERVER');
   //dpm(arg(), 'arg()');
