@@ -692,7 +692,7 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
   
   $image_type = !empty($args[3]) ? $args[3] : '';
   $image_types = array_merge(array('' => 'Любой'), may_pages_get_image_types());
-  $form['image_types'] = array(
+  $form['image_type'] = array(
     '#title' => 'Тип помещения',
     '#type' => 'select',
     //'#required' => TRUE,

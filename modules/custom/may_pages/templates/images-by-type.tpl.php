@@ -58,12 +58,12 @@
           
           $form_x = drupal_get_form('may_pages_newsletterSubscribe_form');
           echo drupal_render($form_x);
+          $out = '';
           if (!is_array($images) || empty($images)) {
-            echo '<div>No results</div>';
+            $out = '<div>No results</div>';
           }
           else {
             //dpm($images,'$images');
-            $out = '';
             
             foreach($images as $image) {
               $imageinfo = getimagesize($image->uri);
