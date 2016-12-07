@@ -418,12 +418,12 @@ function may_pages_resize_filter_image($variables) {
   return $output;
 }
 
-function may_pages_get_pictures_by_type($project_type, $image_type) {
-  //dpm(arg(),'arg()');
-  //dpm($project_type, '$project_type');
-  //dpm($image_type, '$image_type');
-  
-  $type_map = array(
+/**
+ * 
+ * @return type
+ */
+function may_pages_get_image_types() {
+  return $type_map = array(
     'gostinye' => 'Гостиные',
     'gostevye' => 'Гостевые',
     'studii' => 'Студии', 
@@ -443,7 +443,20 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
     'lodzhii' => 'Лоджии', 
     'lestnitsy' => 'Лестничные пролёты', 
   );
+}
+
+/**
+ * 
+ * @param type $project_type
+ * @param type $image_type
+ * @return type
+ */
+function may_pages_get_pictures_by_type($project_type, $image_type) {
+  //dpm(arg(),'arg()');
+  //dpm($project_type, '$project_type');
+  //dpm($image_type, '$image_type');
   
+  $type_map = may_pages_get_image_types();
   
   
   $results = NULL;
@@ -668,12 +681,25 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
   $project_type = !empty($args[2]) ? $args[2] : '';
   $project_types = array( '' => 'Любой', 'interiors' => 'Интерьеры', 'cottages' => 'Коттеджи', 'offices' => 'Офисы', 'architecture' => 'Архитектура');
   $form['project_type'] = array(
+    '#title' => 'Тип проекта',
     '#type' => 'select',
     //'#required' => TRUE,
     //'#attributes' => array('title' => 'EMAIL'),
     //'#attributes' => array('placeholder' => 'Email Address')
     '#options' => $project_types,
     '#default_value' => $project_type
+  );
+  
+  $image_type = !empty($args[3]) ? $args[3] : '';
+  $image_types = array_merge(array('' => 'Любой'), may_pages_get_image_types());
+  $form['image_types'] = array(
+    '#title' => 'Тип помещения',
+    '#type' => 'select',
+    //'#required' => TRUE,
+    //'#attributes' => array('title' => 'EMAIL'),
+    //'#attributes' => array('placeholder' => 'Email Address')
+    '#options' => $image_types,
+    '#default_value' => $image_type,
   );
   
   $form['actions'] = array('#type' => 'actions');
@@ -783,4 +809,7 @@ function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
   */
   drupal_set_message('Thank you for subscribing to our newsletter.');
   //drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
+  $project_type = !empty($form_state['values']['project_type']) ? $form_state['values']['project_type'] : 'all';
+  $image_type = !empty($form_state['values']['image_type']) ? $form_state['values']['image_type'] : 'all';
+  drupal_goto('projects/pictures-by-type/' . $project_type . '/' . $image_type);
 }
