@@ -664,17 +664,17 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
     '#attributes' => array('placeholder' => 'Email Address')
   );
   
-  $args = arg();
-  $project_type = !empty($args[2]) ? $args[2] : '';
-  $project_types = array( '' => 'Любой', 'interiors' => 'Интерьеры', 'cottages' => 'Коттеджи', 'offices' => 'Офисы', 'architecture' => 'Архитектура');
-  $form['project_type'] = array(
-    '#type' => 'select',
-    //'#required' => TRUE,
-    //'#attributes' => array('title' => 'EMAIL'),
-    //'#attributes' => array('placeholder' => 'Email Address')
-    '#options' => $project_types,
-    '#default_value' => $project_type
-  );
+//  $args = arg();
+//  $project_type = !empty($args[2]) ? $args[2] : '';
+//  $project_types = array( '' => 'Любой', 'interiors' => 'Интерьеры', 'cottages' => 'Коттеджи', 'offices' => 'Офисы', 'architecture' => 'Архитектура');
+//  $form['project_type'] = array(
+//    '#type' => 'select',
+//    //'#required' => TRUE,
+//    //'#attributes' => array('title' => 'EMAIL'),
+//    //'#attributes' => array('placeholder' => 'Email Address')
+//    '#options' => $project_types,
+//    '#default_value' => $project_type
+//  );
   
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
