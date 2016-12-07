@@ -837,8 +837,24 @@ function may_pages_filterPictures_form_submit(&$form, &$form_state) {
   */
   //drupal_set_message('Thank you for subscribing to our newsletter.');
   //drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
-  $project_type = !empty($form_state['values']['project_type']) ? $form_state['values']['project_type'] : 'all';
-  $image_type = !empty($form_state['values']['image_type']) ? $form_state['values']['image_type'] : 'all';
-  $options = !empty($form_state['values']['project_title']) ? array('query' => array('project_title' => $form_state['values']['project_title'])) : array();
+  
+//  $project_type = !empty($form_state['values']['project_type']) ? $form_state['values']['project_type'] : 'all';
+//  $image_type = !empty($form_state['values']['image_type']) ? $form_state['values']['image_type'] : 'all';
+  
+  
+  $project_options = array('project_title', 'project_address');
+  foreach ($project_options as $option) {
+    if (!empty($form_state['values'][$option])) {
+      $query_options[$option] = $form_state['values'][$option];
+    }
+  }
+  $options = array();
+  if (!empty($query_options)) {
+    $options = array('query' => $query_options);
+  }
+  //$project_title = !empty($form_state['values']['project_title']) ? $form_state['values']['project_title'] : NULL;
+  //$project_address = !empty($form_state['values']['project_address']) ? $form_state['values']['project_address'] : NULL;
+  //$options = !empty($form_state['values']['project_title']) ? array('query' => array('project_title' => $form_state['values']['project_title'])) : array();
+  
   drupal_goto('projects/pictures-by-type/' . $project_type . '/' . $image_type, $options);
 }
