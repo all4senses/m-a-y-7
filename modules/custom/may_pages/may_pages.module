@@ -20,6 +20,15 @@ function may_pages_menu() {
     );
    */
   
+  $items['projects/pictures-by-type/%/%'] = array(
+    'title' => t('Изображения по типам помещений'),
+    'page callback' => 'may_pages_get_pictures_by_type',
+    'page arguments' => array(2,3),
+    //'access callback' => 'may_misc_userIsAdmin',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   $items['projects/interiors/by-type/%'] = array(
     'title' => t('Изображения по типам помещений'),
     'page callback' => 'may_pages_get_pictures_by_type',
@@ -27,7 +36,7 @@ function may_pages_menu() {
     //'access callback' => 'may_misc_userIsAdmin',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
-    );
+  );
   return $items;
 }
 
@@ -410,9 +419,9 @@ function may_pages_resize_filter_image($variables) {
 }
 
 function may_pages_get_pictures_by_type($project_type, $image_type) {
-  //dpm(arg(),'arg()');
-  //  dpm($project_type, '$project_type');
-  //dpm($image_type, '$image_type');
+  dpm(arg(),'arg()');
+  dpm($project_type, '$project_type');
+  dpm($image_type, '$image_type');
   
   $type_map = array(
     'gostinye' => 'Гостиные',
