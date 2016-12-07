@@ -838,8 +838,8 @@ function may_pages_filterPictures_form_submit(&$form, &$form_state) {
   //drupal_set_message('Thank you for subscribing to our newsletter.');
   //drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
   
-//  $project_type = !empty($form_state['values']['project_type']) ? $form_state['values']['project_type'] : 'all';
-//  $image_type = !empty($form_state['values']['image_type']) ? $form_state['values']['image_type'] : 'all';
+  $project_type = !empty($form_state['values']['project_type']) ? $form_state['values']['project_type'] : 'all';
+  $image_type = !empty($form_state['values']['image_type']) ? $form_state['values']['image_type'] : 'all';
   
   
   $project_options = array('project_title', 'project_address');
