@@ -468,7 +468,7 @@ function may_pages_get_pictures_by_type($project_type, $image_type) {
   
   $image_type_map = array_merge(array('all' => 'Любой'), may_pages_get_image_types());
   $project_type_map = array_merge(array('all' => 'Любой'), may_pages_get_project_types());
-  $project_title = !empty(!$_GET['project_title']) ? check_plain($_GET['project_title']) : NULL;
+  $project_title = !empty($_GET['project_title']) ? check_plain($_GET['project_title']) : NULL;
   
   $results = NULL;
   $out = t('Нет результатов...');
@@ -718,7 +718,7 @@ function may_pages_newsletterSubscribe_form($form, &$form_state) {
   
   $project_title = !empty($_GET['project_title']) ? $_GET['project_title'] : NULL;
   $form['project_title'] = array(
-    '#title' => 'Назвение проекта содержит...',
+    '#title' => 'Название проекта содержит...',
     '#type' => 'textfield',
     '#default_value' => $project_title,
     //'#attributes' => array('title' => 'EMAIL'),
