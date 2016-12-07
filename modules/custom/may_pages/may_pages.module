@@ -752,10 +752,10 @@ function may_pages_newsletterSubscribe_form_validate(&$form, &$form_state) {
  *   Return nothing.
  */
 function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
-  echo 'sss';
-  exit();
-  //dpm($form_state['values'], '$form_state values');
-  //dpm($_SERVER, '$_SERVER');
+//  echo 'sss';
+//  exit();
+  dpm($form_state['values'], '$form_state values');
+  dpm($_SERVER, '$_SERVER');
   //dpm(arg(), 'arg()');
   //dpm($_POST, '$_POST in submit');
   /*
@@ -782,5 +782,5 @@ function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
   //gv_misc_sendMessage('email_verification', array('verification_code' => $verification_code . '=' . urlencode($form_state['values']['email']), 'email' => $form_state['values']['email']));
   */
   drupal_set_message('Thank you for subscribing to our newsletter.');
-  drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
+  //drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
 }
