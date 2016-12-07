@@ -59,6 +59,7 @@
           $form_filter = drupal_get_form('may_pages_filterPictures_form');
           echo drupal_render($form_filter);
           
+          $out = '';
           $args = arg(); $get = $_GET; unset($get['q']);
           if (empty(arg(2)) && empty(arg(3)) && empty($get)) {
             $out = '<div>Пожалуйста, задайте условия поиска...</div>';
