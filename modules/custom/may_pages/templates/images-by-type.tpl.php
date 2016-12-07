@@ -83,7 +83,7 @@
               list(,$original_path) = explode('/f/', $image_path);
               
               //data-original will be refined in js according to the current picture size
-              $out .= '<div class="masonry-item">'
+              $out .= '<div class="masonry-item" style="background:' . $image->color_hex . ';">'
                       . '<img data-originalpath="/' . $original_path . '" data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . $image_path . '"/>'
                       . '<div class="info">'
                         . '<div class="link">' . l('П', 'node/' . $image->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $image->title, 'target' => '_blank'))) . '</div>'

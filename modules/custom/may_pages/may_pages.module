@@ -447,6 +447,8 @@ function may_pages_get_project_types() {
 }
 
 
+require_once 'sites/all/vendor/autoload.php';
+use ColorThief\ColorThief;
 /**
  * 
  * @param type $project_type
@@ -454,6 +456,8 @@ function may_pages_get_project_types() {
  * @return type
  */
 function may_pages_get_pictures_by_type() {
+  
+
   //dpm(arg(),'arg()');
   //dpm($project_type, '$project_type');
   //dpm($image_type, '$image_type');
@@ -470,68 +474,75 @@ function may_pages_get_pictures_by_type() {
   $results = NULL;
   $out = t('Ничего не найдено...');
       
-      if ( !$project_type || !$image_type || ($image_type != 'all' && empty($image_type_map[$image_type])) || ($project_type != 'all' && empty($project_type_map[$project_type])) ) {
-        return theme('images_by_type', array('images' => NULL));
-      }
-          
-      $query = db_select('imagefield_attributes_values', 'a');
-      
-      $query->condition('a.type', 'data-roomtype');
-      
-      if ($image_type != 'all') {
-        $query->condition('a.value', '%%' . $image_type_map[$image_type] . '%%', 'LIKE');
-      }
-      
-      $query->fields('a', array('fid', 'type'));
-      $query->addField('a', 'value', 'data-roomtype');
+  if ( !$project_type || !$image_type || ($image_type != 'all' && empty($image_type_map[$image_type])) || ($project_type != 'all' && empty($project_type_map[$project_type])) ) {
+    return theme('images_by_type', array('images' => NULL));
+  }
 
-      $query->leftJoin('file_usage', 'u', 'u.fid = a.fid');
-      $query->addField('u', 'id', 'nid');
+  $query = db_select('imagefield_attributes_values', 'a');
 
-      $query->leftJoin('node', 'n', 'n.nid = u.id');
-      if ($project_title) {
-        $query->condition('n.title', '%%' . $project_title . '%%', 'LIKE');
-      }
-      $query->fields('n', array('title'));
+  $query->condition('a.type', 'data-roomtype');
 
-      if ($project_type && $project_type != 'all' && !empty($project_type_map[$project_type])) {
-        $query->leftJoin('field_data_field_main_project_type', 'pt', 'pt.entity_id = n.nid');
-        $query->condition('pt.field_main_project_type_value', $project_type_map[$project_type]);
-      }
-      
-      if ($project_address) {
-        $query->leftJoin('field_data_field_type_and_address', 'pa', 'pa.entity_id = n.nid');
-        $query->condition('pa.field_type_and_address_value', '%%' . $project_address . '%%', 'LIKE');
-      }
-      
-      $query->leftJoin('imagefield_attributes_values', 'a2', 'a2.fid = a.fid');
-      $query->condition('a2.type', 'data-roomweight');
-      $query->addField('a2', 'value', 'i_weight');
+  if ($image_type != 'all') {
+    $query->condition('a.value', '%%' . $image_type_map[$image_type] . '%%', 'LIKE');
+  }
 
-      $query->join('file_managed', 'm', 'm.fid = a.fid');
-      $query->fields('m', array('uri'));
-      $results = $query->execute()->fetchAllAssoc('fid');
+  $query->fields('a', array('fid', 'type'));
+  $query->addField('a', 'value', 'data-roomtype');
 
-      /*
-      $query->distinct();
-      $query->addExpression('COUNT(a.fid)', 'count');
-      $query = db_select('taxonomy_term_data', 'td')->extend('pagerDefault')->limit(80);
-      $query->fields('td', array('name', 'tid', 'vid', 'description'));
-      $query->leftJoin('taxonomy_index', 'ti', 'ti.tid = td.tid');
-      $query->leftJoin('node', 'n', 'n.nid = ti.nid');
-      //$query->where('n.nid = ti.nid AND n.type = :type', array(':type' => $content_type))
-      $query->addExpression('COUNT(n.nid)', 'count');
-      $query->groupBy('td.name');
-      $query->condition('td.vid', $voc->vid);
-      $query->orderBy('count', 'ASC');
-      $results = $query->execute();
-      $results->fetchAllAssoc('fid');
-      */
+  $query->leftJoin('file_usage', 'u', 'u.fid = a.fid');
+  $query->addField('u', 'id', 'nid');
 
-  //}
-  
+  $query->leftJoin('node', 'n', 'n.nid = u.id');
+  if ($project_title) {
+    $query->condition('n.title', '%%' . $project_title . '%%', 'LIKE');
+  }
+  $query->fields('n', array('title'));
+
+  if ($project_type && $project_type != 'all' && !empty($project_type_map[$project_type])) {
+    $query->leftJoin('field_data_field_main_project_type', 'pt', 'pt.entity_id = n.nid');
+    $query->condition('pt.field_main_project_type_value', $project_type_map[$project_type]);
+  }
+
+  if ($project_address) {
+    $query->leftJoin('field_data_field_type_and_address', 'pa', 'pa.entity_id = n.nid');
+    $query->condition('pa.field_type_and_address_value', '%%' . $project_address . '%%', 'LIKE');
+  }
+
+  $query->leftJoin('imagefield_attributes_values', 'a2', 'a2.fid = a.fid');
+  $query->condition('a2.type', 'data-roomweight');
+  $query->addField('a2', 'value', 'i_weight');
+
+  $query->join('file_managed', 'm', 'm.fid = a.fid');
+  $query->fields('m', array('uri'));
+  $results = $query->execute()->fetchAllAssoc('fid');
+
+  /*
+  $query->distinct();
+  $query->addExpression('COUNT(a.fid)', 'count');
+  $query = db_select('taxonomy_term_data', 'td')->extend('pagerDefault')->limit(80);
+  $query->fields('td', array('name', 'tid', 'vid', 'description'));
+  $query->leftJoin('taxonomy_index', 'ti', 'ti.tid = td.tid');
+  $query->leftJoin('node', 'n', 'n.nid = ti.nid');
+  //$query->where('n.nid = ti.nid AND n.type = :type', array(':type' => $content_type))
+  $query->addExpression('COUNT(n.nid)', 'count');
+  $query->groupBy('td.name');
+  $query->condition('td.vid', $voc->vid);
+  $query->orderBy('count', 'ASC');
+  $results = $query->execute();
+  $results->fetchAllAssoc('fid');
+  */
+
   
   if (!empty($results)) {
+    
+    foreach ($results as $key => $image) {
+      
+      $sourceImage = str_replace('public://', 'f/', $image->uri);
+      //$sourceImage = 'f/styles/1000/public/img/olga_yuskasova/cottages/2-1/0001.jpg';
+      $dominantColor = ColorThief::getColor($sourceImage);
+      $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
+      $results[$key]->color_hex = $hex;
+    }
     
     drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
     drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
