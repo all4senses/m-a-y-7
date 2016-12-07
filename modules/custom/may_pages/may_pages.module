@@ -535,3 +535,222 @@ function may_pages_theme($existing, $type, $theme, $path) {
   
   
 }
+
+
+/**
+ * Form with a fieldset of Add content section for Admin Content GetVoIP page (by Views).
+ */
+/*
+function gv_misc_AddContentSection_form() {
+  
+  global $user;
+  
+  $types = node_type_get_types();
+  //dpm($types);
+  // Hide some content tupes if not a root.
+  //dpm($user);
+  if ($user->uid != 1) {
+    unset($types['admin_page'], $types['preface'], $types['quote'], $types['webform']);
+  }
+  //if (in_array('root', $user->roles)) {
+  if (in_array('Writer', $user->roles) && !in_array('administrator', $user->roles)) {
+    $types_to_show = array('blog_post', 'article', 'provider', 'phone');
+    foreach ($types as $type => $value) {
+      if (!in_array($type, $types_to_show)) {
+        unset($types[$type]);
+      }
+    }
+  }
+  
+  $options = array('' => '- Select a content type -');
+  foreach ($types as $type => $value) {
+    $options[str_replace('_', '-', $type)] = $value->name;
+  }
+  
+  $form['add_content'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Add a new content'),
+    '#collapsible' => TRUE,
+  );
+  $form['add_content']['select_type'] = array(
+    '#type' => 'select',
+    //'#title' => 'Select content type',
+    '#options' => $options,
+    '#attributes' => array('id' => 'select_type',  'onChange' => "top.location.href='http://getvoip.com/node/add/" . "' + document.getElementById('select_type').options[document.getElementById('select_type').selectedIndex].value"),
+  );
+  
+  return $form;
+}
+*/
+
+
+/**
+ * Implements hook_form().
+ *
+ * @return $form
+ *   Return nothing.
+ */
+function may_pages_newsletterSubscribe_form($form, &$form_state) {
+    
+  $form['#prefix'] = '<div id="subscribe" class="subscribe">
+                        <svg class="subscribe-svg" version="1.1"
+                           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+                           x="0px" y="0px" width="60px" height="60px" style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                        <defs>
+                        </defs>
+                        <path style="fill:#FFFFFF;stroke:#035DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" d="M40.7,10l-8.9-8.3
+                          c-1-1-2.7-1-3.7,0L19.3,10H40.7z"/>
+                        <g class="subscribe-svg-paper">
+                          <polygon style="fill:#C6E2F7;stroke:#035DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" points="53,10 7,10 7,53 
+                            22,53 38,53 53,53   "/>
+                          <g>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="27" y1="18" x2="33" y2="18"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="36" y1="32" x2="42" y2="32"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="18" y1="25" x2="23" y2="25"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="31" y1="25" x2="38" y2="25"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="27" y1="25" x2="27" y2="25"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="22" y1="32" x2="32" y2="32"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="18" y1="32" x2="18" y2="32"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="42" y1="25" x2="42" y2="25"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="25.2" y1="37.8" x2="30.2" y2="37.8"/>
+                            
+                              <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="34.2" y1="37.8" x2="34.2" y2="37.8"/>
+                          </g>
+                        </g>
+                        <polygon style="fill:#FFFFFF;stroke:#035DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" points="53,21.4 53,31.6 
+                          38,43 22,43 7,31.6 7,21.4 1,27 1,27.1 1,58.9 1,59 1.1,59 58.5,59 58.9,59 59,59 59,58.9 59,27.1 59,27 "/>
+                        <path style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" d="M1,57.7V28.3
+                          c0-0.5,0.6-0.8,1-0.5L22,43L2,58.2C1.6,58.5,1,58.2,1,57.7z"/>
+                        <path style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" d="M59,57.7V28.3
+                          c0-0.5-0.6-0.8-1-0.5L38,43l20,15.2C58.4,58.5,59,58.2,59,57.7z"/>
+                        <line style="fill:#FFFFFF;stroke:#045DA0;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;" x1="21" y1="43" x2="38" y2="43"/>
+                        </svg>
+
+
+  ';
+  $form['#suffix'] = '</div>';
+
+  $form['title'] = array(
+    //'#markup' => '<div class="title">Sign up to receive weekly updates</div>',
+    '#markup' => '<div class="subscribe-text">Join 100k readers and get the latest VoIP & Cloud Tech headlines delivered to your inbox.</div>',
+      
+  );
+  
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#attributes' => array('title' => 'EMAIL'),
+    '#attributes' => array('placeholder' => 'Email Address')
+  );
+  
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Subscribe To The Blog'),
+  ); 
+    
+  return $form;
+}
+
+
+
+/**
+ * Implements hook_form_validate().
+ *
+ * @return $form
+ *   Return nothing.
+ */
+/*
+function may_pages_newsletterSubscribe_form_validate(&$form, &$form_state) {
+
+  //drupal_set_message('In Validate!', 'warning');
+  //dpm($form_state['values']);
+  //dpm($form);
+  //dpm($_GET);  
+  
+    
+  // Clear hints, if any.
+  $fields_to_clear_hints = array('email' => array('hint' => @$form['email']['#attributes']['title']));
+  foreach ($fields_to_clear_hints as $fname => $fdata) {
+   
+    if ($form_state['values'][$fname] == $fdata['hint']) {
+      
+      // This clear the field.
+      $form[$fname]['#value'] = NULL;
+      
+      // Just in case.
+      // BUT! It causes fatal eror with #parent index absence
+      //form_set_value($form[$fdata['set']][$fname], array('#value' => NULL), $form_state);
+      
+      // Just in case on more.
+      $form_state['values'][$fname] = NULL;
+      
+      if (isset($form[$fname]['#required']) && $form[$fname]['#required']) {
+        form_set_error($fname, t('Please fill the field "' . $fname . '"'));
+        return;
+      }
+      
+    }
+    elseif ($fname == 'email' && !preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,7})$/', $form_state['values'][$fname])) {
+      form_set_error($fname, 'Wrong email format!');
+      return;
+    }
+    
+  }
+  
+  // Check if submitted email was submitted previously.
+  $query = db_select('gv_emails_subscribed', 'e')  
+        ->fields('e', array('email'));
+  $query->condition('e.email', $form_state['values']['email']);
+  $email = $query->execute()->fetchField();
+  if ($email) {
+    form_set_error('email', 'Email ' . $form_state['values']['email'] . ' has been submitted already!');
+    return;
+  }
+  
+}
+*/
+
+
+/**
+ * Implements hook_form_submit().
+ *
+ * @return $form
+ *   Return nothing.
+ */
+function may_pages_newsletterSubscribe_form_submit(&$form, &$form_state) {
+  /*
+  // Get a blog category
+  $blog_cat = NULL;
+  $nid = str_replace('node/', '', $_GET['q']);
+  if ($nid && is_numeric($nid)) {
+    $query = db_select('field_revision_field_blog_category', 'b')
+          ->fields('b', array('field_blog_category_value'));
+    $query->condition('b.entity_id', $nid);
+    $blog_cat = $query->execute()->fetchField();
+  }  
+ 
+  $verification_code = md5(time());
+  db_insert('gv_emails_subscribed')
+    ->fields(array(
+      'email'=> $form_state['values']['email'],
+      'timestamp'=> time(),
+      'code' => $verification_code,
+      'source' => $blog_cat,
+    ))
+    ->execute();
+    
+  //gv_misc_sendMessage('email_verification', array('verification_code' => $verification_code . '=' . urlencode($form_state['values']['email']), 'email' => $form_state['values']['email']));
+  */
+  drupal_set_message('Thank you for subscribing to our newsletter.');
+  drupal_goto(ltrim(@$_SERVER['REDIRECT_URL'], '/'), array('query' => array('nocache' => 1)));
+}
