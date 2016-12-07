@@ -55,6 +55,7 @@
         </header>
 
         <?php
+          
           $form_x = drupal_get_form('may_pages_newsletterSubscribe_form');
           echo drupal_render($form_x);
           if (!is_array($images) || empty($images)) {
