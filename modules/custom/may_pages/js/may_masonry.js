@@ -63,14 +63,19 @@ function closest (num, arr) {
                 // Find out and set an image url for full screen slick lightbox slideshow
                 var i_aspect = $(this).attr('data-iaspect');
             
+                console.log('i_aspect: ', i_aspect);
                 if (w_height/w_width >= i_aspect) {
                     newHeight = Math.floor(w_width * i_aspect);
                     newWidth = newHeight * i_aspect;
+                    console.log('1 newWidth: ', newWidth);
                 }
                 else {
                     newWidth = Math.floor(w_height * (1/i_aspect));
+                    console.log('2 newWidth: ', newWidth);
                 }
-                closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
+                //closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
+                closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
+                console.log('closest_style_width: ', closest_style_width);
                 
                 sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
                 $(this).attr('data-sicklightfull', sicklightfull);
