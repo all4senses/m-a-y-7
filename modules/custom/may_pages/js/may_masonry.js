@@ -102,6 +102,51 @@ function closest (num, arr) {
             }).addClass('slick_lightbox');
 
           
+          
+          
+          
+            var resizeId;
+            $(window).resize(function() {
+                clearTimeout(resizeId);
+                resizeId = setTimeout(slickLightboxResetSizes, 500);
+            });
+          
+            function slickLightboxResetSizes() {
+                
+                console.log('After resize...');
+
+              //Prepare data for slick-lightbox
+                var w_width = jQuery(window).width();
+                var w_height = jQuery(window).height();
+                var w_aspect = w_height/w_width;
+                var sicklightfull, current_size_url, closest_style_width, newWidth, newHeight;
+
+                $('.masonry-items img').each(function(index, value){
+                    // Find out and set a current more appropriate size image url
+
+//                    closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
+//                    current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+//                    $(this).attr('data-original', current_size_url);
+
+                    // Find out and set an image url for full screen slick lightbox slideshow
+                    var i_aspect = $(this).attr('data-iaspect');
+
+                    if (w_aspect >= i_aspect) {
+                        newHeight = Math.floor(w_width/i_aspect);
+                        newWidth = newHeight * i_aspect;
+                    }
+                    else {
+                        newWidth = Math.floor(w_height * (1/i_aspect));
+                    }
+                    //closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
+                    closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
+
+                    sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                    $(this).attr('data-sicklightfull', sicklightfull);
+                });
+            }
+        
+          
         } // End of Attach
     }; // End of Behavior
 
