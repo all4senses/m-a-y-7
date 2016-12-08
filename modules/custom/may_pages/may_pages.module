@@ -601,6 +601,9 @@ function may_pages_get_pictures_by_type() {
         }
         
       } // End of if (empty($image->i_maincolor)) {
+      else {
+        dpm('Main color is set for fid: ' . $image->fid);
+      }
       
     } // End of foreach ($results as $key => $image) {
     
