@@ -458,6 +458,7 @@ Intro Section
     height: 125px;
     margin-top: 80px;
     background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat cover 64%;
+    background-size: cover;
   }
 }
 
@@ -468,6 +469,7 @@ Intro Section
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
+    background-size: cover;
   }
 }
 
@@ -475,6 +477,7 @@ Intro Section
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
+    background-size: cover;
   }
 }
 

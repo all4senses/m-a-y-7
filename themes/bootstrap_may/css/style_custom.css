@@ -724,6 +724,7 @@ footer {
     height: 125px;
     margin-top: 80px;
     background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat cover 64%;
+    background-size: cover;
   }
 }
 
@@ -734,6 +735,7 @@ footer {
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
+    background-size: cover;
   }/* line 54, ../assets/sass/style_custom.scss */
   .main-container .row #row-main-column .node-wrapper-outer article {
     width: 768px;
@@ -756,6 +758,7 @@ footer {
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
+    background-size: cover;
   }/* line 180, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 32%;
