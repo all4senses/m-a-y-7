@@ -536,9 +536,7 @@ function may_pages_get_pictures_by_type() {
   if (!empty($results)) {
     
     foreach ($results as $key => $image) {
-      
       $sourceImage = str_replace('public://', 'f/', $image->uri);
-      //$sourceImage = 'f/styles/1000/public/img/olga_yuskasova/cottages/2-1/0001.jpg';
       $dominantColor = ColorThief::getColor($sourceImage);
       $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
       $results[$key]->color_hex = $hex;

@@ -82,6 +82,8 @@
               $image_path = str_replace('public://', '/f/', $image->uri);
               list(,$original_path) = explode('/f/', $image_path);
               
+              $image->color_hex = 'rgb(219, 212, 209)';
+              
               //data-original will be refined in js according to the current picture size
               $out .= '<div class="masonry-item" style="background:' . $image->color_hex . ';">'
                       . '<img data-originalpath="/' . $original_path . '" data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . $image_path . '"/>'
