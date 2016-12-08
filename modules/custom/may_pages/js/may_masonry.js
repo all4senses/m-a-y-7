@@ -46,6 +46,7 @@ function closest (num, arr) {
             //Prepare data for slick-lightbox
             var w_width = jQuery(window).width();
             var w_height = jQuery(window).height();
+            var w_aspect = w_height/w_width;
             
             var sicklightfull, current_size_url, closest_style_width, newWidth, newHeight;
             
@@ -62,14 +63,17 @@ function closest (num, arr) {
                 
                 // Find out and set an image url for full screen slick lightbox slideshow
                 var i_aspect = $(this).attr('data-iaspect');
-            
+                
                 console.log('i_aspect: ', i_aspect);
-                if (w_height/w_width >= i_aspect) {
+                console.log('w_aspect: ', w_aspect);
+                if (w_aspect >= i_aspect) {
+                    console.log('>> w_aspect >= i_aspect');
                     newHeight = Math.floor(w_width * i_aspect);
                     newWidth = newHeight * i_aspect;
                     console.log('1 newWidth: ', newWidth);
                 }
                 else {
+                    console.log('<<<<< w_aspect < i_aspect');
                     newWidth = Math.floor(w_height * (1/i_aspect));
                     console.log('2 newWidth: ', newWidth);
                 }
