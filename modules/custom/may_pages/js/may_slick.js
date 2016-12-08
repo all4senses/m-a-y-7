@@ -255,13 +255,13 @@ function closest (num, arr) {
             });
             function slickLightboxResetSizes() {
                 
-                console.log('After resize...');
+                //console.log('After resize...');
 
-              //Prepare data for slick-lightbox
+                //Prepare data for slick-lightbox
                 var w_width = jQuery(window).width();
                 var w_height = jQuery(window).height();
                 var w_aspect = w_height/w_width;
-                console.log('1 w_width: ' + w_width + ', w_height: ' + w_height);
+                //console.log('1 w_width: ' + w_width + ', w_height: ' + w_height);
                 var sicklightfull, closest_style_width, newWidth, newHeight;
 
                 $('article img').each(function(index, value){
@@ -277,15 +277,15 @@ function closest (num, arr) {
                     if (w_aspect >= i_aspect) {
                         newHeight = Math.floor(w_width/i_aspect);
                         newWidth = newHeight * i_aspect;
-                        console.log('1 newWidth: ' + newWidth+ ', newHeight: ' + newHeight);
+                        //console.log('1 newWidth: ' + newWidth+ ', newHeight: ' + newHeight);
                     }
                     else {
                         newWidth = Math.floor(w_height * (1/i_aspect));
-                        console.log('2 newWidth: ' + newWidth+ ', newHeight: ' + newHeight);
+                        //console.log('2 newWidth: ' + newWidth+ ', newHeight: ' + newHeight);
                     }
                     //closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
                     closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
-                    console.log('closest_style_width: ' + closest_style_width);
+                    //console.log('closest_style_width: ' + closest_style_width);
 
                     sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
                     $(this).attr('data-sicklightfull', sicklightfull);
