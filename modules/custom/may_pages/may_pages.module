@@ -508,9 +508,12 @@ function may_pages_get_pictures_by_type() {
     $query->condition('pa.field_type_and_address_value', '%%' . $project_address . '%%', 'LIKE');
   }
 
-  $query->leftJoin('imagefield_attributes_values', 'a2', 'a2.fid = a.fid');
-  $query->condition('a2.type', 'data-roomweight');
+  $query->leftJoin('imagefield_attributes_values', 'a2', "a2.fid = a.fid AND a2.type = 'data-roomweight'");
+  //$query->condition('a2.type', 'data-roomweight');
   $query->addField('a2', 'value', 'i_weight');
+  
+  $query->leftJoin('imagefield_attributes_values', 'a3', "a3.fid = a.fid AND a3.type = 'data-maincolor'");
+  $query->addField('a3', 'value', 'i_maincolor');
 
   $query->join('file_managed', 'm', 'm.fid = a.fid');
   $query->fields('m', array('uri'));
@@ -547,24 +550,59 @@ function may_pages_get_pictures_by_type() {
 
       
       
-      if (!isset($image->color_hex) || empty($image->color_hex)) {
+      if (empty($image->i_maincolor)) {
         
-//      $sourceImage = str_replace('public://', 'f/', $image->uri);
         $closest_style_width = '350';
-
         $sourceImage = 'f/styles/' . $closest_style_width . '/public/' . $results[$key]->image_path_public;
         if (!file_exists($sourceImage)) {
           // If styled file does not yet exist, use the original file.
           $sourceImage = 'f/' . $results[$key]->image_path_public;
+          dpm('Not existed styled image, used original one for fid: ' . $image->fid);
+        }
+        else {
+          dpm('Used styled (small) image one for fid: ' . $image->fid);
         }
         $dominantColor = ColorThief::getColor($sourceImage);
-        $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
-        $results[$key]->color_hex = $hex;
+        if(!empty($dominantColor)) {
+          $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
+          $results[$key]->i_maincolor = $hex;
+          
+          // Save just found color to DB.
+          $query = db_select('imagefield_attributes_values', 'a');
+          $query->condition('a.fid', $image->fid);
+          $query->condition('a.type', 'data-maincolor');
+          $query->addField('a', 'value', 'i_maincolor');
+          if($result = $query->execute()->fetchObject()) {
+            //dpm($result, '$results');
+            db_update('imagefield_attributes_values')
+            ->fields(array(
+                'value' => $results[$key]->i_maincolor,
+                ))
+            ->condition('fid', $image->fid)
+            ->condition('type', 'data-maincolor')
+            ->execute();
+            dpm('Updated color for fid: ' . $image->fid);
+          }
+          else {
+            db_insert('imagefield_attributes_values') // Table name no longer needs {}
+            ->fields(array(
+              'fid' => $image->fid,
+              'type' => 'data-maincolor',
+              'value' => $results[$key]->i_maincolor,
+            ))
+            ->execute();
+            dpm('Inserted color for fid: ' . $image->fid);
+          }
+        } // End of if(!empty($dominantColor)) {
+        else {
+          dpm('Error creating maincolor for fid: ' . $image->fid . '... using the default one');
+          //Set a default color.
+          $results[$key]->i_maincolor = 'rgb(219, 212, 209)';
+        }
         
-        //$results[$key]->color_hex = 'rgb(219, 212, 209)';
-      }
+      } // End of if (empty($image->i_maincolor)) {
       
-    }
+    } // End of foreach ($results as $key => $image) {
     
     drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
     drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
