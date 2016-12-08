@@ -82,7 +82,9 @@
               $image_path = str_replace('public://', '/f/', $image->uri);
               list(,$original_path) = explode('/f/', $image_path);
               
-              $image->color_hex = 'rgb(219, 212, 209)';
+              if (!isset($image->color_hex) || empty($image->color_hex)) {
+                $image->color_hex = 'rgb(219, 212, 209)';
+              }
               
               //data-original will be refined in js according to the current picture size
               $out .= '<div class="masonry-item" style="background:' . $image->color_hex . ';">'
