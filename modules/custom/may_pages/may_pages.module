@@ -557,10 +557,10 @@ function may_pages_get_pictures_by_type() {
         if (!file_exists($sourceImage)) {
           // If styled file does not yet exist, use the original file.
           $sourceImage = 'f/' . $results[$key]->image_path_public;
-          dpm('Not existed styled image, used original one for fid: ' . $image->fid);
+          //dpm('Not existed styled image, used original one for fid: ' . $image->fid);
         }
         else {
-          dpm('Used styled (small) image one for fid: ' . $image->fid);
+          //dpm('Used styled (small) image one for fid: ' . $image->fid);
         }
         $dominantColor = ColorThief::getColor($sourceImage);
         if(!empty($dominantColor)) {
@@ -581,7 +581,7 @@ function may_pages_get_pictures_by_type() {
             ->condition('fid', $image->fid)
             ->condition('type', 'data-maincolor')
             ->execute();
-            dpm('Updated color for fid: ' . $image->fid);
+            //dpm('Updated color for fid: ' . $image->fid);
           }
           else {
             db_insert('imagefield_attributes_values') // Table name no longer needs {}
@@ -591,18 +591,18 @@ function may_pages_get_pictures_by_type() {
               'value' => $results[$key]->i_maincolor,
             ))
             ->execute();
-            dpm('Inserted color for fid: ' . $image->fid);
+            //dpm('Inserted color for fid: ' . $image->fid);
           }
         } // End of if(!empty($dominantColor)) {
         else {
-          dpm('Error creating maincolor for fid: ' . $image->fid . '... using the default one');
+          //dpm('Error creating maincolor for fid: ' . $image->fid . '... using the default one');
           //Set a default color.
           $results[$key]->i_maincolor = 'rgb(219, 212, 209)';
         }
         
       } // End of if (empty($image->i_maincolor)) {
       else {
-        dpm('Main color is set for fid: ' . $image->fid);
+        //dpm('Main color is set for fid: ' . $image->fid);
       }
       
     } // End of foreach ($results as $key => $image) {
