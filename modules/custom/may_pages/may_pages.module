@@ -535,11 +535,35 @@ function may_pages_get_pictures_by_type() {
   
   if (!empty($results)) {
     
+    //Prepare some additional data
     foreach ($results as $key => $image) {
-      $sourceImage = str_replace('public://', 'f/', $image->uri);
-      $dominantColor = ColorThief::getColor($sourceImage);
-      $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
-      $results[$key]->color_hex = $hex;
+      
+      $imageinfo = getimagesize($image->uri);
+      $results[$key]->i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
+      $results[$key]->i_dimensions_str = $imageinfo[3];
+          
+      $results[$key]->image_path_original = str_replace('public://', '/f/', $image->uri);
+      list(, $results[$key]->image_path_public) = explode('/f/', $results[$key]->image_path_original);
+
+      
+      
+      if (!isset($image->color_hex) || empty($image->color_hex)) {
+        
+//      $sourceImage = str_replace('public://', 'f/', $image->uri);
+        $closest_style_width = '350';
+
+        $sourceImage = 'f/styles/' . $closest_style_width . '/public/' . $results[$key]->image_path_public;
+        if (!file_exists($sourceImage)) {
+          // If styled file does not yet exist, use the original file.
+          $sourceImage = 'f/' . $results[$key]->image_path_public;
+        }
+        $dominantColor = ColorThief::getColor();
+        $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
+        $results[$key]->color_hex = $hex;
+        
+        //$results[$key]->color_hex = 'rgb(219, 212, 209)';
+      }
+      
     }
     
     drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');

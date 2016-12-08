@@ -62,33 +62,27 @@
           $out = '';
           $args = arg(); $get = $_GET; unset($get['q']);
           if (empty(arg(2)) && empty(arg(3)) && empty($get)) {
-            $out = '<div>Пожалуйста, задайте условия поиска...</div>';
+            $out = '<div>' . t('Пожалуйста, задайте условия поиска...') . '</div>';
           }
           elseif (!is_array($images) || empty($images)) {
             $out = '<div>Ничего не найдено...</div>';
           }
           else {
-            //dpm($images,'$images');
             
             foreach($images as $image) {
-              $imageinfo = getimagesize($image->uri);
-              $i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
-              //$out .= '<div class="item"><img class="item-img" style="float:left;" width="300" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
-              //$out .= '<div class="masonry-item"><img class="masonry-item-img" style="float:left;" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
-              //$out .= '<li class="masonry-item"><img class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></li>';
+//              $imageinfo = getimagesize($image->uri);
+//              $i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
+//              
+//              $image_path = str_replace('public://', '/f/', $image->uri);
+//              list(,$original_path) = explode('/f/', $image_path);
               
-              ////$out .= '<div class="masonry-item"><img data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" src="' . str_replace('public://', '/f/', $image->uri) . '"/></div>';
-              
-              $image_path = str_replace('public://', '/f/', $image->uri);
-              list(,$original_path) = explode('/f/', $image_path);
-              
-              if (!isset($image->color_hex) || empty($image->color_hex)) {
-                $image->color_hex = 'rgb(219, 212, 209)';
-              }
+//              if (!isset($image->color_hex) || empty($image->color_hex)) {
+//                $image->color_hex = 'rgb(219, 212, 209)';
+//              }
               
               //data-original will be refined in js according to the current picture size
               $out .= '<div class="masonry-item" style="background:' . $image->color_hex . ';">'
-                      . '<img data-originalpath="/' . $original_path . '" data-iaspect="' . $i_aspect . '" ' . $imageinfo[3] . ' class="masonry-item-img" data-original="' . $image_path . '"/>'
+                      . '<img data-originalpath="/' . $image->image_path_public . '" data-iaspect="' . $image->i_aspect . '" ' . $image->i_dimensions_str . ' class="masonry-item-img" data-original="' . $image->image_path_original . '"/>'
                       . '<div class="info">'
                         . '<div class="link">' . l('П', 'node/' . $image->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $image->title, 'target' => '_blank'))) . '</div>'
                       . '</div>'
@@ -96,8 +90,6 @@
               
               
             }
-            //$out = '<ul class="masonry-items grid effect-7" id="grid">' . $out . '</ul>';
-            //$out = '<div class="title">Тип проекта: ' . $project_type . '. </div> <div class="title">Тип изображения: ' . $image_type . '</div><div class="masonry-items grid" id="grid">' . $out . '</div>';
             $out = '<div class="masonry-items grid" id="grid">' . $out . '</div>';
             
           }
