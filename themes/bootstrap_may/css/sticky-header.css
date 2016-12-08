@@ -83,7 +83,6 @@ a {
   height: 100%;
   padding: 0 1em;
   font-size: 19.2px;
-  font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #25283D;
@@ -174,7 +173,6 @@ a {
   line-height: 50px;
   padding-left: 5%;
   color: #25283D;
-  font-size: 28.8px;
   font-size: 28.8px;
   font-size: 1.8rem;
   border-top: 1px solid #f2f2f2;
@@ -382,7 +380,7 @@ Intro Section
 /* line 474, ../assets/sass/sticky-header.scss */
 .sticky-header.small .cd-hero {
   height: 100px;
-  background: url(/f/img/21toyota02.jpg) no-repeat center 64%;
+  background: url(/f/styles/350/public/img/21toyota02.jpg) no-repeat center 64%;
   background-size: cover;
 }
 
@@ -457,6 +455,7 @@ Intro Section
     margin-top: 80px;
   }/* line 474, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
+    background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
     height: 125px;
     margin-top: 80px;
   }
@@ -467,7 +466,16 @@ Intro Section
     height: 500px;
   }/* line 474, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
+    background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
     height: 125px;
   }
 }
+
+@media only screen and (min-width: 480px) {/* line 474, ../assets/sass/sticky-header.scss */
+  .sticky-header.small .cd-hero {
+    background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat center 64%;
+    height: 125px;
+  }
+}
+
 /*# sourceMappingURL=sticky-header.css.map */
