@@ -68,7 +68,7 @@ function closest (num, arr) {
                 console.log('w_aspect: ', w_aspect);
                 if (w_aspect >= i_aspect) {
                     console.log('>> w_aspect >= i_aspect');
-                    newHeight = Math.floor(w_width * i_aspect);
+                    newHeight = Math.floor(w_width/i_aspect);
                     newWidth = newHeight * i_aspect;
                     console.log('1 newWidth: ' + newWidth + ', newHeight: ' + newHeight);
                 }
