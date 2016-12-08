@@ -451,7 +451,7 @@ Intro Section
 	width: 100%;
 	margin-top: $header-height-small;
 	height: 400px;
-	background: url(http://a4s-local.m-a-y.ru/f/mercury_11.jpg) no-repeat center 80%;
+	background: url(/f/img/mercury_11.jpg) no-repeat center 80%;
 	background-size: cover;
 
 	.cd-hero-content {
@@ -473,7 +473,7 @@ Intro Section
 
 .sticky-header.small .cd-hero {
         height: 100px;//400px;
-        background: url(http://a4s-local.m-a-y.ru/f/21toyota02.jpg) no-repeat center 64%;
+        background: url(/f/img/21toyota02.jpg) no-repeat center 64%;
         background-size: cover;
         @include MQ(M) {
 		height: 125px;//500px;
