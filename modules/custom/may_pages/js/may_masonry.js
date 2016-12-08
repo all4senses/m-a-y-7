@@ -104,22 +104,22 @@ function closest (num, arr) {
           
           
           
-          
+            
+            // Set new full screen sizes for slick lightbox images on window resize.
             var resizeId;
             $(window).resize(function() {
                 clearTimeout(resizeId);
                 resizeId = setTimeout(slickLightboxResetSizes, 500);
             });
-          
             function slickLightboxResetSizes() {
                 
-                console.log('After resize...');
+                //console.log('After resize...');
 
               //Prepare data for slick-lightbox
                 var w_width = jQuery(window).width();
                 var w_height = jQuery(window).height();
                 var w_aspect = w_height/w_width;
-                var sicklightfull, current_size_url, closest_style_width, newWidth, newHeight;
+                var sicklightfull, closest_style_width, newWidth, newHeight;
 
                 $('.masonry-items img').each(function(index, value){
                     // Find out and set a current more appropriate size image url
