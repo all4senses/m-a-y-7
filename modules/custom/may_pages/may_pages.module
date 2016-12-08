@@ -557,7 +557,7 @@ function may_pages_get_pictures_by_type() {
           // If styled file does not yet exist, use the original file.
           $sourceImage = 'f/' . $results[$key]->image_path_public;
         }
-        $dominantColor = ColorThief::getColor();
+        $dominantColor = ColorThief::getColor($sourceImage);
         $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
         $results[$key]->color_hex = $hex;
         
