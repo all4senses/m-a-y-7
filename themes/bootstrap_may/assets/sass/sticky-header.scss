@@ -474,21 +474,23 @@ Intro Section
 .sticky-header.small .cd-hero {
         height: 100px;//400px;
         //background: url(/f/img/21toyota02.jpg) no-repeat center 64%;
-        background: url(/f/styles/350/public/img/21toyota02.jpg) no-repeat center 64%;
-        background-size: cover;
+        background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat cover 64%;
+        //background-size: cover;
+        @include MQ(S) {
+                background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat cover 64%;
+		height: 125px;//500px;
+	}
+        @include MQ(M) {
+                background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat cover 64%;
+		height: 125px;//500px;
+	}
         @include MQ(L) {
-                background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
+                background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat cover 64%;
 		height: 125px;//500px;
 		margin-top: $header-height;
 	}
-        @include MQ(M) {
-                background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
-		height: 125px;//500px;
-	}
-        @include MQ(S) {
-                background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat center 64%;
-		height: 125px;//500px;
-	}
+        
+        
 
 	
 } 
