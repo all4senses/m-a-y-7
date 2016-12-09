@@ -859,3 +859,164 @@ article.proj-id-1-5 {
     
 }
 
+
+
+// Gorodskaya residenciya dlia obychnoy semji
+article.proj-id-1-6 {
+    
+    @include MQ(M) {
+        
+        height: 1250px;
+
+        .caption-block {
+
+            h1, h2 {
+                position: absolute;
+                right: 0;
+                .h1-1 {
+                    background: #663333;
+                    color: white;
+                    width: 313px;
+                    display: block;
+                    position: absolute;
+                    top: 90px;
+                    right: 0;
+                    padding: 5px 5px 20px 7px;
+                    font-size: 55px;
+                }
+                .h1-2 {
+                    background: #663333;
+                    color: white;
+                    width: 313px;
+                    display: block;
+                    position: absolute;
+                    top: 250px;
+                    right: 0;
+                    padding: 5px 0px 20px 7px;
+                    font-size: 55px;
+                    text-align: right;
+                    letter-spacing: 11px;
+                }
+            }
+
+            .proj {
+                position: absolute;
+                top: 75px;
+                text-align: right;
+                left: 305px;
+
+                .proj-num {
+                    background: #663333;
+                    color: white;
+                    width: 95px;
+                    display: block;
+                    position: absolute;
+                    top: 0px;
+                    left: 55px;
+                    padding: 5px 0px 5px 5px;
+                    font-size: 55px;
+                    text-align: left;
+                }
+                
+            }
+
+            .type-n-address {
+                position: absolute;
+                top: 170px;
+                width: 160px;
+                text-align: right;
+                left: 285px;
+                font-size: 17px;
+                color: #808080;
+            }
+
+        }
+
+        .im-1 {
+            margin-top: 270px;
+            width: 440px;
+        }
+        
+        .designer {
+            position: absolute;
+            top: 1195px;
+            z-index: 10;
+            left: 525px;
+            text-align: right;
+            font-size: 16px;
+        }
+        
+        .slides-wrapper {
+            height: 452px;
+            width: 170px;
+            position: absolute;
+            top: 675px;
+            left: 285px;
+            padding: 10px 0;
+            img {
+                width: 155px;
+                height: auto;
+            }
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
+                width: 40px;
+                height: 25px;
+                left: 40% !important;
+                right: initial;
+                &.first {
+                    background: #663333 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
+                    top: -30px;
+                }
+                &.second {
+                    background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
+                    bottom: -38px;
+                    top: initial;
+                }
+            }
+            
+        }
+        .slides-decor {
+            display: block;
+            background: #663333 url(/f/img/slides_arrows.png) no-repeat -120px 0;
+            top: -30px;
+            width: 156px;
+            left: 0;
+            &.d2{
+                display: block;
+                background: #663333 url(/f/img/slides_arrows.png) no-repeat -120px 0;
+                top: 415px;
+            }
+        }
+        
+        .txt {
+            &.txt-1 {
+                background: #663333;
+                color: white;
+                width: 313px;
+                display: block;
+                position: absolute;
+                top: 545px;
+                right: 0;
+                padding: 20px 20px 25px 20px;
+                font-size: 15px;
+                text-align: right;
+                line-height: 1.5;
+            }
+        }
+        
+        .bottom-decor {
+            background: #663333;
+            color: white;
+            width: 100px;
+            position: absolute;
+            top: 1135px;
+            right: 0;
+            font-size: 55px;
+            height: 100px;
+        }
+        
+    
+    }
+    
+}
+

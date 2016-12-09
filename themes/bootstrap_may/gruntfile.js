@@ -114,7 +114,10 @@ module.exports = function (grunt) {
                             processors: [
                                 require('pixrem')(), // add fallbacks for rem units
                                 require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
+
+                                // Use with care! Works correctly only for min-width https://github.com/hail2u/node-css-mqpacker
                                 require('css-mqpacker')({sort: true}),
+                                
                                 //require('postcss-russian-stylesheets')(), // doesn't really work because of wrong codepage
                                 //require('cssnano')() // minify the result
                             ]
@@ -174,7 +177,10 @@ module.exports = function (grunt) {
                             processors: [
                                 require('pixrem')(), // add fallbacks for rem units
                                 require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
-                                //require('css-mqpacker')(),
+
+                                // Use with care! Works correctly only for min-width https://github.com/hail2u/node-css-mqpacker
+                                require('css-mqpacker')({sort: true}),
+                                
                                 //require('postcss-russian-stylesheets')(), // doesn't really work because of wrong codepage
                                 require('cssnano')() // minify the result
                             ]
