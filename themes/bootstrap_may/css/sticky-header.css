@@ -466,59 +466,65 @@ Intro Section
   width: 100%;
   margin-top: 60px;
   height: 400px;
-  background: url(/f/img/mercury_11.jpg) no-repeat center 80%;
-  background-size: cover;
+  background: url(/f/styles/500/public/img/mercury_11.jpg) no-repeat center 80%;
+  background-size: cover !important;
 }
-/* line 457, ../assets/sass/sticky-header.scss */
+@media only screen and (min-width: 480px) {
+  /* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+    background: url(/f/styles/800/public/img/mercury_11.jpg) no-repeat center 80%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+    background: url(/f/styles/1000/public/img/mercury_11.jpg) no-repeat center 80%;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+    margin-top: 80px;
+    background: url(/f/styles/1200/public/img/mercury_11.jpg) no-repeat center 80%;
+  }
+}
+/* line 474, ../assets/sass/sticky-header.scss */
 .cd-hero .cd-hero-content {
   /* vertically align inside parent element */
   display: table-cell;
   vertical-align: middle;
   text-align: center;
 }
-@media only screen and (min-width: 768px) {
-  /* line 448, ../assets/sass/sticky-header.scss */
-  .cd-hero {
-    height: 500px;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 448, ../assets/sass/sticky-header.scss */
-  .cd-hero {
-    height: 500px;
-    margin-top: 80px;
-  }
-}
 
-/* line 474, ../assets/sass/sticky-header.scss */
+/* line 482, ../assets/sass/sticky-header.scss */
 .sticky-header.small .cd-hero {
   height: 100px;
   background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat center 64%;
-  background-size: cover;
+  background-size: cover !important;
 }
 @media only screen and (min-width: 480px) {
-  /* line 474, ../assets/sass/sticky-header.scss */
+  /* line 482, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
-    background-size: cover;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 474, ../assets/sass/sticky-header.scss */
+  /* line 482, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
-    background-size: cover;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 474, ../assets/sass/sticky-header.scss */
+  /* line 482, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
     margin-top: 80px;
     background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat center 64%;
-    background-size: cover;
   }
 }
 

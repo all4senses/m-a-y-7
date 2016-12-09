@@ -451,23 +451,31 @@ Intro Section
 	width: 100%;
 	margin-top: $header-height-small;
 	height: 400px;
-	background: url(/f/img/mercury_11.jpg) no-repeat center 80%;
-	background-size: cover;
+	//background: url(/f/img/mercury_11.jpg) no-repeat center 80%;
+        background: url(/f/styles/500/public/img/mercury_11.jpg) no-repeat center 80%;
+	background-size: cover!important;
 
-	.cd-hero-content {
-		/* vertically align inside parent element */
-		display: table-cell;
-		vertical-align: middle;
-		text-align: center;
+        @include MQ(S) {
+		height: 500px;
+                background: url(/f/styles/800/public/img/mercury_11.jpg) no-repeat center 80%;
 	}
-
+        
 	@include MQ(M) {
 		height: 500px;
+                background: url(/f/styles/1000/public/img/mercury_11.jpg) no-repeat center 80%;
 	}
 
 	@include MQ(L) {
 		height: 500px;//600px;
 		margin-top: $header-height;
+                background: url(/f/styles/1200/public/img/mercury_11.jpg) no-repeat center 80%;
+	}
+        
+        .cd-hero-content {
+		/* vertically align inside parent element */
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
 	}
 }
 
@@ -475,22 +483,22 @@ Intro Section
         height: 100px;//400px;
         //background: url(/f/img/21toyota02.jpg) no-repeat center 64%;
         background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat center 64%;
-        background-size: cover;
+        background-size: cover!important;
         @include MQ(S) {
             height: 125px;//500px;
             background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
-            background-size: cover;
+            //background-size: cover;
 	}
         @include MQ(M) {
             height: 125px;//500px;
             background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
-            background-size: cover;
+            //background-size: cover;
 	}
         @include MQ(L) {
             height: 125px;//500px;
             margin-top: $header-height;
             background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat center 64%;
-            background-size: cover;
+            //background-size: cover;
 	}
         	
 } 
