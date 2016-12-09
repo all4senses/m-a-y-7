@@ -57,6 +57,12 @@ a {
 .cd-auto-hide-header.is-hidden {
   transform: translateY(-100%);
 }
+@media only screen and (min-width: 1024px) {
+  /* line 44, ../assets/sass/sticky-header.scss */
+  .cd-auto-hide-header {
+    height: 80px;
+  }
+}
 
 /* line 67, ../assets/sass/sticky-header.scss */
 .cd-auto-hide-header .logo,
@@ -82,7 +88,6 @@ a {
   display: table;
   height: 100%;
   padding: 0 1em;
-  font-size: 19.2px;
   font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
@@ -131,6 +136,12 @@ a {
   /* this is the menu icon bottom line */
   transform: translateY(6px);
 }
+@media only screen and (min-width: 1024px) {
+  /* line 81, ../assets/sass/sticky-header.scss */
+  .cd-auto-hide-header .nav-trigger {
+    display: none;
+  }
+}
 
 /* line 138, ../assets/sass/sticky-header.scss */
 .cd-auto-hide-header.nav-open .nav-trigger em {
@@ -175,13 +186,56 @@ a {
   padding-left: 5%;
   color: #25283D;
   font-size: 28.8px;
-  font-size: 28.8px;
   font-size: 1.8rem;
   border-top: 1px solid #f2f2f2;
 }
 /* line 180, ../assets/sass/sticky-header.scss */
 .cd-primary-nav > ul a:hover, .cd-primary-nav > ul a.active {
   color: #8F3985;
+}
+@media only screen and (min-width: 1024px) {
+  /* line 154, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav {
+    /* vertically align its content */
+    display: table;
+  }
+  /* line 190, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul {
+    /* vertically align inside parent element */
+    display: table-cell;
+    vertical-align: middle;
+    /* reset mobile style */
+    position: relative;
+    width: auto;
+    top: 0;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  /* line 39, ../assets/sass/sticky-header-partials/_mixins.scss */
+  .cd-primary-nav > ul::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+  /* line 203, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul li {
+    display: inline-block;
+    float: left;
+    margin-right: 1.5em;
+  }
+  /* line 208, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul li:last-of-type {
+    margin-right: 0;
+  }
+  /* line 213, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul a {
+    /* reset mobile style */
+    height: auto;
+    line-height: normal;
+    padding: 0;
+    border: none;
+  }
 }
 
 /* line 224, ../assets/sass/sticky-header.scss */
@@ -192,6 +246,13 @@ a {
   	:target is used to show navigation on no-js devices
   */
   display: block;
+}
+@media only screen and (min-width: 1024px) {
+  /* line 224, ../assets/sass/sticky-header.scss */
+  .nav-open .cd-primary-nav ul,
+  .cd-primary-nav ul:target {
+    display: table-cell;
+  }
 }
 
 /* -------------------------------- 
@@ -309,6 +370,18 @@ a {
 .cd-secondary-nav.slide-up {
   transform: translateY(-60px);
 }
+@media only screen and (min-width: 1024px) {
+  /* line 360, ../assets/sass/sticky-header.scss */
+  .cd-secondary-nav.fixed {
+    top: 80px;
+    /* fixes a bug where nav and subnab move with a slight delay */
+    box-shadow: 0 -6px 0 #25283D;
+  }
+  /* line 366, ../assets/sass/sticky-header.scss */
+  .cd-secondary-nav.slide-up {
+    transform: translateY(-80px);
+  }
+}
 
 /* -------------------------------- 
 
@@ -341,6 +414,23 @@ Main content
 .cd-main-content.sub-nav-hero.secondary-nav-fixed {
   margin-top: 50px;
 }
+@media only screen and (min-width: 1024px) {
+  /* line 379, ../assets/sass/sticky-header.scss */
+  .cd-main-content {
+    padding-top: 80px;
+    /*		p {
+    			font-size: 2.4rem;
+    		}*/
+  }
+  /* line 408, ../assets/sass/sticky-header.scss */
+  .cd-main-content.sub-nav {
+    padding-top: 150px;
+  }
+  /* line 412, ../assets/sass/sticky-header.scss */
+  .cd-main-content.sub-nav-hero.secondary-nav-fixed {
+    margin-top: 70px;
+  }
+}
 
 /*
 	adjust the positioning of in-page links
@@ -354,6 +444,14 @@ Main content
   margin-top: -50px;
   height: 50px;
   visibility: hidden;
+}
+@media only screen and (min-width: 1024px) {
+  /* line 428, ../assets/sass/sticky-header.scss */
+  .cd-main-content.sub-nav :target::before,
+  .cd-main-content.sub-nav-hero :target::before {
+    margin-top: -70px;
+    height: 70px;
+  }
 }
 
 /* -------------------------------- 
@@ -378,12 +476,50 @@ Intro Section
   vertical-align: middle;
   text-align: center;
 }
+@media only screen and (min-width: 768px) {
+  /* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+    margin-top: 80px;
+  }
+}
 
 /* line 474, ../assets/sass/sticky-header.scss */
 .sticky-header.small .cd-hero {
   height: 100px;
   background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat center 64%;
   background-size: cover;
+}
+@media only screen and (min-width: 480px) {
+  /* line 474, ../assets/sass/sticky-header.scss */
+  .sticky-header.small .cd-hero {
+    height: 125px;
+    background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
+    background-size: cover;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 474, ../assets/sass/sticky-header.scss */
+  .sticky-header.small .cd-hero {
+    height: 125px;
+    background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
+    background-size: cover;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 474, ../assets/sass/sticky-header.scss */
+  .sticky-header.small .cd-hero {
+    height: 125px;
+    margin-top: 80px;
+    background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat center 64%;
+    background-size: cover;
+  }
 }
 
 /*!
@@ -548,6 +684,24 @@ Intro Section
   content: "";
   display: block;
 }
+@media (min-width: 768px) {
+  /* line 26, ../assets/sass/style_custom.scss */
+  .container {
+    width: 100%;
+  }
+}
+@media (min-width: 992px) {
+  /* line 26, ../assets/sass/style_custom.scss */
+  .container {
+    width: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 26, ../assets/sass/style_custom.scss */
+  .container {
+    width: 100%;
+  }
+}
 
 /* line 41, ../assets/sass/style_custom.scss */
 .main-container {
@@ -567,6 +721,13 @@ Intro Section
   padding: 20px 20px;
   margin: auto;
 }
+@media only screen and (min-width: 768px) {
+  /* line 54, ../assets/sass/style_custom.scss */
+  .main-container .row #row-main-column .node-wrapper-outer article {
+    width: 768px;
+    padding: 50px 0px;
+  }
+}
 /* line 67, ../assets/sass/style_custom.scss */
 .main-container .row #row-main-column .images-by-type {
   width: 100%;
@@ -577,6 +738,19 @@ Intro Section
   width: 100%;
   padding: 20px 20px;
   margin: auto;
+}
+@media only screen and (min-width: 768px) {
+  /* line 73, ../assets/sass/style_custom.scss */
+  .main-container .row #row-main-column .images-by-type article {
+    width: 70%;
+    padding: 50px 0px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 83, ../assets/sass/style_custom.scss */
+  .main-container .row #row-main-column .images-by-type .col-s {
+    width: 15%;
+  }
 }
 
 /*
@@ -601,9 +775,23 @@ Intro Section
 .foo::before {
   content: "foo on small";
 }
+
+@media (min-width: 768px) {
+  /* line 120, ../assets/sass/style_custom.scss */
+  .foo::before {
+    content: "foo on medium";
+  }
+}
 /* line 125, ../assets/sass/style_custom.scss */
 .bar::before {
   content: "bar on small";
+}
+
+@media (min-width: 768px) {
+  /* line 130, ../assets/sass/style_custom.scss */
+  .bar::before {
+    content: "bar on medium";
+  }
 }
 /* line 136, ../assets/sass/style_custom.scss */
 footer {
@@ -646,149 +834,24 @@ footer {
 .masonry-items .masonry-item .info .link a {
   color: white;
 }
-
-/* line 189, ../assets/sass/style_custom.scss */
-.slick-lightbox .slick-arrow {
-  z-index: 5;
-}
-
-@media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
-  .cd-auto-hide-header {
-    height: 80px;
-  }/* line 81, ../assets/sass/sticky-header.scss */
-  .cd-auto-hide-header .nav-trigger {
-    display: none;
-  }/* line 154, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav {/* vertically align its content */
-    display: table;
-  }/* line 190, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul {/* vertically align inside parent element */
-    display: table-cell;
-    vertical-align: middle;/* reset mobile style */
-    position: relative;
-    width: auto;
-    top: 0;
-    padding: 0;
-    background-color: transparent;
-    box-shadow: none;
-  }/* line 39, ../assets/sass/sticky-header-partials/_mixins.scss */
-  .cd-primary-nav > ul::after {
-    clear: both;
-    content: "";
-    display: block;
-  }/* line 203, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul li {
-    display: inline-block;
-    float: left;
-    margin-right: 1.5em;
-  }/* line 208, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul li:last-of-type {
-    margin-right: 0;
-  }/* line 213, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul a {/* reset mobile style */
-    height: auto;
-    line-height: normal;
-    padding: 0;
-    border: none;
-  }/* line 224, ../assets/sass/sticky-header.scss */
-  .nav-open .cd-primary-nav ul,
-  .cd-primary-nav ul:target {
-    display: table-cell;
-  }/* line 360, ../assets/sass/sticky-header.scss */
-  .cd-secondary-nav.fixed {
-    top: 80px;/* fixes a bug where nav and subnab move with a slight delay */
-    box-shadow: 0 -6px 0 #25283D;
-  }/* line 366, ../assets/sass/sticky-header.scss */
-  .cd-secondary-nav.slide-up {
-    transform: translateY(-80px);
-  }/* line 379, ../assets/sass/sticky-header.scss */
-  .cd-main-content {
-    padding-top: 80px;/*		p {
-    			font-size: 2.4rem;
-    		}*/
-  }/* line 408, ../assets/sass/sticky-header.scss */
-  .cd-main-content.sub-nav {
-    padding-top: 150px;
-  }/* line 412, ../assets/sass/sticky-header.scss */
-  .cd-main-content.sub-nav-hero.secondary-nav-fixed {
-    margin-top: 70px;
-  }/* line 428, ../assets/sass/sticky-header.scss */
-  .cd-main-content.sub-nav :target::before,
-  .cd-main-content.sub-nav-hero :target::before {
-    margin-top: -70px;
-    height: 70px;
-  }/* line 448, ../assets/sass/sticky-header.scss */
-  .cd-hero {
-    height: 500px;
-    margin-top: 80px;
-  }/* line 474, ../assets/sass/sticky-header.scss */
-  .sticky-header.small .cd-hero {
-    height: 125px;
-    margin-top: 80px;
-    background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat center 64%;
-    background-size: cover;
-  }
-}
-
-@media only screen and (min-width: 768px) {/* line 448, ../assets/sass/sticky-header.scss */
-  .cd-hero {
-    height: 500px;
-  }/* line 474, ../assets/sass/sticky-header.scss */
-  .sticky-header.small .cd-hero {
-    height: 125px;
-    background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
-    background-size: cover;
-  }/* line 54, ../assets/sass/style_custom.scss */
-  .main-container .row #row-main-column .node-wrapper-outer article {
-    width: 768px;
-    padding: 50px 0px;
-  }/* line 73, ../assets/sass/style_custom.scss */
-  .main-container .row #row-main-column .images-by-type article {
-    width: 70%;
-    padding: 50px 0px;
-  }/* line 83, ../assets/sass/style_custom.scss */
-  .main-container .row #row-main-column .images-by-type .col-s {
-    width: 15%;
-  }/* line 173, ../assets/sass/style_custom.scss */
+@media only screen and (min-width: 768px) {
+  /* line 173, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 24% !important;
     margin-bottom: 5px;
   }
 }
-
-@media only screen and (min-width: 480px) {/* line 474, ../assets/sass/sticky-header.scss */
-  .sticky-header.small .cd-hero {
-    height: 125px;
-    background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
-    background-size: cover;
-  }/* line 180, ../assets/sass/style_custom.scss */
+@media only screen and (min-width: 480px) {
+  /* line 180, ../assets/sass/style_custom.scss */
   .masonry-items .masonry-item {
     width: 32%;
     margin-bottom: 5px;
   }
 }
 
-@media (min-width: 768px) {/* line 26, ../assets/sass/style_custom.scss */
-  .container {
-    width: 100%;
-  }/* line 120, ../assets/sass/style_custom.scss */
-  .foo::before {
-    content: "foo on medium";
-  }/* line 130, ../assets/sass/style_custom.scss */
-  .bar::before {
-    content: "bar on medium";
-  }
+/* line 189, ../assets/sass/style_custom.scss */
+.slick-lightbox .slick-arrow {
+  z-index: 5;
 }
 
-@media (min-width: 992px) {/* line 26, ../assets/sass/style_custom.scss */
-  .container {
-    width: 100%;
-  }
-}
-
-@media (min-width: 1200px) {/* line 26, ../assets/sass/style_custom.scss */
-  .container {
-    width: 100%;
-  }
-}
 /*# sourceMappingURL=style_custom.css.map */
