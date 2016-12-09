@@ -84,13 +84,6 @@ a {
   padding: 0 1em;
   font-size: 19.2px;
   font-size: 19.2px;
-  font-size: 19.2px;
-  font-size: 19.2px;
-  font-size: 19.2px;
-  font-size: 19.2px;
-  font-size: 19.2px;
-  font-size: 19.2px;
-  font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #25283D;
@@ -181,13 +174,6 @@ a {
   line-height: 50px;
   padding-left: 5%;
   color: #25283D;
-  font-size: 28.8px;
-  font-size: 28.8px;
-  font-size: 28.8px;
-  font-size: 28.8px;
-  font-size: 28.8px;
-  font-size: 28.8px;
-  font-size: 28.8px;
   font-size: 28.8px;
   font-size: 28.8px;
   font-size: 1.8rem;
@@ -665,6 +651,7 @@ footer {
 .slick-lightbox .slick-arrow {
   z-index: 5;
 }
+
 @media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
   .cd-auto-hide-header {
     height: 80px;
@@ -742,6 +729,7 @@ footer {
     background-size: cover;
   }
 }
+
 @media only screen and (min-width: 768px) {/* line 448, ../assets/sass/sticky-header.scss */
   .cd-hero {
     height: 500px;
@@ -767,6 +755,7 @@ footer {
     margin-bottom: 5px;
   }
 }
+
 @media only screen and (min-width: 480px) {/* line 474, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
@@ -778,6 +767,7 @@ footer {
     margin-bottom: 5px;
   }
 }
+
 @media (min-width: 768px) {/* line 26, ../assets/sass/style_custom.scss */
   .container {
     width: 100%;
@@ -789,11 +779,13 @@ footer {
     content: "bar on medium";
   }
 }
+
 @media (min-width: 992px) {/* line 26, ../assets/sass/style_custom.scss */
   .container {
     width: 100%;
   }
 }
+
 @media (min-width: 1200px) {/* line 26, ../assets/sass/style_custom.scss */
   .container {
     width: 100%;

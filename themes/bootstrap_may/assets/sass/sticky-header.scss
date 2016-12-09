@@ -476,10 +476,9 @@ Intro Section
         //background: url(/f/img/21toyota02.jpg) no-repeat center 64%;
         background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat center 64%;
         background-size: cover;
-        @include MQ(L) {
+        @include MQ(S) {
             height: 125px;//500px;
-            margin-top: $header-height;
-            background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat center 64%;
+            background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
             background-size: cover;
 	}
         @include MQ(M) {
@@ -487,11 +486,14 @@ Intro Section
             background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
             background-size: cover;
 	}
-        @include MQ(S) {
+        @include MQ(L) {
             height: 125px;//500px;
-            background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
+            margin-top: $header-height;
+            background: url(/f/styles/1200/public/img/21toyota02.jpg) no-repeat center 64%;
             background-size: cover;
 	}
+        
+        
         
         
         
