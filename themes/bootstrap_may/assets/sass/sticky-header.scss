@@ -456,26 +456,26 @@ Intro Section
 	background-size: cover!important;
 
         @include MQ(S) {
-		height: 500px;
-                background: url(/f/styles/800/public/img/mercury_11.jpg) no-repeat center 80%;
+            height: 500px;
+            background: url(/f/styles/800/public/img/mercury_11.jpg) no-repeat center 80%;
 	}
         
 	@include MQ(M) {
-		height: 500px;
-                background: url(/f/styles/1000/public/img/mercury_11.jpg) no-repeat center 80%;
+            height: 500px;
+            background: url(/f/styles/1000/public/img/mercury_11.jpg) no-repeat center 80%;
 	}
 
 	@include MQ(L) {
-		height: 500px;//600px;
-		margin-top: $header-height;
-                background: url(/f/styles/1200/public/img/mercury_11.jpg) no-repeat center 80%;
+            height: 500px;//600px;
+            margin-top: $header-height;
+            background: url(/f/styles/1200/public/img/mercury_11.jpg) no-repeat center 80%;
 	}
         
         .cd-hero-content {
-		/* vertically align inside parent element */
-		display: table-cell;
-		vertical-align: middle;
-		text-align: center;
+            /* vertically align inside parent element */
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
 	}
 }
 

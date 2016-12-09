@@ -57,12 +57,6 @@ a {
 .cd-auto-hide-header.is-hidden {
   transform: translateY(-100%);
 }
-@media only screen and (min-width: 1024px) {
-  /* line 44, ../assets/sass/sticky-header.scss */
-  .cd-auto-hide-header {
-    height: 80px;
-  }
-}
 
 /* line 67, ../assets/sass/sticky-header.scss */
 .cd-auto-hide-header .logo,
@@ -136,12 +130,6 @@ a {
   /* this is the menu icon bottom line */
   transform: translateY(6px);
 }
-@media only screen and (min-width: 1024px) {
-  /* line 81, ../assets/sass/sticky-header.scss */
-  .cd-auto-hide-header .nav-trigger {
-    display: none;
-  }
-}
 
 /* line 138, ../assets/sass/sticky-header.scss */
 .cd-auto-hide-header.nav-open .nav-trigger em {
@@ -193,50 +181,6 @@ a {
 .cd-primary-nav > ul a:hover, .cd-primary-nav > ul a.active {
   color: #8F3985;
 }
-@media only screen and (min-width: 1024px) {
-  /* line 154, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav {
-    /* vertically align its content */
-    display: table;
-  }
-  /* line 190, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul {
-    /* vertically align inside parent element */
-    display: table-cell;
-    vertical-align: middle;
-    /* reset mobile style */
-    position: relative;
-    width: auto;
-    top: 0;
-    padding: 0;
-    background-color: transparent;
-    box-shadow: none;
-  }
-  /* line 39, ../assets/sass/sticky-header-partials/_mixins.scss */
-  .cd-primary-nav > ul::after {
-    clear: both;
-    content: "";
-    display: block;
-  }
-  /* line 203, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul li {
-    display: inline-block;
-    float: left;
-    margin-right: 1.5em;
-  }
-  /* line 208, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul li:last-of-type {
-    margin-right: 0;
-  }
-  /* line 213, ../assets/sass/sticky-header.scss */
-  .cd-primary-nav > ul a {
-    /* reset mobile style */
-    height: auto;
-    line-height: normal;
-    padding: 0;
-    border: none;
-  }
-}
 
 /* line 224, ../assets/sass/sticky-header.scss */
 .nav-open .cd-primary-nav ul,
@@ -246,13 +190,6 @@ a {
   	:target is used to show navigation on no-js devices
   */
   display: block;
-}
-@media only screen and (min-width: 1024px) {
-  /* line 224, ../assets/sass/sticky-header.scss */
-  .nav-open .cd-primary-nav ul,
-  .cd-primary-nav ul:target {
-    display: table-cell;
-  }
 }
 
 /* -------------------------------- 
@@ -370,18 +307,6 @@ a {
 .cd-secondary-nav.slide-up {
   transform: translateY(-60px);
 }
-@media only screen and (min-width: 1024px) {
-  /* line 360, ../assets/sass/sticky-header.scss */
-  .cd-secondary-nav.fixed {
-    top: 80px;
-    /* fixes a bug where nav and subnab move with a slight delay */
-    box-shadow: 0 -6px 0 #25283D;
-  }
-  /* line 366, ../assets/sass/sticky-header.scss */
-  .cd-secondary-nav.slide-up {
-    transform: translateY(-80px);
-  }
-}
 
 /* -------------------------------- 
 
@@ -414,23 +339,6 @@ Main content
 .cd-main-content.sub-nav-hero.secondary-nav-fixed {
   margin-top: 50px;
 }
-@media only screen and (min-width: 1024px) {
-  /* line 379, ../assets/sass/sticky-header.scss */
-  .cd-main-content {
-    padding-top: 80px;
-    /*		p {
-    			font-size: 2.4rem;
-    		}*/
-  }
-  /* line 408, ../assets/sass/sticky-header.scss */
-  .cd-main-content.sub-nav {
-    padding-top: 150px;
-  }
-  /* line 412, ../assets/sass/sticky-header.scss */
-  .cd-main-content.sub-nav-hero.secondary-nav-fixed {
-    margin-top: 70px;
-  }
-}
 
 /*
 	adjust the positioning of in-page links
@@ -444,14 +352,6 @@ Main content
   margin-top: -50px;
   height: 50px;
   visibility: hidden;
-}
-@media only screen and (min-width: 1024px) {
-  /* line 428, ../assets/sass/sticky-header.scss */
-  .cd-main-content.sub-nav :target::before,
-  .cd-main-content.sub-nav-hero :target::before {
-    margin-top: -70px;
-    height: 70px;
-  }
 }
 
 /* -------------------------------- 
@@ -469,28 +369,6 @@ Intro Section
   background: url(/f/styles/500/public/img/mercury_11.jpg) no-repeat center 80%;
   background-size: cover !important;
 }
-@media only screen and (min-width: 480px) {
-  /* line 448, ../assets/sass/sticky-header.scss */
-  .cd-hero {
-    height: 500px;
-    background: url(/f/styles/800/public/img/mercury_11.jpg) no-repeat center 80%;
-  }
-}
-@media only screen and (min-width: 768px) {
-  /* line 448, ../assets/sass/sticky-header.scss */
-  .cd-hero {
-    height: 500px;
-    background: url(/f/styles/1000/public/img/mercury_11.jpg) no-repeat center 80%;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 448, ../assets/sass/sticky-header.scss */
-  .cd-hero {
-    height: 500px;
-    margin-top: 80px;
-    background: url(/f/styles/1200/public/img/mercury_11.jpg) no-repeat center 80%;
-  }
-}
 /* line 474, ../assets/sass/sticky-header.scss */
 .cd-hero .cd-hero-content {
   /* vertically align inside parent element */
@@ -505,22 +383,100 @@ Intro Section
   background: url(/f/styles/500/public/img/21toyota02.jpg) no-repeat center 64%;
   background-size: cover !important;
 }
-@media only screen and (min-width: 480px) {
-  /* line 482, ../assets/sass/sticky-header.scss */
+
+@media only screen and (min-width: 480px) {/* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+    background: url(/f/styles/800/public/img/mercury_11.jpg) no-repeat center 80%;
+  }/* line 482, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/800/public/img/21toyota02.jpg) no-repeat center 64%;
   }
 }
-@media only screen and (min-width: 768px) {
-  /* line 482, ../assets/sass/sticky-header.scss */
+
+@media only screen and (min-width: 768px) {/* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+    background: url(/f/styles/1000/public/img/mercury_11.jpg) no-repeat center 80%;
+  }/* line 482, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
     background: url(/f/styles/1000/public/img/21toyota02.jpg) no-repeat center 64%;
   }
 }
-@media only screen and (min-width: 1024px) {
-  /* line 482, ../assets/sass/sticky-header.scss */
+
+@media only screen and (min-width: 1024px) {/* line 44, ../assets/sass/sticky-header.scss */
+  .cd-auto-hide-header {
+    height: 80px;
+  }/* line 81, ../assets/sass/sticky-header.scss */
+  .cd-auto-hide-header .nav-trigger {
+    display: none;
+  }/* line 154, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav {/* vertically align its content */
+    display: table;
+  }/* line 190, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul {/* vertically align inside parent element */
+    display: table-cell;
+    vertical-align: middle;/* reset mobile style */
+    position: relative;
+    width: auto;
+    top: 0;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }/* line 39, ../assets/sass/sticky-header-partials/_mixins.scss */
+  .cd-primary-nav > ul::after {
+    clear: both;
+    content: "";
+    display: block;
+  }/* line 203, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul li {
+    display: inline-block;
+    float: left;
+    margin-right: 1.5em;
+  }/* line 208, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul li:last-of-type {
+    margin-right: 0;
+  }/* line 213, ../assets/sass/sticky-header.scss */
+  .cd-primary-nav > ul a {/* reset mobile style */
+    height: auto;
+    line-height: normal;
+    padding: 0;
+    border: none;
+  }/* line 224, ../assets/sass/sticky-header.scss */
+  .nav-open .cd-primary-nav ul,
+  .cd-primary-nav ul:target {
+    display: table-cell;
+  }/* line 360, ../assets/sass/sticky-header.scss */
+  .cd-secondary-nav.fixed {
+    top: 80px;/* fixes a bug where nav and subnab move with a slight delay */
+    box-shadow: 0 -6px 0 #25283D;
+  }/* line 366, ../assets/sass/sticky-header.scss */
+  .cd-secondary-nav.slide-up {
+    transform: translateY(-80px);
+  }/* line 379, ../assets/sass/sticky-header.scss */
+  .cd-main-content {
+    padding-top: 80px;/*		p {
+    			font-size: 2.4rem;
+    		}*/
+  }/* line 408, ../assets/sass/sticky-header.scss */
+  .cd-main-content.sub-nav {
+    padding-top: 150px;
+  }/* line 412, ../assets/sass/sticky-header.scss */
+  .cd-main-content.sub-nav-hero.secondary-nav-fixed {
+    margin-top: 70px;
+  }/* line 428, ../assets/sass/sticky-header.scss */
+  .cd-main-content.sub-nav :target::before,
+  .cd-main-content.sub-nav-hero :target::before {
+    margin-top: -70px;
+    height: 70px;
+  }/* line 448, ../assets/sass/sticky-header.scss */
+  .cd-hero {
+    height: 500px;
+    margin-top: 80px;
+    background: url(/f/styles/1200/public/img/mercury_11.jpg) no-repeat center 80%;
+  }/* line 482, ../assets/sass/sticky-header.scss */
   .sticky-header.small .cd-hero {
     height: 125px;
     margin-top: 80px;
