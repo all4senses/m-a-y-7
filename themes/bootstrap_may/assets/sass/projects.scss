@@ -1050,3 +1050,173 @@ article.proj-id-1-6 {
     
 }
 
+
+
+
+// Karusel illuziy
+article.proj-id-1-7 {
+    
+    @include MQ(M) {
+        
+        background: url(/f/img/olga_yuskasova/interiors/1-7/el/back.png) 0 120px no-repeat;
+        height: 1600px;
+
+        .caption-block {
+
+            h1, h2 {
+                
+                .h1-1 {
+                    position: absolute;
+                    top: 500px;
+                    font-size: 100px;
+                }
+                .h1-2 {
+                    position: absolute;
+                    top: 600px;
+                    font-size: 120px;
+                }
+            }
+
+            .proj {
+                position: absolute;
+                top: 750px;
+                left: 600px;
+
+                .proj-num {
+                    background: #663333;
+                    color: white;
+                    width: 95px;
+                    display: block;
+                    position: absolute;
+                    top: 0px;
+                    left: 55px;
+                    padding: 5px 0px 5px 5px;
+                    font-size: 55px;
+                    text-align: left;
+                }
+                
+            }
+
+            .type-n-address {
+                position: absolute;
+                width: 200px;
+                top: 800px;
+                left: 600px;
+            }
+
+        }
+
+        .im-5 {
+            width: 163px;
+            position: absolute;
+            top: 1500px;
+            left: 400px;
+        }
+        
+        .designer {
+            position: absolute;
+            top: 1350px;
+            left: 500px;
+        }
+        
+        .slides-wrapper {
+            
+            
+/*            height: 452px;
+            width: 170px;
+            position: absolute;
+            top: 675px;
+            left: 285px;
+            padding: 10px 0;*/
+            
+            
+            position: absolute;
+            top: 900px;
+            left: 0px;
+            
+            img {
+                width: 199px;
+                height: auto;
+            }
+            
+            &.second{
+                position: absolute;
+                top: 900px;
+                left: 500px;
+                img {
+                    width: 311px;
+                }
+            }
+            /*
+            .slides-decor {
+                display: block;
+                background: #663333;
+                top: -32px;
+                width: 156px;
+                left: 0;
+                position: absolute;
+                height: 28px;
+                &.d2{
+                    display: block;
+                    background: #663333;
+                    top: 415px;
+                }
+            }
+            */
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
+                width: 40px;
+                height: 25px;
+                left: 36% !important;
+                right: initial;
+                &.first {
+                    background: #663333 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
+                    top: -30px;
+                }
+                &.second {
+                    background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
+                    bottom: 12px;
+                    top: initial;
+                }
+            }
+            
+        }
+        
+        
+        .txt {
+            &.txt-1 {
+                width: 300px;
+                position: absolute;
+                top: 800px;
+                left: 200px;
+            }
+            &.txt-2 {
+                width: 300px;
+                position: absolute;
+                top: 1200px;
+                left: 300px;
+            }
+            &.txt-3 {
+                width: 300px;
+                position: absolute;
+                top: 1300px;
+                left: 300px;
+            }
+        }
+        
+        .bottom-decor {
+            background: url(/f/img/olga_yuskasova/interiors/1-7/el/bottom_decor.png) no-repeat 15px;
+            color: white;
+            width: 430px;
+            position: absolute;
+            top: 1650px;
+            right: 0;
+            font-size: 55px;
+            height: 130px;
+        }
+        
+    
+    }
+    
+}
+
