@@ -1217,7 +1217,11 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   article.proj-id-1-7 .txt.txt-3 p{
     margin-bottom: 30px;
   }
-  /* line 1265, ../assets/sass/projects.scss */
+  /* line 1264, ../assets/sass/projects.scss */
+  article.proj-id-1-7 .txt.txt-3 div p{
+    margin-bottom: 10px;
+  }
+  /* line 1268, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-4{
     width: 210px;
     text-align: right;
@@ -1226,7 +1230,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 192px;
     font-size: 12px;
   }
-  /* line 1275, ../assets/sass/projects.scss */
+  /* line 1278, ../assets/sass/projects.scss */
   article.proj-id-1-7 .bottom-decor{
     background: url(/f/img/olga_yuskasova/interiors/1-7/el/bottom_decor.png) no-repeat;
     width: 430px;
@@ -1236,4 +1240,5 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     height: 130px;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */
