@@ -79,6 +79,7 @@ article.node-project .slides-wrapper.slick-initialized-parent .slides-arrow {
 article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   display: none;
 }
+
 @media only screen and (min-width: 768px){
   /* line 25, ../assets/sass/projects.scss */
   article.node-project .proj .proj-year{
@@ -1127,43 +1128,69 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     */
   }
   /* line 1164, ../assets/sass/projects.scss */
+  article.proj-id-1-7 .slides-wrapper .slides-decor{
+    position: absolute;
+    width: 40px;
+    height: 50px;
+    background: url(/f/img/olga_yuskasova/interiors/1-7/el/slides_decor.png) no-repeat;
+    z-index: 5;
+    top: 60px;
+    left: 185px;
+  }
+  /* line 1174, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper img{
     width: 199px;
     height: auto;
     margin-right: 9px;
   }
-  /* line 1170, ../assets/sass/projects.scss */
+  /* line 1180, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.second{
     position: absolute;
     top: 900px;
     left: 415px;
     width: 311px;
   }
-  /* line 1176, ../assets/sass/projects.scss */
+  /* line 1186, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.second img{
     width: 311px;
     margin-right: 0;
   }
-  /* line 1197, ../assets/sass/projects.scss */
+  /* line 1207, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.first .slides-arrow{
+    /*
     display: block;
     width: 40px;
     height: 25px;
     left: 36% !important;
     right: initial;
+    &.first {
+        background: #663333 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
+        top: 120px;
+        left: -20px !important;
+    }
+    &.second {
+        background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
+        left: 370px !important;
+    }
+    */
   }
-  /* line 1203, ../assets/sass/projects.scss */
-  article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.first .slides-arrow.first{
-    background: #663333 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
-    top: 120px;
-    left: -20px !important;
+  /* line 1228, ../assets/sass/projects.scss */
+  article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-decor{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: url(/f/img/olga_yuskasova/interiors/1-7/el/slides_decor.png) no-repeat -40px;
+    z-index: 5;
+    top: 150px;
+    left: -50px;
   }
-  /* line 1208, ../assets/sass/projects.scss */
-  article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.first .slides-arrow.second{
-    background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
-    left: 370px !important;
+  /* line 1236, ../assets/sass/projects.scss */
+  article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-decor.second{
+    left: 286px;
+    top: 140px;
+    background: url(/f/img/olga_yuskasova/interiors/1-7/el/slides_decor.png) no-repeat -140px;
   }
-  /* line 1214, ../assets/sass/projects.scss */
+  /* line 1242, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-arrow{
     display: block;
     width: 40px;
@@ -1171,18 +1198,19 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 36% !important;
     right: initial;
   }
-  /* line 1220, ../assets/sass/projects.scss */
+  /* line 1248, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-arrow.first{
-    background: #663333 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
-    top: 120px;
+    background: url(/f/img/slides_arrows_2.png) no-repeat -1280px -5px;
+    top: 185px;
     left: -20px !important;
   }
-  /* line 1225, ../assets/sass/projects.scss */
+  /* line 1253, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-arrow.second{
-    background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
-    left: 300px !important;
+    background: url(/f/img/slides_arrows_2.png) no-repeat -1490px -5px;
+    left: 289px !important;
+    top: 169px;
   }
-  /* line 1235, ../assets/sass/projects.scss */
+  /* line 1265, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-1{
     width: 210px;
     position: absolute;
@@ -1193,7 +1221,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     color: white;
     line-height: 1.3;
   }
-  /* line 1245, ../assets/sass/projects.scss */
+  /* line 1275, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-2{
     width: 210px;
     position: absolute;
@@ -1204,7 +1232,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     color: white;
     line-height: 1.3;
   }
-  /* line 1255, ../assets/sass/projects.scss */
+  /* line 1285, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-3{
     width: 200px;
     position: absolute;
@@ -1214,15 +1242,15 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     font-size: 12px;
     line-height: 1.3;
   }
-  /* line 1263, ../assets/sass/projects.scss */
+  /* line 1293, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-3 p{
     margin-bottom: 30px;
   }
-  /* line 1266, ../assets/sass/projects.scss */
+  /* line 1296, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-3 div p{
     margin-bottom: 10px;
   }
-  /* line 1270, ../assets/sass/projects.scss */
+  /* line 1300, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-4{
     width: 210px;
     text-align: right;
@@ -1231,7 +1259,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 192px;
     font-size: 12px;
   }
-  /* line 1280, ../assets/sass/projects.scss */
+  /* line 1310, ../assets/sass/projects.scss */
   article.proj-id-1-7 .bottom-decor{
     background: url(/f/img/olga_yuskasova/interiors/1-7/el/bottom_decor.png) no-repeat;
     width: 430px;
@@ -1241,4 +1269,5 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     height: 130px;
   }
 }
+
 /*# sourceMappingURL=projects.css.map */

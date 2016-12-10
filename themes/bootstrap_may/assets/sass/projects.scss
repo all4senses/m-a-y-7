@@ -1161,6 +1161,16 @@ article.proj-id-1-7 {
             top: 900px;
             left: 0px;
             
+            .slides-decor {
+                position: absolute;
+                width: 40px;
+                height: 50px;
+                background: url(/f/img/olga_yuskasova/interiors/1-7/el/slides_decor.png) no-repeat;
+                z-index: 5;
+                top: 60px;
+                left: 185px;
+                
+            }
             img {
                 width: 199px;
                 height: auto;
@@ -1195,6 +1205,8 @@ article.proj-id-1-7 {
             }
             */
             &.slick-initialized-parent.first .slides-arrow {
+                
+                /*
                 display: block;
                 width: 40px;
                 height: 25px;
@@ -1209,22 +1221,40 @@ article.proj-id-1-7 {
                     background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
                     left: 370px !important;
                 }
+                */
             }
             
-            &.slick-initialized-parent.second .slides-arrow {
-                display: block;
-                width: 40px;
-                height: 25px;
-                left: 36% !important;
-                right: initial;
-                &.first {
-                    background: #663333 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
-                    top: 120px;
-                    left: -20px !important;
+            &.slick-initialized-parent.second {
+                .slides-decor {
+                    position: absolute;
+                    width: 100px;
+                    height: 100px;
+                    background: url(/f/img/olga_yuskasova/interiors/1-7/el/slides_decor.png) no-repeat -40px;
+                    z-index: 5;
+                    top: 150px;
+                    left: -50px;
+                    &.second {
+                        left: 286px;
+                        top: 140px;
+                        background: url(/f/img/olga_yuskasova/interiors/1-7/el/slides_decor.png) no-repeat -140px;
+                    }
                 }
-                &.second {
-                    background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
-                    left: 300px !important;
+                .slides-arrow {
+                    display: block;
+                    width: 40px;
+                    height: 25px;
+                    left: 36% !important;
+                    right: initial;
+                    &.first {
+                        background: url(/f/img/slides_arrows_2.png) no-repeat -1280px -5px;
+                        top: 185px;
+                        left: -20px !important;
+                    }
+                    &.second {
+                        background: url(/f/img/slides_arrows_2.png) no-repeat -1490px -5px;
+                        left: 289px !important;
+                        top: 169px;
+                    }
                 }
             }
             
