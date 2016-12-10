@@ -1293,8 +1293,6 @@ article.proj-id-1-8 {
         .caption-block {
 
             h1, h2 {
-                position: absolute;
-                right: 0;
                 .h1-1 {
                     position: absolute;
                     top: 300px;
@@ -1369,7 +1367,7 @@ article.proj-id-1-8 {
         .slides-wrapper {
             position: absolute;
             top: 903px;
-            left: 390px;
+            left: 405px;
             
             img {
                 height: 97px;
@@ -1411,19 +1409,7 @@ article.proj-id-1-8 {
                 left: 170px;
             }
         }
-        
-        .bottom-decor {
-            background: #663333;
-            color: white;
-            width: 100px;
-            position: absolute;
-            top: 1135px;
-            right: 0;
-            font-size: 55px;
-            height: 100px;
-        }
-        
-    
+            
     }
     
 }
