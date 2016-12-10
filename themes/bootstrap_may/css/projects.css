@@ -1101,33 +1101,11 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   }
   /* line 1149, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper{
-    /*            height: 452px;
-                width: 170px;
-                position: absolute;
-                top: 675px;
-                left: 285px;
-                padding: 10px 0;*/
     position: absolute;
     top: 900px;
     left: 0px;
-    /*
-    .slides-decor {
-        display: block;
-        background: #663333;
-        top: -32px;
-        width: 156px;
-        left: 0;
-        position: absolute;
-        height: 28px;
-        &.d2{
-            display: block;
-            background: #663333;
-            top: 415px;
-        }
-    }
-    */
   }
-  /* line 1164, ../assets/sass/projects.scss */
+  /* line 1155, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper .slides-decor{
     position: absolute;
     width: 40px;
@@ -1137,44 +1115,25 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     top: 60px;
     left: 185px;
   }
-  /* line 1174, ../assets/sass/projects.scss */
+  /* line 1165, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper img{
     width: 199px;
     height: auto;
     margin-right: 9px;
   }
-  /* line 1180, ../assets/sass/projects.scss */
+  /* line 1171, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.second{
     position: absolute;
     top: 900px;
     left: 415px;
     width: 311px;
   }
-  /* line 1186, ../assets/sass/projects.scss */
+  /* line 1177, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.second img{
     width: 311px;
     margin-right: 0;
   }
-  /* line 1207, ../assets/sass/projects.scss */
-  article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.first .slides-arrow{
-    /*
-    display: block;
-    width: 40px;
-    height: 25px;
-    left: 36% !important;
-    right: initial;
-    &.first {
-        background: #663333 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
-        top: 120px;
-        left: -20px !important;
-    }
-    &.second {
-        background: #663333 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
-        left: 370px !important;
-    }
-    */
-  }
-  /* line 1228, ../assets/sass/projects.scss */
+  /* line 1187, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-decor{
     position: absolute;
     width: 100px;
@@ -1184,13 +1143,13 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     top: 150px;
     left: -50px;
   }
-  /* line 1236, ../assets/sass/projects.scss */
+  /* line 1195, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-decor.second{
     left: 286px;
     top: 140px;
     background: url(/f/img/olga_yuskasova/interiors/1-7/el/slides_decor.png) no-repeat -140px;
   }
-  /* line 1242, ../assets/sass/projects.scss */
+  /* line 1201, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-arrow{
     display: block;
     width: 40px;
@@ -1198,19 +1157,19 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 36% !important;
     right: initial;
   }
-  /* line 1248, ../assets/sass/projects.scss */
+  /* line 1207, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-arrow.first{
     background: url(/f/img/slides_arrows_2.png) no-repeat -1280px -5px;
     top: 185px;
     left: -20px !important;
   }
-  /* line 1253, ../assets/sass/projects.scss */
+  /* line 1212, ../assets/sass/projects.scss */
   article.proj-id-1-7 .slides-wrapper.slick-initialized-parent.second .slides-arrow.second{
     background: url(/f/img/slides_arrows_2.png) no-repeat -1490px -5px;
     left: 289px !important;
     top: 169px;
   }
-  /* line 1265, ../assets/sass/projects.scss */
+  /* line 1224, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-1{
     width: 210px;
     position: absolute;
@@ -1221,7 +1180,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     color: white;
     line-height: 1.3;
   }
-  /* line 1275, ../assets/sass/projects.scss */
+  /* line 1234, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-2{
     width: 210px;
     position: absolute;
@@ -1232,7 +1191,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     color: white;
     line-height: 1.3;
   }
-  /* line 1285, ../assets/sass/projects.scss */
+  /* line 1244, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-3{
     width: 200px;
     position: absolute;
@@ -1242,15 +1201,15 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     font-size: 12px;
     line-height: 1.3;
   }
-  /* line 1293, ../assets/sass/projects.scss */
+  /* line 1252, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-3 p{
     margin-bottom: 30px;
   }
-  /* line 1296, ../assets/sass/projects.scss */
+  /* line 1255, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-3 div p{
     margin-bottom: 10px;
   }
-  /* line 1300, ../assets/sass/projects.scss */
+  /* line 1259, ../assets/sass/projects.scss */
   article.proj-id-1-7 .txt.txt-4{
     width: 210px;
     text-align: right;
@@ -1259,7 +1218,7 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 192px;
     font-size: 12px;
   }
-  /* line 1310, ../assets/sass/projects.scss */
+  /* line 1269, ../assets/sass/projects.scss */
   article.proj-id-1-7 .bottom-decor{
     background: url(/f/img/olga_yuskasova/interiors/1-7/el/bottom_decor.png) no-repeat;
     width: 430px;
@@ -1268,6 +1227,140 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 128px;
     height: 130px;
   }
+  /* line 1287, ../assets/sass/projects.scss */
+  article.proj-id-1-8{
+    height: 1340px;
+  }
+  /* line 1295, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .caption-block h1, article.proj-id-1-8 .caption-block h2{
+    position: absolute;
+    right: 0;
+  }
+  /* line 1298, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .caption-block h1 .h1-1, article.proj-id-1-8 .caption-block h2 .h1-1{
+    position: absolute;
+    top: 300px;
+    font-size: 70px;
+    left: 50px;
+    color: #fed2c4;
+  }
+  /* line 1305, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .caption-block h1 .h1-2, article.proj-id-1-8 .caption-block h2 .h1-2{
+    position: absolute;
+    top: 200px;
+    width: 400px;
+    font-size: 70px;
+    text-transform: capitalize;
+    left: 255px;
+    line-height: 1.3;
+    background: url(/f/img/olga_yuskasova/interiors/1-8/el/back_1.png) no-repeat 0px;
+    padding: 0 105px;
+    color: #663333;
+  }
+  /* line 1319, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .caption-block .proj{
+    position: absolute;
+    left: 655px;
+    top: 115px;
+    font-size: 15px;
+  }
+  /* line 1325, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .caption-block .proj .proj-num{
+    position: absolute;
+    left: -98px;
+    font-size: 60px;
+    background: #fed2c4;
+    width: 93px;
+    top: -18px;
+    color: white;
+  }
+  /* line 1337, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .caption-block .type-n-address{
+    position: absolute;
+    left: 380px;
+    width: 170px;
+    font-size: 17px;
+    text-align: right;
+    top: 105px;
+  }
+  /* line 1348, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .im-1{
+    margin-top: 305px;
+  }
+  /* line 1351, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .im-4{
+    height: 97px;
+    width: auto;
+    position: absolute;
+    top: 1032px;
+    right: 122px;
+  }
+  /* line 1359, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .designer{
+    position: absolute;
+    top: 1210px;
+    font-size: 18px;
+    left: 600px;
+    z-index: 3;
+    line-height: 1.2;
+    color: #663333;
+  }
+  /* line 1369, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .slides-wrapper{
+    position: absolute;
+    top: 903px;
+    left: 390px;
+  }
+  /* line 1374, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .slides-wrapper img{
+    height: 97px;
+    width: auto;
+  }
+  /* line 1381, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .text-decor{
+    background: url(/f/img/olga_yuskasova/interiors/1-8/el/back_2.png) no-repeat 0px;
+    position: absolute;
+    top: 730px;
+    width: 600px;
+    height: 600px;
+    left: 255px;
+  }
+  /* line 1390, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .txt.txt-1{
+    position: absolute;
+    top: 790px;
+    width: 420px;
+    left: 250px;
+    text-align: right;
+    line-height: 1.3;
+    font-size: 13px;
+  }
+  /* line 1399, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .txt.txt-2{
+    position: absolute;
+    top: 920px;
+    width: 300px;
+    text-align: right;
+    left: 70px;
+  }
+  /* line 1406, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .txt.txt-3{
+    position: absolute;
+    top: 1050px;
+    width: 300px;
+    text-align: right;
+    left: 170px;
+  }
+  /* line 1415, ../assets/sass/projects.scss */
+  article.proj-id-1-8 .bottom-decor{
+    background: #663333;
+    color: white;
+    width: 100px;
+    position: absolute;
+    top: 1135px;
+    right: 0;
+    font-size: 55px;
+    height: 100px;
+  }
 }
-
 /*# sourceMappingURL=projects.css.map */
