@@ -1504,8 +1504,11 @@ article.proj-id-1-12 {
                 width: 436px;
                 height: auto;
             }
+            &.first {
+                height: 500px; 
+            }
             &.second {
-                top: 1200px;
+                top: 1230px;
                 left: 45px;
                 width: 250px;
                 img {
@@ -1526,6 +1529,14 @@ article.proj-id-1-12 {
                     background: #8aeff7 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
                     bottom: -38px;
                     top: initial;
+                }
+            }
+            &.slick-initialized-parent.second .slides-arrow {
+                &.first {
+                    top: -28px;
+                }
+                &.second {
+                    bottom: -10px;
                 }
             }
             
@@ -1553,7 +1564,7 @@ article.proj-id-1-12 {
                 top: 880px;
             }
             &.txt-3 {
-                top: 1400px;
+                top: 1470px;
             }
         }
         
