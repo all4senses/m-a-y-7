@@ -1792,32 +1792,46 @@ article.proj-id-1-16 {
 
                 .h1-1 {
                     position: absolute;
-                    top: 150px;
-                    font-size: 47px;
-                    left: 250px;
-                    color: white;
-                    background: #4c777f;
-                    width: 240px;
-                    padding: 35px 20px 30px 25px;
-                    border-radius: 20px 0;
+                    top: 67px;      
+                    font-size: 58px;
+                    left: 235px;
+                    color: #756355;
                     span {
-                        font-size: 80px;
-                        text-transform: capitalize;
+                        font-size: 105px;
+                        text-transform: uppercase;
+                        top: -20px;
+                        position: relative;
+                        left: -5px;
                     }
                 }
                 .h1-2 {
                     position: absolute;
-                    top: 180px;
-                    font-size: 20px;
-                    left: 500px;
-                    color: #4c777f;
+                    top: 210px;
+                    font-size: 34px;
+                    left: 238px;
+                    color: white;
+                    text-transform: uppercase;
+                    letter-spacing: 9px;
                     span {
                         display: none;
                     }
                 }
+                .h1-3 {
+                    position: absolute;
+                    top: 230px;
+                    left: 600px;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    width: 60px;
+                }
+                .h1-4 {
+                    display: none;
+                }
             }
 
             .proj {
+                display: none;
+                
                 text-align: right;
                 font-size: 18px;
                 position: absolute;
@@ -1841,12 +1855,12 @@ article.proj-id-1-16 {
             }
 
             .type-n-address {
-                top: 85px;
+                top: 45px;
                 left: 590px;
                 text-align: left;
                 position: absolute;
                 color: #bababa;
-                font-size: 14px;
+                font-size: 12px;
                 width: 140px;
                 line-height: 1.2;
             }
@@ -1854,98 +1868,74 @@ article.proj-id-1-16 {
         }
 
         .im-1 {
-            margin-top: 170px;
+            margin-top: 140px;
         }
         
-        .im-2 {
-            margin-top: 40px;
-        }
-        
-        .designers {
+        .designer {
             position: absolute;
-            top: 1863px;
-            color: #6d8ba3;
-            left: 550px;
-            width: 400px;
-            .designer {
-                position: relative;
-                margin-bottom: 10px;
-            }
+            text-align: right;
+            top: 235px;
+            left: 125px;
         }
         
         .slides-wrapper {
             position: absolute;
-            top: 1610px;
-            height: 280px;
-            width: 176px;
-            left: 300px;
             z-index: 3;
-            img {
-                width: 176px;
-                height: auto;
-            }
-            &.slick-initialized-parent .slides-arrow {
-                display: block;
-                width: 40px;
-                height: 25px;
-                left: 40% !important;
-                right: initial;
-                &.first {
-                    background: url(/f/img/slides_arrows.png) no-repeat -155px -6px;
-                    top: -28px;
+            
+            &.first {
+                top: 600px;
+                //height: 280px;
+                //width: 176px;
+                left: 300px;
+                img {
+                    width: 335px;
+                    height: auto;
                 }
-                &.second {
-                    background: url(/f/img/slides_arrows.png) no-repeat -187px -4px;
-                    bottom: -38px;
-                    top: initial;
+                
+                &.slick-initialized-parent .slides-arrow {
+                    display: block;
+                    width: 40px;
+                    height: 25px;
+                    left: 40% !important;
+                    right: initial;
+                    &.first {
+                        background: url(/f/img/slides_arrows.png) no-repeat -155px -6px;
+                        top: -28px;
+                    }
+                    &.second {
+                        background: url(/f/img/slides_arrows.png) no-repeat -187px -4px;
+                        bottom: -38px;
+                        top: initial;
+                    }
                 }
             }
+            
+            
+            
             
         }
                 
         .txt {
+            position: absolute;
+            z-index: 3;
             &.txt-1 {
-                position: absolute;
                 top: 685px;
                 width: 270px;
-                color: white;
-                background: #990099;
-                left: 255px;
-                z-index: 3;
-                padding: 10px;
-                height: 290px;
-                font-size: 13px;
-                border-radius: 10px;
             }
             &.txt-2 {
-                position: absolute;
                 top: 810px;
                 left: 265px;
                 width: 250px;
-                z-index: 3;
-                color: white;
-                font-size: 13px;
             }
             &.txt-3 {
-                position: absolute;
                 top: 1355px;
                 width: 270px;
-                color: white;
-                background: #6d8ba3;
                 left: 255px;
-                z-index: 3;
-                padding: 20px;
-                height: 590px;
-                font-size: 13px;
-                border-radius: 10px;
             }
             &.txt-4 {
-                position: absolute;
                 top: 1635px;
                 left: 0px;
                 width: 230px;
-                font-size: 13px;
-                text-align: right;
             }
         }
         
