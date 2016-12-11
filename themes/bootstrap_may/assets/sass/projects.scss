@@ -1506,6 +1506,12 @@ article.proj-id-1-12 {
             }
             &.first {
                 height: 500px; 
+                .slides {
+                    overflow: hidden;
+                    .slick-list {
+                        top: -20px;
+                    }
+                }
             }
             &.second {
                 top: 1230px;
