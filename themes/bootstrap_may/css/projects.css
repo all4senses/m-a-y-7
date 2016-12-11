@@ -79,6 +79,7 @@ article.node-project .slides-wrapper.slick-initialized-parent .slides-arrow {
 article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   display: none;
 }
+
 @media only screen and (min-width: 768px){
   /* line 25, ../assets/sass/projects.scss */
   article.node-project .proj .proj-year{
@@ -1401,53 +1402,51 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   /* line 1472, ../assets/sass/projects.scss */
   article.proj-id-1-12 .caption-block .type-n-address{
     position: absolute;
-    top: 220px;
-    width: 190px;
-    text-align: right;
-    font-size: 16px;
-    left: 25px;
-    line-height: 1.2;
-    color: #808080;
+    width: 200px;
+    left: 210px;
+    top: 70px;
+    color: #707070;
   }
-  /* line 1485, ../assets/sass/projects.scss */
+  /* line 1482, ../assets/sass/projects.scss */
   article.proj-id-1-12 .im-1{
     margin-top: 120px;
   }
-  /* line 1489, ../assets/sass/projects.scss */
+  /* line 1486, ../assets/sass/projects.scss */
   article.proj-id-1-12 .im-2{
     width: 436px;
     position: absolute;
     top: 700px;
     right: 0;
   }
-  /* line 1496, ../assets/sass/projects.scss */
+  /* line 1493, ../assets/sass/projects.scss */
   article.proj-id-1-12 .designer{
-    top: 1600px;
-    left: 270px;
+    top: 1680px;
+    left: 265px;
     z-index: 3;
   }
-  /* line 1502, ../assets/sass/projects.scss */
+  /* line 1499, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper{
     position: absolute;
     top: 1070px;
     width: 436px;
     right: 0;
   }
-  /* line 1507, ../assets/sass/projects.scss */
+  /* line 1504, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper img{
     width: 436px;
     height: auto;
   }
-  /* line 1511, ../assets/sass/projects.scss */
+  /* line 1508, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper.second{
     top: 1200px;
     left: 45px;
+    width: 250px;
   }
-  /* line 1514, ../assets/sass/projects.scss */
+  /* line 1512, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper.second img{
     width: 250px;
   }
-  /* line 1518, ../assets/sass/projects.scss */
+  /* line 1516, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper.slick-initialized-parent .slides-arrow{
     display: block;
     width: 40px;
@@ -1455,44 +1454,44 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 40% !important;
     right: initial;
   }
-  /* line 1524, ../assets/sass/projects.scss */
+  /* line 1522, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper.slick-initialized-parent .slides-arrow.first{
     background: #8aeff7 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
     top: -28px;
   }
-  /* line 1528, ../assets/sass/projects.scss */
+  /* line 1526, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper.slick-initialized-parent .slides-arrow.second{
     background: #8aeff7 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
     bottom: -38px;
     top: initial;
   }
-  /* line 1547, ../assets/sass/projects.scss */
+  /* line 1545, ../assets/sass/projects.scss */
   article.proj-id-1-12 .txt{
     position: absolute;
     width: 250px;
     text-align: right;
     left: 45px;
   }
-  /* line 1552, ../assets/sass/projects.scss */
+  /* line 1550, ../assets/sass/projects.scss */
   article.proj-id-1-12 .txt.txt-1{
     top: 720px;
   }
-  /* line 1555, ../assets/sass/projects.scss */
+  /* line 1553, ../assets/sass/projects.scss */
   article.proj-id-1-12 .txt.txt-2{
     top: 880px;
   }
-  /* line 1558, ../assets/sass/projects.scss */
+  /* line 1556, ../assets/sass/projects.scss */
   article.proj-id-1-12 .txt.txt-3{
     top: 1400px;
   }
-  /* line 1563, ../assets/sass/projects.scss */
+  /* line 1561, ../assets/sass/projects.scss */
   article.proj-id-1-12 .bottom-decor{
     position: absolute;
     width: 100px;
     height: 100px;
     background: #8aeff7;
-    top: 1560px;
-    left: 235px;
+    top: 1645px;
+    left: 233px;
   }
 }
 /*# sourceMappingURL=projects.css.map */
