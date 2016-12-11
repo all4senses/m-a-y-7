@@ -1469,12 +1469,12 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   /* line 1531, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper.slick-initialized-parent .slides-arrow.first{
     background: #8aeff7 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
-    top: -28px;
+    top: 0px;
   }
   /* line 1535, ../assets/sass/projects.scss */
   article.proj-id-1-12 .slides-wrapper.slick-initialized-parent .slides-arrow.second{
     background: #8aeff7 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
-    bottom: -38px;
+    bottom: -65px;
     top: initial;
   }
   /* line 1541, ../assets/sass/projects.scss */
@@ -1518,5 +1518,4 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 233px;
   }
 }
-
 /*# sourceMappingURL=projects.css.map */
