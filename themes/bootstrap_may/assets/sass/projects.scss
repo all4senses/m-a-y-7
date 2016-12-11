@@ -1593,11 +1593,198 @@ article.proj-id-1-12 {
 
 
 // Kazhdomu svoe
+// <span class="h1-1">Каждому <span>своё</span></span><span class="h1-2"><span>, </span>или Кесарю - кесарево, а слесарю - слесарево!</span>
 article.proj-id-1-15 {
     
     @include MQ(M) {
         
         height: 1980px;
+
+        .caption-block {
+
+            h1, h2 {
+
+                .h1-1 {
+                    position: absolute;
+                    top: 150px;
+                    font-size: 47px;
+                    left: 250px;
+                    color: white;
+                    background: #4c777f;
+                    width: 240px;
+                    padding: 35px 20px 30px 25px;
+                    border-radius: 20px 0;
+                    span {
+                        font-size: 80px;
+                        text-transform: capitalize;
+                    }
+                }
+                .h1-2 {
+                    position: absolute;
+                    top: 180px;
+                    font-size: 20px;
+                    left: 500px;
+                    color: #4c777f;
+                    span {
+                        display: none;
+                    }
+                }
+            }
+
+            .proj {
+                text-align: right;
+                font-size: 18px;
+                position: absolute;
+                top: 87px;
+                left: 418px;
+
+                .proj-num {
+                    position: absolute;
+                    top: -30px;
+                    left: 70px;
+                    color: white;
+                    line-height: 1.4;
+                    width: 90px;
+                    font-size: 40px;
+                    padding: 20px 0;
+                    text-align: center;
+                    background: #4c777f;
+                    border-radius: 0 0 20px;
+                }
+                
+            }
+
+            .type-n-address {
+                top: 85px;
+                left: 590px;
+                text-align: left;
+                position: absolute;
+                color: #bababa;
+                font-size: 14px;
+                width: 140px;
+                line-height: 1.2;
+            }
+
+        }
+
+        .im-1 {
+            margin-top: 170px;
+        }
+        
+        .im-2 {
+            margin-top: 40px;
+        }
+        
+        .designers {
+            position: absolute;
+            top: 1863px;
+            color: #6d8ba3;
+            left: 550px;
+            width: 400px;
+            .designer {
+                position: relative;
+                margin-bottom: 10px;
+            }
+        }
+        
+        .slides-wrapper {
+            position: absolute;
+            top: 1610px;
+            height: 280px;
+            width: 176px;
+            left: 300px;
+            z-index: 3;
+            img {
+                width: 176px;
+                height: auto;
+            }
+            // Compensate different height of images
+            .slides {
+                overflow: hidden;
+                .slick-list {
+                    position: relative;
+                    top: -10px;
+                }
+            }
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
+                width: 40px;
+                height: 25px;
+                left: 40% !important;
+                right: initial;
+                &.first {
+                    background: url(/f/img/slides_arrows.png) no-repeat -155px -6px;
+                    top: -28px;
+                }
+                &.second {
+                    background: url(/f/img/slides_arrows.png) no-repeat -187px -4px;
+                    bottom: -30px;
+                    top: initial;
+                }
+            }
+            
+        }
+                
+        .txt {
+            &.txt-1 {
+                position: absolute;
+                top: 685px;
+                width: 270px;
+                color: white;
+                background: #990099;
+                left: 255px;
+                z-index: 3;
+                padding: 10px;
+                height: 290px;
+                font-size: 13px;
+                border-radius: 10px;
+            }
+            &.txt-2 {
+                position: absolute;
+                top: 810px;
+                left: 265px;
+                width: 250px;
+                z-index: 3;
+                color: white;
+                font-size: 13px;
+            }
+            &.txt-3 {
+                position: absolute;
+                top: 1355px;
+                width: 270px;
+                color: white;
+                background: #6d8ba3;
+                left: 255px;
+                z-index: 3;
+                padding: 20px;
+                height: 590px;
+                font-size: 13px;
+                border-radius: 10px;
+            }
+            &.txt-4 {
+                position: absolute;
+                top: 1635px;
+                left: 0px;
+                width: 230px;
+                font-size: 13px;
+                text-align: right;
+            }
+        }
+        
+    
+    }
+    
+}
+
+
+
+
+// Evropeyskaya mechta
+article.proj-id-1-16 {
+    
+    @include MQ(M) {
+        
+        height: 2580px;
 
         .caption-block {
 
@@ -1766,4 +1953,3 @@ article.proj-id-1-15 {
     }
     
 }
-
