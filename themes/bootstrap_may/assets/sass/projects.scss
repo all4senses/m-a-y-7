@@ -1415,3 +1415,162 @@ article.proj-id-1-8 {
 }
 
 
+
+
+// Nejnoe dyhanie cvetov
+article.proj-id-1-12 {
+    
+    @include MQ(M) {
+    
+        
+        height: 1700px;
+
+        .caption-block {
+
+            h1, h2 {
+
+                .h1-1 {
+                    position: absolute;
+                    top: 200px;
+                    left: 200px;
+                    color: #8aeff7;
+                    font-size: 80px;
+                }
+                .h1-2 {
+                    position: absolute;
+                    top: 270px;
+                    left: 80px;
+                    text-transform: capitalize;
+                    width: 300px;
+                    font-size: 50px;
+                    text-align: right;
+                    line-height: 1;
+                }
+            }
+
+            .proj {
+                    position: absolute;
+                    left: 25px;
+                    top: 130px;
+                    font-size: 15px;
+                    text-align: right;
+
+                .proj-num {
+                    position: absolute;
+                    left: 60px;
+                    font-size: 60px;
+                    background: #8aeff7;
+                    width: 123px;
+                    top: -38px;
+                    color: white;
+                    padding: 20px 0;
+                    text-align: left;
+                }
+                
+            }
+
+            .type-n-address {
+                position: absolute;
+                top: 220px;
+                width: 190px;
+                text-align: right;
+                font-size: 16px;
+                left: 25px;
+                line-height: 1.2;
+                color: #808080;
+            }
+
+        }
+
+        .im-1 {
+            margin-top: 120px;
+        }
+        
+        .im-2 {
+            width: 436px;
+            position: absolute;
+            top: 700px;
+            right: 0;
+        }
+        
+        .designer {
+            top: 1600px;
+            left: 270px;
+            z-index: 3;
+        }
+        
+        .slides-wrapper {
+            position: absolute;
+            top: 1070px;
+            width: 436px;
+            right: 0;
+            img {
+                width: 436px;
+                height: auto;
+            }
+            &.second {
+                top: 1200px;
+                left: 45px;
+                img {
+                    width: 250px;
+                }
+            }
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
+                width: 40px;
+                height: 25px;
+                left: 40% !important;
+                right: initial;
+                &.first {
+                    background: #8aeff7 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
+                    top: -28px;
+                }
+                &.second {
+                    background: #8aeff7 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
+                    bottom: -38px;
+                    top: initial;
+                }
+            }
+            
+        }
+        /*
+        .slides-decor {
+            position: absolute;
+            top: 408px;
+            left: 170px;
+            width: 30px;
+            background: url(/f/img/olga_yuskasova/interiors/1-5/el/slides_decor.png) no-repeat;
+            height: 200px;
+        }
+        */
+        
+        .txt {
+            position: absolute;
+            width: 250px;
+            text-align: right;
+            left: 45px;
+            &.txt-1 {
+                top: 720px;
+            }
+            &.txt-2 {
+                top: 880px;
+            }
+            &.txt-3 {
+                top: 1400px;
+            }
+        }
+        
+        .bottom-decor {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: #8aeff7;
+            top: 1560px;
+            left: 235px;
+        }
+        
+    
+    }
+    
+}
+
