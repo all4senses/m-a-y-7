@@ -79,6 +79,7 @@ article.node-project .slides-wrapper.slick-initialized-parent .slides-arrow {
 article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
   display: none;
 }
+
 @media only screen and (min-width: 768px){
   /* line 25, ../assets/sass/projects.scss */
   article.node-project .proj .proj-year{
@@ -1790,16 +1791,21 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     z-index: 3;
   }
   /* line 1885, ../assets/sass/projects.scss */
+  article.proj-id-1-16 .slides-wrapper img{
+    width: 335px;
+    height: auto;
+  }
+  /* line 1889, ../assets/sass/projects.scss */
   article.proj-id-1-16 .slides-wrapper.first{
     top: 600px;
     left: 300px;
   }
-  /* line 1890, ../assets/sass/projects.scss */
+  /* line 1894, ../assets/sass/projects.scss */
   article.proj-id-1-16 .slides-wrapper.first img{
     width: 335px;
     height: auto;
   }
-  /* line 1895, ../assets/sass/projects.scss */
+  /* line 1899, ../assets/sass/projects.scss */
   article.proj-id-1-16 .slides-wrapper.first.slick-initialized-parent .slides-arrow{
     display: block;
     width: 40px;
@@ -1807,40 +1813,40 @@ article.proj-id-1-2 h1 br, article.proj-id-1-2 h2 br {
     left: 40% !important;
     right: initial;
   }
-  /* line 1901, ../assets/sass/projects.scss */
+  /* line 1905, ../assets/sass/projects.scss */
   article.proj-id-1-16 .slides-wrapper.first.slick-initialized-parent .slides-arrow.first{
     background: url(/f/img/slides_arrows.png) no-repeat -155px -6px;
     top: -28px;
   }
-  /* line 1905, ../assets/sass/projects.scss */
+  /* line 1909, ../assets/sass/projects.scss */
   article.proj-id-1-16 .slides-wrapper.first.slick-initialized-parent .slides-arrow.second{
     background: url(/f/img/slides_arrows.png) no-repeat -187px -4px;
     bottom: -38px;
     top: initial;
   }
-  /* line 1918, ../assets/sass/projects.scss */
+  /* line 1922, ../assets/sass/projects.scss */
   article.proj-id-1-16 .txt{
     position: absolute;
     z-index: 3;
   }
-  /* line 1921, ../assets/sass/projects.scss */
+  /* line 1925, ../assets/sass/projects.scss */
   article.proj-id-1-16 .txt.txt-1{
     top: 685px;
     width: 270px;
   }
-  /* line 1925, ../assets/sass/projects.scss */
+  /* line 1929, ../assets/sass/projects.scss */
   article.proj-id-1-16 .txt.txt-2{
     top: 810px;
     left: 265px;
     width: 250px;
   }
-  /* line 1930, ../assets/sass/projects.scss */
+  /* line 1934, ../assets/sass/projects.scss */
   article.proj-id-1-16 .txt.txt-3{
     top: 1355px;
     width: 270px;
     left: 255px;
   }
-  /* line 1935, ../assets/sass/projects.scss */
+  /* line 1939, ../assets/sass/projects.scss */
   article.proj-id-1-16 .txt.txt-4{
     top: 1635px;
     left: 0px;

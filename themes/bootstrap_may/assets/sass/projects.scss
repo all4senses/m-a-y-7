@@ -1882,6 +1882,10 @@ article.proj-id-1-16 {
             position: absolute;
             z-index: 3;
             
+            img {
+                width: 335px;
+                height: auto;
+            }
             &.first {
                 top: 600px;
                 //height: 280px;
