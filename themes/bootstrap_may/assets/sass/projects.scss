@@ -2117,7 +2117,7 @@ article.proj-id-1-17 {
         }
 
         .im-1 {
-            margin-top: 90px;
+            margin-top: 170px;
         }
         
         
@@ -2154,6 +2154,14 @@ article.proj-id-1-17 {
                 top: 700px;
                 left: 300px;
                 width: 260px;
+                // white bordered background
+                background: white;
+                width: 300px;
+                padding: 15px 20px;
+                .slides {
+                    overflow: hidden;
+                }
+                
                 img {
                     width: 260px;
                 }
