@@ -2054,7 +2054,6 @@ article.proj-id-1-16 {
 
 
 // Super-lux dlia gurmana
-/*
 article.proj-id-1-17 {
     
     @include MQ(M) {
@@ -2068,39 +2067,32 @@ article.proj-id-1-17 {
 
                 .h1-1 {
                     position: absolute;
-                    left: 415px;
-                    top: 132px;
-                    color: #e76912;
-                    font-size: 77px;
+                    top: 200px;
+                    left: 200px;
                     span {
-                        position: absolute;
-                        top: -60px;
-                        font-size: 145px;
-                        left: -110px;
+                        display: none;
                     }
                 }
                 .h1-2 {
-                    top: 190px;
-                    left: 390px;
                     position: absolute;
-                    color: white;
-                    font-size: 77px;
+                    top: 200px;
+                    left: 400px;
+                }
+                .h1-3 {
+                    position: absolute;
+                    top: 250px;
+                    left: 100px;
                     span {
-                        position: absolute;
-                        top: -95px;
-                        font-size: 215px;
-                        left: -110px;
-                        color: #e76912;
+                        position: relative;
+                        top: 50px;
                     }
                 }
             }
 
             .proj {
                 position: absolute;
-                top: 147px;
-                left: 55px;
-                text-align: right;
-                font-size: 18px;
+                top: 40px;
+                left: 500px;
 
                 .proj-num {
                     position: absolute;
@@ -2118,43 +2110,16 @@ article.proj-id-1-17 {
 
             .type-n-address {
                 position: absolute;
-                top: 220px;
-                width: 190px;
-                text-align: right;
-                font-size: 16px;
-                left: 25px;
-                line-height: 1.2;
-                color: #808080;
+                top: 80px;
+                left: 300px;
             }
 
         }
 
         .im-1 {
-            margin-top: 140px;
-            width: 580px;
-            float: right;
+            margin-top: 90px;
         }
         
-        .im-2 {
-            width: 173px;
-            position: absolute;
-            top: 520px;
-            left: 188px;
-        }
-        .im-3-wrapper {
-            background: white;
-            padding: 10px;
-            height: 545px;
-            width: 185px;
-            position: absolute;
-            top: 505px;
-            left: 360px;
-            .im-3 {
-                width: 166px;
-                position: absolute;
-                bottom: 10px;
-            }
-        }
         
         .designer {
             top: 280px;
@@ -2165,89 +2130,142 @@ article.proj-id-1-17 {
         
         .slides-wrapper {
             position: absolute;
-            top: 330px;
-            height: 300px;
-            width: 176px;
             img {
-                width: 176px;
                 height: auto;
             }
+            
+            &.first {
+                top: 700px;
+                left: 300px;
+                width: 260px;
+                img {
+                    width: 260px;
+                }
+            }
+            
+            &.second {
+                top: 1150px;
+                right: 0;
+                width: 460px;
+                img {
+                    width: 460px;
+                }
+            }
+            &.third {
+                position: absolute;
+                top: 2200px;
+                width: 300px;
+                z-index: 5;
+                img {
+                    width: 300px;
+                }
+            }
+            
+            
+            &.fourth {
+                position: absolute;
+                top: 2000px;
+                left: 300px;
+                img {
+                    width: 200px;
+                }
+            }
+            
+            &.fifth {
+                width: 400px;
+                position: absolute;
+                top: 1600px;
+                z-index: 6;
+                img {
+                    width: 200px;
+                }
+            }
+            
+                
+            
             &.slick-initialized-parent .slides-arrow {
                 display: block;
-                width: 40px;
-                height: 25px;
-                left: 40% !important;
                 right: initial;
+                height: 25px;
+                width: 20px;
+                top: 45%;
                 &.first {
-                    background: #e76912 url(/f/img/slides_arrows.png) no-repeat -155px -6px;
-                    top: -28px;
+                    background: url(/f/img/slides_arrows.png) no-repeat -115px -2px;
+                    left: -20px !important;
                 }
                 &.second {
-                    background: #e76912 url(/f/img/slides_arrows.png) no-repeat -187px -4px;
-                    bottom: -38px;
-                    top: initial;
+                    background: url(/f/img/slides_arrows.png) no-repeat -134px -2px;
+                    right: -19px !important;
+                    left: initial !important;
                 }
             }
             
         }
-        .slides-decor {
-            position: absolute;
-            top: 408px;
-            left: 170px;
-            width: 30px;
-            background: url(/f/img/olga_yuskasova/interiors/1-5/el/slides_decor.png) no-repeat;
-            height: 200px;
-        }
-        
+    
         .txt {
             &.txt-1 {
                 position: absolute;
-                top: 515px;
-                width: 166px;
-                color: white;
-                background: #e76912;
-                left: 370px;
-                z-index: 3;
-                font-size: 14px;
-                padding: 5px;
+                top: 750px;
+                width: 300px;
+                text-align: right;
             }
             &.txt-2 {
                 position: absolute;
-                top: 540px;
-                left: 560px;
+                top: 930px;
+                z-index: 4;
+                width: 400px;
+                left: 300px;
             }
             &.txt-3 {
-                width: 220px;
                 position: absolute;
-                top: 803px;
-                left: 560px;
+                top: 1200px;
+                width: 300px;
+                text-align: right;
             }
             &.txt-4 {
                 position: absolute;
-                top: 780px;
-                left: 188px;
-                width: 170px;
-                font-size: 13px;
+                top: 2200px;
+                left: 330px;
+                width: 300px;
             }
             &.txt-5 {
-                top: 685px;
                 position: absolute;
-                width: 170px;
+                top: 1550px;
+                left: 400px;
+                width: 300px;
+            }
+            &.txt-6 {
+                position: absolute;
+                top: 1600px;
+                left: 300px;
+                width: 300px;
+            }
+            &.txt-7 {
+                position: absolute;
+                top: 2000px;
+                width: 300px;
+                left: 500px;
+            }
+            &.txt-8 {
+                position: absolute;
+                top: 1800px;
+                width: 300px;
                 text-align: right;
             }
         }
         
         .bottom-decor {
+            /*
             position: absolute;
             top: 1050px;
             left: 65px;
             width: 70px;
             background: url(/f/img/olga_yuskasova/interiors/1-5/el/bottom_decor.png) no-repeat;
             height: 40px;
+            */
         }
         
     
     }
     
 }
-*/
