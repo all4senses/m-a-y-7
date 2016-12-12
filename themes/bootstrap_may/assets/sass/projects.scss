@@ -2058,8 +2058,7 @@ article.proj-id-1-17 {
     
     @include MQ(M) {
     
-        
-        height: 2600px;
+        height: 2630px;
 
         .caption-block {
 
@@ -2067,51 +2066,64 @@ article.proj-id-1-17 {
 
                 .h1-1 {
                     position: absolute;
-                    top: 200px;
-                    left: 200px;
+                    top: 185px;
+                    left: 160px;
+                    font-size: 50px;
+                    color: #990099;
                     span {
                         display: none;
                     }
                 }
                 .h1-2 {
                     position: absolute;
-                    top: 200px;
-                    left: 400px;
+                    top: 115px;
+                    left: 300px;
+                    color: #990099;
+                    font-size: 130px;
+                    text-transform: capitalize;
                 }
                 .h1-3 {
                     position: absolute;
-                    top: 250px;
-                    left: 100px;
+                    top: 225px;
+                    left: 115px;
+                    font-size: 105px;
+                    color: white;
+                    text-transform: capitalize;
                     span {
                         position: relative;
-                        top: 50px;
+                        top: -20px;
+                        left: 30px;
+                        text-transform: lowercase;
                     }
                 }
             }
 
             .proj {
                 position: absolute;
-                top: 40px;
-                left: 500px;
+                top: 94px;
+                left: 320px;
+                text-align: right;
 
                 .proj-num {
                     position: absolute;
-                    top: -30px;
-                    left: 70px;
-                    width: 95px;
-                    font-size: 60px;
-                    background: #808080;
+                    top: -15px;
+                    left: 55px;
+                    width: 60px;
+                    font-size: 25px;
+                    background: #bababa;
                     color: white;
-                    padding: 5px 5px 5px 0;
-                    line-height: 1.4;
+                    padding: 13px 0px 13px 0;
+                    text-align: center;
                 }
                 
             }
 
             .type-n-address {
                 position: absolute;
-                top: 80px;
-                left: 300px;
+                top: 90px;
+                left: 442px;
+                width: 200px;
+                color: #bababa;
             }
 
         }
@@ -2122,10 +2134,9 @@ article.proj-id-1-17 {
         
         
         .designer {
-            top: 280px;
-            text-align: right;
-            left: 630px;
-            color: white;
+            top: 2577px;
+            left: 566px;
+            color: #cc6699;
         }
         
         .slides-wrapper {
@@ -2170,26 +2181,23 @@ article.proj-id-1-17 {
             &.second {
                 top: 1150px;
                 right: 0;
-                width: 460px;
+                width: 447px;
                 img {
-                    width: 460px;
+                    width: 447px;
                 }
             }
             &.third {
-                position: absolute;
-                top: 2200px;
+                top: 2315px;
                 width: 300px;
-                z-index: 5;
+                left: 20px;
                 img {
                     width: 300px;
                 }
             }
             
-            
             &.fourth {
-                position: absolute;
-                top: 2000px;
-                left: 300px;
+                top: 2160px;
+                left: 320px;
                 width: 200px;
                 img {
                     width: 200px;
@@ -2198,16 +2206,15 @@ article.proj-id-1-17 {
             
             &.fifth {
                 width: 400px;
-                position: absolute;
-                top: 1600px;
-                z-index: 6;
+                top: 1660px;
+                left: 120px;
                 .slick-list {
                     overflow: visible;
                 }
                 img {
                     width: 200px;
                     &.im-9 {
-                        top: 200px;
+                        top: 175px;
                         position: relative;
                     }
                 }
@@ -2216,73 +2223,59 @@ article.proj-id-1-17 {
                 }
             }
             
-                
-            
-            
-            
         }
     
         .txt {
+            position: absolute;
             &.txt-1 {
-                position: absolute;
-                top: 750px;
-                width: 300px;
+                top: 770px;
+                width: 270px;
                 text-align: right;
             }
             &.txt-2 {
-                position: absolute;
-                top: 930px;
-                z-index: 4;
-                width: 400px;
-                left: 300px;
+                top: 905px;
+                width: 300px;
+                left: 320px;
             }
             &.txt-3 {
-                position: absolute;
                 top: 1200px;
-                width: 300px;
+                width: 280px;
                 text-align: right;
             }
             &.txt-4 {
-                position: absolute;
-                top: 2200px;
-                left: 330px;
-                width: 300px;
+                top: 2415px;
+                left: 360px;
+                width: 200px;
             }
             &.txt-5 {
-                position: absolute;
-                top: 1550px;
-                left: 400px;
-                width: 300px;
+                top: 1540px;
+                left: 320px;
+                width: 450px;
             }
             &.txt-6 {
-                position: absolute;
-                top: 1600px;
-                left: 300px;
-                width: 300px;
+                top: 1592px;
+                left: 320px;
+                width: 340px;
             }
             &.txt-7 {
-                position: absolute;
-                top: 2000px;
+                top: 2150px;
                 width: 300px;
-                left: 500px;
+                left: 560px;
             }
             &.txt-8 {
-                position: absolute;
-                top: 1800px;
-                width: 300px;
+                top: 1875px;
+                width: 285px;
                 text-align: right;
             }
         }
         
         .bottom-decor {
-            /*
             position: absolute;
-            top: 1050px;
-            left: 65px;
-            width: 70px;
-            background: url(/f/img/olga_yuskasova/interiors/1-5/el/bottom_decor.png) no-repeat;
+            width: 40px;
             height: 40px;
-            */
+            background: #cc6699;
+            top: 2543px;
+            left: 530px;
         }
         
     
