@@ -1784,7 +1784,7 @@ article.proj-id-1-16 {
     
     @include MQ(M) {
         
-        height: 2580px;
+        height: 1930px;
 
         .caption-block {
 
@@ -1873,7 +1873,7 @@ article.proj-id-1-16 {
         .im-12 {
             position: absolute;
             left: 443px;
-            top: 1317px;
+            top: 1357px;
             width: 230px;
         }
         
@@ -1884,25 +1884,30 @@ article.proj-id-1-16 {
             left: 125px;
         }
         
+        
         .slides-wrapper {
             position: absolute;
             z-index: 3;
+            img {
+                height: auto;
+            }
+            &.slick-initialized-parent .slides-arrow {
+                display: block;
+                right: initial;
+                height: 25px;
+                width: 20px;
+                top: 45%;
+            }
+            
             &.first {
                 top: 702px;
                 left: 337px;
                 width: 335px;
                 img {
                     width: 335px;
-                    height: auto;
                 }
                 
                 &.slick-initialized-parent .slides-arrow {
-                    display: block;
-                    height: 25px;
-                    right: initial;
-                    
-                    width: 20px;
-                    top: 45%;
                     &.first {
                         background: url(/f/img/slides_arrows.png) no-repeat -115px -2px;
                         left: -20px !important;
@@ -1920,15 +1925,9 @@ article.proj-id-1-16 {
                 width: 406px;
                 img {
                     width: 406px;
-                    height: auto;
                 }
                 
                 &.slick-initialized-parent .slides-arrow {
-                    display: block;
-                    height: 25px;
-                    right: initial;
-                    width: 20px;
-                    top: 45%;
                     &.first {
                         background: url(/f/img/slides_arrows.png) no-repeat -115px -2px;
                         left: -20px !important;
@@ -1940,7 +1939,6 @@ article.proj-id-1-16 {
                     }
                 }
             }
-            
             
             &.third {
                 top: 940px;
@@ -1948,14 +1946,9 @@ article.proj-id-1-16 {
                 width: 230px;
                 img {
                     width: 230px;
-                    height: auto;
                 }
                 
                 &.slick-initialized-parent .slides-arrow {
-                    display: block;
-                    height: 25px;
-                    width: 20px;
-                    top: 45%;
                     &.first {
                         background: url(/f/img/slides_arrows.png) no-repeat -115px -2px;
                         left: -20px !important;
@@ -1967,7 +1960,6 @@ article.proj-id-1-16 {
                     }
                 }
             }
-            
             
             &.fourth {
                 left: 443px;
@@ -1975,16 +1967,9 @@ article.proj-id-1-16 {
                 width: 230px;
                 img {
                     width: 230px;
-                    height: auto;
                 }
                 
                 &.slick-initialized-parent .slides-arrow {
-                    display: block;
-                    height: 25px;
-                    right: initial;
-                    
-                    width: 20px;
-                    top: 45%;
                     &.first {
                         background: url(/f/img/slides_arrows.png) no-repeat -115px -2px;
                         left: -20px !important;
@@ -1997,23 +1982,15 @@ article.proj-id-1-16 {
                 }
             }
             
-            
             &.fifth {
-                top: 1570px;
+                top: 1610px;
                 left: 443px;
                 width: 230px;
                 img {
                     width: 230px;
-                    height: auto;
                 }
                 
                 &.slick-initialized-parent .slides-arrow {
-                    display: block;
-                    right: initial;
-                    
-                    height: 25px;
-                    width: 20px;
-                    top: 45%;
                     &.first {
                         background: url(/f/img/slides_arrows.png) no-repeat -115px -2px;
                         left: -20px !important;
@@ -2063,7 +2040,14 @@ article.proj-id-1-16 {
             }
         }
         
-    
+        .bottom-decor {
+            background: #756355;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 1860px;
+            left: 360px;
+        }
     }
     
 }
