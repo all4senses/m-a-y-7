@@ -2397,9 +2397,9 @@ article.proj-id-1-18 {
                     width: 510px;
                 }
                 .slides {
-                    height: 130px;
+/*                    height: 130px;
                     overflow: hidden;
-                    padding-top: 7px;
+                    padding-top: 7px;*/
                 }
                 &.slick-initialized-parent .slides-arrow {
                     left: 47% !important;
@@ -2422,14 +2422,28 @@ article.proj-id-1-18 {
                     overflow: hidden;
                     padding-top: 5px;
                 }
+                &.slick-initialized-parent .slides-arrow {
+                    left: 47% !important;
+                    &.first {
+                    }
+                    &.second {
+                        bottom: -20px;
+                    }
+                }
             }
+            
             &.third {
                 width: 190px;
                 right: 0;
-                top: 1050px;
+                top: 1065px;
                 img {
                     width: 190px;
                 }
+                .slides {
+                    height: 125px;
+                    overflow: hidden;
+                }
+                
             }
             
             &.fourth {
@@ -2439,11 +2453,13 @@ article.proj-id-1-18 {
                 img {
                     width: 300px;
                 }
+                .slides {
+
+                    //top: -10px;
+                }
                 &.slick-initialized-parent .slides-arrow {
-                    left: 47% !important;
-                    &.first {
-                    }
                     &.second {
+                        bottom: -20px;
                     }
                 }
             }
