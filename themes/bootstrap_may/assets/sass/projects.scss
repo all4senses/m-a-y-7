@@ -2396,6 +2396,18 @@ article.proj-id-1-18 {
                 img {
                     width: 510px;
                 }
+                .slides {
+                    height: 130px;
+                    overflow: hidden;
+                    padding-top: 7px;
+                }
+                &.slick-initialized-parent .slides-arrow {
+                    left: 47% !important;
+                    &.first {
+                    }
+                    &.second {
+                    }
+                }
             }
             
             &.second {
@@ -2404,6 +2416,11 @@ article.proj-id-1-18 {
                 right: 0;
                 img {
                     width: 190px;
+                }
+                .slides {
+                    height: 125px;
+                    overflow: hidden;
+                    padding-top: 5px;
                 }
             }
             &.third {
@@ -2422,14 +2439,38 @@ article.proj-id-1-18 {
                 img {
                     width: 300px;
                 }
+                &.slick-initialized-parent .slides-arrow {
+                    left: 47% !important;
+                    &.first {
+                    }
+                    &.second {
+                    }
+                }
             }
             
             &.fifth {
                 width: 185px;
                 right: 0;
                 top: 1615px;
+                
                 img {
                     width: 185px;
+                }
+                
+                .slides {
+                    overflow: hidden;
+                    height: 652px;
+                    .slick-list {
+                        position: relative;
+                        top: -25px;
+                    }
+                }
+                &.slick-initialized-parent .slides-arrow {
+                    &.first {
+                    }
+                    &.second {
+                        bottom: -20px !important;
+                    }
                 }
             }
             
@@ -2473,7 +2514,7 @@ article.proj-id-1-18 {
             }
             &.txt-7 {
                 width: 240px;
-                top: 2200px;
+                top: 2220px;
                 left: 265px;
             }
            
