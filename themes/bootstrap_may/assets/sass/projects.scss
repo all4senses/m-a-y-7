@@ -2397,15 +2397,17 @@ article.proj-id-1-18 {
                     width: 510px;
                 }
                 .slides {
-/*                    height: 130px;
                     overflow: hidden;
-                    padding-top: 7px;*/
+                    .slick-list {
+                        height: 320px !important;
+                    }
                 }
                 &.slick-initialized-parent .slides-arrow {
                     left: 47% !important;
                     &.first {
                     }
                     &.second {
+                        bottom: 10px;
                     }
                 }
             }
