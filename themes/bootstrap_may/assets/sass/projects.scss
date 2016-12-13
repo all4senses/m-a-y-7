@@ -2423,7 +2423,6 @@ article.proj-id-1-18 {
                     padding-top: 5px;
                 }
                 &.slick-initialized-parent .slides-arrow {
-                    left: 47% !important;
                     &.first {
                     }
                     &.second {
@@ -2443,6 +2442,14 @@ article.proj-id-1-18 {
                     height: 125px;
                     overflow: hidden;
                 }
+                &.slick-initialized-parent .slides-arrow {
+                    //left: 47% !important;
+                    &.first {
+                    }
+                    &.second {
+                        bottom: -20px;
+                    }
+                }
                 
             }
             
@@ -2453,11 +2460,11 @@ article.proj-id-1-18 {
                 img {
                     width: 300px;
                 }
-                .slides {
-
-                    //top: -10px;
-                }
+              
                 &.slick-initialized-parent .slides-arrow {
+                    left: 47% !important;
+                    &.first {
+                    }
                     &.second {
                         bottom: -20px;
                     }
