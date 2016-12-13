@@ -2291,7 +2291,7 @@ article.proj-id-1-18 {
     
     @include MQ(M) {
     
-        height: 2630px;
+        height: 2380px;
 
         .caption-block {
 
@@ -2362,9 +2362,10 @@ article.proj-id-1-18 {
         
         
         .designer {
-            top: 2577px;
-            left: 566px;
+            top: 2305px;
+            left: 113px;
             color: #cc6699;
+            text-align: right;
         }
         
         .slides-wrapper {
@@ -2374,7 +2375,6 @@ article.proj-id-1-18 {
             }
             &.slick-initialized-parent .slides-arrow {
                 display: block;
-                //right: initial;
                 width: 30px;
                 height: 20px;
                 left: 43% !important;
@@ -2405,8 +2405,6 @@ article.proj-id-1-18 {
                 }
                 &.slick-initialized-parent .slides-arrow {
                     left: 47% !important;
-                    &.first {
-                    }
                     &.second {
                         bottom: 10px;
                     }
@@ -2415,7 +2413,7 @@ article.proj-id-1-18 {
             
             &.second {
                 width: 190px;
-                top: 690px;
+                top: 675px;
                 right: 0;
                 img {
                     width: 190px;
@@ -2426,8 +2424,6 @@ article.proj-id-1-18 {
                     padding-top: 5px;
                 }
                 &.slick-initialized-parent .slides-arrow {
-                    &.first {
-                    }
                     &.second {
                         bottom: -20px;
                     }
@@ -2437,7 +2433,7 @@ article.proj-id-1-18 {
             &.third {
                 width: 190px;
                 right: 0;
-                top: 1065px;
+                top: 1205px;
                 img {
                     width: 190px;
                 }
@@ -2446,9 +2442,6 @@ article.proj-id-1-18 {
                     overflow: hidden;
                 }
                 &.slick-initialized-parent .slides-arrow {
-                    //left: 47% !important;
-                    &.first {
-                    }
                     &.second {
                         bottom: -20px;
                     }
@@ -2466,8 +2459,6 @@ article.proj-id-1-18 {
               
                 &.slick-initialized-parent .slides-arrow {
                     left: 47% !important;
-                    &.first {
-                    }
                     &.second {
                         bottom: -20px;
                     }
@@ -2492,8 +2483,6 @@ article.proj-id-1-18 {
                     }
                 }
                 &.slick-initialized-parent .slides-arrow {
-                    &.first {
-                    }
                     &.second {
                         bottom: -20px !important;
                     }
@@ -2529,12 +2518,12 @@ article.proj-id-1-18 {
                 text-align: right;
             }
             &.txt-5 {
-                top: 860px;
+                top: 1360px;
                 width: 185px;
                 right: 0;
             }
             &.txt-6 {
-                top: 1240px;
+                top: 830px;
                 width: 185px;
                 right: 0;
             }
@@ -2550,9 +2539,9 @@ article.proj-id-1-18 {
             position: absolute;
             width: 40px;
             height: 40px;
-            background: #cc6699;
-            top: 2543px;
-            left: 530px;
+            background: #8aeff7;
+            top: 2272px;
+            left: 226px;
         }
         
     
