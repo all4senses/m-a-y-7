@@ -59,7 +59,6 @@ function image_resize_filter_filter_info() {
  * Filter callback function.
  */
 function image_resize_filter_process_filter($text, $filter) {
-  dpm($filter, '$filter');
   $settings['link'] = $filter->settings['link'];
   $settings['class'] = $filter->settings['link_class'];
   $settings['rel'] = $filter->settings['link_rel'];

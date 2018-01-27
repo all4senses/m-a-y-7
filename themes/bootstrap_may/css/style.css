@@ -7439,41 +7439,6 @@ button.close {
     width: 300px;
   }
 }
-@media (min-width: 768px) and (max-width: 991px){
-  /* line 7, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  .visible-sm{
-    display: block !important;
-  }
-  /* line 10, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  table.visible-sm{
-    display: table !important;
-  }
-  /* line 11, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  tr.visible-sm{
-    display: table-row !important;
-  }
-  /* line 12, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  th.visible-sm,
-  td.visible-sm{
-    display: table-cell !important;
-  }
-  /* line 73, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
-  .visible-sm-block{
-    display: block !important;
-  }
-  /* line 78, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
-  .visible-sm-inline{
-    display: inline !important;
-  }
-  /* line 83, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
-  .visible-sm-inline-block{
-    display: inline-block !important;
-  }
-  /* line 18, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  .hidden-sm{
-    display: none !important;
-  }
-}
 @media screen and (min-width: 768px){
   /* line 6, ../bootstrap/stylesheets/bootstrap/_jumbotron.scss */
   .jumbotron{
@@ -7519,6 +7484,41 @@ button.close {
   /* line 267, ../bootstrap/stylesheets/bootstrap/_carousel.scss */
   .carousel-indicators{
     bottom: 20px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px){
+  /* line 7, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  .visible-sm{
+    display: block !important;
+  }
+  /* line 10, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  table.visible-sm{
+    display: table !important;
+  }
+  /* line 11, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  tr.visible-sm{
+    display: table-row !important;
+  }
+  /* line 12, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  th.visible-sm,
+  td.visible-sm{
+    display: table-cell !important;
+  }
+  /* line 73, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
+  .visible-sm-block{
+    display: block !important;
+  }
+  /* line 78, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
+  .visible-sm-inline{
+    display: inline !important;
+  }
+  /* line 83, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
+  .visible-sm-inline-block{
+    display: inline-block !important;
+  }
+  /* line 18, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  .hidden-sm{
+    display: none !important;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px){
@@ -8021,11 +8021,124 @@ button.close {
     display: none !important;
   }
 }
-@media (max-device-width: 480px) and (orientation: landscape){
-  /* line 92, ../bootstrap/stylesheets/bootstrap/_navbar.scss */
-  .navbar-fixed-top .navbar-collapse,
-  .navbar-fixed-bottom .navbar-collapse{
-    max-height: 200px;
+@media print{
+  /* line 9, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  *,
+  *:before,
+  *:after{
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  /* line 18, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  a,
+  a:visited{
+    text-decoration: underline;
+  }
+  /* line 23, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  a[href]:after{
+    content: " (" attr(href) ")";
+  }
+  /* line 27, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  abbr[title]:after{
+    content: " (" attr(title) ")";
+  }
+  /* line 33, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after{
+    content: "";
+  }
+  /* line 38, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  pre,
+  blockquote{
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  /* line 44, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  thead{
+    display: table-header-group;
+  }
+  /* line 48, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  tr,
+  img{
+    page-break-inside: avoid;
+  }
+  /* line 53, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  img{
+    max-width: 100% !important;
+  }
+  /* line 57, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  p,
+  h2,
+  h3{
+    orphans: 3;
+    widows: 3;
+  }
+  /* line 64, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  h2,
+  h3{
+    page-break-after: avoid;
+  }
+  /* line 72, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  .navbar{
+    display: none;
+  }
+  /* line 77, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  .btn > .caret,
+  .dropup > .btn > .caret{
+    border-top-color: #000 !important;
+  }
+  /* line 81, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  .label{
+    border: 1px solid #000;
+  }
+  /* line 85, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  .table{
+    border-collapse: collapse !important;
+  }
+  /* line 88, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  .table td,
+  .table th{
+    background-color: #fff !important;
+  }
+  /* line 94, ../bootstrap/stylesheets/bootstrap/_print.scss */
+  .table-bordered th,
+  .table-bordered td{
+    border: 1px solid #ddd !important;
+  }
+  /* line 7, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  .visible-print{
+    display: block !important;
+  }
+  /* line 10, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  table.visible-print{
+    display: table !important;
+  }
+  /* line 11, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  tr.visible-print{
+    display: table-row !important;
+  }
+  /* line 12, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  th.visible-print,
+  td.visible-print{
+    display: table-cell !important;
+  }
+  /* line 155, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
+  .visible-print-block{
+    display: block !important;
+  }
+  /* line 162, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
+  .visible-print-inline{
+    display: inline !important;
+  }
+  /* line 169, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
+  .visible-print-inline-block{
+    display: inline-block !important;
+  }
+  /* line 18, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
+  .hidden-print{
+    display: none !important;
   }
 }
 @media (max-width: 767px){
@@ -8267,124 +8380,11 @@ button.close {
     line-height: 46px;
   }
 }
-@media print{
-  /* line 9, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  *,
-  *:before,
-  *:after{
-    background: transparent !important;
-    color: #000 !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-  /* line 18, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  a,
-  a:visited{
-    text-decoration: underline;
-  }
-  /* line 23, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  a[href]:after{
-    content: " (" attr(href) ")";
-  }
-  /* line 27, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  abbr[title]:after{
-    content: " (" attr(title) ")";
-  }
-  /* line 33, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after{
-    content: "";
-  }
-  /* line 38, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  pre,
-  blockquote{
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-  /* line 44, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  thead{
-    display: table-header-group;
-  }
-  /* line 48, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  tr,
-  img{
-    page-break-inside: avoid;
-  }
-  /* line 53, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  img{
-    max-width: 100% !important;
-  }
-  /* line 57, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  p,
-  h2,
-  h3{
-    orphans: 3;
-    widows: 3;
-  }
-  /* line 64, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  h2,
-  h3{
-    page-break-after: avoid;
-  }
-  /* line 72, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  .navbar{
-    display: none;
-  }
-  /* line 77, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  .btn > .caret,
-  .dropup > .btn > .caret{
-    border-top-color: #000 !important;
-  }
-  /* line 81, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  .label{
-    border: 1px solid #000;
-  }
-  /* line 85, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  .table{
-    border-collapse: collapse !important;
-  }
-  /* line 88, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  .table td,
-  .table th{
-    background-color: #fff !important;
-  }
-  /* line 94, ../bootstrap/stylesheets/bootstrap/_print.scss */
-  .table-bordered th,
-  .table-bordered td{
-    border: 1px solid #ddd !important;
-  }
-  /* line 7, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  .visible-print{
-    display: block !important;
-  }
-  /* line 10, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  table.visible-print{
-    display: table !important;
-  }
-  /* line 11, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  tr.visible-print{
-    display: table-row !important;
-  }
-  /* line 12, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  th.visible-print,
-  td.visible-print{
-    display: table-cell !important;
-  }
-  /* line 155, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
-  .visible-print-block{
-    display: block !important;
-  }
-  /* line 162, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
-  .visible-print-inline{
-    display: inline !important;
-  }
-  /* line 169, ../bootstrap/stylesheets/bootstrap/_responsive-utilities.scss */
-  .visible-print-inline-block{
-    display: inline-block !important;
-  }
-  /* line 18, ../bootstrap/stylesheets/bootstrap/mixins/_responsive-visibility.scss */
-  .hidden-print{
-    display: none !important;
+@media (max-device-width: 480px) and (orientation: landscape){
+  /* line 92, ../bootstrap/stylesheets/bootstrap/_navbar.scss */
+  .navbar-fixed-top .navbar-collapse,
+  .navbar-fixed-bottom .navbar-collapse{
+    max-height: 200px;
   }
 }
 /*# sourceMappingURL=style.css.map */
