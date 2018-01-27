@@ -681,6 +681,21 @@ footer {
   margin: auto;
   float: none;
 }
+/* line 221, ../assets/sass/style_custom.scss */
+.page-projects .views-field-title a {
+  color: purple;
+  font-size: 40px;
+  text-align: right;
+  float: right;
+  line-height: 1;
+  margin: 50px 0 10px;
+  max-width: 500px;
+  text-decoration: none;
+}
+/* line 230, ../assets/sass/style_custom.scss */
+.page-projects .views-field-title a:hover {
+  color: violet;
+}
 
 /*.view-projects {
     max-width: 800px;

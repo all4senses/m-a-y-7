@@ -217,6 +217,20 @@ footer {
         margin: auto;
         float: none;
     }
+    
+    .views-field-title a {
+        color: purple;
+        font-size: 40px;
+        text-align: right;
+        float: right;
+        line-height: 1;
+        margin: 50px 0 10px;
+        max-width: 500px;
+        text-decoration: none;
+        &:hover {
+            color: violet;
+        }
+    }
 }
 /*.view-projects {
     max-width: 800px;
