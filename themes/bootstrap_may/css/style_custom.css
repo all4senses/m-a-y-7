@@ -658,21 +658,23 @@ footer {
 .cd-secondary-nav .navbar-default {
   border: none;
   background: none;
+  max-width: 800px;
+  margin: auto;
 }
-/* line 199, ../assets/sass/style_custom.scss */
+/* line 201, ../assets/sass/style_custom.scss */
 .cd-secondary-nav .navbar-default .navbar-brand {
   color: white;
 }
-/* line 202, ../assets/sass/style_custom.scss */
+/* line 204, ../assets/sass/style_custom.scss */
 .cd-secondary-nav .navbar-default .navbar-nav > li > a {
   color: white;
 }
-/* line 204, ../assets/sass/style_custom.scss */
+/* line 206, ../assets/sass/style_custom.scss */
 .cd-secondary-nav .navbar-default .navbar-nav > li > a:hover, .cd-secondary-nav .navbar-default .navbar-nav > li > a:focus {
-  color: red;
+  color: white;
 }
 
-/* line 212, ../assets/sass/style_custom.scss */
+/* line 214, ../assets/sass/style_custom.scss */
 .page-projects navbar.navbar-default.yamm,
 .page-projects #row-main-column {
   max-width: 800px;

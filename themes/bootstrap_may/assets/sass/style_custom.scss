@@ -196,13 +196,15 @@ footer {
     .navbar-default {
         border: none;
         background: none;
+        max-width: 800px;
+        margin: auto;
         .navbar-brand {
             color: white;
         }
         .navbar-nav > li > a {
             color: white;
             &:hover, &:focus {
-                color: red;
+                color: white;
             }
         }
     }
