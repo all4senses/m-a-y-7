@@ -651,10 +651,39 @@ footer {
 }
 
 /* line 194, ../assets/sass/style_custom.scss */
-.view-projects {
+.cd-secondary-nav {
+  background-color: purple;
+}
+/* line 196, ../assets/sass/style_custom.scss */
+.cd-secondary-nav .navbar-default {
+  border: none;
+  background: none;
+}
+/* line 199, ../assets/sass/style_custom.scss */
+.cd-secondary-nav .navbar-default .navbar-brand {
+  color: white;
+}
+/* line 202, ../assets/sass/style_custom.scss */
+.cd-secondary-nav .navbar-default .navbar-nav > li > a {
+  color: white;
+}
+/* line 204, ../assets/sass/style_custom.scss */
+.cd-secondary-nav .navbar-default .navbar-nav > li > a:hover, .cd-secondary-nav .navbar-default .navbar-nav > li > a:focus {
+  color: red;
+}
+
+/* line 212, ../assets/sass/style_custom.scss */
+.page-projects navbar.navbar-default.yamm,
+.page-projects #row-main-column {
   max-width: 800px;
   margin: auto;
+  float: none;
 }
+
+/*.view-projects {
+    max-width: 800px;
+    margin: auto;
+}*/
 
 @media only screen and (min-width: 480px) {/* line 448, ../assets/sass/sticky-header.scss */
   .cd-hero {

@@ -190,8 +190,33 @@ footer {
     z-index: 5; 
 }
 
+
+.cd-secondary-nav {
+    background-color: purple;
+    .navbar-default {
+        border: none;
+        background: none;
+        .navbar-brand {
+            color: white;
+        }
+        .navbar-nav > li > a {
+            color: white;
+            &:hover, &:focus {
+                color: red;
+            }
+        }
+    }
+}
 // Projects, teaser page with all projects' first images
-.view-projects {
+.page-projects {
+    navbar.navbar-default.yamm, 
+    #row-main-column {
+        max-width: 800px;
+        margin: auto;
+        float: none;
+    }
+}
+/*.view-projects {
     max-width: 800px;
     margin: auto;
-}
+}*/
