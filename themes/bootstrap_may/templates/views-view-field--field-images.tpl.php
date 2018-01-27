@@ -22,8 +22,31 @@
  * the view is modified.
  */
 
-dpm($row, '$row');
-dpm($field, '$field');
-dpm($output, '$output');
+//dpm($row, '$row');
+//dpm($field, '$field');
+//dpm($output, '$output');
+
+$filter = (object) array(
+ 'settings' => NULL,
+'format' => 'full_html',
+'module' => 'image_resize_filter',
+'name' => 'image_resize_filter',
+'weight' => '-45',
+'status' => 1,
+'title' => 'Image resize filter',
+);
+$filter->settings = array(
+      'link' => '',
+      'link_class' => '',
+      'link_rel' => '', 
+      'image_locations' => array(
+         'local' => 'local',
+         'remote' => 0,
+       ), 
+    );
+
+//dpm($filter, '$filter');
+
+$output = image_resize_filter_process_filter($output, $filter);
 ?>
 <?php print $output; ?>
