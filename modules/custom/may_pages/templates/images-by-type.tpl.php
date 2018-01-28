@@ -61,7 +61,7 @@
           
           $out = '';
           $args = arg(); $get = $_GET; unset($get['q']);
-          if (empty(arg(2)) && empty(arg(3)) && empty($get)) {
+          if (empty($args[2]) && empty($args[3]) && empty($get)) {
             $out = '<div>' . t('Пожалуйста, задайте условия поиска...') . '</div>';
           }
           elseif (!is_array($images) || empty($images)) {
