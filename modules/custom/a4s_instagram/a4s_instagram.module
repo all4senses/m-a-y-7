@@ -62,6 +62,7 @@ function  a4s_instagram_page() {
     dpm($results, '$results');
     if (!empty($results['access_token'])) {
       $instagram_accounts_granted[$results['user']['username']] = $results;
+      variable_set('instagram_accounts_granted', $instagram_accounts_granted);
     }
     $out = 'We have got an access_token...';
     drupal_goto($REDIRECT_URI);
