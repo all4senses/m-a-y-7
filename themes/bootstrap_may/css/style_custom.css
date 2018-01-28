@@ -83,7 +83,6 @@ a {
   height: 100%;
   padding: 0 1em;
   font-size: 19.2px;
-  font-size: 19.2px;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #25283D;
@@ -174,7 +173,6 @@ a {
   line-height: 50px;
   padding-left: 5%;
   color: #25283D;
-  font-size: 28.8px;
   font-size: 28.8px;
   font-size: 1.8rem;
   border-top: 1px solid #f2f2f2;
@@ -703,21 +701,36 @@ footer {
   background: violet;
 }
 
-/* line 244, ../assets/sass/style_custom.scss */
+/* line 243, ../assets/sass/style_custom.scss */
+footer .menu.nav a {
+  color: violet;
+}
+/* line 245, ../assets/sass/style_custom.scss */
+footer .menu.nav a:hover {
+  background: purple;
+}
+
+/* line 250, ../assets/sass/style_custom.scss */
 .page-header {
   border-bottom: 1px dotted violet;
   color: violet;
   letter-spacing: 20px;
 }
 
-/* line 253, ../assets/sass/style_custom.scss */
+/* line 256, ../assets/sass/style_custom.scss */
+body .main-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+/* line 264, ../assets/sass/style_custom.scss */
 .page-projects navbar.navbar-default.yamm,
 .page-projects #row-main-column {
   max-width: 800px;
   margin: auto;
   float: none;
 }
-/* line 260, ../assets/sass/style_custom.scss */
+/* line 271, ../assets/sass/style_custom.scss */
 .page-projects .views-field-title a {
   color: purple;
   font-size: 40px;
@@ -728,7 +741,7 @@ footer {
   max-width: 500px;
   text-decoration: none;
 }
-/* line 269, ../assets/sass/style_custom.scss */
+/* line 280, ../assets/sass/style_custom.scss */
 .page-projects .views-field-title a:hover {
   color: violet;
 }
@@ -880,4 +893,5 @@ footer {
     width: 100%;
   }
 }
+
 /*# sourceMappingURL=style_custom.css.map */

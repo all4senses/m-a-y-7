@@ -240,11 +240,22 @@ footer {
     }
     
 }
+footer .menu.nav a {
+    color: violet;
+    &:hover {
+        background: purple;
+    }
+}
 
 .page-header {
     border-bottom: 1px dotted violet;
     color: violet;
     letter-spacing: 20px;
+}
+
+body .main-container {
+    max-width: 800px;
+    margin: auto;
 }
 
 // Projects, teaser page with all projects' first images
