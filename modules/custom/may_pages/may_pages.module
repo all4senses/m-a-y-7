@@ -210,7 +210,7 @@ function may_pages_getStickyHeader($target = 'big') {
   $output = <<<HTML
   <div class="sticky-header $target">
     <header class="cd-auto-hide-header">
-      <div class="logo"><a href="/"><div style="width: 50px; height: 30px; background: violet;" alt="Logo"></div></a></div>
+      <div class="logo"><a href="/"><div style="width: 50px; height: 30px; background: violet;" alt="Logo">МАЙ</div></a></div>
       $upper_menu
     </header> <!-- .cd-auto-hide-header -->
     <section class="cd-hero">
