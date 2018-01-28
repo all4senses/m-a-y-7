@@ -69,6 +69,21 @@ function may_pages_form_alter(&$form, &$form_state, $form_id) {
 
   switch ($form_id) {
 
+    case 'views_exposed_form':
+      if (!empty($form['project_type']['#options'])) {
+        $map = array('- Any -' => 'Любой',
+          'Interiors' => 'Интерьеры',
+          'Offices' => 'Офисы',
+          'Cottages' => 'Коттеджи',
+          'Architecture' => 'Архитектура'
+         );
+        foreach ($form['project_type']['#options'] as &$project_type) {
+          $project_type = $map[$project_type];
+        }
+      }
+      
+      break;
+      
     case 'project_node_form':
       may_pages_passExtraParametersToCKEditor();
       break;
