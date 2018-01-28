@@ -156,7 +156,7 @@
           
             
           
-          <?php/*
+          <?php /*
           <?php if ($display_submitted): ?>
           <span class="submitted">
             <?php print $user_picture; ?>
