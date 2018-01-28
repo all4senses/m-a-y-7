@@ -65,7 +65,7 @@ function may_pages_access($type = null) {
  */
 function may_pages_form_alter(&$form, &$form_state, $form_id) {
 
-  //dpm($form_id);  dpm($form);
+  dpm($form_id);  dpm($form);
 
   switch ($form_id) {
 
@@ -938,12 +938,3 @@ function may_pages_filterPictures_form_submit(&$form, &$form_state) {
   drupal_goto('projects/pictures-by-type/' . $project_type . '/' . $image_type, $options);
 }
 
-/**
- * 
- * @param type $form
- * @param type $form_state
- * @param type $form_id
- */
-function may_pages_form_alter(&$form, $form_state, $form_id){
-  dpm($form, '$form');
-}
