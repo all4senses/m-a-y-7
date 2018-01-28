@@ -190,6 +190,9 @@ footer {
     z-index: 5; 
 }
 
+
+
+
 .cd-auto-hide-header {
     .logo {
         left: 5%;
@@ -226,7 +229,16 @@ footer {
                 color: white;
             }
         }
+        
+        .navbar-nav > .open > a {
+            &, &:hover, &:focus {
+               background-color: #e7e7e7;
+               color: #555;
+               background: violet;
+            }
+        }
     }
+    
 }
 
 .page-header {
