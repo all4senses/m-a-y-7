@@ -65,7 +65,7 @@ function may_pages_access($type = null) {
  */
 function may_pages_form_alter(&$form, &$form_state, $form_id) {
 
-  dpm($form_id);  dpm($form);
+  //dpm($form_id);  dpm($form);
 
   switch ($form_id) {
 
@@ -81,7 +81,6 @@ function may_pages_form_alter(&$form, &$form_state, $form_id) {
           $project_type = $map[$project_type];
         }
       }
-      
       break;
       
     case 'project_node_form':
