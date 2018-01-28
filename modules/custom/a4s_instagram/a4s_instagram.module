@@ -21,10 +21,38 @@ function a4s_instagram_menu() {
   return $items;
 }
 
+/**
+ * 
+ * @return string
+ */
 function  a4s_instagram_page() {
   dpm($_REQUEST, '$_REQUEST');
   $CLIENT_ID = '1eca294b0a6b478b9de165d9384edac1';
   $REDIRECT_URI = 'http://m-a-y.ru/insta';
+  $CLIENT_SECRET = '59007de215f4492fb4cdca497e3b943a';
+  
+  if (!empty($_REQUEST['code'])) {
+    $url = 'https://api.instagram.com/oauth/access_token';
+
+    $data = array(
+      'client_id' => $CLIENT_ID,
+      'client_secret' => $CLIENT_SECRET,
+      'grant_type' => 'authorization_code',
+      'redirect_uri' => $REDIRECT_URI,
+      'code'=> $_REQUEST['code'],
+    ); 
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, count($data));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $results = json_decode(curl_exec($ch), TRUE);
+    curl_close($ch);
+    dpm($results, '$results');
+  }
+     
   $out = '<a href="https://api.instagram.com/oauth/authorize/?client_id=' . $CLIENT_ID. '&redirect_uri=' . $REDIRECT_URI . '&response_type=code" >Authorize with Instagram</a>';
   return $out;
 }
