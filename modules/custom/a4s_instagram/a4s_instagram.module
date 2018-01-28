@@ -26,6 +26,15 @@ function a4s_instagram_menu() {
  * @return string
  */
 function  a4s_instagram_page() {
+  
+  $instagram_accounts_granted = variable_get('instagram_accounts_granted', NULL);
+  if (!empty($instagram_accounts_granted) && !empty($instagram_accounts_granted['all4senses'])) {
+    dpm($instagram_accounts_granted, '$instagram_accounts_granted');
+    dpm('We have access. Let\'s Rock!');
+   
+    return 'Processed a real request to Instagram...';
+  }
+  
   dpm($_REQUEST, '$_REQUEST');
   $CLIENT_ID = '1eca294b0a6b478b9de165d9384edac1';
   $REDIRECT_URI = 'http://m-a-y.ru/insta';
@@ -51,8 +60,15 @@ function  a4s_instagram_page() {
     $results = json_decode(curl_exec($ch), TRUE);
     curl_close($ch);
     dpm($results, '$results');
+    if (!empty($results['access_token'])) {
+      $instagram_accounts_granted[$results['user']['username']] = $results;
+    }
+    $out = 'We have got an access_token...';
+    drupal_goto($REDIRECT_URI);
   }
+  else {
      
-  $out = '<a href="https://api.instagram.com/oauth/authorize/?client_id=' . $CLIENT_ID. '&redirect_uri=' . $REDIRECT_URI . '&response_type=code" >Authorize with Instagram</a>';
+    $out = '<a href="https://api.instagram.com/oauth/authorize/?client_id=' . $CLIENT_ID. '&redirect_uri=' . $REDIRECT_URI . '&response_type=code" >Authorize with Instagram</a>';
+  }
   return $out;
 }
