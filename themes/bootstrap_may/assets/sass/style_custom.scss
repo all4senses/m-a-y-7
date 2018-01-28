@@ -190,16 +190,35 @@ footer {
     z-index: 5; 
 }
 
+.cd-auto-hide-header {
+    .logo {
+        left: 5%;
+        top: 15%;
+        a {
+            color: purple;
+            font-size: 80px;
+            font-weight: bold;
+            letter-spacing: 30px;
+        }
+    }
+    .top-slogan-title {
+        color: violet;
+        font-size: 40px;
+        text-align: right;
+        line-height: 0.8;
+        margin-top: -20px;
+    }
+}
 
 .cd-secondary-nav {
     background-color: purple;
     .navbar-default {
         border: none;
-        background: none;
+        background: purple;
         max-width: 800px;
         margin: auto;
         .navbar-brand {
-            color: white;
+            color: violet;
         }
         .navbar-nav > li > a {
             color: white;
@@ -209,8 +228,16 @@ footer {
         }
     }
 }
+
+.page-header {
+    border-bottom: 1px dotted violet;
+    color: violet;
+    letter-spacing: 20px;
+}
+
 // Projects, teaser page with all projects' first images
 .page-projects {
+    
     navbar.navbar-default.yamm, 
     #row-main-column {
         max-width: 800px;

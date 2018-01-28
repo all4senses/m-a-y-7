@@ -651,37 +651,65 @@ footer {
 }
 
 /* line 194, ../assets/sass/style_custom.scss */
+.cd-auto-hide-header .logo {
+  left: 5%;
+  top: 15%;
+}
+/* line 197, ../assets/sass/style_custom.scss */
+.cd-auto-hide-header .logo a {
+  color: purple;
+  font-size: 80px;
+  font-weight: bold;
+  letter-spacing: 30px;
+}
+/* line 204, ../assets/sass/style_custom.scss */
+.cd-auto-hide-header .top-slogan-title {
+  color: violet;
+  font-size: 40px;
+  text-align: right;
+  line-height: 0.8;
+  margin-top: -20px;
+}
+
+/* line 213, ../assets/sass/style_custom.scss */
 .cd-secondary-nav {
   background-color: purple;
 }
-/* line 196, ../assets/sass/style_custom.scss */
+/* line 215, ../assets/sass/style_custom.scss */
 .cd-secondary-nav .navbar-default {
   border: none;
-  background: none;
+  background: purple;
   max-width: 800px;
   margin: auto;
 }
-/* line 201, ../assets/sass/style_custom.scss */
+/* line 220, ../assets/sass/style_custom.scss */
 .cd-secondary-nav .navbar-default .navbar-brand {
-  color: white;
+  color: violet;
 }
-/* line 204, ../assets/sass/style_custom.scss */
+/* line 223, ../assets/sass/style_custom.scss */
 .cd-secondary-nav .navbar-default .navbar-nav > li > a {
   color: white;
 }
-/* line 206, ../assets/sass/style_custom.scss */
+/* line 225, ../assets/sass/style_custom.scss */
 .cd-secondary-nav .navbar-default .navbar-nav > li > a:hover, .cd-secondary-nav .navbar-default .navbar-nav > li > a:focus {
   color: white;
 }
 
-/* line 214, ../assets/sass/style_custom.scss */
+/* line 232, ../assets/sass/style_custom.scss */
+.page-header {
+  border-bottom: 1px dotted violet;
+  color: violet;
+  letter-spacing: 20px;
+}
+
+/* line 241, ../assets/sass/style_custom.scss */
 .page-projects navbar.navbar-default.yamm,
 .page-projects #row-main-column {
   max-width: 800px;
   margin: auto;
   float: none;
 }
-/* line 221, ../assets/sass/style_custom.scss */
+/* line 248, ../assets/sass/style_custom.scss */
 .page-projects .views-field-title a {
   color: purple;
   font-size: 40px;
@@ -692,7 +720,7 @@ footer {
   max-width: 500px;
   text-decoration: none;
 }
-/* line 230, ../assets/sass/style_custom.scss */
+/* line 257, ../assets/sass/style_custom.scss */
 .page-projects .views-field-title a:hover {
   color: violet;
 }
