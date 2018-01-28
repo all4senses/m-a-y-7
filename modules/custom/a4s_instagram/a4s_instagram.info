@@ -1,0 +1,6 @@
+name = a4s_instagram
+package = A4s
+description = "Instagram API"
+core = 7.x
+tags[] = a4s
+files[] = a4s_instagram.module

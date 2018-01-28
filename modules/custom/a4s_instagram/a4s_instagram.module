@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file 2
+ * Module for Instagram API
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function a4s_instagram_menu() {
+  $items = array();
+  
+  $items['insta'] = array(
+    'title' => t('Instagram API'),
+    'page callback' => 'a4s_instagram_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  return $items;
+}
+
+function  a4s_instagram_page() {
+  dpm($_REQUEST, '$_REQUEST');
+  $CLIENT_ID = '1eca294b0a6b478b9de165d9384edac1';
+  $REDIRECT_URI = 'http://m-a-y.ru/insta';
+  $out = '<a href="https://api.instagram.com/oauth/authorize/?client_id=' . $CLIENT_ID. '&redirect_uri=' . $REDIRECT_URI . '&response_type=code" >Authorize with Instagram</a>';
+  return $out;
+}
