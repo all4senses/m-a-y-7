@@ -18,7 +18,21 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['behat'] = array(
+    'title' => t('Behat test'),
+    'page callback' => 'a4s_behat',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   return $items;
+}
+
+/**
+ * 
+ */
+function a4s_behat() {
+  echo json_encode(array('status' => TRUE, 'get' => $_GET));
 }
 
 /**
