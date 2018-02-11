@@ -18,9 +18,9 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
-  $items['behat'] = array(
-    'title' => t('Behat test'),
-    'page callback' => 'a4s_behat',
+  $items['insta_behat'] = array(
+    'title' => t('Instagram Behat endpoint'),
+    'page callback' => 'a4s_instagram_behat',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -31,7 +31,7 @@ function a4s_instagram_menu() {
 /**
  * 
  */
-function a4s_behat() {
+function a4s_instagram_behat() {
   /*
   $url = '';
   $ch = curl_init($url);
@@ -42,6 +42,22 @@ function a4s_behat() {
   $results = json_decode(curl_exec($ch), TRUE);
   curl_close($ch);
   */
+  $status = TRUE;
+  $errors = NULL;
+  if (!empty($_REQUEST['op'])) {
+    switch ($_REQUEST['op']) {
+      case 'save_cookies':
+        if (empty($_REQUEST['cookies'])|| empty($_REQUEST['username'])) {
+          $status = FALSE;
+          $errors = 'Wrong source parameters';
+          break;
+        }
+        else {
+          $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+          $behat_insta_cookies[$_REQUEST['username']] = $_REQUEST['cookies'];
+        }
+    }
+  }
   watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
   echo json_encode(array('status' => TRUE, '$_request' => $_REQUEST));
 }
