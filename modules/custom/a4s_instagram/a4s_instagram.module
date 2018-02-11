@@ -55,6 +55,7 @@ function a4s_instagram_behat() {
         else {
           $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
           $behat_insta_cookies[$_REQUEST['username']] = $_REQUEST['cookies'];
+          variable_set('a4s_behat_insta_cookies', $behat_insta_cookies);
         }
     }
   }
