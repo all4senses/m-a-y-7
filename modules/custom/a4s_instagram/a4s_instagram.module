@@ -32,8 +32,18 @@ function a4s_instagram_menu() {
  * 
  */
 function a4s_behat() {
+  /*
+  $url = '';
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, TRUE);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  //curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+  $results = json_decode(curl_exec($ch), TRUE);
+  curl_close($ch);
+  */
   watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
-  echo json_encode(array('status' => TRUE, 'get' => $_GET));
+  echo json_encode(array('status' => TRUE, '$_request' => $_REQUEST));
 }
 
 /**
