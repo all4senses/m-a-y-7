@@ -44,9 +44,10 @@ function a4s_instagram_behat() {
   */
   $status = TRUE;
   $errors = NULL;
+  $cookies = NULL;
   if (!empty($_REQUEST['op'])) {
     switch ($_REQUEST['op']) {
-      case 'save_cookies':
+      case 'set_cookies':
         if (empty($_REQUEST['cookies'])|| empty($_REQUEST['username'])) {
           $status = FALSE;
           $errors = 'Wrong source parameters';
@@ -57,10 +58,25 @@ function a4s_instagram_behat() {
           $behat_insta_cookies[$_REQUEST['username']] = unserialize($_REQUEST['cookies']);
           variable_set('a4s_behat_insta_cookies', $behat_insta_cookies);
         }
+        break;
+        
+      case 'get_cookies':
+        if (empty($_REQUEST['username'])) {
+          $status = FALSE;
+          $errors = 'Wrong source parameters';
+          break;
+        }
+        else {
+          $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+          if (!empty($behat_insta_cookies[$_REQUEST['username']])) {
+            $cookies = $behat_insta_cookies[$_REQUEST['username']];
+          }
+        }
+        break;
     }
   }
   watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
-  echo json_encode(array('status' => $status, '$_request' => $_REQUEST, 'errors' => $errors));
+  echo json_encode(array('status' => $status, '$_request' => $_REQUEST, 'errors' => $errors, 'oookies' => $cookies));
 }
 
 /**
