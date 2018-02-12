@@ -32,6 +32,9 @@ function a4s_instagram_menu() {
  * 
  */
 function a4s_instagram_behat() {
+  
+  return FALSE;
+  
   /*
   $url = '';
   $ch = curl_init($url);
