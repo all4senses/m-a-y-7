@@ -74,10 +74,35 @@ function a4s_instagram_behat() {
           }
         }
         break;
+        
+      case 'alert':
+        $subject = 'Behat problems';
+        $message = 'Some problems occured with Behat script';
+        $data = NULL;
+        drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $message, 'data' => $data));
+        watchdog('Probems with Behat', $message . ' ==> <pre>'. print_r($data) . '</pre>');
+        break;
     }
   }
   watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
   echo json_encode(array('status' => $status, '$_request' => $_REQUEST, 'errors' => $errors, 'cookies' => $cookies));
+}
+
+/**
+ * Implements hook_mail().
+ */
+function a4s_instagram_mail($key, &$message, $params) {
+  switch ($key) {
+    
+    case 'behat_problems_alert':
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['message'] . '
+        
+
+<pre>' . print_r($params['data'], TRUE) . '</pre>';
+      break;
+
+  }
 }
 
 /**
