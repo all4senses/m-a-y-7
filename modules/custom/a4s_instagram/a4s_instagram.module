@@ -56,7 +56,7 @@ function a4s_instagram_behat() {
         }
         else {
           $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-          $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']] = unserialize($_REQUEST['cookies']);
+          $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'] = unserialize($_REQUEST['cookies']);
           variable_set('a4s_behat_insta_cookies', $behat_insta_cookies);
         }
         break;
@@ -69,8 +69,8 @@ function a4s_instagram_behat() {
         }
         else {
           $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-          if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']])) {
-            $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']];
+          if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'])) {
+            $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'];
           }
         }
         break;
