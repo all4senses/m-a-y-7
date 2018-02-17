@@ -49,20 +49,20 @@ function a4s_instagram_behat() {
   if (!empty($_REQUEST['op'])) {
     switch ($_REQUEST['op']) {
       case 'set_cookies':
-        if (empty($_REQUEST['cookies'])|| empty($_REQUEST['username'])) {
+        if (empty($_REQUEST['target_domain']) || empty($_REQUEST['cookies'])|| empty($_REQUEST['username'])) {
           $status = FALSE;
           $errors = 'Wrong source parameters';
           break;
         }
         else {
           $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-          $behat_insta_cookies[$_REQUEST['username']] = unserialize($_REQUEST['cookies']);
+          $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']] = unserialize($_REQUEST['cookies']);
           variable_set('a4s_behat_insta_cookies', $behat_insta_cookies);
         }
         break;
         
       case 'get_cookies':
-        if (empty($_REQUEST['username'])) {
+        if (empty($_REQUEST['target_domain']) || empty($_REQUEST['username'])) {
           $status = FALSE;
           $errors = 'Wrong source parameters';
           break;
@@ -70,7 +70,7 @@ function a4s_instagram_behat() {
         else {
           $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
           if (!empty($behat_insta_cookies[$_REQUEST['username']])) {
-            $cookies = $behat_insta_cookies[$_REQUEST['username']];
+            $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']];
           }
         }
         break;
@@ -192,49 +192,63 @@ function a4s_insta_queryData() {
 
 
 
+function a4s_insta_queryData_graphql($type = 'folowers', $username) {
+  
+  switch ($type) {
+    case 'folowers':
+      $query_hash = '37479f2b8209594dde7facb0d904896a'; // Folowers
+      break;
+    case 'folowing':
+      $query_hash = '58712303d941c6855d4e888c5f0cd22f'; // Folowing
+      break;
+  }
+  
+  $target_user_id = 4016509096; // solo
+  //$target_user_id = 6218303298; // a4s
+  $variables = '{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}';
+  //$end_cursor = 'AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA';
+  $end_cursor = 'AQCcbXzjdc_ZfOPp0T9xKt0lH-IYCbcbHjhF_NNy6R6DW19AnG4pGEKjYjPZXO5XezMQCPr7-fJWA63LWzY0Q3HfQ9jQ6zVjXYu1VO6dCwU_DA';
+  //$end_cursor = '';
+  $variables = '{"id":' . '"' . $target_user_id. '","first":10,"after":"' . $end_cursor . '"}';
+  $variables = urlencode($variables);
+  $query_hash = '37479f2b8209594dde7facb0d904896a'; // Folowers
+  $query_hash = '58712303d941c6855d4e888c5f0cd22f'; // Folowing
 
-function a4s_insta_getMediaByTag() {
-    // https://gist.github.com/cosmocatalano/4544576
-    // and fix instead of file_get_contents()
-    // https://stackoverflow.com/questions/21677579/server-configuration-by-allow-url-fopen-0-in
+  //$url = "https://www.instagram.com/graphql/query/?query_hash=37479f2b8209594dde7facb0d904896a&variables=%7B%22id%22%3A%226218303298%22%2C%22first%22%3A10%2C%22after%22%3A%22AQC2c5Ud8R_m2Wagr8TnGYNRsQO-N0letvJFx7JH1NH3ySwey3NVgUF_uw7hdoyMgqouz1TBbZasNbIAoSlfDi_pxQm8bQvmkO7UFGhcQN_YvA%22%7D";
 
 
-    // 'code' in media is an url tag for image, like https://www.instagram.com/p/BeQ84NSlzQN/
+  $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
 
+  //query_hash:37479f2b8209594dde7facb0d904896a
+  //variables:{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}
 
-    
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_POST, 0);
 
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; '));
 
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
+  $results = json_decode(curl_exec($ch));
 
-    //Supply a username
-    $my_account = 'all4senses'; 
-    //Do the deed
-    $results_array = scrape_insta($my_account);
-    dpm($results_array, '$results_array');
-
+  curl_close($ch);
+  dpm($results, '$results');
 }
 
 
-//returns a big old hunk of JSON from a non-private IG account page.
-function scrape_insta($username) {
-  //$insta_source = file_get_contents('https://instagram.com/'.$username);
 
-  //$insta_source = get_web_page('https://instagram.com/'.$username . '/media?max_id=1686293411635000982');
-  //$insta_source = get_web_page('https://instagram.com/'.$username . '?max_id=1686293411635000982');
-
-  // max_id -> from end_cursor
-  $insta_source = get_web_page('https://instagram.com/explore/tags/design?max_id=1702605778501110471');
-
-  dpm($insta_source, '$insta_source');
-  //return;
-    //$shards = explode('window._sharedData = ', $insta_source);
-  $shards = explode('window._sharedData = ', $insta_source['content']);
-  $insta_json = explode(';</script>', $shards[1]); 
-  $insta_array = json_decode($insta_json[0], TRUE);
-  return $insta_array;
-}
-
+/**
+ * https://gist.github.com/cosmocatalano/4544576
+ * and fix instead of file_get_contents()
+ * https://stackoverflow.com/questions/21677579/server-configuration-by-allow-url-fopen-0-in
+ *'code' in media is an url tag for image, like https://www.instagram.com/p/BeQ84NSlzQN/
+ *
+ * @param type $type
+ * @param type $target
+ * @param type $max_id
+ * @return array
+ */
 function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
   switch ($type) {
     case 'user/profile':
@@ -270,14 +284,18 @@ function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
   return $out;
 }
 
-function a4s_insta_getByType_data($type, $target, $pages_count) {
-  
+/**
+ * 
+ * @param type $type
+ * @param type $target
+ * @param type $pages_count
+ */
+function a4s_insta_getByType_data($type, $target, $pages_count = NULL) {
   $data = array();
   $data_all = array();
   $max_id = NULL;
   while ($pages_count--) {
     $data = a4s_insta_getByType_page($type, $target, $max_id);
-    dpm($data, '$data');
     // Ignore $pages_count for a user/profile request
     if ($type == 'user/profile' || !$data['page_info']['has_next_page'] || empty($data['page_info']['end_cursor'])) {
       $data_all = $data;
@@ -289,6 +307,12 @@ function a4s_insta_getByType_data($type, $target, $pages_count) {
   dpm($data_all, '$data_all');
 }
 
+/**
+ * 
+ * @param type $url
+ * @param type $cookiesIn
+ * @return type
+ */
 function a4s_insta_getData_fromWebPage($url, $cookiesIn = ''){
             
     $options = array(
