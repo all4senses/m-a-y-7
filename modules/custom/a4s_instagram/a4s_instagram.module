@@ -237,7 +237,8 @@ function scrape_insta($username) {
 
 function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
   switch ($type) {
-    case 'user':
+    case 'user/profile':
+    case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
       break;
     case 'tag':
@@ -253,7 +254,20 @@ function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
   $insta_json = explode(';</script>', $shards[1]); 
   $insta_array = json_decode($insta_json[0], TRUE);
   
-  return $insta_array;
+  switch ($type) {
+    case 'user/profile':
+      // Remove actual media data, as we return here only a general profile info
+      $insta_array['entry_data']['ProfilePage'][0]['user']['media']['nodes'] = array();
+      $out = $insta_array['entry_data']['ProfilePage'][0]['user'];
+      break;
+    case 'user/media':
+      $out = $insta_array['entry_data']['ProfilePage'][0]['user']['media'];
+      break;
+    case 'tag':
+      $out = $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'];
+      break;
+  }
+  return $out;
 }
 
 function a4s_insta_getByType_data($type, $target, $pages_count) {
@@ -262,6 +276,10 @@ function a4s_insta_getByType_data($type, $target, $pages_count) {
   while ($pages_count--) {
     $data = a4s_insta_getByType_page($type, $target, $max_id);
     dpm($data, '$data');
+    // Ignore $pages_count for a user/profile request
+    if ($type == 'user/profile') {
+      break;
+    }
   }
 }
 
