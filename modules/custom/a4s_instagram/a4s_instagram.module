@@ -277,9 +277,10 @@ function a4s_insta_getByType_data($type, $target, $pages_count) {
     $data = a4s_insta_getByType_page($type, $target, $max_id);
     dpm($data, '$data');
     // Ignore $pages_count for a user/profile request
-    if ($type == 'user/profile') {
+    if ($type == 'user/profile' || !$data['page_info']['has_next_page'] || empty($data['page_info']['end_cursor'])) {
       break;
     }
+    $max_id = $data['page_info']['end_cursor'];
   }
 }
 
