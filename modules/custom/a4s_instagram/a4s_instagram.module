@@ -202,75 +202,104 @@ function a4s_insta_getMediaByTag() {
     // 'code' in media is an url tag for image, like https://www.instagram.com/p/BeQ84NSlzQN/
 
 
-    function get_web_page( $url, $cookiesIn = '' ){
-            $options = array(
-                CURLOPT_RETURNTRANSFER => true,     // return web page
-                CURLOPT_HEADER         => true,     //return headers in addition to content
-                CURLOPT_FOLLOWLOCATION => true,     // follow redirects
-                CURLOPT_ENCODING       => "",       // handle all encodings
-                CURLOPT_AUTOREFERER    => true,     // set referer on redirect
-                CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
-                CURLOPT_TIMEOUT        => 120,      // timeout on response
-                CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
-                CURLINFO_HEADER_OUT    => true,
-                CURLOPT_SSL_VERIFYPEER => true,     // Validate SSL Cert
-                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-                CURLOPT_COOKIE         => $cookiesIn
-            );
-
-            $ch      = curl_init( $url );
-            curl_setopt_array( $ch, $options );
-            $rough_content = curl_exec( $ch );
-            $err     = curl_errno( $ch );
-            $errmsg  = curl_error( $ch );
-            $header  = curl_getinfo( $ch );
-            curl_close( $ch );
-
-            $header_content = substr($rough_content, 0, $header['header_size']);
-            $body_content = trim(str_replace($header_content, '', $rough_content));
-            $pattern = "#Set-Cookie:\\s+(?<cookie>[^=]+=[^;]+)#m"; 
-            preg_match_all($pattern, $header_content, $matches); 
-            $cookiesOut = implode("; ", $matches['cookie']);
-
-            $header['errno']   = $err;
-            $header['errmsg']  = $errmsg;
-            $header['headers']  = $header_content;
-            $header['content'] = $body_content;
-            $header['cookies'] = $cookiesOut;
-        return $header;
-    }
+    
 
 
 
 
-    //returns a big old hunk of JSON from a non-private IG account page.
-    function scrape_insta($username) {
-      //$insta_source = file_get_contents('https://instagram.com/'.$username);
-
-    //$insta_source = get_web_page('https://instagram.com/'.$username . '/media?max_id=1686293411635000982');
-    //$insta_source = get_web_page('https://instagram.com/'.$username . '?max_id=1686293411635000982');
-
-    // max_id -> from end_cursor
-    $insta_source = get_web_page('https://instagram.com/explore/tags/design?max_id=1702605778501110471');
-
-    dpm($insta_source, '$insta_source');
-    //return;
-      //$shards = explode('window._sharedData = ', $insta_source);
-    $shards = explode('window._sharedData = ', $insta_source['content']);
-      $insta_json = explode(';</script>', $shards[1]); 
-      $insta_array = json_decode($insta_json[0], TRUE);
-      return $insta_array;
-    }
     //Supply a username
     $my_account = 'all4senses'; 
     //Do the deed
     $results_array = scrape_insta($my_account);
     dpm($results_array, '$results_array');
 
+}
 
 
+//returns a big old hunk of JSON from a non-private IG account page.
+function scrape_insta($username) {
+  //$insta_source = file_get_contents('https://instagram.com/'.$username);
 
+  //$insta_source = get_web_page('https://instagram.com/'.$username . '/media?max_id=1686293411635000982');
+  //$insta_source = get_web_page('https://instagram.com/'.$username . '?max_id=1686293411635000982');
 
+  // max_id -> from end_cursor
+  $insta_source = get_web_page('https://instagram.com/explore/tags/design?max_id=1702605778501110471');
 
+  dpm($insta_source, '$insta_source');
+  //return;
+    //$shards = explode('window._sharedData = ', $insta_source);
+  $shards = explode('window._sharedData = ', $insta_source['content']);
+  $insta_json = explode(';</script>', $shards[1]); 
+  $insta_array = json_decode($insta_json[0], TRUE);
+  return $insta_array;
+}
 
+function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
+  switch ($type) {
+    case 'user':
+      $target_url = 'https://instagram.com/'. $target;
+      break;
+    case 'tag':
+      $target_url = 'https://instagram.com/explore/tags/'. $target;
+      break;
+  }
+  if ($max_id) {
+    $target_url .= '?max_id=' . $max_id; 
+  }
+  
+  $insta_source = a4s_insta_getData_fromWebPage($target_url, $cookiesIn = '');
+  $shards = explode('window._sharedData = ', $insta_source['content']);
+  $insta_json = explode(';</script>', $shards[1]); 
+  $insta_array = json_decode($insta_json[0], TRUE);
+  
+  return $insta_array;
+}
+
+function a4s_insta_getByType_data($type, $target, $pages_count) {
+  $data = array();
+  $max_id = NULL;
+  while ($pages_count--) {
+    $data = a4s_insta_getByType_page($type, $target, $max_id);
+    dpm($data, '$data');
+  }
+}
+
+function a4s_insta_getData_fromWebPage($url, $cookiesIn = ''){
+            
+    $options = array(
+      CURLOPT_RETURNTRANSFER => true,     // return web page
+      CURLOPT_HEADER         => true,     //return headers in addition to content
+      CURLOPT_FOLLOWLOCATION => true,     // follow redirects
+      CURLOPT_ENCODING       => "",       // handle all encodings
+      CURLOPT_AUTOREFERER    => true,     // set referer on redirect
+      CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
+      CURLOPT_TIMEOUT        => 120,      // timeout on response
+      CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
+      CURLINFO_HEADER_OUT    => true,
+      CURLOPT_SSL_VERIFYPEER => true,     // Validate SSL Cert
+      CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+      CURLOPT_COOKIE         => $cookiesIn
+    );
+
+    $ch      = curl_init( $url );
+    curl_setopt_array( $ch, $options );
+    $rough_content = curl_exec( $ch );
+    $err     = curl_errno( $ch );
+    $errmsg  = curl_error( $ch );
+    $header  = curl_getinfo( $ch );
+    curl_close( $ch );
+
+    $header_content = substr($rough_content, 0, $header['header_size']);
+    $body_content = trim(str_replace($header_content, '', $rough_content));
+    $pattern = "#Set-Cookie:\\s+(?<cookie>[^=]+=[^;]+)#m"; 
+    preg_match_all($pattern, $header_content, $matches); 
+    $cookiesOut = implode("; ", $matches['cookie']);
+
+    $header['errno']   = $err;
+    $header['errmsg']  = $errmsg;
+    $header['headers']  = $header_content;
+    $header['content'] = $body_content;
+    $header['cookies'] = $cookiesOut;
+    return $header;
 }
