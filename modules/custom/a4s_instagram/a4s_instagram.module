@@ -271,17 +271,22 @@ function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
 }
 
 function a4s_insta_getByType_data($type, $target, $pages_count) {
+  
   $data = array();
+  $data_all = array();
   $max_id = NULL;
   while ($pages_count--) {
     $data = a4s_insta_getByType_page($type, $target, $max_id);
     dpm($data, '$data');
     // Ignore $pages_count for a user/profile request
     if ($type == 'user/profile' || !$data['page_info']['has_next_page'] || empty($data['page_info']['end_cursor'])) {
+      $data_all = $data;
       break;
     }
     $max_id = $data['page_info']['end_cursor'];
+    $data_all = array_merge($data_all, $data['edges']);
   }
+  dpm($data_all, '$data_all');
 }
 
 function a4s_insta_getData_fromWebPage($url, $cookiesIn = ''){
