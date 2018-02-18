@@ -412,7 +412,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   if ($max_id) {
     $target_url .= '?max_id=' . $max_id; 
   }
-  
+  dpm($target_url, '$target_url');
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
   $shards = explode('window._sharedData = ', $insta_source['content']);
   $insta_json = explode(';</script>', $shards[1]); 
@@ -465,6 +465,9 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
     $header  = curl_getinfo( $ch );
     curl_close( $ch );
 
+    dpm($rough_content, '$rough_content');
+    dpm($header, '$header');
+    
     $header_content = substr($rough_content, 0, $header['header_size']);
     $body_content = trim(str_replace($header_content, '', $rough_content));
     $pattern = "#Set-Cookie:\\s+(?<cookie>[^=]+=[^;]+)#m"; 
