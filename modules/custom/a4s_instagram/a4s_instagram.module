@@ -258,14 +258,18 @@ function a4s_insta_queryGraphql_single($data_type, $username, $count = 10, $end_
   
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
   if (empty($behat_insta_cookies['https://instagram.com'][$username]['ds_user_id'])) {
+    dpm('empty...');
     return FALSE;
   }
   $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$username];
+  dpm($behat_insta_cookies_user, '$behat_insta_cookies_user');
   $variables = '{"id":' . '"' . $behat_insta_cookies_user['ds_user_id'] . '","first":' . $count . ',"after":"' . $end_cursor . '"}';
+  dpm($variables, '$variables');
   $variables = urlencode($variables);
   $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
   //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
   $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
+  dpm($cookies_str, '$cookies_str');
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
   
   dpm($results, '$results');
@@ -285,6 +289,7 @@ function a4s_insta_instagramCurlPage__withCookies($url, $cookies_str){
   curl_setopt($ch, CURLOPT_HTTPHEADER, array($cookies_str));
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $results = json_decode(curl_exec($ch));
+  dpm($results, '$results in curll');
   curl_close($ch);
 }
 
