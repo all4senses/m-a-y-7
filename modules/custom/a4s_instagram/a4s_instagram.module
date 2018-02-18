@@ -59,9 +59,17 @@ function a4s_instagram_behat() {
           $new_cookies = unserialize($_REQUEST['cookies']);
           $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'] = $new_cookies;
           foreach ($new_cookies as $new_cookie) {
-            if ($new_cookie['name'] == 'ds_user_id') {
-              $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['ds_user_id'] = $new_cookie['value'];
-              break;
+            switch ($new_cookie['name']) {
+              case 'ds_user_id':
+                //4016509096; // solo, 6218303298; // a4s
+                $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['ds_user_id'] = $new_cookie['value'];
+                break;
+              case 'csrftoken':
+                $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['csrftoken'] = $new_cookie['value'];
+                break;
+              case 'sessionid':
+                $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['sessionid'] = $new_cookie['value'];
+                break;
             }
           }
           variable_set('a4s_behat_insta_cookies', $behat_insta_cookies);
@@ -207,9 +215,39 @@ function a4s_insta_queryData() {
   dpm($results, '$results');
 }
 
-function a4s_insta_queryData_graphql($type = 'folowers', $username) {
+function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = 10, $end_cursor = NULL) {
+  $data = array();
+  $data_all = array();
+  $max_id = NULL;
+  while ($pages_count--) {
+    $data = a4s_insta_queryGraphql_single($data_type, $username, $count = 10, $end_cursor);
+    if (!$data['page_info']['has_next_page'] || empty($data['page_info']['end_cursor'])) {
+      $data_all = $data;
+      break;
+    }
+    $end_cursor = $data['page_info']['end_cursor'];
+    $data_all = array_merge($data_all, $data['edges']);
+  }
+  dpm($data_all, '$data_all');
+}
+
+
+/**
+ * 
+ * @param type $type
+ * @param type $username
+ * @param type $count
+ * @param type $end_cursor
+ * @return boolean
+ */
+function a4s_insta_queryGraphql_single($data_type, $username, $count = 10, $end_cursor = NULL) {
   
-  switch ($type) {
+  // Example:
+  //$variables = '{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}';
+  //$url = "https://www.instagram.com/graphql/query/?query_hash=37479f2b8209594dde7facb0d904896a&variables=%7B%22id%22%3A%226218303298%22%2C%22first%22%3A10%2C%22after%22%3A%22AQC2c5Ud8R_m2Wagr8TnGYNRsQO-N0letvJFx7JH1NH3ySwey3NVgUF_uw7hdoyMgqouz1TBbZasNbIAoSlfDi_pxQm8bQvmkO7UFGhcQN_YvA%22%7D";
+  //$end_cursor = 'AQCcbXzjdc_ZfOPp0T9xKt0lH-IYCbcbHjhF_NNy6R6DW19AnG4pGEKjYjPZXO5XezMQCPr7-fJWA63LWzY0Q3HfQ9jQ6zVjXYu1VO6dCwU_DA';
+  
+  switch ($data_type) {
     case 'folowers':
       $query_hash = '37479f2b8209594dde7facb0d904896a'; // Folowers
       break;
@@ -218,37 +256,36 @@ function a4s_insta_queryData_graphql($type = 'folowers', $username) {
       break;
   }
   
-  $target_user_id = 4016509096; // solo
-  //$target_user_id = 6218303298; // a4s
-  $variables = '{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}';
-  //$end_cursor = 'AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA';
-  $end_cursor = 'AQCcbXzjdc_ZfOPp0T9xKt0lH-IYCbcbHjhF_NNy6R6DW19AnG4pGEKjYjPZXO5XezMQCPr7-fJWA63LWzY0Q3HfQ9jQ6zVjXYu1VO6dCwU_DA';
-  //$end_cursor = '';
-  $variables = '{"id":' . '"' . $target_user_id. '","first":10,"after":"' . $end_cursor . '"}';
+  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+  if (empty($behat_insta_cookies['https://instagram.com'][$username]['ds_user_id'])) {
+    return FALSE;
+  }
+  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$username];
+  $variables = '{"id":' . '"' . $behat_insta_cookies_user['ds_user_id'] . '","first":' . $count . ',"after":"' . $end_cursor . '"}';
   $variables = urlencode($variables);
-  $query_hash = '37479f2b8209594dde7facb0d904896a'; // Folowers
-  $query_hash = '58712303d941c6855d4e888c5f0cd22f'; // Folowing
-
-  //$url = "https://www.instagram.com/graphql/query/?query_hash=37479f2b8209594dde7facb0d904896a&variables=%7B%22id%22%3A%226218303298%22%2C%22first%22%3A10%2C%22after%22%3A%22AQC2c5Ud8R_m2Wagr8TnGYNRsQO-N0letvJFx7JH1NH3ySwey3NVgUF_uw7hdoyMgqouz1TBbZasNbIAoSlfDi_pxQm8bQvmkO7UFGhcQN_YvA%22%7D";
-
-
   $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
+  //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
+  $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
+  $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
+  
+  dpm($results, '$results');
+  return $results;
+}
 
-  //query_hash:37479f2b8209594dde7facb0d904896a
-  //variables:{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}
-
+/**
+ * 
+ * @param type $url
+ * @param type $cookies_str
+ *  Example:  'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; '
+ */
+function a4s_insta_instagramCurlPage__withCookies($url, $cookies_str){
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_POST, 0);
-
-  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; '));
-
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array($cookies_str));
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
   $results = json_decode(curl_exec($ch));
-
   curl_close($ch);
-  dpm($results, '$results');
 }
 
 /**
