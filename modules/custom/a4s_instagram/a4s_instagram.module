@@ -334,7 +334,6 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
     }
     $max_id = $data['page_info']['end_cursor'];
   }
-  dpm($data_all, '$data_all');
   return $data_all;
 }
 
@@ -362,7 +361,6 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
   $response = file_get_contents($target_url);
   if ($response !== false) {
       $data = json_decode($response, true);
-      dpm($data, '$data');
       if (!empty($data)) {
           switch ($data_type) {
             case 'user/profile':
@@ -412,15 +410,13 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   if ($max_id) {
     $target_url .= '?max_id=' . $max_id; 
   }
-  dpm($target_url, '$target_url');
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
-  dpm($insta_source, '$insta_source');
+  if (empty($insta_source['content'])) {
+    return NULL;
+  }
   $shards = explode('window._sharedData = ', $insta_source['content']);
-  dpm($shards, '$shards');
   $insta_json = explode(';</script>', $shards[1]); 
-  dpm($insta_json, '$insta_json');
   $insta_array = json_decode($insta_json[0], TRUE);
-  dpm($insta_array, '$insta_array');
   
   switch ($data_type) {
     case 'user/profile':
