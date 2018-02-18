@@ -103,7 +103,10 @@ function a4s_instagram_behat() {
         break;
     }
   }
-  watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
+  if (!$status) {
+    // Report only in case of problems.
+    watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
+  }
   echo json_encode(array('status' => $status, '$_request' => $_REQUEST, 'errors' => $errors, 'cookies' => $cookies));
 }
 
