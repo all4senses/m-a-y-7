@@ -323,11 +323,11 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
         break;
     }
     dpm($data, '$data in multiple');
-    if (empty($data['edges'])) {
+    if (empty($data['nodes'])) {
       $data = array();
     }
     else {
-      $data_all = array_merge($data_all, $data['edges']);
+      $data_all = array_merge($data_all, $data['nodes']);
     }
     // Ignore $pages_count for a user/profile request
     if ($data_type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor'])) {
