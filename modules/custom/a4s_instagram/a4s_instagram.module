@@ -414,9 +414,13 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   }
   dpm($target_url, '$target_url');
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
+  dpm($insta_source, '$insta_source');
   $shards = explode('window._sharedData = ', $insta_source['content']);
+  dpm($shards, '$shards');
   $insta_json = explode(';</script>', $shards[1]); 
+  dpm($insta_json, '$insta_json');
   $insta_array = json_decode($insta_json[0], TRUE);
+  dpm($insta_array, '$insta_array');
   
   switch ($data_type) {
     case 'user/profile':
@@ -479,6 +483,6 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
     $header['headers']  = $header_content;
     $header['content'] = $body_content;
     $header['cookies'] = $cookiesOut;
-    dpm($header, '$header');
+
     return $header;
 }
