@@ -72,7 +72,13 @@ function a4s_instagram_behat() {
                 break;
             }
           }
-          variable_set('a4s_behat_insta_cookies', $behat_insta_cookies);
+          if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['sessionid'])) {
+            variable_set('a4s_behat_insta_cookies', $behat_insta_cookies);
+          }
+          else {
+            $status = FALSE;
+            $errors = 'Something wrong with Instagram cookies: sessionid is empty.';
+          }
         }
         break;
         
@@ -91,11 +97,9 @@ function a4s_instagram_behat() {
         break;
         
       case 'alert':
-        $subject = 'Behat problems';
-        $message = 'Some problems occured with Behat script';
-        $data = NULL;
-        drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $message, 'data' => $data));
-        watchdog('Probems with Behat', $message . ' ==> <pre>'. print_r($data, TRUE) . '</pre>');
+        $subject = 'Alert from Behat!';
+        drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
+        watchdog('Probems with Behat', $subject . ' ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
         break;
     }
   }
@@ -178,6 +182,11 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = N
   $data = array();
   $data_all = array();
   $max_id = NULL;
+  
+  // Just in case, limit pages amount to process.
+  $max_pages_to_process = 30;
+  $pages_processed = 0;
+  
   do {
     $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query);
     if (empty($data['edges'])) {
@@ -189,33 +198,12 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = N
     if ($pages_count !== NULL) {
       --$pages_count;
     }
-    if (empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor']) || ($pages_count !== NULL && $pages_count <= 0) ) {
+    if (++$pages_processed >= $max_pages_to_process || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor']) || ($pages_count !== NULL && $pages_count <= 0) ) {
       break;
     }
     $end_cursor = $data['page_info']['end_cursor'];
   }while(1);
 
-  return $data_all;
-}
-
-function a4s_insta_queryGraphql_multiple_OLD($data_type, $username, $pages_count = 1, $end_cursor = NULL, $items_per_query = 10) {
-  $data = array();
-  $data_all = array();
-  $max_id = NULL;
-  while ($pages_count--) {
-    $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query);
-    if (empty($data['edges'])) {
-      $data = array();
-    }
-    else {
-      $data_all = array_merge($data_all, $data['edges']);
-    }
-    if (empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor'])) {
-      break;
-    }
-    $end_cursor = $data['page_info']['end_cursor'];
-  }
-  dpm($data_all, '$data_all');
   return $data_all;
 }
 
@@ -264,7 +252,6 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
       $data = !empty($results['data']['user']['edge_follow']) ? $results['data']['user']['edge_follow'] : NULL;
       break;
   }
-  dpm($data, '$data');
   return $data;
 }
 
@@ -295,6 +282,11 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
   $data = array();
   $data_all = array();
   $max_id = NULL;
+  
+  // Just in case, limit pages amount to process.
+  $max_pages_to_process = 30;
+  $pages_processed = 0;
+  
   do {
     switch ($request_type) {
       case 'fromRaw':
@@ -314,7 +306,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
       --$pages_count;
     }
     // Ignore $pages_count for a user/profile request
-    if ($data_type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor']) || ($pages_count !== NULL && $pages_count <= 0) ) {
+    if (++$pages_processed >= $max_pages_to_process || $data_type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor']) || ($pages_count !== NULL && $pages_count <= 0) ) {
       break;
     }
     $max_id = $data['page_info']['end_cursor'];
@@ -323,35 +315,6 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
   
   return $data_all;
 }
-
-function a4s_insta_getDataMultiple_OLD($request_type, $data_type, $target, $pages_count = NULL) {
-  $data = array();
-  $data_all = array();
-  $max_id = NULL;
-  while ($pages_count--) {
-    switch ($request_type) {
-      case 'fromRaw':
-        $data = a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id);
-        break;
-      case 'fromA':
-        $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
-        break;
-    }
-    if (empty($data['nodes'])) {
-      $data = array();
-    }
-    else {
-      $data_all = array_merge($data_all, $data['nodes']);
-    }
-    // Ignore $pages_count for a user/profile request
-    if ($data_type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor'])) {
-      break;
-    }
-    $max_id = $data['page_info']['end_cursor'];
-  }
-  return $data_all;
-}
-
 
 /**
  * 
