@@ -329,7 +329,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
       $data_all = array_merge($data_all, $data['edges']);
     }
     // Ignore $pages_count for a user/profile request
-    if ($type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor'])) {
+    if ($data_type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor'])) {
       break;
     }
     $max_id = $data['page_info']['end_cursor'];
