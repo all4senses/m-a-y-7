@@ -262,18 +262,24 @@ function a4s_insta_queryGraphql_single($data_type, $username, $count = 10, $end_
     return FALSE;
   }
   $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$username];
-  dpm($behat_insta_cookies_user, '$behat_insta_cookies_user');
   $variables = '{"id":' . '"' . $behat_insta_cookies_user['ds_user_id'] . '","first":' . $count . ',"after":"' . $end_cursor . '"}';
-  dpm($variables, '$variables');
   $variables = urlencode($variables);
   $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
   //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
   $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
-  dpm($cookies_str, '$cookies_str');
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
-  
   dpm($results, '$results');
-  return $results;
+  
+  switch ($data_type) {
+    case 'folowers':
+      $data = !empty($results['data']['user']['edge_followed_by']) ? $results['data']['user']['edge_followed_by'] : NULL;
+      break;
+    case 'folowing':
+      $data = !empty($results['data']['user']['edge_followed_by']) ? $results['data']['user']['edge_followed_by'] : NULL;
+      break;
+  }
+  dpm($data, '$data');
+  return $data;
 }
 
 /**
@@ -288,9 +294,9 @@ function a4s_insta_instagramCurlPage__withCookies($url, $cookies_str){
   curl_setopt($ch, CURLOPT_POST, 0);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array($cookies_str));
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  $results = json_decode(curl_exec($ch));
-  dpm($results, '$results in curll');
+  $results = json_decode(curl_exec($ch, TRUE));
   curl_close($ch);
+  return $results;
 }
 
 /**
