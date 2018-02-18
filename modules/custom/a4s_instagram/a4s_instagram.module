@@ -173,48 +173,6 @@ function  a4s_instagram_page() {
   return $out;
 }
 
-
-
-
-
-
-
-
-function a4s_insta_queryData() {
-  
-  $target_user_id = 4016509096; // solo
-  //$target_user_id = 6218303298; // a4s
-  $variables = '{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}';
-  //$end_cursor = 'AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA';
-  $end_cursor = 'AQCcbXzjdc_ZfOPp0T9xKt0lH-IYCbcbHjhF_NNy6R6DW19AnG4pGEKjYjPZXO5XezMQCPr7-fJWA63LWzY0Q3HfQ9jQ6zVjXYu1VO6dCwU_DA';
-  //$end_cursor = '';
-  $variables = '{"id":' . '"' . $target_user_id. '","first":10,"after":"' . $end_cursor . '"}';
-  $variables = urlencode($variables);
-  $query_hash = '37479f2b8209594dde7facb0d904896a'; // Folowers
-  $query_hash = '58712303d941c6855d4e888c5f0cd22f'; // Folowing
-
-  //$url = "https://www.instagram.com/graphql/query/?query_hash=37479f2b8209594dde7facb0d904896a&variables=%7B%22id%22%3A%226218303298%22%2C%22first%22%3A10%2C%22after%22%3A%22AQC2c5Ud8R_m2Wagr8TnGYNRsQO-N0letvJFx7JH1NH3ySwey3NVgUF_uw7hdoyMgqouz1TBbZasNbIAoSlfDi_pxQm8bQvmkO7UFGhcQN_YvA%22%7D";
-
-
-  $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
-
-  //query_hash:37479f2b8209594dde7facb0d904896a
-  //variables:{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}
-
-  $ch = curl_init($url);
-  curl_setopt($ch, CURLOPT_URL, $url);
-  curl_setopt($ch, CURLOPT_POST, 0);
-
-  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; '));
-
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-  $results = json_decode(curl_exec($ch));
-
-  curl_close($ch);
-  dpm($results, '$results');
-}
-
 function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = 1, $end_cursor = NULL, $items_per_query = 10) {
   $data = array();
   $data_all = array();
@@ -235,7 +193,6 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = 1
   dpm($data_all, '$data_all');
   return $data_all;
 }
-
 
 /**
  * 
@@ -313,6 +270,41 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
   $data = array();
   $data_all = array();
   $max_id = NULL;
+  do {
+    switch ($request_type) {
+      case 'fromRaw':
+        $data = a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id);
+        break;
+      case 'fromA':
+        $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
+        break;
+    }
+    if (empty($data['nodes'])) {
+      $data = array();
+    }
+    else {
+      $data_all = array_merge($data_all, $data['nodes']);
+    }
+    
+    if ($pages_count !== NULL) {
+      --$pages_count;
+    }
+    
+    // Ignore $pages_count for a user/profile request
+    if ($data_type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor']) || ($pages_count !== NULL && $pages_count <= 0) ) {
+      break;
+    }
+    $max_id = $data['page_info']['end_cursor'];
+    
+  }while(1);
+  
+  return $data_all;
+}
+
+function a4s_insta_getDataMultiple_OLD($request_type, $data_type, $target, $pages_count = NULL) {
+  $data = array();
+  $data_all = array();
+  $max_id = NULL;
   while ($pages_count--) {
     switch ($request_type) {
       case 'fromRaw':
@@ -322,7 +314,6 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
         $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
         break;
     }
-    dpm($data, '$data in multiple');
     if (empty($data['nodes'])) {
       $data = array();
     }
@@ -337,6 +328,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
   }
   return $data_all;
 }
+
 
 /**
  * 
@@ -413,7 +405,6 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   }
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
   if (empty($insta_source['content'])) {
-    dpm('Empty content...');
     return NULL;
   }
   $shards = explode('window._sharedData = ', $insta_source['content']);
@@ -459,7 +450,6 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
       CURLOPT_COOKIE         => $cookiesIn
     );
 
-    dpm($url, '$url');
     $ch      = curl_init( $url );
     curl_setopt_array( $ch, $options );
     $rough_content = curl_exec( $ch );
@@ -467,9 +457,6 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
     $errmsg  = curl_error( $ch );
     $header  = curl_getinfo( $ch );
     curl_close( $ch );
-
-    //dpm($rough_content, '$rough_content');
-    dpm($header, '$header');
     
     $header_content = substr($rough_content, 0, $header['header_size']);
     $body_content = trim(str_replace($header_content, '', $rough_content));
