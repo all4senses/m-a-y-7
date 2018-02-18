@@ -322,7 +322,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
         $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
         break;
     }
-    if (empty($data)) {
+    if (empty($data['edges'])) {
       $data = array();
     }
     else {
