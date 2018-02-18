@@ -87,7 +87,7 @@ function a4s_instagram_behat() {
         $message = 'Some problems occured with Behat script';
         $data = NULL;
         drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $message, 'data' => $data));
-        watchdog('Probems with Behat', $message . ' ==> <pre>'. print_r($data) . '</pre>');
+        watchdog('Probems with Behat', $message . ' ==> <pre>'. print_r($data, TRUE) . '</pre>');
         break;
     }
   }
@@ -165,26 +165,11 @@ function  a4s_instagram_page() {
   return $out;
 }
 
-/**
- * 
- * @param type $user
- */
-function a4s_insta_get_userInfo($otherPage = 'all4senses') {
-  
-  //$otherPage = 'all4senses';
-  $url = "https://www.instagram.com/$otherPage/?__a=1";
-  $response = file_get_contents($url);
-  if ($response !== false) {
-      $data = json_decode($response, true);
-      dpm($data, '$data');
-      if ($data !== null) {
-          $follows = $data['user']['follows']['count'];
-          $followedBy = $data['user']['followed_by']['count'];
-          echo $follows . ' and ' . $followedBy;
-      }
-  }
 
-}
+
+
+
+
 
 
 function a4s_insta_queryData() {
@@ -221,8 +206,6 @@ function a4s_insta_queryData() {
   curl_close($ch);
   dpm($results, '$results');
 }
-
-
 
 function a4s_insta_queryData_graphql($type = 'folowers', $username) {
   
@@ -268,7 +251,85 @@ function a4s_insta_queryData_graphql($type = 'folowers', $username) {
   dpm($results, '$results');
 }
 
+/**
+ * 
+ * @param type $type
+ * @param type $target
+ * @param type $pages_count
+ */
+function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_count = NULL) {
+  $data = array();
+  $data_all = array();
+  $max_id = NULL;
+  while ($pages_count--) {
+    switch ($request_type) {
+      case 'fromRaw':
+        $data = a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id);
+        break;
+      case 'fromA':
+        $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
+        break;
+    }
+    // Ignore $pages_count for a user/profile request
+    if ($type == 'user/profile' || !$data['page_info']['has_next_page'] || empty($data['page_info']['end_cursor'])) {
+      $data_all = $data;
+      break;
+    }
+    $max_id = $data['page_info']['end_cursor'];
+    $data_all = array_merge($data_all, $data['edges']);
+  }
+  dpm($data_all, '$data_all');
+}
 
+/**
+ * 
+ * @param type $data_type
+ * @param type $target
+ * @param type $max_id
+ * @return boolean|array
+ */
+function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
+  switch ($data_type) {
+    case 'user/profile':
+    case 'user/media':
+      $target_url = 'https://instagram.com/'. $target;
+      break;
+    case 'tag':
+      $target_url = 'https://instagram.com/explore/tags/'. $target;
+      break;
+  }
+  $target_url .= '?__a=1'; 
+  if ($max_id) {
+    $target_url .= '&max_id=' . $max_id; 
+  }
+  $response = file_get_contents($target_url);
+  if ($response !== false) {
+      $data = json_decode($response, true);
+      dpm($data, '$data');
+      if (!empty($data)) {
+          switch ($data_type) {
+            case 'user/profile':
+              // Remove actual media data, as we return here only a general profile info
+              $data['user']['media']['nodes'] = array();
+              $out = $data['user'];
+              /*
+              $follows = $data['user']['follows']['count'];
+              $followedBy = $data['user']['followed_by']['count'];
+              dpm('$follows: ' . $follows . ', $followedBy: ' . $followedBy);
+              */
+              break;
+            case 'user/media':
+              $out = $data['user']['media'];
+              break;
+            case 'tag':
+              $out = $data['graphql']['hashtag']['edge_hashtag_to_media'];
+              break;
+          }
+          return $out;
+      }
+  }
+  return FALSE;
+}
 
 /**
  * https://gist.github.com/cosmocatalano/4544576
@@ -276,13 +337,13 @@ function a4s_insta_queryData_graphql($type = 'folowers', $username) {
  * https://stackoverflow.com/questions/21677579/server-configuration-by-allow-url-fopen-0-in
  *'code' in media is an url tag for image, like https://www.instagram.com/p/BeQ84NSlzQN/
  *
- * @param type $type
+ * @param type $data_type
  * @param type $target
  * @param type $max_id
  * @return array
  */
-function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
-  switch ($type) {
+function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
+  switch ($data_type) {
     case 'user/profile':
     case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
@@ -295,12 +356,12 @@ function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
     $target_url .= '?max_id=' . $max_id; 
   }
   
-  $insta_source = a4s_insta_getData_fromWebPage($target_url, $cookiesIn = '');
+  $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
   $shards = explode('window._sharedData = ', $insta_source['content']);
   $insta_json = explode(';</script>', $shards[1]); 
   $insta_array = json_decode($insta_json[0], TRUE);
   
-  switch ($type) {
+  switch ($data_type) {
     case 'user/profile':
       // Remove actual media data, as we return here only a general profile info
       $insta_array['entry_data']['ProfilePage'][0]['user']['media']['nodes'] = array();
@@ -318,34 +379,11 @@ function a4s_insta_getByType_page($type, $target, $max_id = NULL) {
 
 /**
  * 
- * @param type $type
- * @param type $target
- * @param type $pages_count
- */
-function a4s_insta_getByType_data($type, $target, $pages_count = NULL) {
-  $data = array();
-  $data_all = array();
-  $max_id = NULL;
-  while ($pages_count--) {
-    $data = a4s_insta_getByType_page($type, $target, $max_id);
-    // Ignore $pages_count for a user/profile request
-    if ($type == 'user/profile' || !$data['page_info']['has_next_page'] || empty($data['page_info']['end_cursor'])) {
-      $data_all = $data;
-      break;
-    }
-    $max_id = $data['page_info']['end_cursor'];
-    $data_all = array_merge($data_all, $data['edges']);
-  }
-  dpm($data_all, '$data_all');
-}
-
-/**
- * 
  * @param type $url
  * @param type $cookiesIn
  * @return type
  */
-function a4s_insta_getData_fromWebPage($url, $cookiesIn = ''){
+function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
             
     $options = array(
       CURLOPT_RETURNTRANSFER => true,     // return web page
