@@ -465,7 +465,7 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
     $header  = curl_getinfo( $ch );
     curl_close( $ch );
 
-    dpm($rough_content, '$rough_content');
+    //dpm($rough_content, '$rough_content');
     dpm($header, '$header');
     
     $header_content = substr($rough_content, 0, $header['header_size']);
@@ -479,5 +479,6 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
     $header['headers']  = $header_content;
     $header['content'] = $body_content;
     $header['cookies'] = $cookiesOut;
+    dpm($header, '$header');
     return $header;
 }
