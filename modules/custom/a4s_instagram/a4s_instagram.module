@@ -457,6 +457,7 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
       CURLOPT_COOKIE         => $cookiesIn
     );
 
+    dpm($url, '$url');
     $ch      = curl_init( $url );
     curl_setopt_array( $ch, $options );
     $rough_content = curl_exec( $ch );
