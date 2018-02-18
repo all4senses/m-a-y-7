@@ -322,6 +322,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
         $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
         break;
     }
+    dpm($data, '$data in multiple');
     if (empty($data['edges'])) {
       $data = array();
     }
@@ -412,6 +413,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   }
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
   if (empty($insta_source['content'])) {
+    dpm('Empty content...');
     return NULL;
   }
   $shards = explode('window._sharedData = ', $insta_source['content']);
