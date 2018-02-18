@@ -275,7 +275,7 @@ function a4s_insta_queryGraphql_single($data_type, $username, $count = 10, $end_
       $data = !empty($results['data']['user']['edge_followed_by']) ? $results['data']['user']['edge_followed_by'] : NULL;
       break;
     case 'folowing':
-      $data = !empty($results['data']['user']['edge_followed_by']) ? $results['data']['user']['edge_followed_by'] : NULL;
+      $data = !empty($results['data']['user']['edge_follow']) ? $results['data']['user']['edge_follow'] : NULL;
       break;
   }
   dpm($data, '$data');
