@@ -6,7 +6,7 @@
 function a4s_instagram_schema() {
   $schema = array();
 
-  $schema['a4s_insta_clicks'] = array(
+  $schema['a4s_insta_clicks_by_tag'] = array(
     'description' => 'Clicked media',
     'fields' => array(
       'cid' => array(
@@ -15,51 +15,85 @@ function a4s_instagram_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'number' => array(
-        'description' => 'Phone number',
+      'account_id' => array(
+        'description' => 'Account local ID (clicked by), like 1 for all4senses, or 2 for olyayuskasova',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        //'default' => 0,
+      ),
+      'shortcode' => array(
+        'description' => 'Media Shortcode for url, like in /p/BfYkeainnSc',
         'type' => 'varchar',
         'length' => 100,
         'not null' => TRUE,
       ),
-      'first_sender' => array(
-        'description' => 'First sender number',
+      'caption' => array(
+        'description' => 'Media caption excerpt',
         'type' => 'varchar',
-        'length' => 100,
+        'length' => 30,
         'not null' => FALSE,
       ),
-      'data' => array(
-        'description' => 'Number type data,json format',
-        'type' => 'blob',
+      'media_owner_id' => array(
+        'description' => 'Owner user ID, like 2048597980',
+        'type' => 'varchar',
+        'length' => 20,
         'not null' => FALSE,
-        'size' => 'big',
-        'serialize' => FALSE,
+      ),
+      'tag' => array(
+        'description' => 'Tag of the media, like design',
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => FALSE,
+      ),
+      'thumbnail' => array(
+        'description' => 'Thumbnail url, like https://instagram.fhen2-1.fna.fbcdn.net/vp/b59d6686691d760027f5b23efedbd550/5B191656/t51.2885-15/s150x150/e35/28151996_944615975691766_6409985277619601408_n.jpg',
+        'type' => 'varchar',
+        'length' => 250,
+        'not null' => TRUE,
+      ),
+      'is_video' => array(
+        'description' => 'If a media is a video',
+        'type' => 'int',
+        'not null' => FALSE,
+        //'default' => 0,
+      ),
+      'liked' => array(
+        'description' => 'If a media has been clicked/liked',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       'timestamp' => array(
-        'description' => 'The Unix timestamp when data was updated.',
+        'description' => 'The Unix timestamp when media has been clicked/liked',
         'type' => 'int',
-        'not null' => TRUE,
-        'default' => 0,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
+
     ),
     'indexes' => array(
-      'tid' => array('tid'),
-      'number' => array('number'),
-      'first_sender' => array('first_sender'),
+      'cid' => array('cid'),
+      'account_id' => array('account_id'),
+      'shortcode' => array('shortcode'),
+      'media_owner_id' => array('media_owner_id'),
+      'tag' => array('tag'),
+      'is_video' => array('is_video'),
+      'liked' => array('liked'),
     ),
-    'primary key' => array('tid'),
+    'primary key' => array('cid'),
   );
-
   return $schema;
 }
 
 /**
-* Add new table for target numbers types.
-*/
+ * Add new table a4s_insta_clicks_by_tag.
+ */
 function a4s_instagram_update_7001() {
   $schema = crc_message_schema();
-
-  if (!db_table_exists('crc_target_number_type')) {
-    db_create_table('crc_target_number_type', $schema['crc_target_number_type']);
+  if (!db_table_exists('a4s_insta_clicks_by_tag')) {
+    db_create_table('a4s_insta_clicks_by_tag', $schema['a4s_insta_clicks_by_tag']);
   }
 }
 
