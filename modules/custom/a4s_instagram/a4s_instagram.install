@@ -65,7 +65,13 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
-      'timestamp' => array(
+      'timestamp_added' => array(
+        'description' => 'The Unix timestamp when media has been added to DB',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_liked' => array(
         'description' => 'The Unix timestamp when media has been clicked/liked',
         'type' => 'int',
         'not null' => FALSE,
@@ -81,6 +87,8 @@ function a4s_instagram_schema() {
       'tag' => array('tag'),
       'is_video' => array('is_video'),
       'liked' => array('liked'),
+      'timestamp_added' => array('timestamp_added'),
+      'timestamp_liked' => array('timestamp_liked'),
     ),
     'primary key' => array('cid'),
   );
@@ -90,7 +98,7 @@ function a4s_instagram_schema() {
 /**
  * Add new table a4s_insta_clicks_by_tag.
  */
-function a4s_instagram_update_7001() {
+function a4s_instagram_update_7002() {
   $schema = a4s_instagram_schema();
   if (!db_table_exists('a4s_insta_clicks_by_tag')) {
     db_create_table('a4s_insta_clicks_by_tag', $schema['a4s_insta_clicks_by_tag']);

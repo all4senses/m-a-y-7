@@ -466,20 +466,19 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
     return $header;
 }
 
-
 /**
  * 
  * @param type $username
+ *  Example: 'olyayuskasova'
+ * @param type $tags
+ *  Example: array('design', 'art', 'interior');
+ * @param type $min_medias_for_tag
  */
-function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova') {
-  $username = 'olyayuskasova';
-  $min_medias_for_tag = 150;
+function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20) {
+
   $map_username_to_account_id = array('all4senses' => 1, 'olyayuskasova' => 2);
-  $tags = array('design');
-  $media_to_db = array();
   
   foreach ($tags as $tag) {
-    
     $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
         ->fields('l', array('shortcode'))
         ->condition('l.tag', $tag)
@@ -489,8 +488,8 @@ function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova') {
     $count_existing_in_db = count($not_liked_by_tag);
     $max_id = NULL;
     while ($count_existing_in_db < $min_medias_for_tag) {
-      dpm($max_id, '$max_id');
       $results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
+      $media_to_db = array();
       foreach ($results as $result) {
         $result = $result['node'];
         if (in_array($result['shortcode'], $not_liked_by_tag)) {
@@ -499,26 +498,24 @@ function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova') {
         $media_to_db[$result['shortcode']] = array(
           'account_id' => $map_username_to_account_id[$username],
           'shortcode' => $result['shortcode'],
-          'caption' => drupal_substr($result['edge_media_to_caption']['edges'][0]['node']['text'], 0, 25),
+          'caption' => !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) ? drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 25) : NULL,
           'media_owner_id' => $result['owner']['id'],
           'tag' => $tag,
-          'thumbnail' => $result['thumbnail_resources'][0]['src'],
-          'is_video' => $result['is_video'],
+          'thumbnail' => !empty($result['thumbnail_resources'][0]['src']) ? $result['thumbnail_resources'][0]['src'] : NULL,
+          'is_video' => empty($result['is_video']) ? NULL : 1,
+          'timestamp_added' => time(),
         );
         // Add to DB...
         $lid = db_insert('a4s_insta_clicks_by_tag')->fields(
                 $media_to_db[$result['shortcode']]
                )->execute();
       }
+      dpm($max_id, '$max_id');
       dpm($media_to_db, '$media_to_db');
       $not_liked_by_tag = array_merge($not_liked_by_tag, array_keys($media_to_db));
-      dpm($not_liked_by_tag);
       $count_existing_in_db = count($not_liked_by_tag);
-      dpm($count_existing_in_db, '$count_existing_in_db');
     }
-
   }
-  
 }
 
 
