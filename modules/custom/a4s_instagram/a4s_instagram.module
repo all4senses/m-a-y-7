@@ -485,7 +485,7 @@ function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova') {
         ->condition('l.tag', $tag)
         ->isNull('l.liked')
         ->execute()
-        ->fetchRow();
+        ->fetchCol();
     $count_existing_in_db = count($not_liked_by_tag);
     $max_id = NULL;
     while ($count_existing_in_db < $min_medias_for_tag) {
