@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function a4s_instagram_schema() {
+  $schema = array();
+
+  $schema['a4s_insta_clicks'] = array(
+    'description' => 'Clicked media',
+    'fields' => array(
+      'cid' => array(
+        'description' => 'Primary Key: Identifier for a clicked media.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'number' => array(
+        'description' => 'Phone number',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'first_sender' => array(
+        'description' => 'First sender number',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+      ),
+      'data' => array(
+        'description' => 'Number type data,json format',
+        'type' => 'blob',
+        'not null' => FALSE,
+        'size' => 'big',
+        'serialize' => FALSE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when data was updated.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'tid' => array('tid'),
+      'number' => array('number'),
+      'first_sender' => array('first_sender'),
+    ),
+    'primary key' => array('tid'),
+  );
+
+  return $schema;
+}
+
+/**
+* Add new table for target numbers types.
+*/
+function a4s_instagram_update_7001() {
+  $schema = crc_message_schema();
+
+  if (!db_table_exists('crc_target_number_type')) {
+    db_create_table('crc_target_number_type', $schema['crc_target_number_type']);
+  }
+}
+
+

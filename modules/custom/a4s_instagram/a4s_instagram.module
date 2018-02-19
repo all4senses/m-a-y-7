@@ -359,6 +359,7 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
               $out = $data['user']['media'];
               break;
             case 'tag':
+              dpm($data, '$data');
               $out = $data['graphql']['hashtag']['edge_hashtag_to_media'];
               break;
           }
@@ -410,6 +411,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
       $out = $insta_array['entry_data']['ProfilePage'][0]['user']['media'];
       break;
     case 'tag':
+      dpm($insta_array, '$insta_array');
       $out = $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'];
       break;
   }
@@ -460,4 +462,9 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
     $header['cookies'] = $cookiesOut;
 
     return $header;
+}
+
+function a4s_insta_prepare_images_to_click() {
+  
+  
 }
