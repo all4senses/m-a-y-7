@@ -313,12 +313,11 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
     if ($pages_count !== NULL) {
       --$pages_count;
     }
+    $max_id = !empty($data['page_info']['end_cursor']) ? $data['page_info']['end_cursor'] : NULL;
     // Ignore $pages_count for a user/profile request
     if (++$pages_processed >= $max_pages_to_process || $data_type == 'user/profile' || empty($data['page_info']['has_next_page']) || empty($data['page_info']['end_cursor']) || ($pages_count !== NULL && $pages_count <= 0) ) {
       break;
     }
-    $max_id = $data['page_info']['end_cursor'];
-    
   }while(1);
   
   return $data_all;
