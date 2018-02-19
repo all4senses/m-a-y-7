@@ -403,11 +403,13 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   
   switch ($data_type) {
     case 'user/profile':
+      dpm($insta_array, '$insta_array');
       // Remove actual media data, as we return here only a general profile info
       $insta_array['entry_data']['ProfilePage'][0]['user']['media']['nodes'] = array();
       $out = $insta_array['entry_data']['ProfilePage'][0]['user'];
       break;
     case 'user/media':
+      dpm($insta_array, '$insta_array');
       $out = $insta_array['entry_data']['ProfilePage'][0]['user']['media'];
       break;
     case 'tag':
