@@ -299,12 +299,18 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, $pages_co
         $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
         break;
     }
-    if (empty($data['nodes'])) {
-      $data = array();
+    
+    $data_nodes = array();
+    if (!empty($data['nodes'])) {
+      $data_nodes = $data['nodes'];
+    }
+    elseif (!empty($data['edges'])) {
+      $data_nodes = $data['edges'];
     }
     else {
-      $data_all = array_merge($data_all, $data['nodes']);
+      $data = array();
     }
+    $data_all = array_merge($data_all, $data_nodes);
     if ($pages_count !== NULL) {
       --$pages_count;
     }
