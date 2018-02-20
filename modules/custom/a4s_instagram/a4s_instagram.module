@@ -163,6 +163,9 @@ function a4s_instagram_behat() {
         }
         break;
         
+        
+        
+        
       case 'alert':
         $subject = 'Alert from Behat!';
         drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
@@ -173,6 +176,8 @@ function a4s_instagram_behat() {
       
       
       case 'get_medias_to_like':
+        
+        watchdog('Request media from handler', '$_REQUEST ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
         
         if (empty($_REQUEST['username'])) {
           $status = FALSE;
@@ -186,11 +191,11 @@ function a4s_instagram_behat() {
           'all4senses' => array('design', 'art', 'photography'),
           'olyayuskasova' => array('design', 'art', 'interior'),
         );
-        $insta_users_tags = variable_get('a4s_insta_users_tags', array($insta_users_tags_default));
+        $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
         
         $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
         
-        
+        watchdog('Request media from handler', '$insta_last_data_processed ==> <pre>'. print_r($insta_last_data_processed, TRUE) . '</pre>');
         
         if (count($insta_users_tags[$current_user]) > 1) {
           if (empty($insta_last_data_processed['tag'][$current_user])) {
@@ -213,6 +218,8 @@ function a4s_instagram_behat() {
           $current_tag = $insta_users_tags[$current_user][0];
         }
         $insta_last_data_processed['tag'][$current_user] = $current_tag;
+        
+        watchdog('Request media from handler', '$current_tag = '. $current_tag);
         
         variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
@@ -259,6 +266,8 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount){
   $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
   $account_id = $map_username_to_account_id[$username];
 
+  watchdog('Request media from handler', '$account_id = '. $account_id);
+  
   $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
       ->fields('l', array('shortcode'))
       ->condition('l.tag', $tag)
