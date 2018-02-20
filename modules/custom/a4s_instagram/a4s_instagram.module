@@ -157,7 +157,7 @@ function a4s_instagram_behat() {
           watchdog('Probems with Behat', 'Empty liked medias results from behat.');
           break;
         }
-        foreach ($_REQUEST['medias'] as $shortcode => $status) {
+        foreach (json_decode($_REQUEST['medias'], TRUE) as $shortcode => $status) {
           if ($status) {
             a4s_insta_media_set_liked($shortcode);
           }
