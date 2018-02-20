@@ -126,33 +126,8 @@ function a4s_instagram_behat() {
         );
         $users_credentials = variable_get('a4s_users_credentials', $users_credentials_default);
         
-        // For now we send 'olyayuskasova' creds...
-        // Further we will send different users creds/data, by some specific logic
-        $username = 'olyayuskasova';
-        $response_data['creds'] = $users_credentials[$_REQUEST['target_domain']][$username];
-
-        $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-        if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$username]['cookies'])) {
-          $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$username]['cookies'];
-          $response_data['cookies'] = $cookies;
-        }
-        break;
-        
-      case 'alert':
-        $subject = 'Alert from Behat!';
-        drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
-        watchdog('Probems with Behat', $subject . ' ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
-        break;
-      
-      case 'get_medias_to_like':
-        
+        // Send different user creds every time
         $users_to_process = array('olyayuskasova');
-        
-        $insta_users_tags_default = array(
-          'all4senses' => array('design', 'art', 'photography'),
-          'olyayuskasova' => array('design', 'art', 'interior'),
-        );
-        $insta_users_tags = variable_get('a4s_insta_users_tags', array($insta_users_tags_default));
         
         $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
         
@@ -177,6 +152,45 @@ function a4s_instagram_behat() {
           $current_user = $users_to_process[0];
         }
         $insta_last_data_processed['username'] = $current_user;
+        variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
+        
+        $response_data['creds'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
+
+        $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+        if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$current_user]['cookies'])) {
+          $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$current_user]['cookies'];
+          $response_data['cookies'] = $cookies;
+        }
+        break;
+        
+      case 'alert':
+        $subject = 'Alert from Behat!';
+        drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
+        watchdog('Probems with Behat', $subject . ' ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
+        break;
+      
+      
+      
+      
+      case 'get_medias_to_like':
+        
+        if (empty($_REQUEST['username'])) {
+          $status = FALSE;
+          $errors = 'No username provided';
+          break;
+        }
+        
+        $current_user = $_REQUEST['username'];
+        
+        $insta_users_tags_default = array(
+          'all4senses' => array('design', 'art', 'photography'),
+          'olyayuskasova' => array('design', 'art', 'interior'),
+        );
+        $insta_users_tags = variable_get('a4s_insta_users_tags', array($insta_users_tags_default));
+        
+        $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
+        
+        
         
         if (count($insta_users_tags[$current_user]) > 1) {
           if (empty($insta_last_data_processed['tag'][$current_user])) {
@@ -203,19 +217,23 @@ function a4s_instagram_behat() {
         variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
         $amount = 5;
-        $response_data['medias'] = a4s_insta_get_medias_to_like($current_tag, $amount);
+        $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount);
         $response_data['tag'] = $current_tag;
         break;
         
+        
+        
+        
       case 'set_medias_like_results':
         watchdog('Liked with Behat', ' ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
-        if (empty($_REQUEST['medias'])) {
-          watchdog('Probems with Behat', 'Empty liked medias results from behat.');
+        if (empty($_REQUEST['medias']) || empty($_REQUEST['username'])) {
+          $status = FALSE;
+          $errors = 'No username provided OR Empty liked medias results from behat.';
           break;
         }
         foreach (json_decode($_REQUEST['medias'], TRUE) as $shortcode => $status) {
           if ($status) {
-            a4s_insta_media_set_liked($shortcode);
+            a4s_insta_media_set_liked($_REQUEST['username'], $shortcode);
           }
         }
         break;
@@ -223,7 +241,7 @@ function a4s_instagram_behat() {
   }
   if (!$status) {
     // Report only in case of problems.
-    watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
+    watchdog('Request from Behat', "Error: $error, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
   }
   $response_data += array('status' => $status, 'errors' => $errors);
   echo json_encode($response_data);
@@ -235,10 +253,16 @@ function a4s_instagram_behat() {
  * @param type $amount
  * @return type
  */
-function a4s_insta_get_medias_to_like($tag, $amount){
+function a4s_insta_get_medias_to_like($username, $tag, $amount){
+  
+  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
+  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
+  $account_id = $map_username_to_account_id[$username];
+
   $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
       ->fields('l', array('shortcode'))
       ->condition('l.tag', $tag)
+      ->condition('l.account_id', $account_id)
       ->isNull('l.liked')
       ->orderBy('l.timestamp_added')
       ->range(0, $amount)
@@ -252,10 +276,16 @@ function a4s_insta_get_medias_to_like($tag, $amount){
  * 
  * @param type $shortcode
  */
-function a4s_insta_media_set_liked($shortcode) {
+function a4s_insta_media_set_liked($username, $shortcode) {
+  
+  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
+  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
+  $account_id = $map_username_to_account_id[$username];
+  
   db_update('a4s_insta_clicks_by_tag')
       ->fields(array('liked' => 1, 'timestamp_liked' => time()))
       ->condition('shortcode', $shortcode)
+      ->condition('account_id', $account_id)
       ->execute();
 }
 
@@ -685,7 +715,7 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
     'all4senses' => array('design', 'art', 'photography'),
     'olyayuskasova' => array('design', 'art', 'interior'),
   );
-  $insta_users_tags = variable_get('a4s_insta_users_tags', array($insta_users_tags_default));
+  $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
   
   if (!empty($behat_insta_cookies['https://instagram.com'])) {
@@ -705,7 +735,8 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
  */
 function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20) {
 
-  $map_username_to_account_id = array('all4senses' => 1, 'olyayuskasova' => 2);
+  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
+  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
   
   foreach ($tags as $tag) {
     $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
