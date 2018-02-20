@@ -146,13 +146,13 @@ function a4s_instagram_behat() {
       
       case 'get_medias_to_like':
         $tag = 'design';
-        $amount = 1;
+        $amount = 5;
         $response_data['medias'] = a4s_insta_get_medias_to_like($tag, $amount);
         $response_data['tag'] = $tag;
         break;
         
       case 'set_medias_like_results':
-        watchdog('Liked with Behat', ' ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
+        //watchdog('Liked with Behat', ' ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
         if (empty($_REQUEST['medias'])) {
           watchdog('Probems with Behat', 'Empty liked medias results from behat.');
           break;
