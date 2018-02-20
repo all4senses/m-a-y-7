@@ -189,7 +189,7 @@ function a4s_instagram_behat() {
         
         $insta_users_tags_default = array(
           'all4senses' => array('design', 'art', 'photography'),
-          'olyayuskasova' => array('design', 'art', 'interior'),
+          'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
         );
         $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
         
@@ -198,7 +198,7 @@ function a4s_instagram_behat() {
         watchdog('Request media from handler', '$insta_last_data_processed ==> <pre>'. print_r($insta_last_data_processed, TRUE) . '</pre>');
         
         if (count($insta_users_tags[$current_user]) > 1) {
-          if (empty($insta_last_data_processed['tag'][$current_user])) {
+          if (empty($insta_last_data_processed['tag'][$current_user]) || !in_array($insta_last_data_processed['tag'][$current_user], $insta_users_tags[$current_user])) {
             $current_tag = $insta_users_tags[$current_user][0];
           }
           else {
@@ -722,16 +722,17 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   
   $insta_users_tags_default = array(
     'all4senses' => array('design', 'art', 'photography'),
-    'olyayuskasova' => array('design', 'art', 'interior'),
+    'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
   );
   $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
   
   if (!empty($behat_insta_cookies['https://instagram.com'])) {
     foreach ($behat_insta_cookies['https://instagram.com'] as $username => $data) {
-      a4s_insta_get_images_to_click_byTags_singleUser($username, $insta_users_tags[$username]);
+      $added_tags_amount[$username] = a4s_insta_get_images_to_click_byTags_singleUser($username, $insta_users_tags[$username]);
     }
   }
+  drupal_json_output(array('New added tags amount' => $added_tags_amount));
 }
 
 /**
@@ -746,6 +747,8 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
 
   $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
   $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
+  
+  $added_tags_amount = array();
   
   foreach ($tags as $tag) {
     $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
@@ -783,7 +786,9 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
       $count_existing_in_db = count($not_liked_by_tag);
     }
     watchdog('a4s get medias', 'Added ' . ($count_existing_in_db - $count_existing_in_db_before) . ' medias of a tag "' . $tag . '" for a user "' . $username . '"');
+    $added_tags_amount[$tag] = $count_existing_in_db - $count_existing_in_db_before;
   }
+  return $added_tags_amount;
 }
 
 
