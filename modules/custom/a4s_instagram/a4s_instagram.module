@@ -25,6 +25,12 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta-get-images'] = array(
+    'page callback' => 'a4s_insta_get_images_to_click_byTags_allUsers_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   return $items;
 }
 
