@@ -127,11 +127,12 @@ function a4s_instagram_behat() {
         
         // For now we send 'olyayuskasova' creds...
         // Further we will send different users creds/data, by some specific logic
-        $response_data['creds'] = $users_credentials[$_REQUEST['target_domain']]['olyayuskasova'];
+        $username = 'olyayuskasova';
+        $response_data['creds'] = $users_credentials[$_REQUEST['target_domain']][$username];
 
         $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-        if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'])) {
-          $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'];
+        if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$username]['cookies'])) {
+          $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$username]['cookies'];
           $response_data['cookies'] = $cookies;
         }
 
