@@ -136,7 +136,6 @@ function a4s_instagram_behat() {
           $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$username]['cookies'];
           $response_data['cookies'] = $cookies;
         }
-
         break;
         
       case 'alert':
@@ -144,6 +143,25 @@ function a4s_instagram_behat() {
         drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
         watchdog('Probems with Behat', $subject . ' ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
         break;
+      
+      case 'get_medias_to_like':
+        $tag = 'design';
+        $amount = 5;
+        $response_data['medias'] = a4s_insta_get_medias_to_like($tag, $amount);
+        $response_data['tag'] = $tag;
+        break;
+        
+        case 'set_medias_like_results':
+          if (empty($_REQUEST['medias'])) {
+            watchdog('Probems with Behat', 'Empty liked medias results from behat.');
+            break;
+          }
+          foreach ($_REQUEST['medias'] as $shortcode => $status) {
+            if ($status) {
+              a4s_insta_media_set_liked($shortcode);
+            }
+          }
+          break;
     }
   }
   if (!$status) {
@@ -153,6 +171,83 @@ function a4s_instagram_behat() {
   $response_data += array('status' => $status, 'errors' => $errors);
   echo json_encode($response_data);
 }
+
+/**
+ * 
+ * @param type $tag
+ * @param type $amount
+ * @return type
+ */
+function a4s_insta_get_medias_to_like($tag, $amount){
+  $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
+      ->fields('l', array('shortcode'))
+      ->condition('l.tag', $tag)
+      ->isNull('l.liked')
+      ->orderBy('l.timestamp_added')
+      ->range(0, $amount)
+      ->execute()
+      ->fetchCol();
+  
+  return $not_liked_by_tag;
+}
+
+/**
+ * 
+ * @param type $shortcode
+ */
+function a4s_insta_media_set_liked($shortcode) {
+  db_update('a4s_insta_clicks_by_tag')
+      ->fields(array('liked' => 1, 'timestamp_liked' => time()))
+      ->condition('shortcode', $shortcode)
+      ->execute();
+}
+
+/*
+function a4s_insta_get_medias_and_like_them() {
+  // Request cookies and creds from a handler server
+  $data = array('op' => 'get_medias_to_like');
+  $results = $this->a4s_curl($data);
+
+  echo print_r($results, true);
+
+  if (empty($results['medias'])) {
+    echo 'Empty dedias recieved. Cancelled.';
+    return;
+  }
+  
+  $processed_medias = array();
+  foreach ($results['medias'] as $media) {
+    echo "\n\n\nProcess Media $media... \n";
+    $this->getSession()->visit($this->locatePath('/p/' . $media));
+    sleep(3);
+    if ($this->a4s_currentPageMedia_isLiked()) {
+      echo "....it has been already liked before. Skipped";
+      $processed_medias[$media] = TRUE;
+      continue;
+    }
+    echo "....Try to click...\n";
+    $this->a4s_iClick('css', ".coreSpriteHeartOpen");
+    sleep(3);
+    $processed_medias[$media] = $this->a4s_currentPageMedia_isLiked() ? TRUE : FALSE;
+    if ($processed_medias[$media]) {
+      echo $processed_medias[$media] ? "....Liked successfully\n" : "....NOT Liked...Problem! \n";
+    }
+  }
+  
+  $data = array('op' => 'set_medias_like_results', 'medias' => $processed_medias);
+  $results = $this->a4s_curl($data);
+}
+*/
+
+/*
+    public function a4s_currentPageMedia_isLiked()
+    {
+       $node = $this->getSession()->getPage()->find('css', ".coreSpriteHeartFull");
+       return $node === null ? FALSE : TRUE;
+    }
+*/
+    
+    
 
 /**
  * Implements hook_mail().
