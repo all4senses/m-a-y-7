@@ -145,14 +145,70 @@ function a4s_instagram_behat() {
         break;
       
       case 'get_medias_to_like':
-        $tag = 'design';
+        
+        $users_to_process = array('olyayuskasova');
+        
+        $insta_users_tags_default = array(
+          'all4senses' => array('design', 'art', 'photography'),
+          'olyayuskasova' => array('design', 'art', 'interior'),
+        );
+        $insta_users_tags = variable_get('a4s_insta_users_tags', array($insta_users_tags_default));
+        
+        $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
+        
+        if (count($users_to_process) > 1) {
+          if (empty($insta_last_data_processed['username'])) {
+            $current_user = $users_to_process[0];
+          }
+          else {
+            foreach ($users_to_process as $key => $user) {
+              if ($user == $insta_last_data_processed['username']) {
+                if ($key + 1 > count($users_to_process)) {
+                  $current_user = $users_to_process[0];
+                }
+                else {
+                  $current_user = $users_to_process[$key + 1];
+                }
+              }
+            }
+          }
+        }
+        else {
+          $current_user = $users_to_process[0];
+        }
+        $insta_last_data_processed['username'] = $current_user;
+        
+        if (count($insta_users_tags[$current_user]) > 1) {
+          if (empty($insta_last_data_processed['tag'][$current_user])) {
+            $current_tag = $insta_users_tags[$current_user][0];
+          }
+          else {
+            foreach ($insta_users_tags[$current_user] as $key => $tag) {
+              if ($tag == $insta_last_data_processed['tag'][$current_user]) {
+                if ($key + 1 > count($insta_users_tags[$current_user])) {
+                  $current_tag = $insta_users_tags[$current_user][0];
+                }
+                else {
+                  $current_tag = $insta_users_tags[$current_user][$key + 1];
+                }
+              }
+            }
+          }
+        }
+        else {
+          $current_tag = $insta_users_tags[$current_user][0];
+        }
+        $insta_last_data_processed['tag'][$current_user] = $current_tag;
+        
+        variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
+        
         $amount = 5;
-        $response_data['medias'] = a4s_insta_get_medias_to_like($tag, $amount);
-        $response_data['tag'] = $tag;
+        $response_data['medias'] = a4s_insta_get_medias_to_like($current_tag, $amount);
+        $response_data['tag'] = $current_tag;
         break;
         
       case 'set_medias_like_results':
-        //watchdog('Liked with Behat', ' ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
+        watchdog('Liked with Behat', ' ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
         if (empty($_REQUEST['medias'])) {
           watchdog('Probems with Behat', 'Empty liked medias results from behat.');
           break;
