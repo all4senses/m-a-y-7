@@ -99,7 +99,7 @@ function a4s_instagram_behat() {
         break;
         
       case 'get_creds':
-        if (empty($_REQUEST['target_domain']) || empty($_REQUEST['username'])) {
+        if (empty($_REQUEST['target_domain'])/* || empty($_REQUEST['username'])*/) {
           $status = FALSE;
           $errors = 'Wrong source parameters';
           break;
@@ -124,6 +124,9 @@ function a4s_instagram_behat() {
           ),
         );
         $users_credentials = variable_get('a4s_users_credentials', $insta_users_credentials_default);
+        
+        // For now we send 'olyayuskasova' creds...
+        // Further we will send different users creds/data, by some specific logic
         $response_data['creds'] = $insta_users_credentials[$_REQUEST['target_domain']]['olyayuskasova'];
 
         $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
