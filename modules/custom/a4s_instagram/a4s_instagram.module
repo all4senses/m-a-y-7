@@ -46,6 +46,7 @@ function a4s_instagram_behat() {
   $status = TRUE;
   $errors = NULL;
   $cookies = NULL;
+  $response_data = array();
   if (!empty($_REQUEST['op'])) {
     switch ($_REQUEST['op']) {
       case 'set_cookies':
@@ -92,8 +93,45 @@ function a4s_instagram_behat() {
           $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
           if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'])) {
             $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'];
+            $response_data['cookies'] = $cookies;
           }
         }
+        break;
+        
+      case 'get_creds':
+        if (empty($_REQUEST['target_domain']) || empty($_REQUEST['username'])) {
+          $status = FALSE;
+          $errors = 'Wrong source parameters';
+          break;
+        }
+
+        $insta_users_credentials_default = array(
+          'https://instagram.com' => array(
+            'all4senses' => array(
+              'u' => 'all4senses', 'p' => 'qwer4321', 
+              'u_field' => 'Phone number, username, or email',
+              'p_field' => 'Password',
+              'login_button' => 'Log in',
+              'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications')
+             ),
+            'olyayuskasova' => array(
+              'u' => 'olyayuskasova', 'p' => '19aloe77vera', 
+              'u_field' => 'Phone number, username, or email',
+              'p_field' => 'Password',
+              'login_button' => 'Log in',
+              'login_confirm_text' => array('Olga Yuskasova', 'Turn On Notifications')
+             ),
+          ),
+        );
+        $users_credentials = variable_get('a4s_users_credentials', $insta_users_credentials_default);
+        $response_data['creds'] = $insta_users_credentials[$_REQUEST['target_domain']]['olyayuskasova'];
+
+        $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+        if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'])) {
+          $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'];
+          $response_data['cookies'] = $cookies;
+        }
+
         break;
         
       case 'alert':
@@ -107,7 +145,8 @@ function a4s_instagram_behat() {
     // Report only in case of problems.
     watchdog('Request from Behat', '$_REQUEST ==> <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
   }
-  echo json_encode(array('status' => $status, '$_request' => $_REQUEST, 'errors' => $errors, 'cookies' => $cookies));
+  $response_data += array('status' => $status, 'errors' => $errors);
+  echo json_encode($response_data);
 }
 
 /**
@@ -180,7 +219,15 @@ function  a4s_instagram_page() {
   return $out;
 }
 
-
+/**
+ * 
+ * @param type $data_type
+ * @param type $username
+ * @param type $pages_count
+ * @param type $end_cursor
+ * @param type $items_per_query
+ * @return type
+ */
 function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10) {
   $data = array();
   $data_all = array();
@@ -468,13 +515,32 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
 
 /**
  * 
+ */
+function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
+  
+  $insta_users_tags_default = array(
+    'all4senses' => array('design', 'art', 'photography'),
+    'olyayuskasova' => array('design', 'art', 'interior'),
+  );
+  $insta_users_tags = variable_get('a4s_insta_users_tags', array($insta_users_tags_default));
+  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+  
+  if (!empty($behat_insta_cookies['https://instagram.com'])) {
+    foreach ($behat_insta_cookies['https://instagram.com'] as $username => $data) {
+      a4s_insta_get_images_to_click_byTags_singleUser($username, $insta_users_tags[$username]);
+    }
+  }
+}
+
+/**
+ * 
  * @param type $username
  *  Example: 'olyayuskasova'
  * @param type $tags
  *  Example: array('design', 'art', 'interior');
  * @param type $min_medias_for_tag
  */
-function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20) {
+function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20) {
 
   $map_username_to_account_id = array('all4senses' => 1, 'olyayuskasova' => 2);
   
@@ -485,7 +551,7 @@ function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova', $t
         ->isNull('l.liked')
         ->execute()
         ->fetchCol();
-    $count_existing_in_db = count($not_liked_by_tag);
+    $count_existing_in_db = $count_existing_in_db_before = count($not_liked_by_tag);
     $max_id = NULL;
     while ($count_existing_in_db < $min_medias_for_tag) {
       $results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
@@ -510,11 +576,10 @@ function a4s_insta_prepare_images_to_click_byTag($username = 'olyayuskasova', $t
                 $media_to_db[$result['shortcode']]
                )->execute();
       }
-      dpm($max_id, '$max_id');
-      dpm($media_to_db, '$media_to_db');
       $not_liked_by_tag = array_merge($not_liked_by_tag, array_keys($media_to_db));
       $count_existing_in_db = count($not_liked_by_tag);
     }
+    watchdog('a4s get medias', 'Added ' . ($count_existing_in_db - $count_existing_in_db_before) . ' medias of a tag "' . $tag . '" for a user "' . $username . '"');
   }
 }
 
