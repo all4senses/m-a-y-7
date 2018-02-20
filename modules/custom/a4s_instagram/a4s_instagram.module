@@ -119,7 +119,8 @@ function a4s_instagram_behat() {
               'u_field' => 'Phone number, username, or email',
               'p_field' => 'Password',
               'login_button' => 'Log in',
-              'login_confirm_text' => array('Olga Yuskasova', 'Turn On Notifications')
+              'login_confirm_text' => array('Olga Yuskasova', 'Turn On Notifications'),
+              'turn_on_notifications_button' => 'Turn On',
              ),
           ),
         );
