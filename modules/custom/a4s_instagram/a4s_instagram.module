@@ -105,7 +105,7 @@ function a4s_instagram_behat() {
           break;
         }
 
-        $insta_users_credentials_default = array(
+        $users_credentials_default = array(
           'https://instagram.com' => array(
             'all4senses' => array(
               'u' => 'all4senses', 'p' => 'qwer4321', 
@@ -123,11 +123,11 @@ function a4s_instagram_behat() {
              ),
           ),
         );
-        $users_credentials = variable_get('a4s_users_credentials', $insta_users_credentials_default);
+        $users_credentials = variable_get('a4s_users_credentials', $users_credentials_default);
         
         // For now we send 'olyayuskasova' creds...
         // Further we will send different users creds/data, by some specific logic
-        $response_data['creds'] = $insta_users_credentials[$_REQUEST['target_domain']]['olyayuskasova'];
+        $response_data['creds'] = $users_credentials[$_REQUEST['target_domain']]['olyayuskasova'];
 
         $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
         if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$_REQUEST['username']]['cookies'])) {
