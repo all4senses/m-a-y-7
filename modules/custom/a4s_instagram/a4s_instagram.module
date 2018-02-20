@@ -202,8 +202,11 @@ function a4s_insta_media_set_liked($shortcode) {
       ->execute();
 }
 
+/**
+ * @Then I get next medias and like them
+ */
 /*
-function a4s_insta_get_medias_and_like_them() {
+public function iGetNextMediasAndLikeThem() {
   // Request cookies and creds from a handler server
   $data = array('op' => 'get_medias_to_like');
   $results = $this->a4s_curl($data);
@@ -236,6 +239,9 @@ function a4s_insta_get_medias_and_like_them() {
   
   $data = array('op' => 'set_medias_like_results', 'medias' => $processed_medias);
   $results = $this->a4s_curl($data);
+  
+  echo "Results from handler...\n";
+  echo print_r($results, TRUE);
 }
 */
 
