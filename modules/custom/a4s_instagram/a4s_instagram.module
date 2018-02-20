@@ -115,7 +115,7 @@ function a4s_instagram_behat() {
               'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications')
              ),
             'olyayuskasova' => array(
-              'u' => 'olyayuskasova', 'p' => '19aloe77veraXXX', 
+              'u' => 'olyayuskasova', 'p' => '19aloe77vera', 
               'u_field' => 'Phone number, username, or email',
               'p_field' => 'Password',
               'login_button' => 'Log in',
