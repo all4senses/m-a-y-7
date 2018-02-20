@@ -146,7 +146,7 @@ function a4s_instagram_behat() {
       
       case 'get_medias_to_like':
         $tag = 'design';
-        $amount = 5;
+        $amount = 1;
         $response_data['medias'] = a4s_insta_get_medias_to_like($tag, $amount);
         $response_data['tag'] = $tag;
         break;
