@@ -151,17 +151,18 @@ function a4s_instagram_behat() {
         $response_data['tag'] = $tag;
         break;
         
-        case 'set_medias_like_results':
-          if (empty($_REQUEST['medias'])) {
-            watchdog('Probems with Behat', 'Empty liked medias results from behat.');
-            break;
-          }
-          foreach ($_REQUEST['medias'] as $shortcode => $status) {
-            if ($status) {
-              a4s_insta_media_set_liked($shortcode);
-            }
-          }
+      case 'set_medias_like_results':
+        watchdog('Liked with Behat', ' ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
+        if (empty($_REQUEST['medias'])) {
+          watchdog('Probems with Behat', 'Empty liked medias results from behat.');
           break;
+        }
+        foreach ($_REQUEST['medias'] as $shortcode => $status) {
+          if ($status) {
+            a4s_insta_media_set_liked($shortcode);
+          }
+        }
+        break;
     }
   }
   if (!$status) {
