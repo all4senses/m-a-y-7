@@ -273,7 +273,8 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
         'u_field' => 'Phone number, username, or email',
         'p_field' => 'Password',
         'login_button' => 'Log in',
-        'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications')
+        'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications'),
+        'turn_on_notifications_button' => 'Turn On',
        ),
       'olyayuskasova' => array(
         'u' => 'olyayuskasova', 'p' => NULL,
