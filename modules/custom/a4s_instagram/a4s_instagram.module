@@ -194,7 +194,8 @@ function a4s_instagram_behat() {
         $current_user = $_REQUEST['username'];
         
         $insta_users_tags_default = array(
-          'all4senses' => array('design', 'art', 'photography'),
+          //'all4senses' => array('design', 'art', 'photography'),
+          'all4senses' => array(),
           //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
           'olyayuskasova' => array(
             'nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54',
@@ -733,7 +734,8 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   set_time_limit(0);
   
   $insta_users_tags_default = array(
-    'all4senses' => array('design', 'art', 'photography'),
+    //'all4senses' => array('design', 'art', 'photography'),
+    'all4senses' => array(),
     //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
     'olyayuskasova' => array(
           'nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54',
