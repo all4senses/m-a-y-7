@@ -199,7 +199,7 @@ function a4s_instagram_behat() {
           //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
           'olyayuskasova' => array(
             'nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайланд', 'толмачево', 'дом', 'нск54', 'nsk54',
-            'мирный', 'нижневартовск', 'якутск', 'нюрба', 'магадан', 'анадырь', 'сургут', 'нерюнги', 'норильск'
+            'мирный', 'нижневартовск', 'якутск', 'нюрба', 'магадан', 'анадырь', 'сургут', 'нерюнги', 'норильск', 'тай',
             ),
         );
         $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
@@ -739,7 +739,7 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
     //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
     'olyayuskasova' => array(
           'nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайланд', 'толмачево', 'дом', 'нск54', 'nsk54',
-          'мирный', 'нижневартовск', 'якутск', 'нюрба', 'магадан', 'анадырь', 'сургут', 'нерюнги', 'норильск'
+          'мирный', 'нижневартовск', 'якутск', 'нюрба', 'магадан', 'анадырь', 'сургут', 'нерюнги', 'норильск', 'тай',
         ),
   );
   $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
