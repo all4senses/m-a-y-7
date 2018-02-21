@@ -112,7 +112,7 @@ function a4s_instagram_behat() {
         }
 
         // Send different user creds every time
-        $users_to_process = array('olyayuskasova');
+        $users_to_process = array('olyayuskasova', 'all4senses');
         
         $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
         
