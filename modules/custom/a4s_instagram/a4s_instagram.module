@@ -147,7 +147,7 @@ function a4s_instagram_behat() {
           break;
         }
         
-        $_environmentusers_credentials_default = array(
+        $users_credentials_environment_default = array(
           'https://instagram.com' => array(
             'all4senses' => array(
               'u' => 'all4senses', 'p' => NULL,
