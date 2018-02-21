@@ -195,7 +195,8 @@ function a4s_instagram_behat() {
         
         $insta_users_tags_default = array(
           'all4senses' => array('design', 'art', 'photography'),
-          'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
+          //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
+          'olyayuskasova' => array('nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54'),
         );
         $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
         
@@ -726,9 +727,12 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
  */
 function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   
+  set_time_limit(0);
+  
   $insta_users_tags_default = array(
     'all4senses' => array('design', 'art', 'photography'),
-    'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
+    //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
+    'olyayuskasova' => array('nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54'),
   );
   $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
