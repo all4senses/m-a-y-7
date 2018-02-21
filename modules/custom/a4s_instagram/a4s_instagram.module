@@ -111,27 +111,6 @@ function a4s_instagram_behat() {
           break;
         }
 
-        $users_credentials_default = array(
-          'https://instagram.com' => array(
-            'all4senses' => array(
-              'u' => 'all4senses', 'p' => 'qwer4321', 
-              'u_field' => 'Phone number, username, or email',
-              'p_field' => 'Password',
-              'login_button' => 'Log in',
-              'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications')
-             ),
-            'olyayuskasova' => array(
-              'u' => 'olyayuskasova', 'p' => '19aloe77vera', 
-              'u_field' => 'Phone number, username, or email',
-              'p_field' => 'Password',
-              'login_button' => 'Log in',
-              'login_confirm_text' => array('Olga Yuskasova', 'Turn On Notifications'),
-              'turn_on_notifications_button' => 'Turn On',
-             ),
-          ),
-        );
-        $users_credentials = variable_get('a4s_users_credentials', $users_credentials_default);
-        
         // Send different user creds every time
         $users_to_process = array('olyayuskasova');
         
@@ -157,11 +136,41 @@ function a4s_instagram_behat() {
         else {
           $current_user = $users_to_process[0];
         }
+        
         $insta_last_data_processed['username'] = $current_user;
         variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
-        $response_data['creds'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
-
+        $users_credentials = variable_get('a4s_users_credentials', array());
+        if ( empty($users_credentials[$_REQUEST['target_domain']][$current_user]) ) {
+          $status = FALSE;
+          $errors = 'We donot have credentials for a user ' . $current_user;
+          break;
+        }
+        
+        $_environmentusers_credentials_default = array(
+          'https://instagram.com' => array(
+            'all4senses' => array(
+              'u' => 'all4senses', 'p' => NULL,
+              'u_field' => 'Phone number, username, or email',
+              'p_field' => 'Password',
+              'login_button' => 'Log in',
+              'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications')
+             ),
+            'olyayuskasova' => array(
+              'u' => 'olyayuskasova', 'p' => NULL,
+              'u_field' => 'Phone number, username, or email',
+              'p_field' => 'Password',
+              'login_button' => 'Log in',
+              'login_confirm_text' => array('Olga Yuskasova', 'Turn On Notifications'),
+              'turn_on_notifications_button' => 'Turn On',
+             ),
+          ),
+        );
+        $users_credentials_environment = variable_get('a4s_users_credentials_environment', $users_credentials_environment_default);
+        
+        $response_data['creds'] = $users_credentials_environment[$_REQUEST['target_domain']][$current_user];
+        $response_data['creds'][$_REQUEST['target_domain']][$current_user]['p'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
+        
         $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
         if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$current_user]['cookies'])) {
           $cookies = $behat_insta_cookies[$_REQUEST['target_domain']][$current_user]['cookies'];
