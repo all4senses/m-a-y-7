@@ -148,7 +148,7 @@ function a4s_instagram_behat() {
         }
         
         $response_data['creds'] = a4s_insta_user_credentials_environment($_REQUEST['target_domain'], $current_user);
-        $response_data['creds'][$_REQUEST['target_domain']][$current_user]['p'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
+        $response_data['creds']['p'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
         
         $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
         if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$current_user]['cookies'])) {
