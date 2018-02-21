@@ -243,7 +243,7 @@ function a4s_instagram_behat() {
         
         
       case 'set_medias_like_results':
-        watchdog('Liked with Behat', ' ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
+        watchdog('Liked with Behat', 'New likes of a tag ' . @$_REQUEST['username'] . ' for a user ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>');
         if (empty($_REQUEST['medias']) || empty($_REQUEST['username'])) {
           $status = FALSE;
           $errors = 'No username provided OR Empty liked medias results from behat.';
