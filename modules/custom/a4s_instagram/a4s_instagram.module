@@ -144,7 +144,7 @@ function a4s_instagram_behat() {
           else {
             foreach ($users_to_process as $key => $user) {
               if ($user == $insta_last_data_processed['username']) {
-                if ($key + 1 > count($users_to_process)) {
+                if ($key + 1 >= count($users_to_process)) {
                   $current_user = $users_to_process[0];
                 }
                 else {
@@ -183,7 +183,7 @@ function a4s_instagram_behat() {
       
       case 'get_medias_to_like':
         
-        watchdog('Request media from handler', '$_REQUEST ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
+        //watchdog('Request media from handler', '$_REQUEST ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>');
         
         if (empty($_REQUEST['username'])) {
           $status = FALSE;
@@ -196,13 +196,16 @@ function a4s_instagram_behat() {
         $insta_users_tags_default = array(
           'all4senses' => array('design', 'art', 'photography'),
           //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
-          'olyayuskasova' => array('nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54'),
+          'olyayuskasova' => array(
+            'nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54',
+            'мирный', 'нижневартовск', 'якутск', 'нюрба', 'магадан', 'анадырь', 'сургут', 'нерюнги', 'норильск'
+            ),
         );
         $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
         
         $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
         
-        watchdog('Request media from handler', '$insta_last_data_processed ==> <pre>'. print_r($insta_last_data_processed, TRUE) . '</pre>');
+        //watchdog('Request media from handler', '$insta_last_data_processed ==> <pre>'. print_r($insta_last_data_processed, TRUE) . '</pre>');
         
         if (count($insta_users_tags[$current_user]) > 1) {
           if (empty($insta_last_data_processed['tag'][$current_user]) || !in_array($insta_last_data_processed['tag'][$current_user], $insta_users_tags[$current_user])) {
@@ -211,7 +214,7 @@ function a4s_instagram_behat() {
           else {
             foreach ($insta_users_tags[$current_user] as $key => $tag) {
               if ($tag == $insta_last_data_processed['tag'][$current_user]) {
-                if ($key + 1 > count($insta_users_tags[$current_user])) {
+                if ($key + 1 >= count($insta_users_tags[$current_user])) {
                   $current_tag = $insta_users_tags[$current_user][0];
                 }
                 else {
@@ -226,7 +229,7 @@ function a4s_instagram_behat() {
         }
         $insta_last_data_processed['tag'][$current_user] = $current_tag;
         
-        watchdog('Request media from handler', '$current_tag = '. $current_tag);
+        //watchdog('Request media from handler', '$current_tag = '. $current_tag);
         
         variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
@@ -273,7 +276,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount){
   $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
   $account_id = $map_username_to_account_id[$username];
 
-  watchdog('Request media from handler', '$account_id = '. $account_id);
+  //watchdog('Request media from handler', '$account_id = '. $account_id);
   
   $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
       ->fields('l', array('shortcode'))
@@ -732,7 +735,10 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   $insta_users_tags_default = array(
     'all4senses' => array('design', 'art', 'photography'),
     //'olyayuskasova' => array('design', 'art', 'interior', 'интерьер', 'архитектура', 'дизайнинтерьера'),
-    'olyayuskasova' => array('nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54'),
+    'olyayuskasova' => array(
+          'nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайдланд', 'толмачево', 'дом', 'нск54', 'nsk54',
+          'мирный', 'нижневартовск', 'якутск', 'нюрба', 'магадан', 'анадырь', 'сургут', 'нерюнги', 'норильск'
+        ),
   );
   $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
