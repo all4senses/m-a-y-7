@@ -162,8 +162,9 @@ function a4s_instagram_behat() {
         
       case 'alert':
         $subject = 'Alert from Behat!';
+        a4s_instagram_jenkins_insta_switch_status('disable');
         drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
-        watchdog('Probems with Behat', $subject . ' ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
+        watchdog('Probems with Behat', 'Behat is TURNED OFF, because of: ' . $subject . ' ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
         break;
       
       
