@@ -220,7 +220,7 @@ function a4s_instagram_behat() {
       case 'set_medias_like_results':
         $links = array();
         if (!empty($_REQUEST['medias'])) {
-          foreach ($_REQUEST['medias'] as $media => $status) {
+          foreach (json_decode($_REQUEST['medias'], TRUE) as $media => $status) {
             $links[] = l($media, 'https://instagram.com/' . $media, array('attributes' => array('absolute' => TRUE)));
           }
         }
