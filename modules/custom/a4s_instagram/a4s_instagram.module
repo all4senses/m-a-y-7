@@ -218,6 +218,11 @@ function a4s_instagram_behat() {
         
         
       case 'set_medias_like_results':
+        if (!empty($_REQUEST['medias'])) {
+          foreach ($_REQUEST['medias'] as &$media) {
+            $media = l($media, 'https://instagram.com/' . $media, array('attributes' => array('absolute' => TRUE)));
+          }
+        }
         watchdog('Liked with Behat', 'New likes of a tag ' . @$_REQUEST['tag'] . ' for a user ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>');
         if (empty($_REQUEST['medias']) || empty($_REQUEST['username'])) {
           $status = FALSE;
