@@ -844,5 +844,22 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
   return $added_tags_amount;
 }
 
+/**
+ * 
+ * @param type $op
+ *  'disable' OR 'enable'
+ */
+function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
+  $url = "http://192.168.1.9:8181/job/Insta_v1/$op";
+  $data = array($op => TRUE);
+  $ch = curl_init($url);
 
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_POST, count($data));
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+  $results = json_decode(curl_exec($ch), TRUE);
+  curl_close($ch);
+}
       
