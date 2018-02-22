@@ -225,9 +225,7 @@ function a4s_instagram_behat() {
           break;
         }
         foreach (json_decode($_REQUEST['medias'], TRUE) as $shortcode => $status) {
-          if ($status) {
-            a4s_insta_media_set_liked($_REQUEST['username'], $shortcode);
-          }
+          a4s_insta_media_set_liked($_REQUEST['username'], $shortcode, $status);
         }
         break;
     }
@@ -328,17 +326,26 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount){
  * 
  * @param type $shortcode
  */
-function a4s_insta_media_set_liked($username, $shortcode) {
+function a4s_insta_media_set_liked($username, $shortcode, $status) {
   
   $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
   $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
   $account_id = $map_username_to_account_id[$username];
   
-  db_update('a4s_insta_clicks_by_tag')
+  if ($status) {
+    db_update('a4s_insta_clicks_by_tag')
       ->fields(array('liked' => 1, 'timestamp_liked' => time()))
       ->condition('shortcode', $shortcode)
       ->condition('account_id', $account_id)
       ->execute();
+  }
+  else {
+    db_delete('a4s_insta_clicks_by_tag')
+      ->condition('shortcode', $shortcode)
+      ->condition('account_id', $account_id)
+      ->execute();
+    watchdog('Request from Behat Error', "Error: media $shortcode for $username  was not found and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
+  }
 }
 
 /**
