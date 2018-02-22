@@ -310,14 +310,14 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount){
   //watchdog('Request media from handler', '$account_id = '. $account_id);
   
   $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
-      ->fields('l', array('shortcode'))
+      ->fields('l', array('shortcode', 'caption'))
       ->condition('l.tag', $tag)
       ->condition('l.account_id', $account_id)
       ->isNull('l.liked')
       ->orderBy('l.timestamp_added')
       ->range(0, $amount)
       ->execute()
-      ->fetchCol();
+      ->fetchAllKeyed(0,1);
   
   return $not_liked_by_tag;
 }
