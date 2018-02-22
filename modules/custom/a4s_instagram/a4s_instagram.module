@@ -775,8 +775,8 @@ function a4s_insta_instagramCurlPage__fromRaw($url, $cookiesIn = ''){
  * 
  */
 function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
-  return;
-  set_time_limit(0);
+  //return;
+  //set_time_limit(0);
 
   $insta_users_tags = a4s_insta_get_user_tags();
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
