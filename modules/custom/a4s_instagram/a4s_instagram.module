@@ -221,7 +221,7 @@ function a4s_instagram_behat() {
         $links = array();
         if (!empty($_REQUEST['medias'])) {
           foreach (json_decode($_REQUEST['medias'], TRUE) as $media => $status) {
-            $links[] = l($media, 'https://instagram.com/' . $media, array('attributes' => array('absolute' => TRUE)));
+            $links[] = l($media, 'https://instagram.com/p/' . $media, array('attributes' => array('absolute' => TRUE)));
           }
         }
         watchdog('Liked with Behat', 'New likes of a tag ' . @$_REQUEST['tag'] . ' for a user ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>, links ===> <pre>' . print_r($links, TRUE) . '</pre>');
