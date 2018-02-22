@@ -218,12 +218,13 @@ function a4s_instagram_behat() {
         
         
       case 'set_medias_like_results':
+        $links = array();
         if (!empty($_REQUEST['medias'])) {
-          foreach ($_REQUEST['medias'] as &$media) {
-            $media = l($media, 'https://instagram.com/' . $media, array('attributes' => array('absolute' => TRUE)));
+          foreach ($_REQUEST['medias'] as $media => $status) {
+            $links[] = l($media, 'https://instagram.com/' . $media, array('attributes' => array('absolute' => TRUE)));
           }
         }
-        watchdog('Liked with Behat', 'New likes of a tag ' . @$_REQUEST['tag'] . ' for a user ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>');
+        watchdog('Liked with Behat', 'New likes of a tag ' . @$_REQUEST['tag'] . ' for a user ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>, links ===> <pre>' . print_r($links, TRUE) . '</pre>');
         if (empty($_REQUEST['medias']) || empty($_REQUEST['username'])) {
           $status = FALSE;
           $errors = 'No username provided OR Empty liked medias results from behat.';
@@ -848,6 +849,8 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
  * 
  * @param type $op
  *  'disable' OR 'enable'
+ * 
+ * @see https://stackoverflow.com/questions/38600772/is-there-a-way-to-configure-jenkins-to-stop-building-further-if-some-of-the-tes
  */
 function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
   $url = "http://192.168.1.9:8181/job/Insta_v1/$op";
