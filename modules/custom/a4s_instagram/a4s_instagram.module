@@ -848,7 +848,8 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
     $count_existing_in_db = $count_existing_in_db_before = count($not_liked_by_tag);
     $max_id = NULL;
     while ($count_existing_in_db < $min_medias_for_tag) {
-      $results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
+      //$results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
+      $results = a4s_insta_getDataMultiple('fromRaw', 'tag', $tag, $max_id, 1);
       if (!$results) {
         break;
       }
