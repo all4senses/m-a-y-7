@@ -238,7 +238,7 @@ function a4s_instagram_behat() {
   }
   if (!$status) {
     // Report only in case of problems.
-    watchdog('Request from Behat', "Error: $error, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
+    watchdog('Request from Behat', "Error: $errors, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER ==> <pre>' . print_r($_SERVER, TRUE) . '</pre>');
   }
   $response_data += array('status' => $status, 'errors' => $errors);
   echo json_encode($response_data);
@@ -781,11 +781,45 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   $insta_users_tags = a4s_insta_get_user_tags();
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
   
+  $insta_tags_pulled_last = variable_get('a4s_insta_tags_pulled_last', array());
+  
+  $behat_insta_users_keys = array_keys($behat_insta_cookies['https://instagram.com']);
+  
+  if (empty($insta_tags_pulled_last['username'])) {
+    $insta_tags_pulled_last['username'] = current($behat_insta_users_keys);
+    $insta_tags_pulled_last['tag'] = $insta_users_tags[$insta_tags_pulled_last['username']][0];
+  }
+  else {
+    //$last_username_key = array_search($insta_cookies_tags_last['username'], $behat_insta_users_keys);
+    $last_pulled_user_tags = $insta_users_tags[$insta_tags_pulled_last['username']];
+    $last_pulled_tag_key = array_search($insta_tags_pulled_last['tag'], $last_pulled_user_tags);
+    if ($last_pulled_tag_key + 1 >= count($last_pulled_user_tags)) {
+       // It was the last tag for the previous user
+       // So we have to switch to the next user and his first tag
+      $last_pulled_user_key = array_search($insta_tags_pulled_last['username'], $behat_insta_users_keys);
+      if ($last_pulled_user_key + 1 >= count($behat_insta_users_keys)) {
+        $insta_tags_pulled_last['username'] = $behat_insta_users_keys[0];
+      }
+      else {
+        $insta_tags_pulled_last['username'] = $behat_insta_users_keys[$last_pulled_user_key + 1];
+      }
+      $insta_tags_pulled_last['tag'] = $insta_users_tags[$insta_tags_pulled_last['username']][0];
+    }
+    else {
+      $insta_tags_pulled_last['tag'] = $last_pulled_user_tags[$last_pulled_tag_key + 1];
+    }
+    
+  }
+  variable_set('a4s_insta_tags_pulled_last', $insta_tags_pulled_last);
+  
+  /*
   if (!empty($behat_insta_cookies['https://instagram.com'])) {
     foreach ($behat_insta_cookies['https://instagram.com'] as $username => $data) {
       $added_tags_amount[$username] = a4s_insta_get_images_to_click_byTags_singleUser($username, $insta_users_tags[$username]);
     }
   }
+  */
+  $added_tags_amount[$insta_tags_pulled_last['username']] = a4s_insta_get_images_to_click_byTags_singleUser($insta_tags_pulled_last['username'], array($insta_tags_pulled_last['tag']));
   drupal_json_output(array('New added tags amount' => $added_tags_amount));
 }
 
@@ -815,6 +849,9 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
     $max_id = NULL;
     while ($count_existing_in_db < $min_medias_for_tag) {
       $results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
+      if (!$results) {
+        break;
+      }
       $media_to_db = array();
       foreach ($results as $result) {
         $result = $result['node'];
