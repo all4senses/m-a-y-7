@@ -930,6 +930,10 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
     ->execute()
     ->fetchAllAssoc('remote_id');
   
+  if (!$exising_followers) {
+    $exising_followers = array();
+  }
+  
   $current_time = time();
   
   $new_followers_remote_ids = array();
