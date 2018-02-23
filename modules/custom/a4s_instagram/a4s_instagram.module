@@ -253,8 +253,8 @@ function a4s_insta_get_user_tags($username = NULL) {
   $insta_users_tags_default = array(
     'all4senses' => array('design', 'art', 'graphicdesign', 'photography', 'advertising'),
     'olyayuskasova' => array(
-      'nsk', 'novosibirsk', 'РЅРѕРІРѕСЃРёР±РёСЂСЃРє', 'РЅСЃРє', 'РІСЊРµС‚РЅР°Рј', 'СЃРµРјСЊСЏ', 'С‚Р°Р№Р»Р°РЅРґ', 'С‚РѕР»РјР°С‡РµРІРѕ', 'РґРѕРј', 'РЅСЃРє54', 'nsk54',
-      'РјРёСЂРЅС‹Р№', 'РЅРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє', 'СЏРєСѓС‚СЃРє', 'РЅСЋСЂР±Р°', 'РјР°РіР°РґР°РЅ', 'Р°РЅР°РґС‹СЂСЊ', 'СЃСѓСЂРіСѓС‚', 'РЅРµСЂСЋРЅРіРё', 'РЅРѕСЂРёР»СЊСЃРє', 'С‚Р°Р№',
+      'nsk', 'novosibirsk', 'новосибирск', 'нск', 'нск54', 'вьетнам', /*'бизнес', 'тайланд', 'тай', 'толмачево', 'дом', 'nsk54',
+      'нижневартовск', 'норильск', 'якутск', 'магадан', 'сургут', 'мальдивы',*/
       ),
   );
   $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
