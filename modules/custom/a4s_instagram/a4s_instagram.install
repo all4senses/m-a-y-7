@@ -131,7 +131,7 @@ function a4s_instagram_schema() {
       'thumbnail' => array(
         'description' => 'Folower thumbnail, like https://instagram.fhen2-1.fna.fbcdn.net/vp/bcf500fbc5a4e97b54875aa7324578b4/5B2C5521/t51.2885-19/s150x150/21148060_113544536029882_7043022251133763584_a.jpg',
         'type' => 'varchar',
-        'length' => 100,
+        'length' => 300,
         'not null' => TRUE,
       ),
       'followed_back' => array(
@@ -239,16 +239,6 @@ function a4s_instagram_update_7002() {
 }
 
 /**
- * Add new table a4s_insta_followers.
- */
-function a4s_instagram_update_7003() {
-  $schema = a4s_instagram_schema();
-  if (!db_table_exists('a4s_insta_followers')) {
-    db_create_table('a4s_insta_followers', $schema['a4s_insta_followers']);
-  }
-}
-
-/**
  * Add new table a4s_insta_followers_repeated_followings.
  */
 function a4s_instagram_update_7004() {
@@ -258,3 +248,12 @@ function a4s_instagram_update_7004() {
   }
 }
 
+/**
+ * Add new table a4s_insta_followers.
+ */
+function a4s_instagram_update_7005() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_followers')) {
+    db_create_table('a4s_insta_followers', $schema['a4s_insta_followers']);
+  }
+}
