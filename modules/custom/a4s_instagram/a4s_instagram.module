@@ -925,10 +925,12 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   
   // Get all existing followers (active and not active anymore)
   $exising_followers = db_select('a4s_insta_followers', 'f')
-    ->fields('f', array('fid', 'followed_back', 'is_following_now'))
+    ->fields('f', array('fid', 'remote_id', 'followed_back', 'is_following_now'))
     ->condition('f.account_id', $account_id)
     ->execute()
     ->fetchAllAssoc('remote_id');
+  
+  //dpm($exising_followers, '$exising_followers');
   
   if (!$exising_followers) {
     $exising_followers = array();
@@ -937,6 +939,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   $current_time = time();
   
   $new_followers_remote_ids = array();
+  
+  $changed_followers = array();
   
   // Check for new and repeated followers
   foreach ($results as $new_follower) {
@@ -961,13 +965,15 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
               'is_following_now' => 1,
             )
          )->execute();
+      
+      $changed_followers['added'][] = $new_follower;
     }
     else {
-      if (!$exising_follower['is_following_now']) {
+      if (!$exising_follower->is_following_now) {
         // This follower has become a follower repeatedly 
         $rid = db_insert('a4s_insta_followers_repeated_followings')->fields(
             array(
-              'fid' => $exising_follower['fid'],
+              'fid' => $exising_follower->fid,
               'event_type' => 1, // Follower again
               'timestamp' => $current_time,
             )
@@ -975,7 +981,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
         $update_existing = TRUE;
       }
       
-      if ($update_existing || $exising_follower['followed_back'] != $new_follower['followed_by_viewer']) {
+      if ($update_existing || $exising_follower->followed_back != $new_follower['followed_by_viewer']) {
         db_update('a4s_insta_followers')
             ->fields(
                 array(
@@ -987,15 +993,18 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
             ->condition('account_id', $account_id)
             ->condition('remote_id', $new_follower['id'])
             ->execute();
+        
+        
+        $changed_followers['updated'][] = $new_follower;
       }
     } // End of else of if (!$exising_follower) {
   } // End of foreach ($results as $new_follower) {
   
   // Check for unfollowed followers
   foreach ($exising_followers as $exising_follower) {
-    if ($exising_follower['is_following_now'] && !in_array($exising_follower['remote_id'], $new_followers_remote_ids)) {
+    if ($exising_follower->is_following_now && !in_array($exising_follower->remote_id, $new_followers_remote_ids)) {
       // This follower has been unfollowed
-      if (!$exising_follower['timestamp_unfollowed_first_time']) {
+      if (!$exising_follower->timestamp_unfollowed_first_time) {
         // It's unfollowing for the first time
         // We update only the main follower table and a fields timestamp_unfollowed_first_time and is_following_now
         db_update('a4s_insta_followers')
@@ -1007,14 +1016,16 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
                 )
               )
             ->condition('account_id', $account_id)
-            ->condition('remote_id', $exising_follower['remote_id'])
+            ->condition('remote_id', $exising_follower->remote_id)
             ->execute();
+        
+        $changed_followers['unfollowed_first_tinme'][] = $exising_follower;
       }
       else {
         // Or else it's repeatedly unfollowing
         $rid = db_insert('a4s_insta_followers_repeated_followings')->fields(
             array(
-              'fid' => $exising_follower['fid'],
+              'fid' => $exising_follower->fid,
               'event_type' => 0, // UnFollower again
               'timestamp' => $current_time,
             )
@@ -1028,12 +1039,15 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
                 )
               )
             ->condition('account_id', $account_id)
-            ->condition('remote_id', $exising_follower['remote_id'])
+            ->condition('remote_id', $exising_follower->remote_id)
             ->execute();
         
+        $changed_followers['unfollowed_repeatedly'][] = $exising_follower;
       }
     }
   }
   
-  
+  if (!empty($changed_followers)) {
+    watchdog('a4s followers', '$changed_followers ===> <pre>' . print_r($changed_followers, TRUE) . '</pre>');
+  }
 }
