@@ -92,6 +92,139 @@ function a4s_instagram_schema() {
     ),
     'primary key' => array('cid'),
   );
+  
+  
+  $schema['a4s_insta_followers'] = array(
+    'description' => 'Folowers',
+    'fields' => array(
+      'fid' => array(
+        'description' => 'Primary Key: Local Identifier for a follower.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'account_id' => array(
+        'description' => 'Account local ID, like 1 for all4senses, or 2 for olyayuskasova',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        //'default' => 0,
+      ),
+      'remote_id' => array(
+        'description' => 'Folower Instagram ID, like 1535208087',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'username' => array(
+        'description' => 'Folower Instagram username, like grase.art.education',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'full_name' => array(
+        'description' => 'Folower Instagram Full name, like ШКОЛА ЦИФРОВОЙ ИЛЛЮСТРАЦИИ',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'thumbnail' => array(
+        'description' => 'Folower thumbnail, like https://instagram.fhen2-1.fna.fbcdn.net/vp/bcf500fbc5a4e97b54875aa7324578b4/5B2C5521/t51.2885-19/s150x150/21148060_113544536029882_7043022251133763584_a.jpg',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'followed_back' => array(
+        'description' => 'If this follower is also followed back by our account',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_added' => array(
+        'description' => 'The Unix timestamp when a follower has been added to DB',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_unfollowed_first_time' => array(
+        'description' => 'The Unix timestamp when a follower has been unfollowed for the first time',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_updated' => array(
+        'description' => 'The Unix timestamp when a follower has been updated',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'is_following_now' => array(
+        'description' => 'If this follower is following our account now',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+
+    ),
+    'indexes' => array(
+      'fid' => array('fid'),
+      'account_id' => array('account_id'),
+      'remote_id' => array('remote_id'),
+      'username' => array('username'),
+      'full_name' => array('full_name'),
+      'followed_back' => array('followed_back'),
+      'is_following_now' => array('is_following_now'),
+      'timestamp_added' => array('timestamp_added'),
+      'timestamp_unfollowed_first_time' => array('timestamp_unfollowed_first_time'),
+      'timestamp_updated' => array('timestamp_updated'),
+    ),
+    'primary key' => array('fid'),
+  );
+  
+      
+  $schema['a4s_insta_followers_repeated_followings'] = array(
+    'description' => 'Folowers repeated following/unfollowing events',
+    'fields' => array(
+      'rid' => array(
+        'description' => 'Primary Key: Local Identifier for a follower repeated following event.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'fid' => array(
+        'description' => 'Local Identifier for a follower, from a table a4s_insta_followers',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        //'default' => 0,
+      ),
+      'event_type' => array(
+        'description' => 'Repeated event type, like Folowed - 1, unfollowed - 0',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp of the event (repeated following or unfollowing)',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+
+    ),
+    'indexes' => array(
+      'rid' => array('rid'),
+      'fid' => array('fid'),
+      'event_type' => array('event_type'),
+      'timestamp' => array('timestamp'),
+    ),
+    'primary key' => array('rid'),
+  );
+  
+  
   return $schema;
 }
 
@@ -105,4 +238,23 @@ function a4s_instagram_update_7002() {
   }
 }
 
+/**
+ * Add new table a4s_insta_followers.
+ */
+function a4s_instagram_update_7003() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_followers')) {
+    db_create_table('a4s_insta_followers', $schema['a4s_insta_followers']);
+  }
+}
+
+/**
+ * Add new table a4s_insta_followers_repeated_followings.
+ */
+function a4s_instagram_update_7004() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_followers_repeated_followings')) {
+    db_create_table('a4s_insta_followers_repeated_followings', $schema['a4s_insta_followers_repeated_followings']);
+  }
+}
 

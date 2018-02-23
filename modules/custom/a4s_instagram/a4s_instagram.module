@@ -253,8 +253,8 @@ function a4s_insta_get_user_tags($username = NULL) {
   $insta_users_tags_default = array(
     'all4senses' => array('design', 'art', 'graphicdesign', 'photography', 'advertising'),
     'olyayuskasova' => array(
-      'nsk', 'novosibirsk', 'новосибирск', 'нск', 'вьетнам', 'семья', 'тайланд', 'толмачево', 'дом', 'нск54', 'nsk54',
-      'мирный', 'нижневартовск', 'якутск', 'нюрба', 'магадан', 'анадырь', 'сургут', 'нерюнги', 'норильск', 'тай',
+      'nsk', 'novosibirsk', 'РЅРѕРІРѕСЃРёР±РёСЂСЃРє', 'РЅСЃРє', 'РІСЊРµС‚РЅР°Рј', 'СЃРµРјСЊСЏ', 'С‚Р°Р№Р»Р°РЅРґ', 'С‚РѕР»РјР°С‡РµРІРѕ', 'РґРѕРј', 'РЅСЃРє54', 'nsk54',
+      'РјРёСЂРЅС‹Р№', 'РЅРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє', 'СЏРєСѓС‚СЃРє', 'РЅСЋСЂР±Р°', 'РјР°РіР°РґР°РЅ', 'Р°РЅР°РґС‹СЂСЊ', 'СЃСѓСЂРіСѓС‚', 'РЅРµСЂСЋРЅРіРё', 'РЅРѕСЂРёР»СЊСЃРє', 'С‚Р°Р№',
       ),
   );
   $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
@@ -532,10 +532,10 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   //$end_cursor = 'AQCcbXzjdc_ZfOPp0T9xKt0lH-IYCbcbHjhF_NNy6R6DW19AnG4pGEKjYjPZXO5XezMQCPr7-fJWA63LWzY0Q3HfQ9jQ6zVjXYu1VO6dCwU_DA';
   
   switch ($data_type) {
-    case 'folowers':
+    case 'followers':
       $query_hash = '37479f2b8209594dde7facb0d904896a'; // Folowers
       break;
-    case 'folowing':
+    case 'following':
       $query_hash = '58712303d941c6855d4e888c5f0cd22f'; // Folowing
       break;
   }
@@ -554,10 +554,10 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
   
   switch ($data_type) {
-    case 'folowers':
+    case 'followers':
       $data = !empty($results['data']['user']['edge_followed_by']) ? $results['data']['user']['edge_followed_by'] : NULL;
       break;
-    case 'folowing':
+    case 'following':
       $data = !empty($results['data']['user']['edge_follow']) ? $results['data']['user']['edge_follow'] : NULL;
       break;
   }
@@ -827,6 +827,17 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
 /**
  * 
  * @param type $username
+ * @return type
+ */
+function a4s_instagram_get_local_account_id_by_username($username) {
+  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
+  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
+  return $map_username_to_account_id[$username];
+}
+
+/**
+ * 
+ * @param type $username
  *  Example: 'olyayuskasova'
  * @param type $tags
  *  Example: array('design', 'art', 'interior');
@@ -834,9 +845,7 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
  */
 function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20) {
 
-  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
-  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
-  
+  $account_id = a4s_instagram_get_local_account_id_by_username($username);
   $added_tags_amount = array();
   
   foreach ($tags as $tag) {
@@ -861,7 +870,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           continue;
         }
         $media_to_db[$result['shortcode']] = array(
-          'account_id' => $map_username_to_account_id[$username],
+          'account_id' => $account_id,
           'shortcode' => $result['shortcode'],
           'caption' => !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) ? drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 25) : NULL,
           'media_owner_id' => $result['owner']['id'],
@@ -905,3 +914,121 @@ function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
   curl_close($ch);
 }
       
+/**
+ * 
+ * @param type $username
+ */
+function a4s_instagram_update_followers_single_username($username = 'all4senses') {
+  $account_id = a4s_instagram_get_local_account_id_by_username($username);
+  $results = a4s_insta_queryGraphql_multiple('followers', $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10);
+  //dpm($results, '$results');
+  
+  // Get all existing followers (active and not active anymore)
+  $exising_followers = db_select('a4s_insta_followers', 'f')
+    ->fields('f', array('fid', 'followed_back', 'is_following_now'))
+    ->condition('f.account_id', $account_id)
+    ->execute()
+    ->fetchAllAssoc('remote_id');
+  
+  $current_time = time();
+  
+  $new_followers_remote_ids = array();
+  
+  // Check for new and repeated followers
+  foreach ($results as $new_follower) {
+    $update_existing = FALSE;
+    $new_follower = $new_follower['node'];
+    $new_followers_remote_ids[] = $new_follower['id'];
+    $exising_follower = !empty($exising_followers[$new_follower['id']]) ? $exising_followers[$new_follower['id']] : NULL;
+    
+    if (!$exising_follower) {
+      // We have a new follower
+      // Add it to DB...
+      $fid = db_insert('a4s_insta_followers')->fields(
+            array(
+              'account_id' => $account_id,
+              'remote_id' => $new_follower['id'],
+              'username' => $new_follower['username'],
+              'full_name' => $new_follower['full_name'],
+              'thumbnail' => $new_follower['profile_pic_url'],
+              'followed_back' => $new_follower['followed_by_viewer'],
+              'timestamp_added' => $current_time,
+              'is_following_now' => 1,
+            )
+         )->execute();
+    }
+    else {
+      if (!$exising_follower['is_following_now']) {
+        // This follower has become a follower repeatedly 
+        $rid = db_insert('a4s_insta_followers_repeated_followings')->fields(
+            array(
+              'fid' => $exising_follower['fid'],
+              'event_type' => 1, // Follower again
+              'timestamp' => $current_time,
+            )
+         )->execute();
+        $update_existing = TRUE;
+      }
+      
+      if ($update_existing || $exising_follower['followed_back'] != $new_follower['followed_by_viewer']) {
+        db_update('a4s_insta_followers')
+            ->fields(
+                array(
+                  'followed_back' => $new_follower['followed_by_viewer'],
+                  'timestamp_updated' => $current_time,
+                  'is_following_now' => 1,
+                )
+              )
+            ->condition('account_id', $account_id)
+            ->condition('remote_id', $new_follower['id'])
+            ->execute();
+      }
+    } // End of else of if (!$exising_follower) {
+  } // End of foreach ($results as $new_follower) {
+  
+  // Check for unfollowed followers
+  foreach ($exising_followers as $exising_follower) {
+    if ($exising_follower['is_following_now'] && !in_array($exising_follower['remote_id'], $new_followers_remote_ids)) {
+      // This follower has been unfollowed
+      if (!$exising_follower['timestamp_unfollowed_first_time']) {
+        // It's unfollowing for the first time
+        // We update only the main follower table and a fields timestamp_unfollowed_first_time and is_following_now
+        db_update('a4s_insta_followers')
+            ->fields(
+                array(
+                  'is_following_now' => 0,
+                  'timestamp_updated' => $current_time,
+                  'timestamp_unfollowed_first_time' => $current_time,
+                )
+              )
+            ->condition('account_id', $account_id)
+            ->condition('remote_id', $exising_follower['remote_id'])
+            ->execute();
+      }
+      else {
+        // Or else it's repeatedly unfollowing
+        $rid = db_insert('a4s_insta_followers_repeated_followings')->fields(
+            array(
+              'fid' => $exising_follower['fid'],
+              'event_type' => 0, // UnFollower again
+              'timestamp' => $current_time,
+            )
+         )->execute();
+        
+        db_update('a4s_insta_followers')
+            ->fields(
+                array(
+                  'is_following_now' => 0,
+                  'timestamp_updated' => $current_time,
+                )
+              )
+            ->condition('account_id', $account_id)
+            ->condition('remote_id', $exising_follower['remote_id'])
+            ->execute();
+        
+      }
+    }
+  }
+  
+  
+}
