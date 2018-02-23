@@ -942,6 +942,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   foreach ($results as $new_follower) {
     $update_existing = FALSE;
     $new_follower = $new_follower['node'];
+    $new_follower['followed_by_viewer'] = $new_follower['followed_by_viewer'] ? 1 : 0;
     $new_followers_remote_ids[] = $new_follower['id'];
     $exising_follower = !empty($exising_followers[$new_follower['id']]) ? $exising_followers[$new_follower['id']] : NULL;
     
