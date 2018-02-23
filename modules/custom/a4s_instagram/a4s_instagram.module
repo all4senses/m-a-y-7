@@ -658,7 +658,7 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
             case 'user/profile':
               // Remove actual media data, as we return here only a general profile info
               $data['user']['media']['nodes'] = array();
-              $out = $data['user'];
+              $out = !empty($data['user']) ? $data['user'] : NULL;
               /*
               $follows = $data['user']['follows']['count'];
               $followedBy = $data['user']['followed_by']['count'];
@@ -666,10 +666,10 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
               */
               break;
             case 'user/media':
-              $out = $data['user']['media'];
+              $out = !empty($data['user']['media']) ? $data['user']['media'] : NULL;
               break;
             case 'tag':
-              $out = $data['graphql']['hashtag']['edge_hashtag_to_media'];
+              $out = !empty($data['graphql']['hashtag']['edge_hashtag_to_media']) ? $data['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
               break;
           }
           return $out;
@@ -714,13 +714,13 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
     case 'user/profile':
       // Remove actual media data, as we return here only a general profile info
       $insta_array['entry_data']['ProfilePage'][0]['user']['media']['nodes'] = array();
-      $out = $insta_array['entry_data']['ProfilePage'][0]['user'];
+      $out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']) ? $insta_array['entry_data']['ProfilePage'][0]['user'] : NULL;
       break;
     case 'user/media':
-      $out = $insta_array['entry_data']['ProfilePage'][0]['user']['media'];
+      $out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']['media']) ? $insta_array['entry_data']['ProfilePage'][0]['user']['media'] : NULL;
       break;
     case 'tag':
-      $out = $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'];
+      $out = !empty($insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']) ? $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
       break;
   }
   return $out;
@@ -925,7 +925,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   
   // Get all existing followers (active and not active anymore)
   $exising_followers = db_select('a4s_insta_followers', 'f')
-    ->fields('f', array('fid', 'remote_id', 'followed_back', 'is_following_now'))
+    ->fields('f', array('fid', 'remote_id', 'followed_back', 'is_following_now', 'timestamp_unfollowed_first_time'))
     ->condition('f.account_id', $account_id)
     ->execute()
     ->fetchAllAssoc('remote_id');
