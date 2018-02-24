@@ -1152,7 +1152,7 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
     ->condition('f.account_id', $account_id)
     ->condition('f.username', $follower_username)
     ->execute()
-    ->fetchObject('remote_id');
+    ->fetchObject();
   
   //dpm($follower_data_main, '$follower_data_main');
   
