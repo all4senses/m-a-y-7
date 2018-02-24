@@ -1086,9 +1086,9 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
         }
     }
   }
-  if ($dpm) {
-    dpm($changed_followers, '$changed_followers, final results');
-  }
+  //if ($dpm) {
+  //  dpm($changed_followers, '$changed_followers, final results');
+  //}
   
   if (!empty($changed_followers)) {
     $fields_to_unset = array('id', 'full_name', 'profile_pic_url', 'is_verified', 'requested_by_viewer');
