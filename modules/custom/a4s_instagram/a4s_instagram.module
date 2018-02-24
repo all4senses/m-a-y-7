@@ -1214,12 +1214,13 @@ function a4s_instagram_likes_history_page() {
     return 'Wrong request...';
   }
  
+  $last_hours = 3;
   $out = '';
   
   $likes = db_select('a4s_insta_clicks_by_tag', 't')
     ->fields('t', array())
     ->condition('t.account_id', $account_id)
-    ->condition('t.timestamp_liked', REQUEST_TIME - (60*60), '>') // for last 1 hour
+    ->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
     ->orderBy('t.timestamp_liked', 'desc')
     ->execute()
     ->fetchAllAssoc('cid');
@@ -1236,5 +1237,5 @@ function a4s_instagram_likes_history_page() {
     }
   }
   
-  return "<div>Results...</div>$out";
+  return "<h1 class='page-header'>Likes for the last $last_hours hours:</h1><br/>'$out";
 }
