@@ -44,6 +44,13 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta/followers'] = array(
+    'title' => '', //t('Instagram Likes'),
+    'page callback' => 'a4s_instagram_followers_history_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   return $items;
 }
 
@@ -1254,24 +1261,24 @@ function a4s_instagram_followers_history_page() {
   
   $followers = db_select('a4s_insta_followers', 'f')
     ->fields('f', array())
-    ->condition('t.account_id', $account_id)
-    ->condition('t.timestamp_updated', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
-    ->orderBy('t.timestamp_updated', 'desc')
+    ->condition('f.account_id', $account_id)
+    ->condition('f.timestamp_updated', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
+    ->orderBy('f.timestamp_updated', 'desc')
     ->execute()
     ->fetchAllAssoc('fid');
   
   //dpm($followers, '$followers');
-  if (!empty($likes)) {
-    foreach ($likes as $like) {
-      $out .= '<div class="like" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
-              //. '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . utf8_decode($like->tag) . '">' . utf8_decode($like->tag) . '</a></div>'
-              . '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
-              . '<div class="like-date">' . date('d/m/Y H:i', $like->timestamp_liked) . '</div>'
-              . '<div class="like-img"><a href="https://instagram.com/p/' . $like->shortcode . '"><img width="130px" src="' . $like->thumbnail . '"></a></div>'
-              . '<div class="like-title">' . utf8_decode($like->caption) . '</div>'
+  if (!empty($followers)) {
+    foreach ($followers as $follower) {
+      $out .= '<div class="follower" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
+              . '<div class="like-username"><a href="https://instagram.com/' . $follower->username . '">' . $follower->username . '</a></div>'
+              //. '<div class="follower-tag"><a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
+              . '<div class="follower-date">' . date('d/m/Y H:i', $follower->timestamp_updated) . '</div>'
+              . '<div class="follower-img"><a href="https://instagram.com/' . $follower->username . '"><img width="130px" src="' . $follower->thumbnail . '"></a></div>'
+              //. '<div class="follower-title">' . utf8_decode($like->caption) . '</div>'
             . '</div>';
     }
   }
   
-  return "<h1 class='page-header' style='letter-spacing:12px;'>Likes for the last $last_hours hours:</h1><br/>'$out";
+  return "<h1 class='page-header' style='letter-spacing:12px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
 }
