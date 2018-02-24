@@ -1076,6 +1076,11 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
         //$changed_followers['unfollowed_repeatedly'][] = $existing_follower;
       }
     }
+    elseif (!$existing_follower->is_following_now && in_array($existing_follower->remote_id, $new_followers_remote_ids)) {
+      if ($dpm) {
+        dpm($existing_follower, '$existing_follower - not in new followers, BUT in DB, marked as not followers anymore');
+      }
+    }
   }
   if ($dpm) {
     dpm($changed_followers, '$changed_followers, final results');
