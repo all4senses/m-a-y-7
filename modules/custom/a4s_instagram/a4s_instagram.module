@@ -1080,9 +1080,21 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   if ($dpm) {
     dpm($changed_followers, '$changed_followers, final results');
   }
-  //if (!empty($changed_followers)) {
-    watchdog('a4s followers', "$username: ===> <pre>" . print_r($changed_followers, TRUE) . '</pre>');
-  //}
+  
+  if (!empty($changed_followers)) {
+    $fields_to_unset = array('id', 'full_name', 'profile_pic_url', 'is_verified', 'requested_by_viewer');
+    foreach ($changed_followers as $data_set_key => $data_set) {
+      foreach ($data_set as $data_key => $data) {
+        foreach ($fields_to_unset as $field_to_unset) {
+          unset($changed_followers[$data_set_key][$data_key][$field_to_unset]);
+        }
+      }
+    }
+  }
+  if ($dpm) {
+    dpm($changed_followers, '$changed_followers, final results, after cleaning');
+  }
+  watchdog('a4s followers', "$username: ===> <pre>" . print_r($changed_followers, TRUE) . '</pre>');
     
   return $changed_followers;
 }
@@ -1125,4 +1137,30 @@ function a4s_instagram_update_followers_all_users_callback() {
     }
   }
   drupal_json_output(array("Updated followers for $current_user" => $results));
+}
+
+/**
+ * 
+ * @param type $follower_username
+ * @param type $account_username
+ */
+function a4s_instagram_get_follower_info($follower_username, $account_username = 'all4senses') {
+  $account_id = a4s_instagram_get_local_account_id_by_username($account_username);
+  $follower_data = array();
+  $follower_data['main'] = db_select('a4s_insta_followers', 'f')
+    ->fields('f', array())
+    ->condition('f.account_id', $account_id)
+    ->condition('f.username', $follower_username)
+    ->execute()
+    ->fetchObject('remote_id');
+  
+  //dpm($follower_data_main, '$follower_data_main');
+  
+  $follower_data['extra'] = db_select('a4s_insta_followers_repeated_followings', 'f')
+    ->fields('f', array())
+    ->condition('f.fid', $follower_data_main->fid)
+    ->execute()
+    ->fetchAllAssoc('timestamp');
+  
+  dpm($follower_data, '$follower_data');
 }
