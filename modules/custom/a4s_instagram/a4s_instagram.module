@@ -37,6 +37,12 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta/likes'] = array(
+    'page callback' => 'a4s_instagram_likes_history_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   return $items;
 }
 
@@ -1190,4 +1196,14 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
   
     
   dpm($follower_data, '$follower_data');
+}
+
+/**
+ * 
+ * @return string
+ */
+function a4s_instagram_likes_history_page() {
+  dpm(arg(), 'arg()');
+  dpm($_GET, '$_GET');
+  return 'xxx';
 }
