@@ -1227,7 +1227,7 @@ function a4s_instagram_likes_history_page() {
   dpm($likes, '$likes');
   if (!empty($likes)) {
     foreach ($likes as $like) {
-      $out .= '<div class="like" style="float:left;"><div class="like-title">' . $like->caption . '</div><div class="like-img"><a href="https://instagram.com/p/' . $like->shortcode . '"><img src="' . $like->thumbnail . '"></a></div></div>';
+      $out .= '<div class="like" style="float:left; width:140px; margin-right:5px; min-height:200px;"><div class="like-title">' . $like->caption . '</div><div class="like-img"><a href="https://instagram.com/p/' . $like->shortcode . '"><img width="130px" src="' . $like->thumbnail . '"></a></div></div>';
     }
   }
   
