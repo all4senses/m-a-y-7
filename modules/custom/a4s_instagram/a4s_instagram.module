@@ -1204,17 +1204,13 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
  * @return string
  */
 function a4s_instagram_likes_history_page() {
-  //dpm(arg(), 'arg()');
-  //dpm($_GET, '$_GET');
-  
-  
   
   $args = arg();
   if (empty($args[2]) || !$account_id = a4s_instagram_get_local_account_id_by_username($args[2])) {
     return 'Wrong request...';
   }
  
-  $last_hours = 3;
+  $last_hours = !empty($args[3]) ? $args[3] : 3;
   $out = '';
   
   $likes = db_select('a4s_insta_clicks_by_tag', 't')
