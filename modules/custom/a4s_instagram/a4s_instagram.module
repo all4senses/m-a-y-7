@@ -980,6 +980,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
               'thumbnail' => $new_follower['profile_pic_url'],
               'followed_back' => $new_follower['followed_by_viewer'],
               'timestamp_added' => $current_time,
+              'timestamp_updated' => $current_time,
               'is_following_now' => 1,
             )
          )->execute();
@@ -1217,6 +1218,44 @@ function a4s_instagram_likes_history_page() {
     ->fields('t', array())
     ->condition('t.account_id', $account_id)
     ->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
+    ->orderBy('t.timestamp_liked', 'desc')
+    ->execute()
+    ->fetchAllAssoc('cid');
+  
+  //dpm($likes, '$likes');
+  if (!empty($likes)) {
+    foreach ($likes as $like) {
+      $out .= '<div class="like" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
+              //. '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . utf8_decode($like->tag) . '">' . utf8_decode($like->tag) . '</a></div>'
+              . '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
+              . '<div class="like-date">' . date('d/m/Y H:i', $like->timestamp_liked) . '</div>'
+              . '<div class="like-img"><a href="https://instagram.com/p/' . $like->shortcode . '"><img width="130px" src="' . $like->thumbnail . '"></a></div>'
+              . '<div class="like-title">' . utf8_decode($like->caption) . '</div>'
+            . '</div>';
+    }
+  }
+  
+  return "<h1 class='page-header' style='letter-spacing:12px;'>Likes for the last $last_hours hours:</h1><br/>'$out";
+}
+
+/**
+ * 
+ * @return string
+ */
+function a4s_instagram_followers_history_page() {
+  
+  $args = arg();
+  if (empty($args[2]) || !$account_id = a4s_instagram_get_local_account_id_by_username($args[2])) {
+    return 'Wrong request...';
+  }
+ 
+  $last_hours = !empty($args[3]) ? $args[3] : 3;
+  $out = '';
+  
+  $followers = db_select('a4s_insta_followers', 'f')
+    ->fields('f', array())
+    ->condition('t.account_id', $account_id)
+    ->condition('t.timestamp_updated', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
     ->orderBy('t.timestamp_liked', 'desc')
     ->execute()
     ->fetchAllAssoc('cid');
