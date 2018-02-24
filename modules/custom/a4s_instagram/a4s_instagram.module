@@ -143,7 +143,7 @@ function a4s_instagram_behat() {
         $users_credentials = variable_get('a4s_users_credentials', array());
         if ( empty($users_credentials[$_REQUEST['target_domain']][$current_user]) ) {
           $status = FALSE;
-          $errors = 'We donot have credentials for a user ' . $current_user;
+          $errors = 'We donot have credentials for ' . $current_user;
           break;
         }
         
@@ -225,7 +225,7 @@ function a4s_instagram_behat() {
             $links[] = l($media, 'https://instagram.com/p/' . $media, array('attributes' => array('absolute' => TRUE)));
           }
         }
-        watchdog('Liked with Behat', 'New likes of a tag ' . @$_REQUEST['tag'] . ' for a user ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>, links ===> <pre>' . print_r($links, TRUE) . '</pre>');
+        watchdog('Liked with Behat', 'Tag ' . @$_REQUEST['tag'] . ' for ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>, links ===> <pre>' . print_r($links, TRUE) . '</pre>');
         if (empty($_REQUEST['medias']) || empty($_REQUEST['username'])) {
           $status = FALSE;
           $errors = 'No username provided OR Empty liked medias results from behat.';
@@ -887,7 +887,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
       $not_liked_by_tag = array_merge($not_liked_by_tag, array_keys($media_to_db));
       $count_existing_in_db = count($not_liked_by_tag);
     }
-    watchdog('a4s get medias', 'Added ' . ($count_existing_in_db - $count_existing_in_db_before) . ' medias of a tag "' . $tag . '" for a user "' . $username . '"');
+    watchdog('a4s get medias', 'Added ' . ($count_existing_in_db - $count_existing_in_db_before) . ' medias of a tag "' . $tag . '" for ' . $username);
     $added_tags_amount[$tag] = $count_existing_in_db - $count_existing_in_db_before;
   }
   return $added_tags_amount;
