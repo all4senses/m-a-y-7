@@ -1225,7 +1225,7 @@ function a4s_instagram_likes_history_page() {
     ->execute()
     ->fetchAllAssoc('cid');
   
-  dpm($likes, '$likes');
+  //dpm($likes, '$likes');
   if (!empty($likes)) {
     foreach ($likes as $like) {
       $out .= '<div class="like" style="float:left; width:140px; margin-right:5px; min-height:200px; margin-bottom:30px;">'
@@ -1237,5 +1237,5 @@ function a4s_instagram_likes_history_page() {
     }
   }
   
-  return "<h1 class='page-header'>Likes for the last $last_hours hours:</h1><br/>'$out";
+  return "<h1 class='page-header' style='letter-spacing:12px;'>Likes for the last $last_hours hours:</h1><br/>'$out";
 }
