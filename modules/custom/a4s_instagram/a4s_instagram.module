@@ -1103,7 +1103,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   if ($dpm) {
     dpm($changed_followers, '$changed_followers, final results, after cleaning');
   }
-  watchdog('a4s followers', "$username: ===> <pre>" . print_r($changed_followers, TRUE) . '</pre>');
+  watchdog('a4s followers', "$username: => <pre>" . print_r($changed_followers, TRUE) . '</pre>');
     
   return $changed_followers;
 }
