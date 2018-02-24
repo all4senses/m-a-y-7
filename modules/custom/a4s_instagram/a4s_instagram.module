@@ -929,7 +929,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   $new_followers = a4s_insta_queryGraphql_multiple('followers', $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10);
   
   if ($dpm_all_new) {
-    dpm($results, '$results');
+    dpm($new_followers, '$new_followers');
   }
   
   // Get all existing followers (active and not active anymore)
