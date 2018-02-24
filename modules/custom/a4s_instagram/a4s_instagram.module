@@ -38,7 +38,7 @@ function a4s_instagram_menu() {
   );
   
   $items['insta/likes'] = array(
-    'title' => t('Instagram Likes'),
+    'title' => '', //t('Instagram Likes'),
     'page callback' => 'a4s_instagram_likes_history_page',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
