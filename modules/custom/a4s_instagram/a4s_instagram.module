@@ -1180,7 +1180,8 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
   
   if (!empty($follower_data_extra)) {
     foreach ($follower_data_extra as $key => $data) {
-      $new_data->timestamp = date('d/m/Y H:i', $data->timestamp);
+      $new_data = $data;
+      $new_data->timestamp = date('d/m/Y H:i', $new_data->timestamp);
       unset($follower_data_extra[$key]);
       $follower_data_extra[$new_data->timestamp . ' - ' . ($new_data->event_type ? 'followed' : 'unfollowed')] = $new_data;
     }
