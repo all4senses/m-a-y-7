@@ -153,7 +153,7 @@ function may_pages_preprocess_page($variables) {
  */
 function may_pages_preprocess_html(&$variables) {
   $variables['head_title_array']['slogan'] = variable_get('site_slogan');
-  $variables['head_title'] = $variables['head_title_array']['title'] . ' | ' . $variables['head_title_array']['name'] . ' | ' . $variables['head_title_array']['slogan'];
+  $variables['head_title'] = (!empty($variables['head_title_array']['title']) ? $variables['head_title_array']['title'] . ' | ' : '') . $variables['head_title_array']['name'] . ' | ' . $variables['head_title_array']['slogan'];
 }
 
 /**
