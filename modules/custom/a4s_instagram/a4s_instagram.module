@@ -949,8 +949,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   
   $current_time = time();
   
+  $existing_followers_unfollowed = array();
   $new_followers_remote_ids = array();
-  
   $changed_followers = array();
   
   // Check for new and repeated followers
@@ -1029,7 +1029,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
         
         if (!$existing_follower->is_following_now) {
           if ($dpm) {
-            dpm($existing_follower, '$existing_follower - not in new followers, BUT in DB, already marked before as not followers anymore');
+            $existing_followers_unfollowed[] = $existing_follower;
           }
         }
         else {
@@ -1102,6 +1102,9 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   }
   if ($dpm) {
     dpm($changed_followers, '$changed_followers, final results, after cleaning');
+    if (!empty($existing_followers_unfollowed)) {
+      dpm($existing_followers_unfollowed, '$existing_followers_unfollowed - not in new followers, BUT in DB, already marked before as not followers anymore');
+    }
   }
   watchdog('a4s followers', "$username: => <pre>" . print_r($changed_followers, TRUE) . '</pre>');
     
