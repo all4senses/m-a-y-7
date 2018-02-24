@@ -979,7 +979,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
       
       $changed_followers['added'][] = $new_follower;
       if ($dpm) {
-        dpm($new_follower, 'NEW, not yet existing $new_follower');
+        //dpm($new_follower, 'NEW, not yet existing $new_follower');
       }
     }
     else {
