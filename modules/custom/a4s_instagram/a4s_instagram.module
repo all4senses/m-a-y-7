@@ -1280,5 +1280,5 @@ function a4s_instagram_followers_history_page() {
     }
   }
   
-  return "<h1 class='page-header' style='letter-spacing:12px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
+  return "<h1 class='page-header' style='letter-spacing:3px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
 }
