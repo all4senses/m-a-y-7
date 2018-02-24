@@ -1273,8 +1273,8 @@ function a4s_instagram_followers_history_page() {
       $out .= '<div class="follower" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="follower-type">' . ($follower->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $follower->timestamp_updated) . '</div>'
+              . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . date('d/m/Y H:i', $follower->timestamp_added) . '</div>'
               . '<div class="like-title"><a href="https://instagram.com/' . $follower->username . '">' . utf8_decode($follower->full_name) . '</a></div>'
-              . '<div class="like-title"><a href="https://instagram.com/' . $follower->username . '">' . $follower->full_name . '</a></div>'
               . '<div class="follower-img"><a href="https://instagram.com/' . $follower->username . '"><img width="130px" src="' . $follower->thumbnail . '"></a></div>'
             . '</div>';
     }
