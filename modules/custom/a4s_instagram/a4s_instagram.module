@@ -1029,7 +1029,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
         
         if (!$existing_follower->is_following_now) {
           if ($dpm) {
-            $existing_followers_unfollowed[] = $existing_follower;
+            $existing_followers_unfollowed[] = (array) $existing_follower;
           }
         }
         else {
@@ -1055,7 +1055,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
                   ->condition('remote_id', $existing_follower->remote_id)
                   ->execute();
 
-              $changed_followers['unfollowed_first_time'][] = $existing_follower;
+              $changed_followers['unfollowed_first_time'][] = (array) $existing_follower;
             }
             else {
               if ($dpm) {
@@ -1081,7 +1081,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
                   ->condition('remote_id', $existing_follower->remote_id)
                   ->execute();
 
-              $changed_followers['unfollowed_repeatedly'][] = $existing_follower;
+              $changed_followers['unfollowed_repeatedly'][] = (array) $existing_follower;
             }
         }
     }
