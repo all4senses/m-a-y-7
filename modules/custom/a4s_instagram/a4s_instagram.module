@@ -1033,13 +1033,10 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
           }
         }
         else {
-            if ($dpm) {
-              dpm($existing_follower, '$existing_follower, This follower has been just unfollowed, we have to update our data in DB');
-            }
             // This follower has been unfollowed
             if (!$existing_follower->timestamp_unfollowed_first_time) {
               if ($dpm) {
-                dpm('...unfollowing for the first time');
+                dpm($existing_follower, '$existing_follower ...unfollowing for the first time... we have to update our data in the main table');
               }
               // It's unfollowing for the first time
               // We update only the main follower table and a fields timestamp_unfollowed_first_time and is_following_now
@@ -1059,7 +1056,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
             }
             else {
               if ($dpm) {
-                dpm('...repeatedly unfollowing, add unfollow to the a4s_insta_followers_repeated_followings and update');
+                dpm($existing_follower, '$existing_follower ...repeatedly unfollowed.. we add unfollow to the a4s_insta_followers_repeated_followings and update');
               }
               // Or else it's repeatedly unfollowing
               $rid = db_insert('a4s_insta_followers_repeated_followings')->fields(
