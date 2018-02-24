@@ -1048,7 +1048,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
               }
               // It's unfollowing for the first time
               // We update only the main follower table and a fields timestamp_unfollowed_first_time and is_following_now
-              db_update('a4s_insta_followers, set timestamp_unfollowed_first_time in DB')
+              db_update('a4s_insta_followers')
                   ->fields(
                       array(
                         'is_following_now' => 0,
@@ -1256,11 +1256,11 @@ function a4s_instagram_followers_history_page() {
     ->fields('f', array())
     ->condition('t.account_id', $account_id)
     ->condition('t.timestamp_updated', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
-    ->orderBy('t.timestamp_liked', 'desc')
+    ->orderBy('t.timestamp_updated', 'desc')
     ->execute()
-    ->fetchAllAssoc('cid');
+    ->fetchAllAssoc('fid');
   
-  //dpm($likes, '$likes');
+  //dpm($followers, '$followers');
   if (!empty($likes)) {
     foreach ($likes as $like) {
       $out .= '<div class="like" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
