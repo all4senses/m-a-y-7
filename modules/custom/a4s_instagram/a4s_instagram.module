@@ -1158,7 +1158,7 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
   
   $follower_data['extra'] = db_select('a4s_insta_followers_repeated_followings', 'f')
     ->fields('f', array())
-    ->condition('f.fid', $follower_data_main->fid)
+    ->condition('f.fid', $follower_data->fid)
     ->execute()
     ->fetchAllAssoc('timestamp');
   
