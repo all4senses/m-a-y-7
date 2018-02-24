@@ -1225,7 +1225,8 @@ function a4s_instagram_likes_history_page() {
   if (!empty($likes)) {
     foreach ($likes as $like) {
       $out .= '<div class="like" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
-              . '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . utf8_decode($like->tag) . '">' . utf8_decode($like->tag) . '</a></div>'
+              //. '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . utf8_decode($like->tag) . '">' . utf8_decode($like->tag) . '</a></div>'
+              . '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
               . '<div class="like-date">' . date('d/m/Y H:i', $like->timestamp_liked) . '</div>'
               . '<div class="like-img"><a href="https://instagram.com/p/' . $like->shortcode . '"><img width="130px" src="' . $like->thumbnail . '"></a></div>'
               . '<div class="like-title">' . utf8_decode($like->caption) . '</div>'
