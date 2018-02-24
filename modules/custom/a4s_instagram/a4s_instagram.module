@@ -31,6 +31,12 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta-update-followers'] = array(
+    'page callback' => 'a4s_instagram_update_followers_all_users_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   return $items;
 }
 
@@ -1054,8 +1060,45 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
       }
     }
   }
-  dpm($changed_followers, '$changed_followers');
+  //dpm($changed_followers, '$changed_followers');
   //if (!empty($changed_followers)) {
     watchdog('a4s followers', "$username: ===> <pre>" . print_r($changed_followers, TRUE) . '</pre>');
   //}
+    
+  return $changed_followers;
+}
+
+/**
+ * 
+ */
+function a4s_instagram_update_followers_all_users_callback() {
+  // Process different user every time
+  $users_to_process = array('olyayuskasova', 'all4senses');
+
+  $last_followers_update_user = variable_get('a4s_insta_last_followers_update_user', array());
+
+  if (count($users_to_process) > 1) {
+    if (empty($last_followers_update_user)) {
+      $current_user = $users_to_process[0];
+    }
+    else {
+      foreach ($users_to_process as $key => $user) {
+        if ($user == $last_followers_update_user) {
+          if ($key + 1 >= count($users_to_process)) {
+            $current_user = $users_to_process[0];
+          }
+          else {
+            $current_user = $users_to_process[$key + 1];
+          }
+        }
+      }
+    }
+  }
+  else {
+    $current_user = $users_to_process[0];
+  }
+  variable_set('a4s_insta_last_followers_update_user', $current_user);
+  
+  $results = a4s_instagram_update_followers_single_username($current_user);
+  drupal_json_output(array("Updated followers for $current_user" => $results));
 }
