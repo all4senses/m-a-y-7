@@ -1056,7 +1056,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
             ->condition('remote_id', $exising_follower->remote_id)
             ->execute();
         
-        $changed_followers['unfollowed_repeatedly'][] = $exising_follower;
+        //$changed_followers['unfollowed_repeatedly'][] = $exising_follower;
       }
     }
   }
