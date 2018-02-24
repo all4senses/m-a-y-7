@@ -1024,62 +1024,66 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   
   // Check for unfollowed followers
   foreach ($existing_followers as $existing_follower) {
-    if ($existing_follower->is_following_now && !in_array($existing_follower->remote_id, $new_followers_remote_ids)) {
-      if ($dpm) {
-        dpm($existing_follower, '$existing_follower, This follower has been unfollowed');
-      }
-      // This follower has been unfollowed
-      if (!$existing_follower->timestamp_unfollowed_first_time) {
-        if ($dpm) {
-          dpm('...unfollowing for the first time');
+    
+    if (!in_array($existing_follower->remote_id, $new_followers_remote_ids)) {
+        
+        if (!$existing_follower->is_following_now) {
+          if ($dpm) {
+            dpm($existing_follower, '$existing_follower - not in new followers, BUT in DB, already marked before as not followers anymore');
+          }
         }
-        // It's unfollowing for the first time
-        // We update only the main follower table and a fields timestamp_unfollowed_first_time and is_following_now
-        db_update('a4s_insta_followers, set timestamp_unfollowed_first_time in DB')
-            ->fields(
-                array(
-                  'is_following_now' => 0,
-                  'timestamp_updated' => $current_time,
-                  'timestamp_unfollowed_first_time' => $current_time,
-                )
-              )
-            ->condition('account_id', $account_id)
-            ->condition('remote_id', $existing_follower->remote_id)
-            ->execute();
-        
-        $changed_followers['unfollowed_first_time'][] = $existing_follower;
-      }
-      else {
-        if ($dpm) {
-          dpm('...repeatedly unfollowing, add unfollow to the a4s_insta_followers_repeated_followings and update');
+        else {
+            if ($dpm) {
+              dpm($existing_follower, '$existing_follower, This follower has been just unfollowed, we have to update our data in DB');
+            }
+            // This follower has been unfollowed
+            if (!$existing_follower->timestamp_unfollowed_first_time) {
+              if ($dpm) {
+                dpm('...unfollowing for the first time');
+              }
+              // It's unfollowing for the first time
+              // We update only the main follower table and a fields timestamp_unfollowed_first_time and is_following_now
+              db_update('a4s_insta_followers, set timestamp_unfollowed_first_time in DB')
+                  ->fields(
+                      array(
+                        'is_following_now' => 0,
+                        'timestamp_updated' => $current_time,
+                        'timestamp_unfollowed_first_time' => $current_time,
+                      )
+                    )
+                  ->condition('account_id', $account_id)
+                  ->condition('remote_id', $existing_follower->remote_id)
+                  ->execute();
+
+              $changed_followers['unfollowed_first_time'][] = $existing_follower;
+            }
+            else {
+              if ($dpm) {
+                dpm('...repeatedly unfollowing, add unfollow to the a4s_insta_followers_repeated_followings and update');
+              }
+              // Or else it's repeatedly unfollowing
+              $rid = db_insert('a4s_insta_followers_repeated_followings')->fields(
+                  array(
+                    'fid' => $existing_follower->fid,
+                    'event_type' => 0, // UnFollower again
+                    'timestamp' => $current_time,
+                  )
+               )->execute();
+
+              db_update('a4s_insta_followers')
+                  ->fields(
+                      array(
+                        'is_following_now' => 0,
+                        'timestamp_updated' => $current_time,
+                      )
+                    )
+                  ->condition('account_id', $account_id)
+                  ->condition('remote_id', $existing_follower->remote_id)
+                  ->execute();
+
+              //$changed_followers['unfollowed_repeatedly'][] = $existing_follower;
+            }
         }
-        // Or else it's repeatedly unfollowing
-        $rid = db_insert('a4s_insta_followers_repeated_followings')->fields(
-            array(
-              'fid' => $existing_follower->fid,
-              'event_type' => 0, // UnFollower again
-              'timestamp' => $current_time,
-            )
-         )->execute();
-        
-        db_update('a4s_insta_followers')
-            ->fields(
-                array(
-                  'is_following_now' => 0,
-                  'timestamp_updated' => $current_time,
-                )
-              )
-            ->condition('account_id', $account_id)
-            ->condition('remote_id', $existing_follower->remote_id)
-            ->execute();
-        
-        //$changed_followers['unfollowed_repeatedly'][] = $existing_follower;
-      }
-    }
-    elseif (!$existing_follower->is_following_now && in_array($existing_follower->remote_id, $new_followers_remote_ids)) {
-      if ($dpm) {
-        dpm($existing_follower, '$existing_follower - not in new followers, BUT in DB, marked as not followers anymore');
-      }
     }
   }
   if ($dpm) {
