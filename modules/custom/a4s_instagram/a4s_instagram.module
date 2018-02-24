@@ -1163,13 +1163,30 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
     ->execute()
     ->fetchObject();
   
-  //dpm($follower_data_main, '$follower_data_main');
+  if (empty($follower_data['main'])) {
+    return NULL;
+  }
   
-  $follower_data['extra'] = db_select('a4s_insta_followers_repeated_followings', 'f')
+  $fields_to_convert_time = array('timestamp_added', 'timestamp_unfollowed_first_time', 'timestamp_updated');
+  foreach ($fields_to_convert_time as $field_to_convert_time) {
+    $follower_data['main']->{$field_to_convert_time} = date('d/m/Y H:i', $follower_data['main']->{$field_to_convert_time});
+  }
+  
+  $follower_data_extra = db_select('a4s_insta_followers_repeated_followings', 'f')
     ->fields('f', array())
     ->condition('f.fid', $follower_data['main']->fid)
     ->execute()
     ->fetchAllAssoc('timestamp');
   
+  if (!empty($follower_data_extra)) {
+    foreach ($follower_data_extra as $key => $data) {
+      $new_data->timestamp = date('d/m/Y H:i', $data->timestamp);
+      unset($follower_data_extra[$key]);
+      $follower_data_extra[$new_data->timestamp . ' - ' . ($new_data->event_type ? 'followed' : 'unfollowed')] = $new_data;
+    }
+    $follower_data['extra'] = $follower_data_extra;
+  }
+  
+    
   dpm($follower_data, '$follower_data');
 }
