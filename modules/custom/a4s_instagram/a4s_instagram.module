@@ -38,6 +38,7 @@ function a4s_instagram_menu() {
   );
   
   $items['insta/likes'] = array(
+    'title' => t('Instagram Likes'),
     'page callback' => 'a4s_instagram_likes_history_page',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
@@ -844,7 +845,7 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
 function a4s_instagram_get_local_account_id_by_username($username) {
   $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
   $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
-  return $map_username_to_account_id[$username];
+  return !empty($map_username_to_account_id[$username]) ? $map_username_to_account_id[$username] : FALSE;
 }
 
 /**
@@ -1203,7 +1204,32 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
  * @return string
  */
 function a4s_instagram_likes_history_page() {
-  dpm(arg(), 'arg()');
-  dpm($_GET, '$_GET');
-  return 'xxx';
+  //dpm(arg(), 'arg()');
+  //dpm($_GET, '$_GET');
+  
+  
+  
+  $args = arg();
+  if (empty($args[2]) || !$account_id = a4s_instagram_get_local_account_id_by_username($args[2])) {
+    return 'Wrong request...';
+  }
+ 
+  $out = '';
+  
+  $likes = db_select('a4s_insta_clicks_by_tag', 't')
+    ->fields('t', array())
+    ->condition('t.account_id', $account_id)
+    ->condition('t.timestamp_liked', REQUEST_TIME - (60*60), '>') // for last 1 hour
+    ->orderBy('t.timestamp_liked', 'desc')
+    ->execute()
+    ->fetchAllAssoc('cid');
+  
+  dpm($likes, '$likes');
+  if (!empty($likes)) {
+    foreach ($likes as $like) {
+      $out .= '<div class="like"><div class="like-title">' . $like->caption . '</div><div class="like-img"><a href="/"><img scr="' . $like->thumbnail . '"></a></div></div>';
+    }
+  }
+  
+  return "<div>Results...</div>$out";
 }
