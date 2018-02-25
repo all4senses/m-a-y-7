@@ -324,16 +324,19 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
 
 /**
  * 
+ * @param type $username
  * @param type $tag
  * @param type $amount
  * @return type
  */
 function a4s_insta_get_medias_to_like($username, $tag, $amount){
   
-  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
-  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
-  $account_id = $map_username_to_account_id[$username];
+//  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
+//  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
+//  $account_id = $map_username_to_account_id[$username];
 
+  $account_id = a4s_instagram_get_local_account_id_by_username($username);
+  
   //watchdog('Request media from handler', '$account_id = '. $account_id);
   
   $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
@@ -355,23 +358,25 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount){
  */
 function a4s_insta_media_set_liked($username, $shortcode, $status) {
   
-  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
-  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
-  $account_id = $map_username_to_account_id[$username];
+//  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
+//  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
+//  $account_id = $map_username_to_account_id[$username];
   
-  if ($status) {
-    db_update('a4s_insta_clicks_by_tag')
-      ->fields(array('liked' => 1, 'timestamp_liked' => time()))
-      ->condition('shortcode', $shortcode)
-      ->condition('account_id', $account_id)
-      ->execute();
-  }
-  else {
+  $account_id = a4s_instagram_get_local_account_id_by_username($username);
+  
+  if (!$status || $status == 'liked_before') {
     db_delete('a4s_insta_clicks_by_tag')
       ->condition('shortcode', $shortcode)
       ->condition('account_id', $account_id)
       ->execute();
     watchdog('Request from Behat Error', "Error: media $shortcode for $username  was not found and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
+  }
+  else {
+    db_update('a4s_insta_clicks_by_tag')
+      ->fields(array('liked' => 1, 'timestamp_liked' => time()))
+      ->condition('shortcode', $shortcode)
+      ->condition('account_id', $account_id)
+      ->execute();
   }
 }
 
