@@ -1205,7 +1205,7 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
     $follower_data['extra'] = $follower_data_extra;
   }
     
-  dpm($follower_data, '$follower_data');
+  //dpm($follower_data, '$follower_data');
   return $follower_data;
 }
 
