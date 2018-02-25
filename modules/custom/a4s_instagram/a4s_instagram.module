@@ -373,7 +373,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $status) {
       ->execute();
     watchdog('Request from Behat Error', "Liked before: media $shortcode for $username,  and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
   }
-  elseif ($status === 0 || $status === FALSE) {
+  elseif ($status =='false') {
     db_delete('a4s_insta_clicks_by_tag')
       ->condition('shortcode', $shortcode)
       ->condition('account_id', $account_id)
