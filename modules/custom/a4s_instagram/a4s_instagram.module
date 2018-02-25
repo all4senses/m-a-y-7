@@ -364,8 +364,6 @@ function a4s_insta_media_set_liked($username, $shortcode, $status) {
   
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   
-  watchdog('Liked with Behat xxx', 'Tag ' . $shortcode . ': ' . $status);
-  
   if ($status === 'liked_before') {
     db_delete('a4s_insta_clicks_by_tag')
       ->condition('shortcode', $shortcode)
@@ -386,7 +384,6 @@ function a4s_insta_media_set_liked($username, $shortcode, $status) {
       ->condition('shortcode', $shortcode)
       ->condition('account_id', $account_id)
       ->execute();
-    watchdog('Request from Behat status', "Liked: $shortcode for $username");
   }
 }
 
