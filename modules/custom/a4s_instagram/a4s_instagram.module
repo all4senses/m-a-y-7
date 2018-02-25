@@ -1267,7 +1267,7 @@ function a4s_instagram_followers_history_page() {
     ->execute()
     ->fetchAllAssoc('fid');
   
-  //dpm($followers, '$followers');
+  dpm($followers, '$followers');
   if (!empty($followers)) {
     foreach ($followers as $follower) {
       $out .= '<div class="follower" style="float:left; width:140px; height:290px; margin-right:5px; margin-bottom:30px;">'
@@ -1275,7 +1275,7 @@ function a4s_instagram_followers_history_page() {
               . '<div class="follower-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $follower->timestamp_updated) . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . date('d/m/Y H:i', $follower->timestamp_added) . '</div>'
               
-              . '<div class="like-ifollow">' . ($follower->followed_back ? '<span>I follow</span>' : '<span></span>') . '</div>'
+              . '<div class="like-ifollow">' . ($follower->followed_back ? '<span>I follow</span>' : '<span>I dont follow</span>') . '</div>'
               . '<div class="follower-img"><a href="https://instagram.com/' . $follower->username . '"><img width="130px" src="' . $follower->thumbnail . '"></a></div>'
               . '<div class="like-title"><a href="https://instagram.com/' . $follower->username . '">' . utf8_decode($follower->full_name) . '</a></div>'
             . '</div>';
