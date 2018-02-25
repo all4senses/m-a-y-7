@@ -1202,9 +1202,9 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
     }
     $follower_data['extra'] = $follower_data_extra;
   }
-  
     
   dpm($follower_data, '$follower_data');
+  return $follower_data;
 }
 
 /**
@@ -1267,11 +1267,13 @@ function a4s_instagram_followers_history_page() {
     ->execute()
     ->fetchAllAssoc('fid');
   
-  dpm($followers, '$followers');
+  //dpm($followers, '$followers');
   if (!empty($followers)) {
     foreach ($followers as $follower) {
+      $follower_data = a4s_instagram_get_follower_info($follower_username, $account_username = 'all4senses');
+      dpm($follower_data, '$follower_data');
       $out .= '<div class="follower" style="float:left; width:140px; height:290px; margin-right:5px; margin-bottom:30px;">'
-              . '<div class="follower-type">' . ($follower->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') . '</div>'
+              . '<div class="follower-type">' . ($follower->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span style="background: yellow;">R</span>' : '') . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $follower->timestamp_updated) . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . date('d/m/Y H:i', $follower->timestamp_added) . '</div>'
               
