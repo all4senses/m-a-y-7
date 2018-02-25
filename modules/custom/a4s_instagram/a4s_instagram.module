@@ -1168,8 +1168,10 @@ function a4s_instagram_update_followers_all_users_callback() {
  * @param type $follower_username
  * @param type $account_username
  */
-function a4s_instagram_get_follower_info($follower_username, $account_username = 'all4senses') {
-  $account_id = a4s_instagram_get_local_account_id_by_username($account_username);
+function a4s_instagram_get_follower_info($follower_username, $account_username = 'all4senses', $account_id = NULL) {
+  if (!$account_id) {
+    $account_id = a4s_instagram_get_local_account_id_by_username($account_username);
+  }
   $follower_data = array();
   $follower_data['main'] = db_select('a4s_insta_followers', 'f')
     ->fields('f', array())
@@ -1270,7 +1272,7 @@ function a4s_instagram_followers_history_page() {
   //dpm($followers, '$followers');
   if (!empty($followers)) {
     foreach ($followers as $follower) {
-      $follower_data = a4s_instagram_get_follower_info($follower_username, $account_username = 'all4senses');
+      $follower_data = a4s_instagram_get_follower_info($follower->username, $account_username = NULL, $account_id);
       dpm($follower_data, '$follower_data');
       $out .= '<div class="follower" style="float:left; width:140px; height:290px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="follower-type">' . ($follower->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span style="background: yellow;">R</span>' : '') . '</div>'
