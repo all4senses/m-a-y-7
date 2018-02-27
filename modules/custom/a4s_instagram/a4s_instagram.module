@@ -271,7 +271,7 @@ function a4s_instagram_behat() {
  */
 function a4s_insta_get_user_tags($username = NULL) {
   $insta_users_tags_default = array(
-    'all4senses' => array('design', 'art', 'graphicdesign', 'photography', 'advertising', 'productdesign', 'architecture', 'arhitect', 'photoart', 'marketing', 'artwork'),
+    'all4senses' => array('designer', 'art', 'graphicdesign', 'photographer', 'productdesign', /*'architecture',*/ 'arhitect', 'photoart', 'marketing', 'artwork'),
     'olyayuskasova' => array(
       'nsk', 'novosibirsk', 'новосибирск', 'нск', 'нск54', 'вьетнам', 'бизнес', 'тайланд', 'тай', 'толмачево', 'дом', 'nsk54',
       'нижневартовск', 'норильск', 'якутск', 'магадан', 'сургут', 'мальдивы',
@@ -685,6 +685,9 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
   $response = file_get_contents($target_url);
   if ($response !== false) {
       $data = json_decode($response, true);
+      
+      dpm($data, '$data fromA');
+      
       if (!empty($data)) {
           switch ($data_type) {
             case 'user/profile':
@@ -741,6 +744,8 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   $shards = explode('window._sharedData = ', $insta_source['content']);
   $insta_json = explode(';</script>', $shards[1]); 
   $insta_array = json_decode($insta_json[0], TRUE);
+  
+  dpm($insta_array, '$insta_array fromRaw');
   
   switch ($data_type) {
     case 'user/profile':
