@@ -341,7 +341,7 @@ function a4s_instagram_update_7005() {
 /**
  * Add new field likes_amount to a4s_insta_clicks_by_tag.
  */
- function crc_message_update_7006() {
+ function crc_message_update_7008() {
   if (!db_field_exists('a4s_insta_clicks_by_tag', 'likes_amount')) {
     $schema = a4s_instagram_schema();
     db_add_field('a4s_insta_clicks_by_tag', 'likes_amount', $schema['a4s_insta_clicks_by_tag']['fields']['likes_amount']);
@@ -352,7 +352,7 @@ function a4s_instagram_update_7005() {
  /**
  * Add new field timestamp_taken to a4s_insta_clicks_by_tag.
  */
- function crc_message_update_7007() {
+ function crc_message_update_7009() {
   if (!db_field_exists('a4s_insta_clicks_by_tag', 'timestamp_taken')) {
     $schema = a4s_instagram_schema();
     db_add_field('a4s_insta_clicks_by_tag', 'timestamp_taken', $schema['a4s_insta_clicks_by_tag']['fields']['timestamp_taken']);
@@ -363,7 +363,7 @@ function a4s_instagram_update_7005() {
  /**
  * Add new table a4s_insta_users_extra_data.
  */
-function a4s_instagram_update_7008() {
+function a4s_instagram_update_7010() {
   $schema = a4s_instagram_schema();
   if (!db_table_exists('a4s_insta_users_extra_data')) {
     db_create_table('a4s_insta_users_extra_data', $schema['a4s_insta_users_extra_data']);
