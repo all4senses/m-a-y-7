@@ -947,7 +947,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         }
         // Skip a media if a summ of just added medias of this user and already liked or planned to be liked is more than $max_medias_by_owner_in_db_already
         if ($medias_by_owner_in_db_already + $added_user_medias_in_this_session[$result['owner']['id']] > $max_medias_by_owner_in_db_already) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because a summ of just added medias of this user and already liked or planned to be liked is more than ' . $max_medias_by_owner_in_db_already);
+          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because a summ of just added medias of this user (' . $added_user_medias_in_this_session[$result['owner']['id']] . ') and already liked or planned to be liked (' . $medias_by_owner_in_db_already . ') is more than ' . $max_medias_by_owner_in_db_already);
           continue;
         }
         
