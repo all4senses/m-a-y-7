@@ -341,7 +341,7 @@ function a4s_instagram_update_7005() {
 /**
  * Add new field likes_amount to a4s_insta_clicks_by_tag, Add new field timestamp_taken to a4s_insta_clicks_by_tag, Add new table a4s_insta_users_extra_data.
  */
- function crc_message_update_7011() {
+function crc_message_update_7011() {
   if (!db_field_exists('a4s_insta_clicks_by_tag', 'likes_amount')) {
     $schema = a4s_instagram_schema();
     db_add_field('a4s_insta_clicks_by_tag', 'likes_amount', $schema['a4s_insta_clicks_by_tag']['fields']['likes_amount']);
