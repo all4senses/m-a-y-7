@@ -392,8 +392,37 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
   }
   
   // Update a media owner data
-  if (!empty($data['owner']['username'])) {
+  if (!empty($data['owner']['username']) || !empty($data['owner']['followed_by_amount']) || !empty($data['owner']['following_amount']) || !empty($data['owner']['posts_amount']) ) {
     //$data['owner']['remote_id']
+    $extra_data_exists = db_select('a4s_insta_users_extra_data', 'e')
+        ->fields('e', array('eid'))
+        ->condition('e.remote_id', $data['owner']['remote_id'])
+        ->execute()->fetchField();
+    if ($extra_data_exists) {
+      // Update
+      db_update('a4s_insta_users_extra_data')
+        ->fields(array(
+            'username' => $data['owner']['username'], 
+            'followed_by_amount' => $data['owner']['followed_by_amount'],
+            'following_amount' => $data['owner']['following_amount'],
+            'posts_amount' => $data['owner']['posts_amount'],
+          ))
+        ->condition('e.remote_id', $data['owner']['remote_id'])
+        ->execute();
+    }
+    else {
+      // Insert
+      $eid = db_insert('a4s_insta_clicks_by_tag')->fields(
+          array(
+            'remote_id' => $data['owner']['remote_id'], 
+            'username' => $data['owner']['username'], 
+            'followed_by_amount' => $data['owner']['followed_by_amount'],
+            'following_amount' => $data['owner']['following_amount'],
+            'posts_amount' => $data['owner']['posts_amount'],
+            'timestamp_added' => REQUEST_TIME,
+          )
+         )->execute();
+    }
   }
   
 }
