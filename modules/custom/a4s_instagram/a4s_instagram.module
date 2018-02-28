@@ -934,7 +934,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         // Confine an amount of users to be liked per session
         $added_user_medias_in_this_session[$result['owner']['id']] = empty($added_user_medias_in_this_session[$result['owner']['id']]) ? 0 : $added_user_medias_in_this_session[$result['owner']['id']];
         if ($added_user_medias_in_this_session[$result['owner']['id']] >= $max_medias_per_user_for_session) {
-          dpm('Skipped ' . $result['shortcode'] . ', because we already have added ' . $max_medias_per_user_for_session . ' (max value) medias of this user in this session');
+          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already have added ' . $max_medias_per_user_for_session . ' (max value) medias of this user in this session');
           continue;
         }
         // Skip a media, if it's already is planned to be liked OR liked with maximum medias
