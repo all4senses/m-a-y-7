@@ -38,8 +38,8 @@ function a4s_instagram_schema() {
       'likes_amount' => array(
         'description' => 'Amount of likes for this media',
         'type' => 'int',
-        'not null' => TRUE,
-        //'default' => 0,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       
       'media_owner_id' => array(
@@ -357,6 +357,18 @@ function a4s_instagram_update_7006() {
   $schema = a4s_instagram_schema();
   if (!db_table_exists('a4s_insta_users_extra_data')) {
     db_create_table('a4s_insta_users_extra_data', $schema['a4s_insta_users_extra_data']);
+  }
+  
+ }
+ 
+ /**
+ * Add new field likes_amount to a4s_insta_clicks_by_tag.
+ */
+function a4s_instagram_update_7007() {
+  if (!db_field_exists('a4s_insta_clicks_by_tag', 'likes_amount')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_clicks_by_tag', 'likes_amount', $schema['a4s_insta_clicks_by_tag']['fields']['likes_amount']);
+    //drupal_get_complete_schema(TRUE);
   }
   
  }
