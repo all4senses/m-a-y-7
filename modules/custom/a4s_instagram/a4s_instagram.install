@@ -18,7 +18,7 @@ function a4s_instagram_schema() {
       'account_id' => array(
         'description' => 'Account local ID (clicked by), like 1 for all4senses, or 2 for olyayuskasova',
         'type' => 'int',
-        'size' => 'tiny',
+        //'size' => 'tiny',
         'not null' => TRUE,
         //'default' => 0,
       ),
@@ -34,6 +34,14 @@ function a4s_instagram_schema() {
         'length' => 30,
         'not null' => FALSE,
       ),
+      
+      'likes_amount' => array(
+        'description' => 'Amount of likes for this media',
+        'type' => 'int',
+        'not null' => TRUE,
+        //'default' => 0,
+      ),
+      
       'media_owner_id' => array(
         'description' => 'Owner user ID, like 2048597980',
         'type' => 'varchar',
@@ -71,6 +79,14 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
+      
+      'timestamp_taken' => array(
+        'description' => 'The Unix timestamp when media has been taken by an owner',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
       'timestamp_liked' => array(
         'description' => 'The Unix timestamp when media has been clicked/liked',
         'type' => 'int',
@@ -83,11 +99,14 @@ function a4s_instagram_schema() {
       'cid' => array('cid'),
       'account_id' => array('account_id'),
       'shortcode' => array('shortcode'),
+      'likes_amount' => array('likes_amount'),
+      
       'media_owner_id' => array('media_owner_id'),
       'tag' => array('tag'),
       'is_video' => array('is_video'),
       'liked' => array('liked'),
       'timestamp_added' => array('timestamp_added'),
+      'timestamp_taken' => array('timestamp_taken'),
       'timestamp_liked' => array('timestamp_liked'),
     ),
     'primary key' => array('cid'),
@@ -224,6 +243,67 @@ function a4s_instagram_schema() {
     'primary key' => array('rid'),
   );
   
+  $schema['a4s_insta_users_extra_data'] = array(
+    'description' => 'Instagram users extfa data, like usernames, followers, etc',
+    'fields' => array(
+      'eid' => array(
+        'description' => 'Primary Key: Local Identifier for an Instagram user.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'remote_id' => array(
+        'description' => 'User Instagram ID, like 1535208087',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'username' => array(
+        'description' => 'User Instagram username, like grase.art.education',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      
+      'followed_by_amount' => array(
+        'description' => 'Amount of followers',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'following_amount' => array(
+        'description' => 'Amount of users, that this user is following',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+      'timestamp_created' => array(
+        'description' => 'The Unix timestamp when an Instagram user has been created in Instagram',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_added' => array(
+        'description' => 'The Unix timestamp when data has been added to DB',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+
+    ),
+    'indexes' => array(
+      'eid' => array('eid'),
+      'remote_id' => array('remote_id'),
+      'username' => array('username'),
+      'followed_by_amount' => array('followed_by_amount'),
+      'following_amount' => array('following_amount'),
+      'timestamp_created' => array('timestamp_created'),
+      'timestamp_added' => array('timestamp_added'),
+    ),
+    'primary key' => array('eid'),
+  );
   
   return $schema;
 }
@@ -257,3 +337,36 @@ function a4s_instagram_update_7005() {
     db_create_table('a4s_insta_followers', $schema['a4s_insta_followers']);
   }
 }
+
+/**
+ * Add new field likes_amount to a4s_insta_clicks_by_tag.
+ */
+ function crc_message_update_7006() {
+  if (!db_field_exists('a4s_insta_clicks_by_tag', 'likes_amount')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_clicks_by_tag', 'likes_amount', $schema['a4s_insta_clicks_by_tag']['fields']['likes_amount']);
+    //drupal_get_complete_schema(TRUE);
+  }
+ }
+ 
+ /**
+ * Add new field timestamp_taken to a4s_insta_clicks_by_tag.
+ */
+ function crc_message_update_7007() {
+  if (!db_field_exists('a4s_insta_clicks_by_tag', 'timestamp_taken')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_clicks_by_tag', 'timestamp_taken', $schema['a4s_insta_clicks_by_tag']['fields']['timestamp_taken']);
+    //drupal_get_complete_schema(TRUE);
+  }
+ }
+ 
+ /**
+ * Add new table a4s_insta_users_extra_data.
+ */
+function a4s_instagram_update_7008() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_users_extra_data')) {
+    db_create_table('a4s_insta_users_extra_data', $schema['a4s_insta_users_extra_data']);
+  }
+}
+ 

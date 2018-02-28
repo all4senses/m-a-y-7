@@ -585,7 +585,7 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
   
-  dpm($results, '$results');
+  //dpm($results, '$results');
   
   switch ($data_type) {
     case 'followers':
@@ -914,8 +914,10 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           'caption' => !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) ? drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 25) : NULL,
           'media_owner_id' => $result['owner']['id'],
           'tag' => $tag,
+          'likes_amount' => $result['edge_liked_by'],
           'thumbnail' => !empty($result['thumbnail_resources'][0]['src']) ? $result['thumbnail_resources'][0]['src'] : NULL,
           'is_video' => empty($result['is_video']) ? NULL : 1,
+          'timestamp_taken' => $result['taken_at_timestamp'],
           'timestamp_added' => time(),
         );
         // Add to DB...
