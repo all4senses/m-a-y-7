@@ -277,6 +277,12 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
+      'posts_amount' => array(
+        'description' => 'Amount of posts, that this user has uploaded',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
       
       'timestamp_created' => array(
         'description' => 'The Unix timestamp when an Instagram user has been created in Instagram',
@@ -297,6 +303,7 @@ function a4s_instagram_schema() {
       'eid' => array('eid'),
       'remote_id' => array('remote_id'),
       'username' => array('username'),
+      'posts_amount' => array('posts_amount'),
       'followed_by_amount' => array('followed_by_amount'),
       'following_amount' => array('following_amount'),
       'timestamp_created' => array('timestamp_created'),
@@ -370,6 +377,18 @@ function a4s_instagram_update_7007() {
     db_add_field('a4s_insta_clicks_by_tag', 'likes_amount', $schema['a4s_insta_clicks_by_tag']['fields']['likes_amount']);
     //drupal_get_complete_schema(TRUE);
   }
-  
  }
+
+ /**
+ * Add new field posts_amount to a4s_insta_users_extra_data.
+ */
+function a4s_instagram_update_7008() {
+  if (!db_field_exists('a4s_insta_users_extra_data', 'posts_amount')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_users_extra_data', 'posts_amount', $schema['a4s_insta_users_extra_data']['fields']['posts_amount']);
+    //drupal_get_complete_schema(TRUE);
+  }
+ }
+ 
+ 
  
