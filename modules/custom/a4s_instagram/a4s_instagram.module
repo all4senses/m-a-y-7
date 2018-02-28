@@ -886,7 +886,7 @@ function a4s_instagram_get_local_account_id_by_username($username) {
  *  Example: array('design', 'art', 'interior');
  * @param type $min_medias_for_tag
  */
-function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20) {
+function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20, $max_medias_for_tag = 20) {
 
   $current_user_followers = db_select('a4s_insta_followers', 'f')
         ->fields('f', array('remote_id'))
@@ -911,6 +911,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         ->fetchCol();
     $count_existing_in_db = $count_existing_in_db_before = count($not_liked_by_tag);
     $max_id = NULL;
+    $tags_added = 0;
     while ($count_existing_in_db < $min_medias_for_tag) {
       //$results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
       $results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
@@ -971,6 +972,11 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         $lid = db_insert('a4s_insta_clicks_by_tag')->fields(
                 $media_to_db[$result['shortcode']]
                )->execute();
+        
+        $tags_added++;
+        if ($tags_added >= $max_medias_for_tag) {
+          break;
+        }
       }
       $not_liked_by_tag = array_merge($not_liked_by_tag, array_keys($media_to_db));
       $count_existing_in_db = count($not_liked_by_tag);
