@@ -898,6 +898,8 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
   $added_tags_amount = array();
   $max_medias_by_owner_in_db_already = 3;
   
+  $added_user_medias_in_this_session = array();
+  
   foreach ($tags as $tag) {
     $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
         ->fields('l', array('shortcode'))
@@ -919,12 +921,17 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         $result = $result['node'];
         // Skip a media, if its owner is our follower already
         if (in_array($result['owner']['id'], $current_user_followers)) {
-          dpm('Skipped ' . $result['shortcode'] . ', because it is our follower already');
+          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is our follower already');
           continue;
         }
         // Skip a media, if it's already is planned to be liked
         if (in_array($result['shortcode'], $not_liked_by_tag)) {
-          dpm('Skipped ' . $result['shortcode'] . ', because it is planned ito be liked already');
+          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is planned ito be liked already');
+          continue;
+        }
+        $added_user_medias_in_this_session[$result['owner']['id']] = empty($added_user_medias_in_this_session[$result['owner']['id']]) ? 0 : $added_user_medias_in_this_session[$result['owner']['id']];
+        if ($added_user_medias_in_this_session[$result['owner']['id']] >= $max_medias_by_owner_in_db_already) {
+          dpm('Skipped ' . $result['shortcode'] . ', because we already ' . $max_medias_by_owner_in_db_already . ' medias of this user in this session');
           continue;
         }
         // Skip a media, if it's already is planned to be liked OR liked with maximum medias
@@ -938,6 +945,13 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already liked or planned to be liked ' . $max_medias_by_owner_in_db_already . ' medias of this user already');
           continue;
         }
+        // Skip a media if a summ of just added medias of this user and already liked or planned to be liked is more than $max_medias_by_owner_in_db_already
+        if ($medias_by_owner_in_db_already + $added_user_medias_in_this_session[$result['owner']['id']] > $max_medias_by_owner_in_db_already) {
+          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because a summ of just added medias of this user and already liked or planned to be liked is more than ' . $max_medias_by_owner_in_db_already);
+          continue;
+        }
+        
+        $added_user_medias_in_this_session[$result['owner']['id']] = empty($added_user_medias_in_this_session[$result['owner']['id']]) ? 1 : $added_user_medias_in_this_session[$result['owner']['id']] + 1;
         
         $media_to_db[$result['shortcode']] = array(
           'account_id' => $account_id,
