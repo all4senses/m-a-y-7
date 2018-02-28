@@ -892,7 +892,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
   
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   $added_tags_amount = array();
-  $max_medias_by_owner_in_db_already = 5;
+  $max_medias_by_owner_in_db_already = 3;
   
   foreach ($tags as $tag) {
     $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
