@@ -585,6 +585,8 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
   
+  dpm($results, '$results');
+  
   switch ($data_type) {
     case 'followers':
       $data = !empty($results['data']['user']['edge_followed_by']) ? $results['data']['user']['edge_followed_by'] : NULL;
@@ -686,7 +688,7 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
   if ($response !== false) {
       $data = json_decode($response, true);
       
-      dpm($data, '$data fromA');
+      //dpm($data, '$data fromA');
       
       if (!empty($data)) {
           switch ($data_type) {
@@ -745,7 +747,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   $insta_json = explode(';</script>', $shards[1]); 
   $insta_array = json_decode($insta_json[0], TRUE);
   
-  dpm($insta_array, '$insta_array fromRaw');
+  //dpm($insta_array, '$insta_array fromRaw');
   
   switch ($data_type) {
     case 'user/profile':
