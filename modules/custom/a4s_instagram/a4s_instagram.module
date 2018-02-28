@@ -935,7 +935,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
             ->condition('l.account_id', $account_id)
             ->countQuery()->execute()->fetchField();
         if ($medias_by_owner_in_db_already >= $max_medias_by_owner_in_db_already) {
-          dpm('Skipped ' . $result['shortcode'] . ', because we alreadt liked or planned to be liked ' . $max_medias_by_owner_in_db_already . 'medias of this user already');
+          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already liked or planned to be liked ' . $max_medias_by_owner_in_db_already . ' medias of this user already');
           continue;
         }
         
