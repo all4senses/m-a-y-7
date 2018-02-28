@@ -860,7 +860,11 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   }
   */
   $added_tags_amount[$insta_tags_pulled_last['username']] = a4s_insta_get_images_to_click_byTags_singleUser($insta_tags_pulled_last['username'], array($insta_tags_pulled_last['tag']));
-  drupal_json_output(array('New added tags amount' => $added_tags_amount));
+  
+  //drupal_json_output(array('New added tags amount' => $added_tags_amount));
+  
+  dpm($added_tags_amount, '$added_tags_amount');
+  return 'finished...';
 }
 
 /**
