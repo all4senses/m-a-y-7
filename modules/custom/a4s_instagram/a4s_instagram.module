@@ -271,7 +271,7 @@ function a4s_instagram_behat() {
  */
 function a4s_insta_get_user_tags($username = NULL) {
   $insta_users_tags_default = array(
-    'all4senses' => array('designer', 'art', 'graphicdesign', 'photographer', 'productdesign', /*'architecture',*/ 'arhitect', 'photoart', 'marketing', 'artwork'),
+    'all4senses' => array('designer', /*'art',*/ 'graphicdesign', 'photographer', /*'productdesign',*/ /*'architecture',*/ 'arhitect', 'photoart', /*'marketing',*/ 'artwork'),
     'olyayuskasova' => array(
       'nsk', 'novosibirsk', 'новосибирск', 'нск', 'нск54', 'вьетнам', 'бизнес', 'тайланд', 'тай', 'толмачево', 'дом', 'nsk54',
       'нижневартовск', 'норильск', 'якутск', 'магадан', 'сургут', 'мальдивы',
@@ -884,13 +884,21 @@ function a4s_instagram_get_local_account_id_by_username($username) {
  */
 function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20) {
 
+  $current_user_followers = db_select('a4s_insta_followers', 'f')
+        ->fields('f', array('remote_id'))
+        ->condition('f.is_following_now', 1)
+        ->execute()
+        ->fetchCol();
+  
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   $added_tags_amount = array();
+  $max_medias_by_owner_in_db_already = 5;
   
   foreach ($tags as $tag) {
     $not_liked_by_tag = db_select('a4s_insta_clicks_by_tag', 'l')
         ->fields('l', array('shortcode'))
         ->condition('l.tag', $tag)
+        ->condition('l.account_id', $account_id)
         ->isNull('l.liked')
         ->execute()
         ->fetchCol();
@@ -905,9 +913,25 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
       $media_to_db = array();
       foreach ($results as $result) {
         $result = $result['node'];
+        // Skip a media, if its owner is our follower already
+        if (in_array($result['owner']['id'], $current_user_followers)) {
+          continue;
+        }
+        // Skip a media, if it's already is planned to be liked
         if (in_array($result['shortcode'], $not_liked_by_tag)) {
           continue;
         }
+        // Skip a media, if it's already is planned to be liked OR liked with maximum medias
+        $medias_by_owner_in_db_already = db_select('a4s_insta_clicks_by_tag', 'l')
+            ->fields('l', array('fid'))
+            ->condition('l.tag', $tag)
+            ->condition('l.media_owner_id', $result['owner']['id'])
+            ->condition('l.account_id', $account_id)
+            ->countQuery()->execute()->fetchField();
+        if ($medias_by_owner_in_db_already >= $max_medias_by_owner_in_db_already) {
+          continue;
+        }
+        
         $media_to_db[$result['shortcode']] = array(
           'account_id' => $account_id,
           'shortcode' => $result['shortcode'],
