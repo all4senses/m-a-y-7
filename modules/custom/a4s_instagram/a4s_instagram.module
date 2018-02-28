@@ -414,7 +414,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
     }
     else {
       // Insert
-      $eid = db_insert('a4s_insta_clicks_by_tag')->fields(
+      $eid = db_insert('a4s_insta_users_extra_data')->fields(
           array(
             'remote_id' => $data['owner']['remote_id'], 
             'username' => $data['owner']['username'], 
