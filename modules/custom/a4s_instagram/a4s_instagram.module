@@ -915,10 +915,12 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         $result = $result['node'];
         // Skip a media, if its owner is our follower already
         if (in_array($result['owner']['id'], $current_user_followers)) {
+          dpm('Skipped ' . $result['shortcode'] . ', because it is our follower already');
           continue;
         }
         // Skip a media, if it's already is planned to be liked
         if (in_array($result['shortcode'], $not_liked_by_tag)) {
+          dpm('Skipped ' . $result['shortcode'] . ', because it is planned ito be liked already');
           continue;
         }
         // Skip a media, if it's already is planned to be liked OR liked with maximum medias
@@ -929,6 +931,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
             ->condition('l.account_id', $account_id)
             ->countQuery()->execute()->fetchField();
         if ($medias_by_owner_in_db_already >= $max_medias_by_owner_in_db_already) {
+          dpm('Skipped ' . $result['shortcode'] . ', because we alreadt liked or planned to be liked ' . $max_medias_by_owner_in_db_already . 'medias of this user already');
           continue;
         }
         
