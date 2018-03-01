@@ -163,7 +163,7 @@ function a4s_instagram_behat() {
         $users_credentials = variable_get('a4s_users_credentials', array());
         if ( empty($users_credentials[$_REQUEST['target_domain']][$current_user]) ) {
           $status = FALSE;
-          $errors = 'We donot have credentials for ' . $current_user;
+          $errors = 'We do not have credentials for ' . $current_user;
           break;
         }
         
@@ -328,7 +328,7 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
                                   );
   $like_conditions_default = variable_get('a4s_like_conditions', $like_conditions_default);
   
-  foreach ($users_credentials_environment['https://instagram.com'] as $username => &$data) {
+  foreach ($users_credentials_environment['https://instagram.com'] as &$data) {
     if (empty($data['like_conditions'])) {
       $data['like_conditions'] = $like_conditions_default;
     }
