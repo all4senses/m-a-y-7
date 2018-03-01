@@ -300,6 +300,12 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
         'login_button' => 'Log in',
         'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications'),
         'turn_on_notifications_button' => 'Turn On',
+        'like_conditions' => array('media' => array('likes' => array('from' => 0, 'to' => 200)), 
+                                   'user' => array('posts' => array('from' => 1, 'to' => 500), 
+                                                   'followers' => array('from' => 1, 'to' => 2000), 
+                                                   'following' => array('from' => 20, 'to' => 800)
+                                                  )
+                                  )
        ),
       'olyayuskasova' => array(
         'u' => 'olyayuskasova', 'p' => NULL,
@@ -313,6 +319,20 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
   );
   $users_credentials_environment = variable_get('a4s_users_credentials_environment', $users_credentials_environment_default);
 
+  $like_conditions_default = array('media' => array('likes' => array('from' => 0, 'to' => 200)), 
+                                   'user' => array('posts' => array('from' => 1, 'to' => 500), 
+                                                   'followers' => array('from' => 1, 'to' => 2000), 
+                                                   'following' => array('from' => 20, 'to' => 800)
+                                                  )
+                                  );
+  $like_conditions_default = variable_get('a4s_like_conditions', $like_conditions_default);
+  
+  foreach ($users_credentials_environment['https://instagram.com'] as $username => &$data) {
+    if (empty($data['like_conditions'])) {
+      $data['like_conditions'] = $like_conditions_default;
+    }
+  }
+  
   if ($domain && $username) {
     return $users_credentials_environment[$domain][$username];
   }
