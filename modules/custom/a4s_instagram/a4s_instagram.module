@@ -323,7 +323,7 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
                                    'user' => array('posts' => array('from' => 1, 'to' => 500), 
                                                    'followers' => array('from' => 1, 'to' => 2000), 
                                                    'following' => array('from' => 20, 'to' => 800),
-                                                   'username_do_not_contains' => array('vulkan', 'casino')
+                                                   'username_does_not_contain' => array('vulkan', 'casino')
                                                   )
                                   );
   $like_conditions_default = variable_get('a4s_like_conditions', $like_conditions_default);
