@@ -392,21 +392,14 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
   
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   
-  if ($data['liked'] === 'liked_before') {
-    db_delete('a4s_insta_clicks_by_tag')
-      ->condition('shortcode', $shortcode)
-      ->condition('account_id', $account_id)
-      ->execute();
-    watchdog('Request from Behat Error', "Liked before: media $shortcode for $username,  and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
-  }
-  elseif ($data['liked'] == 'false') {
+  if ($data['liked'] == 'false' || strpos($data['liked'], 'disallowed_') !== FALSE) {
     db_delete('a4s_insta_clicks_by_tag')
       ->condition('shortcode', $shortcode)
       ->condition('account_id', $account_id)
       ->execute();
     watchdog('Request from Behat Error', "Not found: media $shortcode for $username, and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
   }
-  else {
+  elseif ($data['liked'] === 'true' || $data['liked'] === 'liked_before') {
     db_update('a4s_insta_clicks_by_tag')
       ->fields(array('liked' => 1, 'timestamp_liked' => time()))
       ->condition('shortcode', $shortcode)
