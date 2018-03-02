@@ -868,6 +868,8 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   //return;
   //set_time_limit(0);
 
+  $dpm = !empty($_GET['dpm']) ? TRUE : FALSE;
+  
   $insta_users_tags = a4s_insta_get_user_tags();
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
   
@@ -902,30 +904,15 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
   }
   variable_set('a4s_insta_tags_pulled_last', $insta_tags_pulled_last);
   
-  /*
-  if (!empty($behat_insta_cookies['https://instagram.com'])) {
-    foreach ($behat_insta_cookies['https://instagram.com'] as $username => $data) {
-      $added_tags_amount[$username] = a4s_insta_get_images_to_click_byTags_singleUser($username, $insta_users_tags[$username]);
-    }
+  $added_tags_amount[$insta_tags_pulled_last['username']] = a4s_insta_get_images_to_click_byTags_singleUser($username = $insta_tags_pulled_last['username'], $tags = array($insta_tags_pulled_last['tag']), $min_medias_for_tag = 20, $max_medias_for_tag = 20, $dpm);
+  
+  if ($dpm) {
+    dpm($added_tags_amount, '$added_tags_amount');
+    return 'Finished processing.';
   }
-  */
-  $added_tags_amount[$insta_tags_pulled_last['username']] = a4s_insta_get_images_to_click_byTags_singleUser($insta_tags_pulled_last['username'], array($insta_tags_pulled_last['tag']));
-  
-  //drupal_json_output(array('New added tags amount' => $added_tags_amount));
-  
-  dpm($added_tags_amount, '$added_tags_amount');
-  return 'finished...';
-}
-
-/**
- * 
- * @param type $username
- * @return type
- */
-function a4s_instagram_get_local_account_id_by_username($username) {
-  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
-  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
-  return !empty($map_username_to_account_id[$username]) ? $map_username_to_account_id[$username] : FALSE;
+  else {
+    drupal_json_output(array('New added tags amount' => $added_tags_amount));
+  }
 }
 
 /**
@@ -936,10 +923,13 @@ function a4s_instagram_get_local_account_id_by_username($username) {
  *  Example: array('design', 'art', 'interior');
  * @param type $min_medias_for_tag
  */
-function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20, $max_medias_for_tag = 20) {
-
+function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskasova', $tags, $min_medias_for_tag = 20, $max_medias_for_tag = 20, $dpm = FALSE) {
+  
   $like_conditions = a4s_insta_user_credentials_environment('https://instagram.com', $username)['like_conditions'];
-  dpm($like_conditions, '$like_conditions');
+  if ($dpm) {
+    dpm($like_conditions, '$like_conditions');
+  }
+  
   $users_extra_data = array();
   
   $current_user_followers = db_select('a4s_insta_followers', 'f')
@@ -967,7 +957,6 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
     $max_id = NULL;
     $tags_added = 0;
     while ($count_existing_in_db < $min_medias_for_tag) {
-      //$results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
       $results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
       if (!$results) {
         break;
@@ -978,25 +967,32 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         
         // Skip a media, if it has disallowed likes amount
         if ($result['edge_liked_by']['count'] < $like_conditions['media']['likes']['from'] || $result['edge_liked_by']['count'] > $like_conditions['media']['likes']['to']) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it has disallowed likes amount: ' . $result['edge_liked_by']['count']);
-          //dpm($result, '$result');
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it has disallowed likes amount: ' . $result['edge_liked_by']['count']);
+          }
           continue;
         }
         
         // Skip a media, if its owner is our follower already
         if (in_array($result['owner']['id'], $current_user_followers)) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is our follower already');
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is our follower already');
+          }
           continue;
         }
         // Skip a media, if it's already is planned to be liked
         if (in_array($result['shortcode'], $not_liked_by_tag)) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is planned ito be liked already');
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is planned ito be liked already');
+          }
           continue;
         }
         // Confine an amount of users to be liked per session
         $added_user_medias_in_this_session[$result['owner']['id']] = empty($added_user_medias_in_this_session[$result['owner']['id']]) ? 0 : $added_user_medias_in_this_session[$result['owner']['id']];
         if ($added_user_medias_in_this_session[$result['owner']['id']] >= $max_medias_per_user_for_session) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already have added ' . $max_medias_per_user_for_session . ' (max value) medias of this user in this session');
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already have added ' . $max_medias_per_user_for_session . ' (max value) medias of this user in this session');
+          }
           continue;
         }
         // Skip a media, if it's already is planned to be liked OR liked with maximum medias
@@ -1007,12 +1003,16 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
             ->condition('l.account_id', $account_id)
             ->countQuery()->execute()->fetchField();
         if ($medias_by_owner_in_db_already >= $max_medias_by_owner_in_db_already) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already liked or planned to be liked ' . $max_medias_by_owner_in_db_already . ' medias of this user already');
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already liked or planned to be liked ' . $max_medias_by_owner_in_db_already . ' medias of this user already');
+          }
           continue;
         }
         // Skip a media if a summ of just added medias of this user and already liked or planned to be liked is more than $max_medias_by_owner_in_db_already
         if ($medias_by_owner_in_db_already + $added_user_medias_in_this_session[$result['owner']['id']] > $max_medias_by_owner_in_db_already) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because a summ of just added medias of this user (' . $added_user_medias_in_this_session[$result['owner']['id']] . ') and already liked or planned to be liked (' . $medias_by_owner_in_db_already . ') is more than ' . $max_medias_by_owner_in_db_already);
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because a summ of just added medias of this user (' . $added_user_medias_in_this_session[$result['owner']['id']] . ') and already liked or planned to be liked (' . $medias_by_owner_in_db_already . ') is more than ' . $max_medias_by_owner_in_db_already);
+          }
           continue;
         }
         // Skip if a media or its owner has disallowed amounts, etc
@@ -1023,30 +1023,40 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
               ->execute()->fetchObject();
           $users_extra_data[$result['owner']['id']] = !$user_extra_data ? 'NA' : $user_extra_data;
         }
-        
-        
         if ($users_extra_data[$result['owner']['id']] != 'NA') {
-          //dpm($users_extra_data[$result['owner']['id']], '$users_extra_data[$result[owner][id]]');
-          //dpm($result, '$result in not NA');
-          
           $user_extra_data = $users_extra_data[$result['owner']['id']];
-          //dpm($user_extra_data, '$user_extra_data');
           if ($user_extra_data->followed_by_amount < $like_conditions['user']['followers']['from'] || $user_extra_data->followed_by_amount > $like_conditions['user']['followers']['to']) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed follower amount ' . $user_extra_data->followed_by_amount);
+            if ($dpm) {
+              dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed follower amount ' . $user_extra_data->followed_by_amount);
+              dpm($result, '$result');
+              dpm($user_extra_data, '$user_extra_data');
+            }
             continue;
           }
           if ($user_extra_data->following_amount < $like_conditions['user']['following']['from'] || $user_extra_data->following_amount > $like_conditions['user']['following']['to']) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed following amount ' . $user_extra_data->following_amount);
+            if ($dpm) {
+              dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed following amount ' . $user_extra_data->following_amount);
+              dpm($result, '$result');
+              dpm($user_extra_data, '$user_extra_data');
+            }
             continue;
           }
           if ($user_extra_data->posts_amount < $like_conditions['user']['posts']['from'] || $user_extra_data->posts_amount > $like_conditions['user']['posts']['to']) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed posts amount ' . $user_extra_data->posts_amount);
+            if ($dpm) {
+              dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed posts amount ' . $user_extra_data->posts_amount);
+              dpm($result, '$result');
+              dpm($user_extra_data, '$user_extra_data');
+            }
             continue;
           }
           if (!empty($like_conditions['user']['username_does_not_contain'])) {
             foreach ($like_conditions['user']['username_does_not_contain'] as $keyword) {
               if (strpos($user_extra_data->username, $keyword) !== FALSE) {
-                dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner username has disallowed substring in it: ' . $user_extra_data->username);
+                if ($dpm) {
+                  dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner username has disallowed substring in it: ' . $user_extra_data->username);
+                  dpm($result, '$result');
+                  dpm($user_extra_data, '$user_extra_data');
+                }
                 continue;
               }
             }
@@ -1086,6 +1096,17 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
     $added_tags_amount[$tag] = $count_existing_in_db - $count_existing_in_db_before;
   }
   return $added_tags_amount;
+}
+
+/**
+ * 
+ * @param type $username
+ * @return type
+ */
+function a4s_instagram_get_local_account_id_by_username($username) {
+  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
+  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
+  return !empty($map_username_to_account_id[$username]) ? $map_username_to_account_id[$username] : FALSE;
 }
 
 /**
