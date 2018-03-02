@@ -1424,7 +1424,7 @@ function a4s_instagram_likes_history_page() {
         ->condition('t.account_id', $account_id)
         ->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>'); // for last 1 hour
       
-  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = t.media_owner_id');
   $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));  
 
   $query->orderBy('t.timestamp_liked', 'desc');
