@@ -1026,9 +1026,11 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         
         
         if ($users_extra_data[$result['owner']['id']] != 'NA') {
-          dpm($users_extra_data[$result['owner']['id']], '$users_extra_data[$result[owner][id]]');
+          //dpm($users_extra_data[$result['owner']['id']], '$users_extra_data[$result[owner][id]]');
+          dpm($result, '$result in not NA');
           
           $user_extra_data = $users_extra_data[$result['owner']['id']];
+          dpm($user_extra_data, '$user_extra_data');
           if ($user_extra_data->followed_by_amount < $like_conditions['user']['followers']['from'] || $user_extra_data->followed_by_amount > $like_conditions['user']['followers']['to']) {
             dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed follower amount');
             continue;
