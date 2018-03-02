@@ -1429,7 +1429,7 @@ function a4s_instagram_likes_history_page() {
   $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));  
 
   $query->leftJoin('a4s_insta_followers', 'f', 'f.remote_id = t.media_owner_id');
-  $query->fields('f', array('f.is_following_now'));  
+  $query->fields('f', array('is_following_now'));  
 
   $query->orderBy('t.timestamp_liked', 'desc');
   $likes = $query->execute()->fetchAllAssoc('cid');
