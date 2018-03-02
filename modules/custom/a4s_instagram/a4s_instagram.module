@@ -1433,14 +1433,15 @@ function a4s_instagram_likes_history_page() {
   dpm($likes, '$likes');
   if (!empty($likes)) {
     foreach ($likes as $like) {
-      $out .= '<div class="like" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
+      $out .= '<div class="like" style="float:left; width:140px; height:360px; margin-right:5px; margin-bottom:30px;">'
               //. '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . utf8_decode($like->tag) . '">' . utf8_decode($like->tag) . '</a></div>'
-              . '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
+              . '<div class="like-tag">Tag: <a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
               . '<div class="like-item">Likes: ' . $like->likes_amount . '</div>'
               . '<div class="like-item">Liked: ' . date('d/m/Y H:i', $like->timestamp_liked) . '</div>'
               . '<div class="like-item">Taken: ' . date('d/m/Y H:i', $like->timestamp_taken) . '</div>'
               . '<div class="like-img"><a href="https://instagram.com/p/' . $like->shortcode . '"><img width="130px" src="' . $like->thumbnail . '"></a></div>'
-              . '<div class="like-title">' . utf8_decode($like->caption) . '</div>'
+              . '<div class="like-title" style="margin-bottom=5px;">Title: ' . utf8_decode($like->caption) . '</div>'
+              . '<div class="like-item">Username: <a href="https://instagram.com/' . $like->username . '">' . $like->username . '</a></div>'
               . '<div class="like-item">User followers: ' . $like->followed_by_amount . '</div>'
               . '<div class="like-item">User following: ' . $like->following_amount . '</div>'
               . '<div class="like-item">User posts: ' . $like->posts_amount . '</div>'
