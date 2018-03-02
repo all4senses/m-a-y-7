@@ -1027,26 +1027,26 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         
         if ($users_extra_data[$result['owner']['id']] != 'NA') {
           //dpm($users_extra_data[$result['owner']['id']], '$users_extra_data[$result[owner][id]]');
-          dpm($result, '$result in not NA');
+          //dpm($result, '$result in not NA');
           
           $user_extra_data = $users_extra_data[$result['owner']['id']];
-          dpm($user_extra_data, '$user_extra_data');
+          //dpm($user_extra_data, '$user_extra_data');
           if ($user_extra_data->followed_by_amount < $like_conditions['user']['followers']['from'] || $user_extra_data->followed_by_amount > $like_conditions['user']['followers']['to']) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed follower amount');
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed follower amount ' . $user_extra_data->followed_by_amount);
             continue;
           }
           if ($user_extra_data->following_amount < $like_conditions['user']['following']['from'] || $user_extra_data->following_amount > $like_conditions['user']['following']['to']) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed following amount');
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed following amount ' . $user_extra_data->following_amount);
             continue;
           }
           if ($user_extra_data->posts_amount < $like_conditions['user']['posts']['from'] || $user_extra_data->posts_amount > $like_conditions['user']['posts']['to']) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed posts amount');
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner has disallowed posts amount ' . $user_extra_data->posts_amount);
             continue;
           }
           if (!empty($like_conditions['user']['username_does_not_contain'])) {
             foreach ($like_conditions['user']['username_does_not_contain'] as $keyword) {
               if (strpos($user_extra_data->username, $keyword) !== FALSE) {
-                dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner username has disallowed substring in it');
+                dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because its owner username has disallowed substring in it: ' . $user_extra_data->username);
                 continue;
               }
             }
