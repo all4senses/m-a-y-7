@@ -1445,11 +1445,11 @@ function a4s_instagram_likes_history_page() {
         //->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>'); // for last 1 hour
         ->countQuery()->execute()->fetchField();
       dpm($count_user_liked, '$count_user_liked for ' . $like->username);
-      $out .= '<div class="like" style="float:left; width:140px; height:360px; margin-right:5px; margin-bottom:30px;">'
+      $out .= '<div class="like" style="float:left; width:140px; height:410px; margin-right:5px; margin-bottom:30px;">'
               //. '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . utf8_decode($like->tag) . '">' . utf8_decode($like->tag) . '</a></div>'
               . '<div class="like-tag">Tag: <a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
               . '<div class="like-title" style="margin-bottom=5px; height:47px;">Title: <a href="https://instagram.com/p/' . $like->shortcode . '">' . utf8_decode($like->caption) . '</a></div>'
-              . '<div class="like-item">Likes (when added): ' . $like->likes_amount . '</div>'
+              . '<div class="like-item">Likes <span style="font-size: 11px;">(when added)</span>: ' . $like->likes_amount . '</div>'
               . '<div class="like-item">Liked: <span style="font-size: 11px;">' . date('d/m/Y H:i', $like->timestamp_liked) . '</span></div>'
               . '<div class="like-item">Taken: <span style="font-size: 11px;">' . date('d/m/Y H:i', $like->timestamp_taken) . '</span></div>'
               . '<div class="like-img"><a href="https://instagram.com/p/' . $like->shortcode . '"><img width="130px" src="' . $like->thumbnail . '"></a></div>'
@@ -1458,7 +1458,7 @@ function a4s_instagram_likes_history_page() {
               . '<div class="like-item">User followers: ' . $like->followed_by_amount . '</div>'
               . '<div class="like-item">User following: ' . $like->following_amount . '</div>'
               . '<div class="like-item">User posts: ' . $like->posts_amount . '</div>'
-              . '<div class="like-item">I liked ' . $count_user_liked . ' medias</div>'
+              . '<div class="like-item">I liked ' . $count_user_liked . ' his medias</div>'
               . '<div class="like-item"><span style="color:' . ($like->is_following_now ? 'green;">My follower' : 'red;">Not my follower') . '</span></div>'
           
             . '</div>';
