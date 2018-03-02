@@ -977,8 +977,8 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         $result = $result['node'];
         
         // Skip a media, if it has disallowed likes amount
-        if ($result['edge_liked_by'] < $like_conditions['media']['likes']['from'] || $result['edge_liked_by'] > $like_conditions['media']['likes']['to']) {
-          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it has disallowed likes amount: ' . $result['edge_liked_by']);
+        if ($result['edge_liked_by']['count'] < $like_conditions['media']['likes']['from'] || $result['edge_liked_by']['count'] > $like_conditions['media']['likes']['to']) {
+          dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it has disallowed likes amount: ' . $result['edge_liked_by']['count']);
           
           dpm($result, '$result');
           //continue;
@@ -1062,7 +1062,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           'caption' => !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) ? drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 25) : NULL,
           'media_owner_id' => $result['owner']['id'],
           'tag' => $tag,
-          'likes_amount' => $result['edge_liked_by'],
+          'likes_amount' => $result['edge_liked_by']['count'],
           'thumbnail' => !empty($result['thumbnail_resources'][0]['src']) ? $result['thumbnail_resources'][0]['src'] : NULL,
           'is_video' => empty($result['is_video']) ? NULL : 1,
           'timestamp_taken' => $result['taken_at_timestamp'],
