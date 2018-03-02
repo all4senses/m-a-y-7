@@ -1419,15 +1419,18 @@ function a4s_instagram_likes_history_page() {
   $last_hours = !empty($args[3]) ? $args[3] : 3;
   $out = '';
   
-  $likes = db_select('a4s_insta_clicks_by_tag', 't')
-    ->fields('t', array())
-    ->condition('t.account_id', $account_id)
-    ->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
-    ->orderBy('t.timestamp_liked', 'desc')
-    ->execute()
-    ->fetchAllAssoc('cid');
+  $query = db_select('a4s_insta_clicks_by_tag', 't')
+        ->fields('t', array())
+        ->condition('t.account_id', $account_id)
+        ->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>'); // for last 1 hour
+      
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
+  $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));  
+
+  $query->orderBy('t.timestamp_liked', 'desc');
+  $likes = $query->execute()->fetchAllAssoc('cid');
   
-  //dpm($likes, '$likes');
+  dpm($likes, '$likes');
   if (!empty($likes)) {
     foreach ($likes as $like) {
       $out .= '<div class="like" style="float:left; width:140px; height:220px; margin-right:5px; margin-bottom:30px;">'
