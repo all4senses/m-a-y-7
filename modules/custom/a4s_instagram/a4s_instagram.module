@@ -1488,6 +1488,7 @@ function a4s_instagram_likes_history_page() {
   $out .= '<div>Total liked: ' . count($likes) . '</div><div>Skipped: ' . $skipped_likes_count . '</div><br/>';
   
   if (!empty($likes)) {
+    $out .= '<div class="liked-medias">';
     foreach ($likes as $like) {
       
       $count_user_liked = db_select('a4s_insta_clicks_by_tag', 't')
@@ -1514,11 +1515,12 @@ function a4s_instagram_likes_history_page() {
           
             . '</div>';
     }
+    $out .= '</div>';
   }
   if (!empty($skipped_likes)) {
     $out .= '<div class="skipped-likes"><div class="title">Skipped to like medias</div>';
     foreach ($skipped_likes as $shortcode) {
-      $out .= '<span style="margin-right:10px;"><a href="https://instagram.com/p/' . $shortcode . '">' . $shortcode . '</span>';
+      $out .= '<span style="margin-right:10px;"><a href="https://instagram.com/p/' . $shortcode . '">' . $shortcode . '</a></span>';
     }
     $out .= '</div>';
   }
