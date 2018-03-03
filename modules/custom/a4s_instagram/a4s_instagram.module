@@ -589,6 +589,12 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = N
   
   do {
     $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query);
+    // If we have an empty (FALSE) result from Instagram, break the look, and return FALSE, 
+    // because we have now some failure and don't need to update the data now
+    if ($data === FALSE) {
+      return FALSE;
+    }
+    
     if (empty($data['edges'])) {
       $data = array();
     }
@@ -643,8 +649,11 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
   $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
-  
   //dpm($results, '$results');
+  
+  if (!$results) {
+    return FALSE;
+  }
   
   switch ($data_type) {
     case 'followers':
@@ -1177,8 +1186,28 @@ function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
  * @param type $username
  */
 function a4s_instagram_update_followers_single_username($username = 'all4senses', $dpm = FALSE, $dpm_all_new = FALSE, $dpm_all_existing = FALSE) {
+  
+  // Max difference between new and exsiting data to accept changes
+  $max_difference = 30;
+  
+  $current_time = time();
+  
+  $existing_followers_unfollowed = array();
+  $new_followers_remote_ids = array();
+  $changed_followers = array();
+  
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
+  
   $new_followers = a4s_insta_queryGraphql_multiple('followers', $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10);
+  $new_followers_count = count($new_followers); 
+  
+  if  (!$new_followers_count) {
+    if ($dpm) {
+      watchdog('a4s followers', "$username: => new_followers = 0, possible failure to get the data from Instagram");
+      dpm('$new_followers = 0, possible failure to get the data from Instagram');
+      return;
+    }
+  }
   
   if ($dpm_all_new) {
     dpm($new_followers, '$new_followers');
@@ -1195,15 +1224,19 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
     dpm($existing_followers, '$existing_followers');
   }
   
+  $existing_followers_count = count($existing_followers);
+  
+  // Skip updating if we feel that we just didn't get a correct data from the Instagram, because of the fetch failure.
+  if ( ($existing_followers_count - $new_followers_count) > $max_difference) {
+    if ($dpm) {
+      watchdog('a4s followers', "$username: => existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
+      dpm("existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
+    }
+  }
+  
   if (!$existing_followers) {
     $existing_followers = array();
   }
-  
-  $current_time = time();
-  
-  $existing_followers_unfollowed = array();
-  $new_followers_remote_ids = array();
-  $changed_followers = array();
   
   // Check for new and repeated followers
   foreach ($new_followers as $new_follower) {
@@ -1549,13 +1582,22 @@ function a4s_instagram_followers_history_page() {
     ->orderBy('f.timestamp_updated', 'desc')
     ->execute()
     ->fetchAllAssoc('fid');
-  
   //dpm($followers, '$followers');
+  
+  $unfollowed = 0;
+  $new_followers = 0;
+  $changed = '';
   if (!empty($followers)) {
     foreach ($followers as $follower) {
       $follower_data = a4s_instagram_get_follower_info($follower->username, $account_username = NULL, $account_id);
       //dpm($follower_data, '$follower_data');
-      $out .= '<div class="follower" style="float:left; width:140px; height:290px; margin-right:5px; margin-bottom:30px;">'
+      if ($follower->is_following_now) {
+        $new_followers++;
+      }
+      else {
+        $unfollowed++;
+      }
+      $changed .= '<div class="follower" style="float:left; width:140px; height:290px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="follower-type">' . ($follower->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $follower->timestamp_updated) . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . date('d/m/Y H:i', $follower->timestamp_added) . '</div>'
@@ -1566,6 +1608,8 @@ function a4s_instagram_followers_history_page() {
             . '</div>';
     }
   }
-  
+  $out .= '<div>Total changed: ' . count($followers) . " (unfollowed: $unfollowed, new followers: $new_followers)</div><br/>";
+  $out .= $changed;
+      
   return "<h1 class='page-header' style='letter-spacing:3px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
 }
