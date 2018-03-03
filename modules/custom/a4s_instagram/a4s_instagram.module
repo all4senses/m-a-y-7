@@ -1602,10 +1602,11 @@ function a4s_instagram_followers_history_page() {
   $unfollowed = 0;
   $new_followers = 0;
   $changed = '';
+  $followers_data = array();
   if (!empty($followers)) {
     foreach ($followers as $follower_username) {
       $follower_data = a4s_instagram_get_follower_info($follower_username, $account_username = NULL, $account_id);
-      dpm($follower_data, '$follower_data');
+      $followers_data[] = $follower_data;
       if (empty($follower_data['main'])) {
         continue;
       }
@@ -1615,9 +1616,9 @@ function a4s_instagram_followers_history_page() {
       else {
         $unfollowed++;
       }
-      $changed .= '<div class="follower" style="float:left; width:140px; height:290px; margin-right:5px; margin-bottom:30px;">'
+      $changed .= '<div class="follower" style="float:left; width:140px; height:390px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="follower-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
-              . '<div class="like-title" style="height:10px;"><a href="https://instagram.com/' . $follower_data['main']->username . '">' . utf8_decode($follower_data['main']->full_name) . '</a></div>'
+              . '<div class="like-title" style="height:50px;"><a href="https://instagram.com/' . $follower_data['main']->username . '">' . utf8_decode($follower_data['main']->full_name) . '</a></div>'
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Updated:</div>' . $follower_data['main']->timestamp_updated . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . $follower_data['main']->timestamp_added . '</div>'
               
@@ -1630,5 +1631,6 @@ function a4s_instagram_followers_history_page() {
   $out .= '<div>Total changed: ' . count($followers) . " (unfollowed: $unfollowed, new followers: $new_followers)</div><br/>";
   $out .= $changed;
       
+  dpm($followers_data, '$followers_data');
   return "<h1 class='page-header' style='letter-spacing:3px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
 }
