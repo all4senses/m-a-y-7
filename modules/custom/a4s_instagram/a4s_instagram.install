@@ -312,6 +312,38 @@ function a4s_instagram_schema() {
     'primary key' => array('eid'),
   );
   
+  
+  $schema['a4s_insta_do_not_like_medias'] = array(
+    'description' => 'Medias, that have been skipped of liking, for some reason, like disallowed likes amount or owner followers, etc',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'Primary Key: Local Identifier for a media.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'shortcode' => array(
+        'description' => 'Media Shortcode for url, like in /p/BfYkeainnSc',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when this item has been added',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+
+    ),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'shortcode' => array('shortcode'),
+      'timestamp' => array('timestamp'),
+    ),
+    'primary key' => array('nid'),
+  );
+  
   return $schema;
 }
 
@@ -390,5 +422,13 @@ function a4s_instagram_update_7008() {
   }
  }
  
- 
+ /**
+ * Add new table a4s_insta_do_not_like_medias.
+ */
+function a4s_instagram_update_7009() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_do_not_like_medias')) {
+    db_create_table('a4s_insta_do_not_like_medias', $schema['a4s_insta_do_not_like_medias']);
+  }
+}
  

@@ -391,6 +391,14 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
       ->condition('shortcode', $shortcode)
       ->condition('account_id', $account_id)
       ->execute();
+    
+    $nid = db_insert('a4s_insta_do_not_like_medias')->fields(
+        array(
+          'shortcode' => $shortcode,
+          'timestamp' => REQUEST_TIME,
+        )
+       )->execute();
+    
     watchdog('Request from Behat Error', "Not found: media $shortcode for $username, and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
   }
   elseif ($data['liked'] === 'true' || $data['liked'] === 'liked_before') {
@@ -1015,6 +1023,19 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           }
           continue;
         }
+        
+        // Skip if a media has been already skipped to like before for some reason
+        $already_skipped_to_like = db_select('a4s_insta_do_not_like_medias', 'n')
+              ->fields('n', array('nid'))
+              ->condition('n.shortcode', $result['shortcode'])
+              ->execute()->fetchField();
+        if ($already_skipped_to_like) {
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it has been already skipped to like before for some reason');
+          }
+          continue;
+        }
+        
         // Skip if a media or its owner has disallowed amounts, etc
         if (empty($users_extra_data[$result['owner']['id']])) {
           $user_extra_data = db_select('a4s_insta_users_extra_data', 'e')
@@ -1063,6 +1084,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           }
           
         } // End of if ($users_extra_data[$result['owner']['id']] != 'NA') {
+        
         
         
         $added_user_medias_in_this_session[$result['owner']['id']] = empty($added_user_medias_in_this_session[$result['owner']['id']]) ? 1 : $added_user_medias_in_this_session[$result['owner']['id']] + 1;
@@ -1444,7 +1466,6 @@ function a4s_instagram_likes_history_page() {
         ->condition('t.liked', 1)
         //->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>'); // for last 1 hour
         ->countQuery()->execute()->fetchField();
-      dpm($count_user_liked, '$count_user_liked for ' . $like->username);
       $out .= '<div class="like" style="float:left; width:140px; height:410px; margin-right:5px; margin-bottom:30px;">'
               //. '<div class="like-tag"><a href="https://instagram.com/explore/tags/' . utf8_decode($like->tag) . '">' . utf8_decode($like->tag) . '</a></div>'
               . '<div class="like-tag">Tag: <a href="https://instagram.com/explore/tags/' . $like->tag . '">' . $like->tag . '</a></div>'
