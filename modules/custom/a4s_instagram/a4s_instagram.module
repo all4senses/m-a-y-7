@@ -1520,7 +1520,7 @@ function a4s_instagram_likes_history_page() {
   if (!empty($skipped_likes)) {
     $out .= '<div class="skipped-likes"><div class="title" style="font-weight:bold; color:red;">Skipped to like medias</div>';
     foreach ($skipped_likes as $shortcode) {
-      $out .= '<div class="skipped-like"><a style="padding-right:10px;" href="https://instagram.com/p/' . $shortcode . '">' . $shortcode . '</a></div>';
+      $out .= '<div class="skipped-like" style="float:left;"><a style="padding-right:10px;" href="https://instagram.com/p/' . $shortcode . '">' . $shortcode . '</a></div>';
     }
     $out .= '</div>';
   }
