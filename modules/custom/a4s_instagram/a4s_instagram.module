@@ -1621,7 +1621,7 @@ function a4s_instagram_followers_history_page() {
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . $follower_data['main']->timestamp_added . '</div>'
               
               . '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
-              . '<div class="follower-img"><a href="https://instagram.com/' . $follower_data['main']->username . '"><img width="130px" src="' . $follower['main']->thumbnail . '"></a></div>'
+              . '<div class="follower-img"><a href="https://instagram.com/' . $follower_data['main']->username . '"><img width="130px" src="' . $follower_data['main']->thumbnail . '"></a></div>'
               . '<div class="like-title"><a href="https://instagram.com/' . $follower_data['main']->username . '">' . utf8_decode($follower_data['main']->full_name) . '</a></div>'
             . '</div>';
     }
