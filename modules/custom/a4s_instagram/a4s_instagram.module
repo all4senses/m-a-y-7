@@ -1582,7 +1582,7 @@ function a4s_instagram_followers_history_page() {
     ->orderBy('f.timestamp_updated', 'desc')
     ->execute()
     ->fetchAllAssoc('fid');
-  //dpm($followers, '$followers');
+  dpm($followers, '$followers');
   
   $unfollowed = 0;
   $new_followers = 0;
@@ -1590,7 +1590,7 @@ function a4s_instagram_followers_history_page() {
   if (!empty($followers)) {
     foreach ($followers as $follower) {
       $follower_data = a4s_instagram_get_follower_info($follower->username, $account_username = NULL, $account_id);
-      //dpm($follower_data, '$follower_data');
+      dpm($follower_data, '$follower_data');
       if ($follower->is_following_now) {
         $new_followers++;
       }
