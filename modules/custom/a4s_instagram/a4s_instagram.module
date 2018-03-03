@@ -1477,13 +1477,15 @@ function a4s_instagram_likes_history_page() {
   $likes = $query->execute()->fetchAllAssoc('cid');
   
   $skipped_likes = db_select('a4s_insta_do_not_like_medias', 'n')
-        ->fields('n', array('nid'))
+        ->fields('n', array('shortcode'))
         ->condition('n.account_id', $account_id)
         ->condition('n.timestamp', REQUEST_TIME - (60*60*$last_hours), '>')
-        ->countQuery()->execute()->fetchField();
+        ->execute()->fetchCol();
+        //->countQuery()->execute()->fetchField();
+  $skipped_likes_count = count($skipped_likes);
   
   //dpm($likes, '$likes');
-  $out .= '<div>Total liked: ' . count($likes) . '</div><div>Skipped: ' . $skipped_likes . '</div><br/>';
+  $out .= '<div>Total liked: ' . count($likes) . '</div><div>Skipped: ' . $skipped_likes_count . '</div><br/>';
   
   if (!empty($likes)) {
     foreach ($likes as $like) {
@@ -1512,6 +1514,13 @@ function a4s_instagram_likes_history_page() {
           
             . '</div>';
     }
+  }
+  if (!empty($skipped_likes)) {
+    $out .= '<div class="skipped-likes"><div class="title">Skipped to like medias</div>';
+    foreach ($skipped_likes as $shortcode) {
+      $out .= '<span style="margin-right:10px;"><a href="https://instagram.com/p/' . $shortcode . '">' . $shortcode . '</span>';
+    }
+    $out .= '</div>';
   }
   
   return "<h1 class='page-header' style='letter-spacing:12px;'>Likes for the last $last_hours hours:</h1><br/>'$out";
