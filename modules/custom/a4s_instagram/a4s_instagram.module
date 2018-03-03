@@ -1623,7 +1623,7 @@ function a4s_instagram_followers_history_page() {
               
               . '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
               . '<div class="follower-img"><a href="https://instagram.com/' . $follower_data['main']->username . '"><img width="130px" src="' . $follower_data['main']->thumbnail . '"></a></div>'
-              . '<div class="follower-item">Auto liked by me: ' . count($follower_data['main']->auto_liked_medias) . '</div>'
+              . '<div class="follower-item">Auto liked by me: ' . count($follower_data['auto_liked_medias']) . '</div>'
             . '</div>';
     }
   }
