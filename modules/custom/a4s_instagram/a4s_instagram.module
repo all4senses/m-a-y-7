@@ -1461,7 +1461,7 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
   }
 
   // Get user liked by us medias
-  $follower_data['liked_medias'] = db_select('a4s_insta_clicks_by_tag', 'm')
+  $follower_data['auto_liked_medias'] = db_select('a4s_insta_clicks_by_tag', 'm')
     ->fields('m', array('shortcode'))
     ->condition('m.account_id', $account_id)
     ->condition('m.media_owner_id', $follower_data['main']->remote_id)
@@ -1612,8 +1612,8 @@ function a4s_instagram_followers_history_page() {
       }
       $changed .= '<div class="follower" style="float:left; width:140px; height:290px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="follower-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
-              . '<div class="follower-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $follower_data['main']->timestamp_updated) . '</div>'
-              . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . date('d/m/Y H:i', $follower_data['main']->timestamp_added) . '</div>'
+              . '<div class="follower-date" style="margin-bottom:10px;">' . (empty($follower_data['main']->timestamp_updated) ? 'N/A' : date('d/m/Y H:i', $follower_data['main']->timestamp_updated) ) . '</div>'
+              . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . (empty($follower_data['main']->timestamp_added) ? 'N/A' : date('d/m/Y H:i', $follower_data['main']->timestamp_added) ) . '</div>'
               
               . '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
               . '<div class="follower-img"><a href="https://instagram.com/' . $follower_data['main']->username . '"><img width="130px" src="' . $follower->thumbnail . '"></a></div>'
