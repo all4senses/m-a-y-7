@@ -328,6 +328,13 @@ function a4s_instagram_schema() {
         'length' => 100,
         'not null' => TRUE,
       ),
+      'account_id' => array(
+        'description' => 'Account local ID, like 1 for all4senses, or 2 for olyayuskasova',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        //'default' => 0,
+      ),
       'timestamp' => array(
         'description' => 'The Unix timestamp when this item has been added',
         'type' => 'int',
@@ -339,6 +346,7 @@ function a4s_instagram_schema() {
     'indexes' => array(
       'nid' => array('nid'),
       'shortcode' => array('shortcode'),
+      'account_id' => array('account_id'),
       'timestamp' => array('timestamp'),
     ),
     'primary key' => array('nid'),
@@ -431,4 +439,15 @@ function a4s_instagram_update_7009() {
     db_create_table('a4s_insta_do_not_like_medias', $schema['a4s_insta_do_not_like_medias']);
   }
 }
+
+/**
+ * Add new field account_id to a4s_insta_do_not_like_medias.
+ */
+function a4s_instagram_update_7010() {
+  if (!db_field_exists('a4s_insta_do_not_like_medias', 'account_id')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_do_not_like_medias', 'account_id', $schema['a4s_insta_do_not_like_medias']['fields']['account_id']);
+    //drupal_get_complete_schema(TRUE);
+  }
+ }
  

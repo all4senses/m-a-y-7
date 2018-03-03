@@ -395,6 +395,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
     $nid = db_insert('a4s_insta_do_not_like_medias')->fields(
         array(
           'shortcode' => $shortcode,
+          'account_id' => $account_id,
           'timestamp' => REQUEST_TIME,
         )
        )->execute();
@@ -1028,6 +1029,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         $already_skipped_to_like = db_select('a4s_insta_do_not_like_medias', 'n')
               ->fields('n', array('nid'))
               ->condition('n.shortcode', $result['shortcode'])
+              ->condition('n.account_id', $account_id)
               ->execute()->fetchField();
         if ($already_skipped_to_like) {
           if ($dpm) {
