@@ -1465,7 +1465,14 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
     }
   }
 
-  // Get user liked by us medias
+  // Get a user statistics
+  $follower_data['user_statistics'] = db_select('a4s_insta_users_extra_data', 'd')
+    ->fields('d', array('followed_by_amount', 'following_amount', 'posts_amount'))
+    ->condition('d.remote_id', $follower_data['main']->remote_id)
+    ->execute()
+    ->fetchObject();
+  
+  // Get a user liked by us medias
   $follower_data['auto_liked_medias'] = db_select('a4s_insta_clicks_by_tag', 'm')
     ->fields('m', array('shortcode'))
     ->condition('m.account_id', $account_id)
