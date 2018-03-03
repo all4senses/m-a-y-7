@@ -1320,9 +1320,10 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
     if (!in_array($existing_follower->remote_id, $new_followers_remote_ids)) {
         
         if (!$existing_follower->is_following_now) {
-          if ($dpm) {
-            $existing_followers_unfollowed[] = (array) $existing_follower;
-          }
+          $existing_followers_unfollowed[] = (array) $existing_follower;
+//          if ($dpm) {
+//            dpm($existing_follower, 'Still not follower, no changes');
+//          }
         }
         else {
             // This follower has been unfollowed
