@@ -1205,7 +1205,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
     if ($dpm) {
       watchdog('a4s followers', "$username: => new_followers = 0, possible failure to get the data from Instagram");
       dpm('$new_followers = 0, possible failure to get the data from Instagram');
-      return;
+      return FALSE;
     }
   }
   
@@ -1236,6 +1236,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
     if ($dpm) {
       watchdog('a4s followers', "$username: => existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
       dpm("existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
+      return FALSE;
     }
   }
   
