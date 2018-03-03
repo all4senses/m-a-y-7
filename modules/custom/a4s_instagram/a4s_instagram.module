@@ -425,7 +425,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
             'following_amount' => $data['owner']['following_amount'],
             'posts_amount' => $data['owner']['posts_amount'],
           ))
-        ->condition('e.remote_id', $data['owner']['remote_id'])
+        ->condition('remote_id', $data['owner']['remote_id'])
         ->execute();
     }
     else {
