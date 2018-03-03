@@ -1458,7 +1458,15 @@ function a4s_instagram_likes_history_page() {
   $query->orderBy('t.timestamp_liked', 'desc');
   $likes = $query->execute()->fetchAllAssoc('cid');
   
+  $skipped_likes = db_select('a4s_insta_do_not_like_medias', 'n')
+        ->fields('n', array('nid'))
+        ->condition('n.account_id', $account_id)
+        ->condition('n.timestamp', REQUEST_TIME - (60*60*$last_hours), '>')
+        ->countQuery()->execute()->fetchField();
+  
   dpm($likes, '$likes');
+  $out .= '<div>Total liked: ' . count($likes) . '</div><div>Skipped: ' . $skipped_likes . '</div><br/>';
+  
   if (!empty($likes)) {
     foreach ($likes as $like) {
       
