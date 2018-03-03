@@ -989,13 +989,15 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           }
           continue;
         }
+        /*
         // Skip a media, if it's already is planned to be liked
         if (in_array($result['shortcode'], $not_liked_by_tag)) {
           if ($dpm) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is planned ito be liked already');
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is planned to be liked already');
           }
           continue;
         }
+        */
         // Confine an amount of users to be liked per session
         $added_user_medias_in_this_session[$result['owner']['id']] = empty($added_user_medias_in_this_session[$result['owner']['id']]) ? 0 : $added_user_medias_in_this_session[$result['owner']['id']];
         if ($added_user_medias_in_this_session[$result['owner']['id']] >= $max_medias_per_user_for_session) {
@@ -1005,22 +1007,38 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
           continue;
         }
         // Skip a media, if it's already is planned to be liked OR liked with maximum medias
-        $medias_by_owner_in_db_already = db_select('a4s_insta_clicks_by_tag', 'l')
+        /*
+        $medias_by_owner_in_db_already_count = db_select('a4s_insta_clicks_by_tag', 'l')
             ->fields('l', array('fid'))
             ->condition('l.tag', $tag)
             ->condition('l.media_owner_id', $result['owner']['id'])
             ->condition('l.account_id', $account_id)
             ->countQuery()->execute()->fetchField();
-        if ($medias_by_owner_in_db_already >= $max_medias_by_owner_in_db_already) {
+        */
+        $medias_by_owner_in_db_already = db_select('a4s_insta_clicks_by_tag', 'l')
+            ->fields('l', array('shortcode'))
+            ->condition('l.tag', $tag)
+            ->condition('l.media_owner_id', $result['owner']['id'])
+            ->condition('l.account_id', $account_id)
+            ->execute()->fetchCol();
+        // Skip a media, if it's already is liked or planned to be liked
+        if (in_array($result['shortcode'], $medias_by_owner_in_db_already)) {
+          if ($dpm) {
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because it is planned to be liked already');
+          }
+          continue;
+        }
+        $medias_by_owner_in_db_already_count = count($medias_by_owner_in_db_already);
+        if ($medias_by_owner_in_db_already_count >= $max_medias_by_owner_in_db_already) {
           if ($dpm) {
             dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because we already liked or planned to be liked ' . $max_medias_by_owner_in_db_already . ' medias of this user already');
           }
           continue;
         }
         // Skip a media if a summ of just added medias of this user and already liked or planned to be liked is more than $max_medias_by_owner_in_db_already
-        if ($medias_by_owner_in_db_already + $added_user_medias_in_this_session[$result['owner']['id']] > $max_medias_by_owner_in_db_already) {
+        if ($medias_by_owner_in_db_already_count + $added_user_medias_in_this_session[$result['owner']['id']] > $max_medias_by_owner_in_db_already) {
           if ($dpm) {
-            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because a summ of just added medias of this user (' . $added_user_medias_in_this_session[$result['owner']['id']] . ') and already liked or planned to be liked (' . $medias_by_owner_in_db_already . ') is more than ' . $max_medias_by_owner_in_db_already);
+            dpm('Skipped ' . $result['shortcode'] . ' (user ' . $result['owner']['id'] . '), because a summ of just added medias of this user (' . $added_user_medias_in_this_session[$result['owner']['id']] . ') and already liked or planned to be liked (' . $medias_by_owner_in_db_already_count . ') is more than ' . $max_medias_by_owner_in_db_already);
           }
           continue;
         }
