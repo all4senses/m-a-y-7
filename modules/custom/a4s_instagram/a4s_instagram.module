@@ -1224,7 +1224,12 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
     dpm($existing_followers, '$existing_followers');
   }
   
-  $existing_followers_count = count($existing_followers);
+  $existing_followers_count = 0;
+  foreach ($existing_followers as $existing_follower) {
+    if (!empty($existing_follower->is_following_now)) {
+      $existing_followers_count++;
+    }
+  }
   
   // Skip updating if we feel that we just didn't get a correct data from the Instagram, because of the fetch failure.
   if ( ($existing_followers_count - $new_followers_count) > $max_difference) {
