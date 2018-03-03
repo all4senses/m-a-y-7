@@ -1464,7 +1464,7 @@ function a4s_instagram_likes_history_page() {
         ->condition('n.timestamp', REQUEST_TIME - (60*60*$last_hours), '>')
         ->countQuery()->execute()->fetchField();
   
-  dpm($likes, '$likes');
+  //dpm($likes, '$likes');
   $out .= '<div>Total liked: ' . count($likes) . '</div><div>Skipped: ' . $skipped_likes . '</div><br/>';
   
   if (!empty($likes)) {
