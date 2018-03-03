@@ -332,8 +332,8 @@ function a4s_instagram_schema() {
         'description' => 'Account local ID, like 1 for all4senses, or 2 for olyayuskasova',
         'type' => 'int',
         'size' => 'tiny',
-        'not null' => TRUE,
-        //'default' => 0,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       'timestamp' => array(
         'description' => 'The Unix timestamp when this item has been added',
