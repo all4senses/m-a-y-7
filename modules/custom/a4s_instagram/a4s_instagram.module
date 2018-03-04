@@ -202,10 +202,11 @@ function a4s_instagram_behat() {
 
         $current_user = $_REQUEST['username'];
         
-        if ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
-          $current_tag = 'back-like';
-        }
-        else {
+//        if ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
+//          $current_tag = 'back-like';
+//        }
+//        else 
+          {
         
               $insta_current_user_tags = a4s_insta_get_user_tags($current_user);
               $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
