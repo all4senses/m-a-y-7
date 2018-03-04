@@ -1795,8 +1795,8 @@ function a4s_instagram_followers_history_page() {
               . '<div class="follower-item">Auto liked by me: ' . count($follower_data['auto_liked_medias']) . '</div>'
               . (empty($follower_data['user_statistics']) ? '' : ''
                   . '<div class="follower-item" style="margin-top:5px;">Followers: ' . $follower_data['user_statistics']->followed_by_amount . '</div>'
-                  . '<div class="follower-item">Followers: ' . $follower_data['user_statistics']->following_amount . '</div>'
-                  . '<div class="follower-item">Followers: ' . $follower_data['user_statistics']->posts_amount . '</div>'
+                  . '<div class="follower-item">Following: ' . $follower_data['user_statistics']->following_amount . '</div>'
+                  . '<div class="follower-item">Posts: ' . $follower_data['user_statistics']->posts_amount . '</div>'
                 )
             . '</div>';
     }
