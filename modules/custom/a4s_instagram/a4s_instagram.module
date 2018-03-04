@@ -756,6 +756,22 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
   return $data_all;
 }
 
+
+function test() {
+  $target = 'Bf1Kk9pBPip';
+  $target_url = 'https://instagram.com/p/'. $target;
+  $target_url .= '?max_id=' . $max_id; 
+  $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
+  $shards = explode('window._sharedData = ', $insta_source['content']);
+  $insta_json = explode(';</script>', $shards[1]); 
+  $insta_array = json_decode($insta_json[0], TRUE);
+  
+  
+  dpm($insta_array, '$insta_array');
+}
+
+
+
 /**
  * 
  * @param type $data_type
@@ -769,6 +785,9 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
     case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
       break;
+    case 'media/likers':
+      $target_url = 'https://instagram.com/p/'. $target;
+      break;
     case 'tag':
       $target_url = 'https://instagram.com/explore/tags/'. $target;
       break;
@@ -778,7 +797,7 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
     $target_url .= '&max_id=' . $max_id; 
   }
   $response = file_get_contents($target_url);
-  if ($response !== false) {
+  if ($response !== FALSE) {
       $data = json_decode($response, true);
       
       //dpm($data, '$data fromA');
@@ -797,6 +816,9 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
               break;
             case 'user/media':
               $out = !empty($data['user']['media']) ? $data['user']['media'] : NULL;
+              break;
+            case 'media/likers':
+              $out = !empty($data['graphql']['shortcode_media']['edge_media_preview_like']['edges']) ? $data['graphql']['shortcode_media']['edge_media_preview_like']['edges'] : NULL;
               break;
             case 'tag':
               $out = !empty($data['graphql']['hashtag']['edge_hashtag_to_media']) ? $data['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
@@ -825,6 +847,9 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
     case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
       break;
+    case 'media/likers':
+      $target_url = 'https://instagram.com/p/'. $target;
+      break;
     case 'tag':
       $target_url = 'https://instagram.com/explore/tags/'. $target;
       break;
@@ -850,6 +875,9 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
       break;
     case 'user/media':
       $out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']['media']) ? $insta_array['entry_data']['ProfilePage'][0]['user']['media'] : NULL;
+      break;
+    case 'media/likers':
+      $out = !empty($insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['edges']) ? $insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['edges'] : NULL;
       break;
     case 'tag':
       $out = !empty($insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']) ? $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
