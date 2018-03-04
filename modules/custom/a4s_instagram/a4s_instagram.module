@@ -1026,7 +1026,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         */
         $medias_by_owner_in_db_already = db_select('a4s_insta_clicks_by_tag', 'l')
             ->fields('l', array('shortcode'))
-            ->condition('l.tag', $tag)
+            //->condition('l.tag', $tag)
             ->condition('l.media_owner_id', $result['owner']['id'])
             ->condition('l.account_id', $account_id)
             ->execute()->fetchCol();
@@ -1116,7 +1116,7 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         
         
         
-        $added_user_medias_in_this_session[$result['owner']['id']] = empty($added_user_medias_in_this_session[$result['owner']['id']]) ? 1 : $added_user_medias_in_this_session[$result['owner']['id']] + 1;
+        $added_user_medias_in_this_session[$result['owner']['id']]++;
         
         $media_to_db[$result['shortcode']] = array(
           'account_id' => $account_id,
