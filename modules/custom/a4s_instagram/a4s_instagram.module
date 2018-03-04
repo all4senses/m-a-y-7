@@ -202,36 +202,42 @@ function a4s_instagram_behat() {
 
         $current_user = $_REQUEST['username'];
         
-        $insta_current_user_tags = a4s_insta_get_user_tags($current_user);
-        $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
-        //watchdog('Request media from handler', '$insta_last_data_processed ==> <pre>'. print_r($insta_last_data_processed, TRUE) . '</pre>');
+        if ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
+          $current_tag = 'back-like';
+        }
+        else {
         
-        if (count($insta_current_user_tags) > 1) {
-          if (empty($insta_last_data_processed['tag'][$current_user]) || !in_array($insta_last_data_processed['tag'][$current_user], $insta_current_user_tags)) {
-            $current_tag = $insta_current_user_tags[0];
-          }
-          else {
-            foreach ($insta_current_user_tags as $key => $tag) {
-              if ($tag == $insta_last_data_processed['tag'][$current_user]) {
-                if ($key + 1 >= count($insta_current_user_tags)) {
+              $insta_current_user_tags = a4s_insta_get_user_tags($current_user);
+              $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
+              //watchdog('Request media from handler', '$insta_last_data_processed ==> <pre>'. print_r($insta_last_data_processed, TRUE) . '</pre>');
+
+              if (count($insta_current_user_tags) > 1) {
+                if (empty($insta_last_data_processed['tag'][$current_user]) || !in_array($insta_last_data_processed['tag'][$current_user], $insta_current_user_tags)) {
                   $current_tag = $insta_current_user_tags[0];
                 }
                 else {
-                  $current_tag = $insta_current_user_tags[$key + 1];
+                  foreach ($insta_current_user_tags as $key => $tag) {
+                    if ($tag == $insta_last_data_processed['tag'][$current_user]) {
+                      if ($key + 1 >= count($insta_current_user_tags)) {
+                        $current_tag = $insta_current_user_tags[0];
+                      }
+                      else {
+                        $current_tag = $insta_current_user_tags[$key + 1];
+                      }
+                    }
+                  }
                 }
               }
-            }
-          }
+              else {
+                $current_tag = $insta_current_user_tags[0];
+              }
+              $insta_last_data_processed['tag'][$current_user] = $current_tag;
+
+              variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         }
-        else {
-          $current_tag = $insta_current_user_tags[0];
-        }
-        $insta_last_data_processed['tag'][$current_user] = $current_tag;
-        
-        variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
         $amount = 5;
-        $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount);
+        $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount, $return_type = 'data');
         $response_data['tag'] = $current_tag;
         break;
         
@@ -344,7 +350,7 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
  * @param type $amount
  * @return type
  */
-function a4s_insta_get_medias_to_like($username, $tag, $amount){
+function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = 'data'){
   
 //  $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
 //  $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
@@ -353,25 +359,43 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount){
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   
   //watchdog('Request media from handler', '$account_id = '. $account_id);
-  
-  $query = db_select('a4s_insta_clicks_by_tag', 'l')
-        ->fields('l', array('shortcode', 'caption', 'media_owner_id'))
-        ->condition('l.tag', $tag)
-        ->condition('l.account_id', $account_id)
-        ->isNull('l.liked');
+  switch ($return_type) {
+    case 'data':
       
-  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
-  $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));
-  $query->orderBy('l.timestamp_added')
-        ->range(0, $amount);
-  $not_liked_by_tag = $query->execute()->fetchAllAssoc('shortcode');
-  
-  foreach ($not_liked_by_tag as $key => $data) {
-    unset($data->shortcode);
-    $not_liked_by_tag[$key] = json_encode((array) $data);
+      $query = db_select('a4s_insta_clicks_by_tag', 'l')
+            ->fields('l', array('shortcode', 'caption', 'media_owner_id'))
+            ->condition('l.tag', $tag)
+            ->condition('l.account_id', $account_id)
+            ->isNull('l.liked');
+
+      $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
+      $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));
+      $query->orderBy('l.timestamp_added')
+            ->range(0, $amount);
+      $not_liked_by_tag = $query->execute()->fetchAllAssoc('shortcode');
+
+      foreach ($not_liked_by_tag as $key => $data) {
+        unset($data->shortcode);
+        $not_liked_by_tag[$key] = json_encode((array) $data);
+      }
+
+      return $not_liked_by_tag;
+      
+      
+      
+    case 'amount':
+      
+      $query = db_select('a4s_insta_clicks_by_tag', 'l')
+            ->fields('l', array('shortcode', 'caption', 'media_owner_id'))
+            ->condition('l.tag', $tag)
+            ->condition('l.account_id', $account_id)
+            ->isNull('l.liked');
+      $not_liked_by_tag_amount = $query->countQuery()->execute()->fetchField();
+
+      return $not_liked_by_tag_amount;
+      
   }
-  
-  return $not_liked_by_tag;
+  return NULL;
 }
 
 /**
@@ -1202,8 +1226,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   $new_followers_count = count($new_followers); 
   
   if  (!$new_followers_count) {
+    watchdog('a4s followers', "$username: => new_followers = 0, possible failure to get the data from Instagram");
     if ($dpm) {
-      watchdog('a4s followers', "$username: => new_followers = 0, possible failure to get the data from Instagram");
       dpm('$new_followers = 0, possible failure to get the data from Instagram');
       return FALSE;
     }
@@ -1233,8 +1257,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   
   // Skip updating if we feel that we just didn't get a correct data from the Instagram, because of the fetch failure.
   if ( ($existing_followers_count - $new_followers_count) > $max_difference) {
+    watchdog('a4s followers', "$username: => existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
     if ($dpm) {
-      watchdog('a4s followers', "$username: => existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
       dpm("existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
       return FALSE;
     }
@@ -1273,6 +1297,40 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
       if ($dpm) {
         dpm($new_follower, 'NEW, not yet existing $new_follower');
       }
+      
+      // Plan to like several medias of this user in turn...
+      $new_follower_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $new_follower['username'], $max_id = NULL);
+      if (!empty($new_follower_medias['nodes']) && count($new_follower_medias['nodes']) > 10) {
+        $new_follower_medias = $new_follower_medias['nodes'];
+        $new_follower_medias_count = count($new_follower_medias);
+        $new_follower_medias_to_like = array();
+        $media_indexes_to_like = array($new_follower_medias_count - 1, intval($new_follower_medias_count/2));
+        foreach ($media_indexes_to_like as $media_index_to_like) {
+          $new_follower_media = $new_follower_medias[$media_index_to_like];
+          $new_follower_media_to_like_data = array(
+            'account_id' => $account_id,
+            'shortcode' => $new_follower_media['code'],
+            'caption' => !empty($new_follower_media['caption']) ? drupal_substr(utf8_encode($new_follower_media['caption']), 0, 25) : NULL,
+            'media_owner_id' => $new_follower_media['id'],
+            'tag' => 'back-like',
+            'likes_amount' => $new_follower_media['likes']['count'],
+            'thumbnail' => !empty($new_follower_media['thumbnail_resources'][0]['src']) ? $new_follower_media['thumbnail_resources'][0]['src'] : NULL,
+            'is_video' => empty($new_follower_media['is_video']) ? NULL : 1,
+            'timestamp_taken' => $new_follower_media['date'],
+            'timestamp_added' => REQUEST_TIME,
+          );
+          // Add to DB...
+          $cid = db_insert('a4s_insta_clicks_by_tag')->fields(
+                  $new_follower_media_to_like_data
+                 )->execute();
+          $new_follower_medias_to_like[] = $new_follower_media['code'];
+        }
+        watchdog('a4s followers, like back', 'Added ' . count($new_follower_medias_to_like) . ' medias to like for a new follower ' . $new_follower['username']);
+        if ($dpm) {
+          dpm($new_follower_medias_to_like, 'Added medias to like for a new follower ' . $new_follower['username']);
+        }
+      }
+      
     }
     else {
       if (!$existing_follower->is_following_now) {
