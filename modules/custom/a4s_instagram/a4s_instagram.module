@@ -1710,6 +1710,6 @@ function a4s_instagram_followers_history_page() {
   $out .= '<div>Total changed: ' . count($followers) . " (unfollowed: $unfollowed, new followers: $new_followers)</div><br/>";
   $out .= $changed;
       
-  dpm($followers_data, '$followers_data');
+  //dpm($followers_data, '$followers_data');
   return "<h1 class='page-header' style='letter-spacing:3px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
 }
