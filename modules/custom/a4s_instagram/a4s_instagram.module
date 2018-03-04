@@ -206,6 +206,9 @@ function a4s_instagram_behat() {
           $current_tag = 'back-like';
           $response_data['force_like'] = TRUE;
         }
+        elseif ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'unfollow-like', $amount = NULL, $return_type = 'amount')) {
+          $current_tag = 'unfollow-like';
+        }
         else {
         
               $insta_current_user_tags = a4s_insta_get_user_tags($current_user);
@@ -1233,7 +1236,56 @@ function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
   $results = json_decode(curl_exec($ch), TRUE);
   curl_close($ch);
 }
-      
+  
+/**
+ * 
+ * @param type $account_id
+ * @param type $username
+ * @param type $tag
+ * @param type $amount
+ */
+function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $username_remote_id, $tag = 'back-like', $amount = 2) {
+  $user_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $username, $max_id = NULL);
+  if (!empty($user_medias['nodes']) && count($user_medias['nodes']) > 5) {
+    $user_medias = $user_medias['nodes'];
+    $user_medias_count = count($user_medias);
+    $user_medias_to_like = array();
+    switch ($amount) {
+      case 1:
+        $media_indexes_to_like = array($user_medias_count - 1);
+        break;
+      case 2:
+        $media_indexes_to_like = array($user_medias_count - 1, intval($user_medias_count/2));
+        break;
+    }
+    
+    foreach ($media_indexes_to_like as $media_index_to_like) {
+      $user_media = $user_medias[$media_index_to_like];
+      $user_media_to_like_data = array(
+        'account_id' => $account_id,
+        'shortcode' => $user_media['code'],
+        'caption' => !empty($user_media['caption']) ? drupal_substr(utf8_encode($user_media['caption']), 0, 25) : NULL,
+        'media_owner_id' => $username_remote_id,
+        'tag' => $tag,
+        'likes_amount' => $user_media['likes']['count'],
+        'thumbnail' => !empty($user_media['thumbnail_resources'][0]['src']) ? $user_media['thumbnail_resources'][0]['src'] : NULL,
+        'is_video' => empty($user_media['is_video']) ? NULL : 1,
+        'timestamp_taken' => $user_media['date'],
+        'timestamp_added' => REQUEST_TIME,
+      );
+      // Add to DB...
+      $cid = db_insert('a4s_insta_clicks_by_tag')->fields(
+              $user_media_to_like_data
+             )->execute();
+      $user_medias_to_like[] = $user_media['code'];
+    }
+    watchdog('a4s followers, like back', 'Added ' . count($user_medias_to_like) . ' medias to like for a new follower ' . $username);
+    if ($dpm) {
+      dpm($user_medias_to_like, 'Added medias to like for a new follower ' . $username);
+    }
+  }
+}
+
 /**
  * 
  * @param type $username
@@ -1328,6 +1380,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
       }
       
       // Plan to like several medias of this user in turn...
+      a4s_instagram_set_user_medias_to_like($account_id, $new_follower['username'], $new_follower['id'], 'back-like', 2);
+      /*
       $new_follower_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $new_follower['username'], $max_id = NULL);
       if (!empty($new_follower_medias['nodes']) && count($new_follower_medias['nodes']) > 10) {
         $new_follower_medias = $new_follower_medias['nodes'];
@@ -1359,6 +1413,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
           dpm($new_follower_medias_to_like, 'Added medias to like for a new follower ' . $new_follower['username']);
         }
       }
+      */
+      
       
     }
     else {
@@ -1433,6 +1489,17 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
                   ->execute();
 
               $changed_followers['unfollowed_first_time'][] = (array) $existing_follower;
+              
+              // Plan to like 1 media of this user, just to get some user statistics, if it's not yet recieved
+              // Get a user statistics
+              $existing_follower_statistics = db_select('a4s_insta_users_extra_data', 'd')
+                ->fields('d', array('eid'))
+                ->condition('d.remote_id', $existing_follower->remote_id)
+                ->execute()
+                ->fetchField();
+              if (!$existing_follower_statistics) {
+                a4s_instagram_set_user_medias_to_like($account_id, $existing_follower->username, $existing_follower->remote_id, 'unfollow-like', 1);
+              }
             }
             else {
               if ($dpm) {
