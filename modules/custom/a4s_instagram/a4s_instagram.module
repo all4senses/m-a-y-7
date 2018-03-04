@@ -1244,7 +1244,7 @@ function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
  * @param type $tag
  * @param type $amount
  */
-function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $username_remote_id, $tag = 'back-like', $amount = 2) {
+function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $username_remote_id, $tag = 'back-like', $amount = 2, $dpm = FALSE) {
   $user_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $username, $max_id = NULL);
   if (!empty($user_medias['nodes']) && count($user_medias['nodes']) > 5) {
     $user_medias = $user_medias['nodes'];
@@ -1279,9 +1279,9 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
              )->execute();
       $user_medias_to_like[] = $user_media['code'];
     }
-    watchdog('a4s followers, like back', 'Added ' . count($user_medias_to_like) . ' medias to like for a new follower ' . $username);
+    watchdog('a4s followers, like back', 'Added ' . count($user_medias_to_like) . $tag . ' medias to like for a follower (or unfollower) ' . $username);
     if ($dpm) {
-      dpm($user_medias_to_like, 'Added medias to like for a new follower ' . $username);
+      dpm($user_medias_to_like, "Added $tag medias to like for a follower (or unfollower) $username");
     }
   }
 }
@@ -1380,7 +1380,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
       }
       
       // Plan to like several medias of this user in turn...
-      a4s_instagram_set_user_medias_to_like($account_id, $new_follower['username'], $new_follower['id'], 'back-like', 2);
+      a4s_instagram_set_user_medias_to_like($account_id, $new_follower['username'], $new_follower['id'], 'back-like', 2, $dpm);
       /*
       $new_follower_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $new_follower['username'], $max_id = NULL);
       if (!empty($new_follower_medias['nodes']) && count($new_follower_medias['nodes']) > 10) {
@@ -1498,7 +1498,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
                 ->execute()
                 ->fetchField();
               if (!$existing_follower_statistics) {
-                a4s_instagram_set_user_medias_to_like($account_id, $existing_follower->username, $existing_follower->remote_id, 'unfollow-like', 1);
+                a4s_instagram_set_user_medias_to_like($account_id, $existing_follower->username, $existing_follower->remote_id, 'unfollow-like', 1, $dpm);
               }
             }
             else {
