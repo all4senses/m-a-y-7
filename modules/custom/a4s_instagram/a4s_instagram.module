@@ -899,7 +899,6 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       break;
     case 'user/activity':
       $out = !empty($insta_array['entry_data']['ActivityFeed'][0]['graphql']['user']['activity_feed']) ? $insta_array['entry_data']['ActivityFeed'][0]['graphql']['user']['activity_feed'] : NULL;
-      dpm($out, 'user/activity');
       break;
     case 'media/likers':
       $out = !empty($insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['edges']) ? $insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['edges'] : NULL;
