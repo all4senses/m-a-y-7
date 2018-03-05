@@ -619,7 +619,7 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = N
     $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query);
     // If we have an empty (FALSE) result from Instagram, break the look, and return FALSE, 
     // because we have now some failure and don't need to update the data now
-    if ($data === FALSE) {
+    if (!$data) {
       return FALSE;
     }
     
@@ -679,7 +679,7 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
   //dpm($results, '$results');
   
-  if (!$results) {
+  if (empty($results['data']['user'])) {
     return FALSE;
   }
   
@@ -733,6 +733,10 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
       case 'fromA':
         $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
         break;
+    }
+    
+    if (!$data) {
+      return FALSE;
     }
     
     $data_nodes = array();
@@ -1304,6 +1308,16 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   
   $new_followers = a4s_insta_queryGraphql_multiple('followers', $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10);
+  
+  if(empty($new_followers)) {
+    watchdog('a4s followers', "$username: => new_followers is EMPTY, possible failure to get the data from Instagram");
+    if ($dpm) {
+      dpm("$username: => new_followers is EMPTY, possible failure to get the data from Instagram");
+    }
+    return FALSE;
+  }
+  
+      
   $new_followers_count = count($new_followers); 
   
   if  (!$new_followers_count) {
@@ -1341,8 +1355,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
     watchdog('a4s followers', "$username: => existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
     if ($dpm) {
       dpm("existing_followers_count ($existing_followers_count) - new_followers_count ($new_followers_count) > max_difference ($max_difference), possible failure to get the data from Instagram");
-      return FALSE;
     }
+    return FALSE;
   }
   
   if (!$existing_followers) {
