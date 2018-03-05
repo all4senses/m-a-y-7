@@ -655,6 +655,16 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   //$variables = '{"id":"6218303298","first":10,"after":"AQCrgtZyW1dKfkQI8Xm7n4VmC_28FRCjFZ8ht_5WHNHsLJau_FwFjqdIB-yfqqJJk4sjA47Qd1SZHp-dS2yMej7-QuIdzzr0A6KwEOvs9CtxdA"}';
   //$url = "https://www.instagram.com/graphql/query/?query_hash=37479f2b8209594dde7facb0d904896a&variables=%7B%22id%22%3A%226218303298%22%2C%22first%22%3A10%2C%22after%22%3A%22AQC2c5Ud8R_m2Wagr8TnGYNRsQO-N0letvJFx7JH1NH3ySwey3NVgUF_uw7hdoyMgqouz1TBbZasNbIAoSlfDi_pxQm8bQvmkO7UFGhcQN_YvA%22%7D";
   //$end_cursor = 'AQCcbXzjdc_ZfOPp0T9xKt0lH-IYCbcbHjhF_NNy6R6DW19AnG4pGEKjYjPZXO5XezMQCPr7-fJWA63LWzY0Q3HfQ9jQ6zVjXYu1VO6dCwU_DA';
+
+  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+  if (empty($behat_insta_cookies['https://instagram.com'][$username]['ds_user_id'])) {
+    return FALSE;
+  }
+  
+  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$username];
+  //Example:
+  //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
+  $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
   
   switch ($data_type) {
     case 'followers':
@@ -665,19 +675,17 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
       break;
   }
   
-  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-  if (empty($behat_insta_cookies['https://instagram.com'][$username]['ds_user_id'])) {
-    return FALSE;
+  if ($data_type == 'user/activity') {
+    $url = 'https://instagram.com/accounts/activity';
+    $results = a4s_insta_instagramCurlPage__fromRaw($url, $cookies_str);
   }
-  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$username];
-  $variables = '{"id":' . '"' . $behat_insta_cookies_user['ds_user_id'] . '","first":' . $items_per_query . ',"after":"' . $end_cursor . '"}';
-  $variables = urlencode($variables);
-  $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
-  //Example:
-  //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
-  $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
-  $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
-  //dpm($results, '$results');
+  else {
+    $variables = '{"id":' . '"' . $behat_insta_cookies_user['ds_user_id'] . '","first":' . $items_per_query . ',"after":"' . $end_cursor . '"}';
+    $variables = urlencode($variables);
+    $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
+    $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
+  }
+  dpm($results, '$results');
   
   if (empty($results['data']['user'])) {
     return FALSE;
@@ -848,11 +856,22 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
  * @param type $max_id
  * @return array
  */
-function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
+function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $cookies_str = '') {
   switch ($data_type) {
     case 'user/profile':
     case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
+      break;
+    case 'user/activity':
+      $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+      if (empty($behat_insta_cookies['https://instagram.com'][$target]['ds_user_id'])) {
+        return FALSE;
+      }
+      $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$target];
+      //Example:
+      //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
+      $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
+      $target_url = 'https://instagram.com/accounts/activity';
       break;
     case 'media/likers':
       $target_url = 'https://instagram.com/p/'. $target;
@@ -864,7 +883,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL) {
   if ($max_id) {
     $target_url .= '?max_id=' . $max_id; 
   }
-  $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
+  $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookies_str);
   if (empty($insta_source['content'])) {
     return NULL;
   }
