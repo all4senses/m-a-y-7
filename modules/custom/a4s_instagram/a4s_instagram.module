@@ -675,17 +675,12 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
       break;
   }
   
-  if ($data_type == 'user/activity') {
-    $url = 'https://instagram.com/accounts/activity';
-    $results = a4s_insta_instagramCurlPage__fromRaw($url, $cookies_str);
-  }
-  else {
-    $variables = '{"id":' . '"' . $behat_insta_cookies_user['ds_user_id'] . '","first":' . $items_per_query . ',"after":"' . $end_cursor . '"}';
-    $variables = urlencode($variables);
-    $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
-    $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
-  }
-  dpm($results, '$results');
+  $variables = '{"id":' . '"' . $behat_insta_cookies_user['ds_user_id'] . '","first":' . $items_per_query . ',"after":"' . $end_cursor . '"}';
+  $variables = urlencode($variables);
+  $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
+  $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
+  
+  //dpm($results, '$results');
   
   if (empty($results['data']['user'])) {
     return FALSE;
@@ -901,6 +896,10 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       break;
     case 'user/media':
       $out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']['media']) ? $insta_array['entry_data']['ProfilePage'][0]['user']['media'] : NULL;
+      break;
+    case 'user/activity':
+      $out = !empty($insta_array['entry_data']['ActivityFeed'][0]['graphql']['user']['activity_feed']) ? $insta_array['entry_data']['ActivityFeed'][0]['graphql']['user']['activity_feed'] : NULL;
+      dpm($out, 'user/activity');
       break;
     case 'media/likers':
       $out = !empty($insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['edges']) ? $insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['edges'] : NULL;
