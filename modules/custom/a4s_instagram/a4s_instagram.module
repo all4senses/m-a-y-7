@@ -1341,7 +1341,9 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
               ->condition('a.account_id', $account_id)
               ->execute()->fetchField();
     
-    if (!$existing_activity) {
+    if (empty($existing_activity)) {
+      dpm($activity['id'], 'empty event_id, for user ' . $activity['user']['username']);
+      dpm($existing_activity, '$existing_activity');
       $username = !empty($activity['user']['username']) ? $activity['user']['username'] : NULL;
       $activity_timestamp = intval($activity['timestamp']);
       $new_activities[] = array(
