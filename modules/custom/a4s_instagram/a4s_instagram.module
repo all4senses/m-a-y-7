@@ -1333,15 +1333,29 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
   $new_activities = array();
   $existing_activity = NULL;
   
+  // Get the latest last activity timestamp
+  $last_activity_timestamp = db_select('a4s_insta_user_activities', 'a')
+              ->fields('a', array('timestamp'))
+              ->orderBy('a.timestamp', 'desc')
+              ->range(0, 1)
+              ->execute()->fetchField();
+  
   foreach ($remote_activities['edge_web_activity_feed']['edges'] as $activity) {
     $activity = $activity['node'];
+    $activity_timestamp = intval($activity['timestamp']);
+    if ($activity_timestamp <= $last_activity_timestamp) {
+      break;
+    }
+    
+    /*
     $existing_activity = db_select('a4s_insta_user_activities', 'a')
               ->fields('a', array('aid'))
               ->condition('a.activity_id', $activity['id'])
               ->condition('a.account_id', $account_id)
               ->execute()->fetchField();
-    
-    if (empty($existing_activity)) {
+    */
+    //if (empty($existing_activity)) {
+      
       dpm($activity['id'], 'empty event_id, for user ' . $activity['user']['username']);
       dpm($existing_activity, '$existing_activity');
       $username = !empty($activity['user']['username']) ? $activity['user']['username'] : NULL;
@@ -1368,7 +1382,7 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
       );
       $activity_type = isset($activity_types[$activity['type']]) ? $activity_types[$activity['type']] : 'other';
       $report[$activity_type][date('d/m/Y H:i:s', $activity_timestamp) . ' - '. $username] = $activity;
-    }
+    //}
   }
   if ($dpm) {
     dpm($new_activities, '$new_activities');

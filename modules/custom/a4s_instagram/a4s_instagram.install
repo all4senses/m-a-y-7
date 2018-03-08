@@ -392,13 +392,13 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
-      'activity_id' => array(
-        'description' => 'Activity/event remote id, like 8779757707682_6918537828_1728361984788047796',
-        'type' => 'varchar',
-        'length' => 100,
-        'not null' => FALSE,
-        'default' => NULL,
-      ),
+//      'activity_id' => array(
+//        'description' => 'Activity/event remote id, like 8779757707682_6918537828_1728361984788047796',
+//        'type' => 'varchar',
+//        'length' => 100,
+//        'not null' => FALSE,
+//        'default' => NULL,
+//      ),
       'media_id' => array(
         'description' => 'Our user Media id being liked or commented, like 1728361984788047796',
         'type' => 'varchar',
@@ -474,7 +474,7 @@ function a4s_instagram_schema() {
       'aid' => array('aid'),
       'account_id' => array('account_id'),
       'activity_type' => array('activity_type'),
-      'activity_id' => array('activity_id'),
+      //'activity_id' => array('activity_id'),
       'user_id' => array('user_id'),
       //'user_name' => array('user_name'),
       'activity_local_status' => array('activity_local_status'),
@@ -582,16 +582,6 @@ function a4s_instagram_update_7010() {
   }
 }
  
- /**
- * Add new table a4s_insta_user_activities.
- */
-function a4s_instagram_update_7012() {
-  $schema = a4s_instagram_schema();
-  if (!db_table_exists('a4s_insta_user_activities')) {
-    db_create_table('a4s_insta_user_activities', $schema['a4s_insta_user_activities']);
-  }
-}
-
 /**
  * Add new fields fullname and thumbnail to a4s_insta_users_extra_data.
  */
@@ -606,3 +596,12 @@ function a4s_instagram_update_7013() {
   }
 }
 
+/**
+ * Add new table a4s_insta_user_activities.
+ */
+function a4s_instagram_update_7014() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_user_activities')) {
+    db_create_table('a4s_insta_user_activities', $schema['a4s_insta_user_activities']);
+  }
+}
