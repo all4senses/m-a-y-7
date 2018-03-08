@@ -1328,6 +1328,8 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
     dpm($remote_activities, '$remote_activities');
   }
   
+  $activity_types = array('1' => 'like', '2' => 'comment', '3' => 'follow');
+  
   $new_activities = array();
   $existing_activity = NULL;
   
@@ -1362,7 +1364,7 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
         'fullname' => !empty($activity['user']['full_name']) ? utf8_encode($activity['user']['full_name']) : NULL,
         'thumbnail' => !empty($activity['user']['profile_pic_url']) ? $activity['user']['profile_pic_url'] : NULL,
       );
-      $activity_type = !empty([1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']]) ? [1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']] : 'other';
+      $activity_type = isset($activity_types[$activity['type']]) ? $activity_types[$activity['type']] : 'other';
       $report[$activity_type][date('d/m/Y H:i:s', $activity_timestamp) . ' - '. $username] = $activity;
     }
   }
