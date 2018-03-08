@@ -1337,6 +1337,7 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
   // Get the latest last activity timestamp
   $last_activity_timestamp = db_select('a4s_insta_user_activities', 'a')
               ->fields('a', array('timestamp'))
+              ->condition('a.account_id', $account_id)
               ->orderBy('a.timestamp', 'desc')
               ->range(0, 1)
               ->execute()->fetchField();
