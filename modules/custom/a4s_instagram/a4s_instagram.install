@@ -564,5 +564,15 @@ function a4s_instagram_update_7010() {
     db_add_field('a4s_insta_do_not_like_medias', 'account_id', $schema['a4s_insta_do_not_like_medias']['fields']['account_id']);
     //drupal_get_complete_schema(TRUE);
   }
- }
+}
  
+ /**
+ * Add new table a4s_insta_user_activities.
+ */
+function a4s_instagram_update_7011() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_user_activities')) {
+    db_create_table('a4s_insta_user_activities', $schema['a4s_insta_user_activities']);
+  }
+}
+

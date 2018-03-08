@@ -1333,13 +1333,14 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
   
   foreach ($remote_activities['edge_web_activity_feed']['edges'] as $activity) {
     $activity = $activity['node'];
-//    $existing_activity = db_select('a4s_insta_user_activities', 'a')
-//              ->fields('a', array('aid'))
-//              ->condition('a.activity_id', $activity['id'])
-//              ->condition('a.account_id', $account_id)
-//              ->execute()->fetchField();
+    $existing_activity = db_select('a4s_insta_user_activities', 'a')
+              ->fields('a', array('aid'))
+              ->condition('a.activity_id', $activity['id'])
+              ->condition('a.account_id', $account_id)
+              ->execute()->fetchField();
     
     if (!$existing_activity) {
+      $username = !empty($activity['user']['username']) ? $activity['user']['username'] : NULL;
       $activity_timestamp = intval($activity['timestamp']);
       $new_activities[] = array(
         'account_id' => $account_id,
@@ -1349,14 +1350,14 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
         'media_shortcode' => !empty($activity['media']['shortcode']) ? $activity['media']['shortcode'] : NULL,
         'media_thumbnail' => !empty($activity['media']['thumbnail_src']) ? $activity['media']['thumbnail_src'] : NULL,
         'user_id' => !empty($activity['user']['id']) ? $activity['user']['id'] : NULL,
-        'user_name' => !empty($activity['user']['username']) ? $activity['user']['username'] : NULL,
-        'user_fullname' => !empty($activity['user']['full_name']) ? $activity['user']['full_name'] : NULL,
+        'user_name' => $username,
+        'user_fullname' => !empty($activity['user']['full_name']) ? utf8_encode($activity['user']['full_name']) : NULL,
         'user_thumbnail' => !empty($activity['user']['profile_pic_url']) ? $activity['user']['profile_pic_url'] : NULL,
-        'extra_data' => !empty($activity['text']) ? $activity['text'] : NULL,
+        'extra_data' => !empty($activity['text']) ? drupal_substr(utf8_encode($activity['text']), 0, 97) : NULL,
         'timestamp' => $activity_timestamp,
       );
       $activity_type = !empty([1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']]) ? [1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']] : 'other';
-      $report[$activity_type][date('d/m/Y H:i:s', $activity_timestamp)] = $activity;
+      $report[$activity_type][date('d/m/Y H:i:s', $activity_timestamp) . ' - '. $username] = $activity;
     }
   }
   if ($dpm) {
@@ -1364,11 +1365,11 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
     dpm($report, '$report');
   }
   for ($i = count($new_activities) - 1; $i >=0; $i--) {
-    dpm($i, '$i');
-    dpm($new_activities[$i], '$new_activities[$i]');
-//    $aid = db_insert('a4s_insta_user_activities')->fields(
-//          $new_activities[$i]
-//         )->execute();
+    //dpm($i, '$i');
+    //dpm($new_activities[$i], '$new_activities[$i]');
+    $aid = db_insert('a4s_insta_user_activities')->fields(
+          $new_activities[$i]
+         )->execute();
   }
   
 }
