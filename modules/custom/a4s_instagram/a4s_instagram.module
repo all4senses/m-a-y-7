@@ -1374,17 +1374,17 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
     $aid = db_insert('a4s_insta_user_activities')->fields(
           $new_activities[$i]
          )->execute();
-    
+    $new_user = $new_users[$i];
     $existing_user = db_select('a4s_insta_users_extra_data', 'u')
               ->fields('u', array('remote_id', 'username', 'fullname', 'thumbnail'))
-              ->condition('u.remote_id', $new_users['remote_id'])
+              ->condition('u.remote_id', $new_user['remote_id'])
               ->execute()->fetchObject();
     if (!$existing_user) {
       $eid = db_insert('a4s_insta_users_extra_data')->fields(array(
-          'remote_id' => $new_users['remote_id'],
-          'username' => $new_users['username'],
-          'fullname' => $new_users['fullname'],
-          'thumbnail' => $new_users['thumbnail'],
+          'remote_id' => $new_user['remote_id'],
+          'username' => $new_user['username'],
+          'fullname' => $new_user['fullname'],
+          'thumbnail' => $new_user['thumbnail'],
           'timestamp_added' => REQUEST_TIME,
          ))->execute();
     }
@@ -1392,12 +1392,12 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
       db_update('a4s_insta_users_extra_data')
           ->fields(
               array(
-                'username' => !empty($existing_user->username) ? $existing_user->username : $new_users['username'],
-                'fullname' => !empty($existing_user->fullname) ? $existing_user->fullname : $new_users['fullname'],
-                'thumbnail' => !empty($existing_user->thumbnail) ? $existing_user->thumbnail : $new_users['thumbnail'],
+                'username' => !empty($existing_user->username) ? $existing_user->username : $new_user['username'],
+                'fullname' => !empty($existing_user->fullname) ? $existing_user->fullname : $new_user['fullname'],
+                'thumbnail' => !empty($existing_user->thumbnail) ? $existing_user->thumbnail : $new_user['thumbnail'],
               )
             )
-          ->condition('remote_id', $new_users['remote_id'])
+          ->condition('remote_id', $new_user['remote_id'])
           ->execute();
     }
   }
