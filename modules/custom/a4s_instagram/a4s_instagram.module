@@ -1377,7 +1377,7 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
     
     $existing_user = db_select('a4s_insta_users_extra_data', 'u')
               ->fields('u', array('remote_id', 'username', 'fullname', 'thumbnail'))
-              ->condition('u.remote_id', $new_users['user_id'])
+              ->condition('u.remote_id', $new_users['remote_id'])
               ->execute()->fetchObject();
     if (!$existing_user) {
       $eid = db_insert('a4s_insta_users_extra_data')->fields(array(
