@@ -352,6 +352,121 @@ function a4s_instagram_schema() {
     'primary key' => array('nid'),
   );
   
+  
+  $schema['a4s_insta_user_activities'] = array(
+    'description' => 'User activities: like, comment, follow',
+    'fields' => array(
+      'aid' => array(
+        'description' => 'Primary Key: Local Identifier for an activity/event.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'account_id' => array(
+        'description' => 'Account local ID, like 1 for all4senses, or 2 for olyayuskasova',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'activity_type' => array(
+        'description' => 'Activity/event type: 1 - like, 2 - comment, 3 - follow',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'activity_id' => array(
+        'description' => 'Activity/event remote id, like 8779757707682_6918537828_1728361984788047796',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'media_id' => array(
+        'description' => 'Our user Media id being liked or commented, like 1728361984788047796',
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'media_shortcode' => array(
+        'description' => 'Media Shortcode for url, like in /p/BfYkeainnSc',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'media_thumbnail' => array(
+        'description' => 'Our user Media thumbnail being liked or commented, like https://instagram.fhen2-1.fna.fbcdn.net/vp/bcf500fbc5a4e97b54875aa7324578b4/5B2C5521/t51.2885-19/s150x150/21148060_113544536029882_7043022251133763584_a.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'user_id' => array(
+        'description' => 'A user caused an event (liked a media, commented, followed,etc), like 6918537828',
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'user_name' => array(
+        'description' => 'A username of a user caused an event (liked a media, commented, followed,etc), like for_walls',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'user_fullname' => array(
+        'description' => 'A full name of a user caused an event (liked a media, commented, followed,etc), like for_walls',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'user_thumbnail' => array(
+        'description' => 'A thumbnail of a user caused an event (liked a media, commented, followed,etc), like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'activity_local_status' => array(
+        'description' => 'Activity/event local status: NULL - not processed, 1 - processed',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'extra_data' => array(
+        'description' => 'Extra data for an event, for example, a comment text (should be trimmed to 100 chars)',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp' => array(
+        'description' => 'The Remote Unix timestamp of an activity/event',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+
+    ),
+    'indexes' => array(
+      'aid' => array('aid'),
+      'account_id' => array('account_id'),
+      'activity_type' => array('activity_type'),
+      'activity_id' => array('activity_id'),
+      'user_id' => array('user_id'),
+      'user_name' => array('user_name'),
+      'activity_local_status' => array('activity_local_status'),
+      'timestamp' => array('timestamp'),
+    ),
+    'primary key' => array('aid'),
+  );
+  
   return $schema;
 }
 

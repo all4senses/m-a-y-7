@@ -37,6 +37,12 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta-update-acivity'] = array(
+    'page callback' => 'a4s_instagram_update_activity_all_users_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   $items['insta/likes'] = array(
     'title' => '', //t('Instagram Likes'),
     'page callback' => 'a4s_instagram_likes_history_page',
@@ -1310,6 +1316,69 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
 /**
  * 
  * @param type $username
+ * @param type $dpm
+ * @param type $dpm_all_new
+ */
+function a4s_instagram_update_activity_single_username($username = 'all4senses', $dpm = FALSE, $dpm_all_new = FALSE) {
+  
+  $account_id = a4s_instagram_get_local_account_id_by_username($username);
+  $remote_activities = a4s_insta_getDataSingle__fromRaw('user/activity', $username);
+  
+  if ($dpm && $dpm_all_new) {
+    dpm($remote_activities, '$remote_activities');
+  }
+  $new_activities = array();
+  
+  foreach ($remote_activities['edge_web_activity_feed']['edges'] as $activity) {
+    $activity = $activity['node'];
+    $existing_activity = db_select('a4s_insta_user_activities', 'a')
+              ->fields('a', array('aid'))
+              ->condition('a.activity_id', $activity['id'])
+              ->condition('a.account_id', $account_id)
+              ->execute()->fetchField();
+    
+    if (!$existing_activity) {
+      $activity_timestamp = intval($activity['timestamp']);
+      $new_activities[] = array(
+        'account_id' => $account_id,
+        'activity_type' => $activity['type'],
+        'activity_id' => $activity['id'],
+        'media_id' => !empty($activity['media']['id']) ? $activity['media']['id'] : NULL,
+        'media_shortcode' => !empty($activity['media']['shortcode']) ? $activity['media']['shortcode'] : NULL,
+        'media_thumbnail' => !empty($activity['media']['thumbnail_src']) ? $activity['media']['thumbnail_src'] : NULL,
+        'user_id' => !empty($activity['user']['id']) ? $activity['user']['id'] : NULL,
+        'user_name' => !empty($activity['user']['username']) ? $activity['user']['username'] : NULL,
+        'user_fullname' => !empty($activity['user']['full_name']) ? $activity['user']['full_name'] : NULL,
+        'user_thumbnail' => !empty($activity['user']['profile_pic_url']) ? $activity['user']['profile_pic_url'] : NULL,
+        'extra_data' => !empty($activity['text']) ? $activity['text'] : NULL,
+        'timestamp' => $activity_timestamp,
+      );
+      $activity_type = in_array($activity['type'], [1 => 'like', 2 => 'comment', 3 => 'follow']) ? [1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']] : 'other';
+      $report[$activity_type][date('d/m/Y H:i:s', $activity_timestamp)] = $activity;
+    }
+  }
+  if ($dpm) {
+    dpm($new_activities, '$new_activities');
+    dpm($report, '$report');
+  }
+  for ($i = count($new_activities) - 1; $i >=0; $i--) {
+    dpm($i, '$i');
+    dpm($new_activities[$i], '$new_activities[$i]');
+//    $aid = db_insert('a4s_insta_user_activities')->fields(
+//          $new_activities[$i]
+//         )->execute();
+  }
+  
+}
+
+
+/**
+ * 
+ * @param type $username
+ * @param type $dpm
+ * @param type $dpm_all_new
+ * @param type $dpm_all_existing
+ * @return boolean
  */
 function a4s_instagram_update_followers_single_username($username = 'all4senses', $dpm = FALSE, $dpm_all_new = FALSE, $dpm_all_existing = FALSE) {
   
@@ -1624,6 +1693,46 @@ function a4s_instagram_update_followers_all_users_callback() {
     }
   }
   drupal_json_output(array("Updated followers for $current_user" => $results));
+}
+
+/**
+ * 
+ */
+function a4s_instagram_update_activity_all_users_callback() {
+  // Process different user every time
+  $users_to_process = array('olyayuskasova', 'all4senses');
+
+  $last_activity_update_user = variable_get('a4s_insta_last_activity_update_user', array());
+
+  if (count($users_to_process) > 1) {
+    if (empty($last_activity_update_user)) {
+      $current_user = $users_to_process[0];
+    }
+    else {
+      foreach ($users_to_process as $key => $user) {
+        if ($user == $last_followers_update_user) {
+          if ($key + 1 >= count($users_to_process)) {
+            $current_user = $users_to_process[0];
+          }
+          else {
+            $current_user = $users_to_process[$key + 1];
+          }
+        }
+      }
+    }
+  }
+  else {
+    $current_user = $users_to_process[0];
+  }
+  variable_set('a4s_insta_last_activity_update_user', $current_user);
+  
+  $results = a4s_instagram_update_activity_single_username($current_user);
+  if (!empty($results)) {
+    foreach ($results as $key => &$data) {
+      $data = count($data);
+    }
+  }
+  drupal_json_output(array("Updated activity for $current_user" => $results));
 }
 
 /**
