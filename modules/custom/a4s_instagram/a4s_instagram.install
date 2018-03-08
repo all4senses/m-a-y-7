@@ -243,6 +243,7 @@ function a4s_instagram_schema() {
     'primary key' => array('rid'),
   );
   
+  
   $schema['a4s_insta_users_extra_data'] = array(
     'description' => 'Instagram users extfa data, like usernames, followers, etc',
     'fields' => array(
@@ -264,7 +265,20 @@ function a4s_instagram_schema() {
         'length' => 100,
         'not null' => TRUE,
       ),
-      
+      'fullname' => array(
+        'description' => 'A full name of a user, like for_walls',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'thumbnail' => array(
+        'description' => 'A thumbnail of a user, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
       'followed_by_amount' => array(
         'description' => 'Amount of followers',
         'type' => 'int',
@@ -303,6 +317,8 @@ function a4s_instagram_schema() {
       'eid' => array('eid'),
       'remote_id' => array('remote_id'),
       'username' => array('username'),
+      'fullname' => array('fullname'),
+      'thumbnail' => array('thumbnail'),
       'posts_amount' => array('posts_amount'),
       'followed_by_amount' => array('followed_by_amount'),
       'following_amount' => array('following_amount'),
@@ -411,27 +427,27 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
-      'user_name' => array(
-        'description' => 'A username of a user caused an event (liked a media, commented, followed,etc), like for_walls',
-        'type' => 'varchar',
-        'length' => 100,
-        'not null' => FALSE,
-        'default' => NULL,
-      ),
-      'user_fullname' => array(
-        'description' => 'A full name of a user caused an event (liked a media, commented, followed,etc), like for_walls',
-        'type' => 'varchar',
-        'length' => 100,
-        'not null' => FALSE,
-        'default' => NULL,
-      ),
-      'user_thumbnail' => array(
-        'description' => 'A thumbnail of a user caused an event (liked a media, commented, followed,etc), like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
-        'type' => 'varchar',
-        'length' => 300,
-        'not null' => FALSE,
-        'default' => NULL,
-      ),
+//      'user_name' => array(
+//        'description' => 'A username of a user caused an event (liked a media, commented, followed,etc), like for_walls',
+//        'type' => 'varchar',
+//        'length' => 100,
+//        'not null' => FALSE,
+//        'default' => NULL,
+//      ),
+//      'user_fullname' => array(
+//        'description' => 'A full name of a user caused an event (liked a media, commented, followed,etc), like for_walls',
+//        'type' => 'varchar',
+//        'length' => 100,
+//        'not null' => FALSE,
+//        'default' => NULL,
+//      ),
+//      'user_thumbnail' => array(
+//        'description' => 'A thumbnail of a user caused an event (liked a media, commented, followed,etc), like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+//        'type' => 'varchar',
+//        'length' => 300,
+//        'not null' => FALSE,
+//        'default' => NULL,
+//      ),
       'activity_local_status' => array(
         'description' => 'Activity/event local status: NULL - not processed, 1 - processed',
         'type' => 'int',
@@ -460,7 +476,7 @@ function a4s_instagram_schema() {
       'activity_type' => array('activity_type'),
       'activity_id' => array('activity_id'),
       'user_id' => array('user_id'),
-      'user_name' => array('user_name'),
+      //'user_name' => array('user_name'),
       'activity_local_status' => array('activity_local_status'),
       'timestamp' => array('timestamp'),
     ),
@@ -569,10 +585,24 @@ function a4s_instagram_update_7010() {
  /**
  * Add new table a4s_insta_user_activities.
  */
-function a4s_instagram_update_7011() {
+function a4s_instagram_update_7012() {
   $schema = a4s_instagram_schema();
   if (!db_table_exists('a4s_insta_user_activities')) {
     db_create_table('a4s_insta_user_activities', $schema['a4s_insta_user_activities']);
+  }
+}
+
+/**
+ * Add new fields fullname and thumbnail to a4s_insta_users_extra_data.
+ */
+function a4s_instagram_update_7013() {
+  if (!db_field_exists('a4s_insta_users_extra_data', 'fullname')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_users_extra_data', 'fullname', $schema['a4s_insta_users_extra_data']['fields']['fullname']);
+  }
+  if (!db_field_exists('a4s_insta_users_extra_data', 'thumbnail')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_users_extra_data', 'thumbnail', $schema['a4s_insta_users_extra_data']['fields']['thumbnail']);
   }
 }
 
