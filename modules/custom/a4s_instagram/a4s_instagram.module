@@ -1355,7 +1355,7 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
         'extra_data' => !empty($activity['text']) ? $activity['text'] : NULL,
         'timestamp' => $activity_timestamp,
       );
-      $activity_type = in_array($activity['type'], [1 => 'like', 2 => 'comment', 3 => 'follow']) ? [1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']] : 'other';
+      $activity_type = !empty([1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']]) ? [1 => 'like', 2 => 'comment', 3 => 'follow'][$activity['type']] : 'other';
       $report[$activity_type][date('d/m/Y H:i:s', $activity_timestamp)] = $activity;
     }
   }
