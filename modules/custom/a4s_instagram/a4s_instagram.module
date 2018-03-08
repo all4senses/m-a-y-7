@@ -1327,15 +1327,17 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
   if ($dpm && $dpm_all_new) {
     dpm($remote_activities, '$remote_activities');
   }
+  
   $new_activities = array();
+  $existing_activity = NULL;
   
   foreach ($remote_activities['edge_web_activity_feed']['edges'] as $activity) {
     $activity = $activity['node'];
-    $existing_activity = db_select('a4s_insta_user_activities', 'a')
-              ->fields('a', array('aid'))
-              ->condition('a.activity_id', $activity['id'])
-              ->condition('a.account_id', $account_id)
-              ->execute()->fetchField();
+//    $existing_activity = db_select('a4s_insta_user_activities', 'a')
+//              ->fields('a', array('aid'))
+//              ->condition('a.activity_id', $activity['id'])
+//              ->condition('a.account_id', $account_id)
+//              ->execute()->fetchField();
     
     if (!$existing_activity) {
       $activity_timestamp = intval($activity['timestamp']);
