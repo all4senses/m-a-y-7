@@ -1906,12 +1906,12 @@ function a4s_instagram_get_user_statistics__relatedToRequestedAccount($target_us
   }
   
   // Get a user liked by us medias
-  $user_data['auto_liked_medias'] = db_select('a4s_insta_clicks_by_tag', 'm')
-    ->fields('m', array('shortcode'))
-    ->condition('m.account_id', $account_id)
-    ->condition('m.media_owner_id', $target_user_id)
-    ->execute()
-    ->fetchCol();
+  $query = db_select('a4s_insta_clicks_by_tag', 'm')
+      ->fields('m', array('shortcode'))
+      ->condition('m.account_id', $account_id)
+      ->condition('m.media_owner_id', $target_user_id);
+    //$query->execute()->fetchCol();
+  $user_data['auto_liked_medias'] = $query->countQuery()->execute()->fetchField();
   
   return $user_data;
 }
@@ -2109,7 +2109,10 @@ function a4s_instagram_activity_history_page() {
                   . '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
                   . '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
                   . '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
-          
+                  
+                  . '<div class="user-item">Your follower: ' . (!empty($user_extra_data['follower']) && $user_extra_data['follower']->is_following_now ? 'Yes' : 'No') . '</div>'
+                  . '<div class="user-item">You follow him: ' . (!empty($user_extra_data['follower'] ? ($user_extra_data['follower']->followed_back ? 'Yes' : 'No') : 'N/A') . '</div>'
+                  
                   . '<div class="activity-type" style="margin-top:20px; ' . ($activity->activity_type == 3 ? 'background:green; color:white;' : 'color:green;') . '">' . $activity_types[$activity->activity_type] . '</div>'
                   
                   . (empty($activity->media_thumbnail) ? '' : 
