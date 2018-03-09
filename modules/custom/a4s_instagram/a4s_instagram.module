@@ -2025,6 +2025,7 @@ function a4s_instagram_activity_history_page() {
  
   $last_hours = !empty($args[3]) ? $args[3] : 3;
   $out = '';
+  $changed = '';
   
   $query = db_select('a4s_insta_user_activities', 'a')
     ->fields('a', array())
@@ -2037,11 +2038,13 @@ function a4s_instagram_activity_history_page() {
   $activities = $query->execute()->fetchAllAssoc('aid');
   dpm($activities, '$activities');
   
+  $activity_types = array(1 => 'Liked', 2 => 'Commented', 3 => 'Followed', 4 => 'Other (4)', 5 => 'Commented back (5)');
   $counts = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
   if (!empty($activities)) {
     foreach ($activities as $activity) {
       $counts[$activity->activity_type]++;
       $changed .= '<div class="activity" style="float:left; width:140px; height:390px; margin-right:5px; margin-bottom:30px;">'
+              . '<div class="activity-type" style="margin-bottom:10px; color:green;"><div>Event:</div>' . $activity_types[$activity->activity_type] . '</div>'
               //. '<div class="activity-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
               . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $activity->username . '">' . utf8_decode($activity->fullname) . '</a></div>'
               . '<div class="activity-date" style="margin-bottom:10px;"><div>Event date:</div>' . $activity->timestamp . '</div>'
