@@ -2128,7 +2128,11 @@ function a4s_instagram_activity_history_page() {
     }
   }
   
-  $out .= '<div>Liked: ' . $counts[1] . ', commented: ' . $counts[2] . ', followed: ' . $counts[3] . ', ' . $activity_types[4] . ': ' . $counts[4] . ', ' . $activity_types[5] . ': ' . $counts[5] . '</div><br/>';
+  $short_report = '';
+  foreach ($counts as $key => $value) {
+    $short_report .= ($short_report ? ', ' : '') . $activity_types[$key] . ': ' . $value;
+  }
+  $out .= '<div>' . $short_report . '</div><br/>';
   $out .= $changed;
       
   //dpm($followers_data, '$followers_data');
