@@ -2110,9 +2110,10 @@ function a4s_instagram_activity_history_page() {
                   . '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
                   . '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
                   
-                  . '<div class="user-item">Your follower: ' . (!empty($user_extra_data['follower']) && $user_extra_data['follower']->is_following_now ? 'Yes' : 'No') . '</div>'
+                  . '<div class="user-item">Your follower: ' . (!empty($user_extra_data['follower']) && $user_extra_data['follower']->is_following_now ? '<span style="color:green;weight:bold;">Yes' : '<span style="color:red;">No</span>') . '</div>'
                   . '<div class="user-item">You follow him: ' . (!empty($user_extra_data['follower']) ? ($user_extra_data['follower']->followed_back ? 'Yes' : 'No') : 'N/A') . '</div>'
-                  
+                  . '<div class="user-item">Auto liked by me: ' . count($user_extra_data['auto_liked_medias']) . '</div>'
+          
                   . '<div class="activity-type" style="margin-top:20px; ' . ($activity->activity_type == 3 ? 'background:green; color:white;' : 'color:green;') . '">' . $activity_types[$activity->activity_type] . '</div>'
                   
                   . (empty($activity->media_thumbnail) ? '' : 
