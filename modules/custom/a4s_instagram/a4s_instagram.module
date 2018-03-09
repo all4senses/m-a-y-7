@@ -57,6 +57,13 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta/activity'] = array(
+    'title' => '', //t('Instagram Likes'),
+    'page callback' => 'a4s_instagram_activity_history_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   return $items;
 }
 
@@ -1962,6 +1969,74 @@ function a4s_instagram_followers_history_page() {
     //->fetchAllAssoc('fid');
     ->fetchCol();
   //dpm($followers, '$followers');
+  
+  $unfollowed = 0;
+  $new_followers = 0;
+  $changed = '';
+  $followers_data = array();
+  if (!empty($followers)) {
+    foreach ($followers as $follower_username) {
+      $follower_data = a4s_instagram_get_follower_info($follower_username, $account_username = NULL, $account_id);
+      $followers_data[] = $follower_data;
+      if (empty($follower_data['main'])) {
+        continue;
+      }
+      if ($follower_data['main']->is_following_now) {
+        $new_followers++;
+      }
+      else {
+        $unfollowed++;
+      }
+      $changed .= '<div class="follower" style="float:left; width:140px; height:390px; margin-right:5px; margin-bottom:30px;">'
+              . '<div class="follower-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
+              . '<div class="like-title" style="height:50px;"><a href="https://instagram.com/' . $follower_data['main']->username . '">' . utf8_decode($follower_data['main']->full_name) . '</a></div>'
+              . '<div class="follower-date" style="margin-bottom:10px;"><div>Updated:</div>' . $follower_data['main']->timestamp_updated . '</div>'
+              . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . $follower_data['main']->timestamp_added . '</div>'
+              
+              . '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
+              . '<div class="follower-img"><a href="https://instagram.com/' . $follower_data['main']->username . '"><img width="130px" src="' . $follower_data['main']->thumbnail . '"></a></div>'
+              . '<div class="follower-item">Auto liked by me: ' . count($follower_data['auto_liked_medias']) . '</div>'
+              . (empty($follower_data['user_statistics']) ? '' : ''
+                  . '<div class="follower-item" style="margin-top:5px;">Followers: ' . $follower_data['user_statistics']->followed_by_amount . '</div>'
+                  . '<div class="follower-item">Following: ' . $follower_data['user_statistics']->following_amount . '</div>'
+                  . '<div class="follower-item">Posts: ' . $follower_data['user_statistics']->posts_amount . '</div>'
+                )
+            . '</div>';
+    }
+  }
+  
+  $out .= '<div>Total changed: ' . count($followers) . " (unfollowed: $unfollowed, new followers: $new_followers)</div><br/>";
+  $out .= $changed;
+      
+  //dpm($followers_data, '$followers_data');
+  return "<h1 class='page-header' style='letter-spacing:3px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
+}
+
+/**
+ * 
+ * @return string
+ */
+function a4s_instagram_activity_history_page() {
+  
+  $args = arg();
+  if (empty($args[2]) || !$account_id = a4s_instagram_get_local_account_id_by_username($args[2])) {
+    return 'Wrong request...';
+  }
+ 
+  $last_hours = !empty($args[3]) ? $args[3] : 3;
+  $out = '';
+  
+  $activities = db_select('a4s_insta_user_activities', 'a')
+    ->fields('a', array())
+    ->condition('a.account_id', $account_id)
+    ->condition('a.timestamp', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
+    ->orderBy('a.timestamp', 'desc')
+    ->execute()
+    //->fetchAllAssoc('fid');
+    ->fetchCol();
+  dpm($activities, '$activities');
+  
+  return 'xxx';
   
   $unfollowed = 0;
   $new_followers = 0;
