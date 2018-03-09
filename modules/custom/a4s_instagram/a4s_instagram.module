@@ -2037,46 +2037,30 @@ function a4s_instagram_activity_history_page() {
   $activities = $query->execute()->fetchAllAssoc('aid');
   dpm($activities, '$activities');
   
-  return 'xxx';
-  
-  $unfollowed = 0;
-  $new_followers = 0;
-  $changed = '';
-  $followers_data = array();
-  if (!empty($followers)) {
-    foreach ($followers as $follower_username) {
-      $follower_data = a4s_instagram_get_follower_info($follower_username, $account_username = NULL, $account_id);
-      $followers_data[] = $follower_data;
-      if (empty($follower_data['main'])) {
-        continue;
-      }
-      if ($follower_data['main']->is_following_now) {
-        $new_followers++;
-      }
-      else {
-        $unfollowed++;
-      }
-      $changed .= '<div class="follower" style="float:left; width:140px; height:390px; margin-right:5px; margin-bottom:30px;">'
-              . '<div class="follower-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
-              . '<div class="like-title" style="height:50px;"><a href="https://instagram.com/' . $follower_data['main']->username . '">' . utf8_decode($follower_data['main']->full_name) . '</a></div>'
-              . '<div class="follower-date" style="margin-bottom:10px;"><div>Updated:</div>' . $follower_data['main']->timestamp_updated . '</div>'
-              . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . $follower_data['main']->timestamp_added . '</div>'
+  $counts = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
+  if (!empty($activities)) {
+    foreach ($activities as $activity) {
+      $counts[$activity->activity_type]++;
+      $changed .= '<div class="activity" style="float:left; width:140px; height:390px; margin-right:5px; margin-bottom:30px;">'
+              //. '<div class="activity-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
+              . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $activity->username . '">' . utf8_decode($activity->fullname) . '</a></div>'
+              . '<div class="activity-date" style="margin-bottom:10px;"><div>Event date:</div>' . $activity->timestamp . '</div>'
               
-              . '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
-              . '<div class="follower-img"><a href="https://instagram.com/' . $follower_data['main']->username . '"><img width="130px" src="' . $follower_data['main']->thumbnail . '"></a></div>'
-              . '<div class="follower-item">Auto liked by me: ' . count($follower_data['auto_liked_medias']) . '</div>'
-              . (empty($follower_data['user_statistics']) ? '' : ''
-                  . '<div class="follower-item" style="margin-top:5px;">Followers: ' . $follower_data['user_statistics']->followed_by_amount . '</div>'
-                  . '<div class="follower-item">Following: ' . $follower_data['user_statistics']->following_amount . '</div>'
-                  . '<div class="follower-item">Posts: ' . $follower_data['user_statistics']->posts_amount . '</div>'
-                )
+              //. '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
+              . '<div class="user-img"><a href="https://instagram.com/' . $activity->username . '"><img width="130px" src="' . $activity->thumbnail . '"></a></div>'
+              //. '<div class="user-item">Auto liked by me: ' . count($follower_data['auto_liked_medias']) . '</div>'
+              //. (empty($follower_data['user_statistics']) ? '' : ''
+                  . '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
+                  . '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
+                  . '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
+              //  )
             . '</div>';
     }
   }
   
-  $out .= '<div>Total changed: ' . count($followers) . " (unfollowed: $unfollowed, new followers: $new_followers)</div><br/>";
+  $out .= '<div>Liked: ' . $counts[1] . ', commented: ' . $counts[2] . ', followed: ' . $counts[3] . ', 4: ' . $counts[4] . ', 5: ' . $counts[5] . '</div><br/>';
   $out .= $changed;
       
   //dpm($followers_data, '$followers_data');
-  return "<h1 class='page-header' style='letter-spacing:3px;'>Followers changes for the last $last_hours hours:</h1><br/>'$out";
+  return "<h1 class='page-header' style='letter-spacing:3px;'>Activities for the last $last_hours hours:</h1><br/>'$out";
 }
