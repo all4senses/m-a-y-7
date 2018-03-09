@@ -2047,7 +2047,7 @@ function a4s_instagram_activity_history_page() {
               . '<div class="activity-type" style="margin-bottom:10px; color:green;"><div>Event:</div>' . $activity_types[$activity->activity_type] . '</div>'
               //. '<div class="activity-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
               . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $activity->username . '">' . utf8_decode($activity->fullname) . '</a></div>'
-              . '<div class="activity-date" style="margin-bottom:10px;"><div>Event date:</div>' . $activity->timestamp . '</div>'
+              . '<div class="activity-date" style="margin-bottom:10px;"><div>Event date:</div> ' . date('d/m/Y H:i', $activity->timestamp) . '</div>'
               
               //. '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
               . '<div class="user-img"><a href="https://instagram.com/' . $activity->username . '"><img width="130px" src="' . $activity->thumbnail . '"></a></div>'
