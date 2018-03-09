@@ -1867,6 +1867,57 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
 
 /**
  * 
+ * @param type $target_username
+ * @param type $target_user_id
+ * @param type $account_username
+ * @param type $account_id
+ * @return type
+ */
+function a4s_instagram_get_user_statistics__relatedToRequestedAccount($target_username, $target_user_id, $account_username = 'all4senses', $account_id = NULL) {
+  if (!$account_id) {
+    $account_id = a4s_instagram_get_local_account_id_by_username($account_username);
+  }
+  $user_data = array();
+  $user_data['follower'] = db_select('a4s_insta_followers', 'f')
+    ->fields('f', array('fid', 'followed_back', 'timestamp_unfollowed_first_time', 'is_following_now'))
+    ->condition('f.account_id', $account_id)
+    ->condition('f.username', $target_username)
+    ->execute()
+    ->fetchObject();
+  
+  $user_data['repeating_following'] = NULL;
+  if(!empty($user_data['follower'])) {
+    // Get repeated following/unfollowing data
+    $follower_data_extra = db_select('a4s_insta_followers_repeated_followings', 'f')
+      ->fields('f', array())
+      ->condition('f.fid', $user_data['follower']->fid)
+      ->execute()
+      ->fetchAllAssoc('timestamp');
+    
+    if (!empty($follower_data_extra)) {
+      foreach ($follower_data_extra as $key => $data) {
+        $new_data = $data;
+        $new_data->timestamp = date('d/m/Y H:i', $new_data->timestamp);
+        unset($follower_data_extra[$key]);
+        $follower_data_extra[$new_data->timestamp . ' - ' . ($new_data->event_type ? 'followed' : 'unfollowed')] = $new_data;
+      }
+      $user_data['repeating_following'] = $follower_data_extra;
+    }
+  }
+  
+  // Get a user liked by us medias
+  $user_data['auto_liked_medias'] = db_select('a4s_insta_clicks_by_tag', 'm')
+    ->fields('m', array('shortcode'))
+    ->condition('m.account_id', $account_id)
+    ->condition('m.media_owner_id', $target_user_id)
+    ->execute()
+    ->fetchCol();
+  
+  return $user_data;
+}
+
+/**
+ * 
  * @return string
  */
 function a4s_instagram_likes_history_page() {
@@ -2038,11 +2089,15 @@ function a4s_instagram_activity_history_page() {
   $activities = $query->execute()->fetchAllAssoc('aid');
   dpm($activities, '$activities');
   
-  $activity_types = array(1 => 'Liked Your img', 2 => 'Commented Your img', 3 => 'Following You', 4 => 'Other (4)', 5 => 'Commented back (5)');
+  $activity_types = array(1 => 'Liked Your:', 2 => 'Commented Your:', 3 => 'Following You', 4 => 'Other (4)', 5 => 'Commented back:');
   $counts = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
   if (!empty($activities)) {
     foreach ($activities as $activity) {
       $counts[$activity->activity_type]++;
+      
+      $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($activity->username, $activity->user_id, $account_username = NULL, $account_id);
+      dpm($user_extra_data, '$user_extra_data');
+      
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="activity-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $activity->timestamp) . '</div>'
               . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $activity->username . '">' . utf8_decode($activity->fullname) . '</a></div>'
@@ -2051,7 +2106,6 @@ function a4s_instagram_activity_history_page() {
               //. '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
               . '<div class="user-img"><a href="https://instagram.com/' . $activity->username . '"><img width="130px" src="' . $activity->thumbnail . '"></a></div>'
               //. '<div class="user-item">Auto liked by me: ' . count($follower_data['auto_liked_medias']) . '</div>'
-              //. (empty($follower_data['user_statistics']) ? '' : ''
                   . '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
                   . '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
                   . '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
@@ -2060,7 +2114,7 @@ function a4s_instagram_activity_history_page() {
                   
                   . (empty($activity->media_thumbnail) ? '' : 
                       (
-                       '<div class="media-img"><a href="https://instagram.com/p/' . $activity->media_shortcode . '"><img width="130px" src="' . $activity->media_thumbnail . '"></a></div>'
+                       '<div class="media-img"><a href="https://instagram.com/p/' . $activity->media_shortcode . '"><img width="70px" src="' . $activity->media_thumbnail . '"></a></div>'
                       )
                     )
               //  )
