@@ -1421,7 +1421,10 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
           ->execute();
     }
   }
-  
+  if (!empty($report)) {
+    watchdog('a4s activity', "$username: new activity ==> <pre>" . print_r($report, TRUE) . '</pre>');
+  }
+  return $report;
 }
 
 
