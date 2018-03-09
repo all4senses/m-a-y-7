@@ -1766,7 +1766,7 @@ function a4s_instagram_update_activity_all_users_callback() {
     }
     else {
       foreach ($users_to_process as $key => $user) {
-        if ($user == $last_followers_update_user) {
+        if ($user == $last_activity_update_user) {
           if ($key + 1 >= count($users_to_process)) {
             $current_user = $users_to_process[0];
           }
