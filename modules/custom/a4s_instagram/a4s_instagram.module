@@ -2026,14 +2026,15 @@ function a4s_instagram_activity_history_page() {
   $last_hours = !empty($args[3]) ? $args[3] : 3;
   $out = '';
   
-  $activities = db_select('a4s_insta_user_activities', 'a')
+  $query = db_select('a4s_insta_user_activities', 'a')
     ->fields('a', array())
     ->condition('a.account_id', $account_id)
-    ->condition('a.timestamp', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
-    ->orderBy('a.timestamp', 'desc')
-    ->execute()
-    //->fetchAllAssoc('fid');
-    ->fetchAllAssoc('aid');
+    ->condition('a.timestamp', REQUEST_TIME - (60*60*$last_hours), '>'); // for last 1 hour
+      
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = a.user_id');
+  $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount', 'thumbnail'));  
+  $query->orderBy('a.timestamp', 'desc');
+  $activities = $query->execute()->fetchAllAssoc('aid');
   dpm($activities, '$activities');
   
   return 'xxx';
