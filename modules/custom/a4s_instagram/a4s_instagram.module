@@ -2110,7 +2110,7 @@ function a4s_instagram_activity_history_page() {
                   . '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
                   . '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
                   
-                  . '<div class="user-item">Your follower: ' . (!empty($user_extra_data['follower']) && $user_extra_data['follower']->is_following_now ? '<span style="color:white;background:green;">Yes' : '<span style="color:red;">No</span>') . '</div>'
+                  . '<div class="user-item">Your follower: ' . (!empty($user_extra_data['follower']) && $user_extra_data['follower']->is_following_now ? '<span style="color:white;background:green;">Yes' : '<span style="color:red;">' . (!empty($user_extra_data['follower']) && !$user_extra_data['follower']->is_following_now ? 'Not anymore' : 'No') . '</span>') . (!empty($user_extra_data['repeating_following']) ? '<span title="' . print_r($user_extra_data['repeating_following'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
                   . '<div class="user-item">You follow him: ' . (!empty($user_extra_data['follower']) ? ($user_extra_data['follower']->followed_back ? 'Yes' : 'No') : 'N/A') . '</div>'
                   . '<div class="user-item">Auto liked by me: ' . count($user_extra_data['auto_liked_medias']) . '</div>'
           
