@@ -2087,7 +2087,7 @@ function a4s_instagram_activity_history_page() {
   $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount', 'thumbnail'));  
   $query->orderBy('a.timestamp', 'desc');
   $activities = $query->execute()->fetchAllAssoc('aid');
-  dpm($activities, '$activities');
+  //dpm($activities, '$activities');
   
   $activity_types = array(1 => 'Liked Your:', 2 => 'Commented Your:', 3 => 'Following You', 4 => 'Other (4)', 5 => 'Commented back:');
   $counts = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
@@ -2096,7 +2096,7 @@ function a4s_instagram_activity_history_page() {
       $counts[$activity->activity_type]++;
       
       $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($activity->username, $activity->user_id, $account_username = NULL, $account_id);
-      dpm($user_extra_data, '$user_extra_data');
+      //dpm($user_extra_data, '$user_extra_data');
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="activity-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $activity->timestamp) . '</div>'
