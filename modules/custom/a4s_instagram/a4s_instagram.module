@@ -2033,7 +2033,7 @@ function a4s_instagram_activity_history_page() {
     ->orderBy('a.timestamp', 'desc')
     ->execute()
     //->fetchAllAssoc('fid');
-    ->fetchCol();
+    ->fetchAllAssoc('aid');
   dpm($activities, '$activities');
   
   return 'xxx';
