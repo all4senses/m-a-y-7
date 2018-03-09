@@ -2061,7 +2061,7 @@ function a4s_instagram_activity_history_page() {
     }
   }
   
-  $out .= '<div>Liked: ' . $counts[1] . ', commented: ' . $counts[2] . ', followed: ' . $counts[3] . ', 4: ' . $counts[4] . ', 5: ' . $counts[5] . '</div><br/>';
+  $out .= '<div>Liked: ' . $counts[1] . ', commented: ' . $counts[2] . ', followed: ' . $counts[3] . ', ' . $activity_types[4] . ': ' . $counts[4] . ', ' . $activity_types[5] . ': ' . $counts[5] . '</div><br/>';
   $out .= $changed;
       
   //dpm($followers_data, '$followers_data');
