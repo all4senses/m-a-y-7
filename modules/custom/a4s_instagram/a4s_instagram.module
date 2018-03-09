@@ -2130,7 +2130,9 @@ function a4s_instagram_activity_history_page() {
   
   $short_report = '';
   foreach ($counts as $key => $value) {
-    $short_report .= ($short_report ? ', ' : '') . $activity_types[$key] . ': ' . $value;
+    if ($value) {
+      $short_report .= ($short_report ? ', ' : '') . $activity_types[$key] . ' ' . $value;
+    }
   }
   $out .= '<div>' . $short_report . '</div><br/>';
   $out .= $changed;
