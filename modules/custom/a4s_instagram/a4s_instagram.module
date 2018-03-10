@@ -792,7 +792,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
  * @param type $url
  * @return boolean
  */
-function a4s_file_get_contents($url, $dpm = FALSE) {
+function a4s_instagram_file_get_contents($url, $dpm = FALSE) {
   set_error_handler(create_function('$severity, $message, $file, $line', 'throw new ErrorException($message, $severity, $severity, $file, $line);'));
 
   try {
@@ -846,7 +846,7 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
     dpm($target_url, '$target_url');
   }
   //$response = file_get_contents($target_url);
-  $response = a4s_file_get_contents($target_url, $dpm);
+  $response = a4s_instagram_file_get_contents($target_url, $dpm);
   if (!trim($response)) {
       $data = json_decode($response, true);
       
