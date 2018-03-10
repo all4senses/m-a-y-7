@@ -740,7 +740,7 @@ function a4s_insta_instagramCurlPage__withCookies($url, $cookies_str){
  * @param type $target
  * @param type $pages_count
  */
-function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id, $pages_count = NULL) {
+function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id, $pages_count = NULL, $dpm = FALSE) {
   $data = array();
   $data_all = array();
   
@@ -754,7 +754,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
         $data = a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id);
         break;
       case 'fromA':
-        $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id);
+        $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id, $dpm);
         break;
     }
     
@@ -824,7 +824,7 @@ function a4s_file_get_contents($url, $dpm = FALSE) {
  * @param type $max_id
  * @return boolean|array
  */
-function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
+function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dpm = FALSE) {
   switch ($data_type) {
     case 'user/profile':
     case 'user/media':
@@ -843,7 +843,7 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL) {
   }
   
   //$response = file_get_contents($target_url);
-  $response = a4s_file_get_contents($target_url);
+  $response = a4s_file_get_contents($target_url, $dpm);
   if (!trim($response)) {
       $data = json_decode($response, true);
       
@@ -1308,7 +1308,7 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
   $added_medias_amount = 0;
   $max_id = NULL;
   //$user_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $username, $max_id = NULL);
-  $user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2);
+  $user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
   //if (!empty($user_medias['nodes']) && count($user_medias['nodes']) > 5) {
   if (!empty($user_medias) && $user_medias_count = count($user_medias)) {
     // Define $amount random indexes from first $pages_to_get = 2 users medias
