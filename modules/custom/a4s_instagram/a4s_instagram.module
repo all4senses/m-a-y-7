@@ -2151,7 +2151,7 @@ function a4s_instagram_activity_history_page() {
  * @param type $amount_to_like_multiple_likers
  * @return string
  */
-function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm = FALSE, $max_session_users_to_like = 2, $amount_to_like_followers = 3, $amount_to_like_likers = 2, $amount_to_like_multiple_likers = 3) {
+function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm = FALSE, $max_session_users_to_like = 1, $amount_to_like_followers = 3, $amount_to_like_likers = 2, $amount_to_like_multiple_likers = 3) {
    
   $query = db_select('a4s_insta_user_activities', 'a')
     ->fields('a', array('aid', 'account_id', 'activity_type', 'user_id'))
@@ -2194,9 +2194,7 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
       if (++$this_session_users_to_like >= $max_session_users_to_like) {
         break 2;
       }
-      //dpm('loop inner ' . $this_session_users_to_like);
     }
-    //dpm('loop outer');
   }
   
   $events_to_set_processed = array();
