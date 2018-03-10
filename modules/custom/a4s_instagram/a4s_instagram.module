@@ -1309,7 +1309,8 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
   $added_medias_amount = 0;
   $max_id = NULL;
   //$user_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $username, $max_id = NULL);
-  $user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
+  //$user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
+  $user_medias = a4s_insta_getDataMultiple('fromRaw', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
   //if (!empty($user_medias['nodes']) && count($user_medias['nodes']) > 5) {
   if (!empty($user_medias) && $user_medias_count = count($user_medias)) {
     // Define $amount random indexes from first $pages_to_get = 2 users medias
@@ -2225,11 +2226,11 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
   }
   
   $events_to_set_processed = array();
-  foreach ($users_to_like as $account_id => $target_users) {
-    foreach ($target_users as $target_username => $amount_to_like) {
-      $events_to_set_processed = array_merge($events_to_set_processed, $users_events_per_account[$account_id][$target_username]);
-    }
-  }
+//  foreach ($users_to_like as $account_id => $target_users) {
+//    foreach ($target_users as $target_username => $amount_to_like) {
+//      $events_to_set_processed = array_merge($events_to_set_processed, $users_events_per_account[$account_id][$target_username]);
+//    }
+//  }
   
   
   // Plan to like several medias of this user in turn...
