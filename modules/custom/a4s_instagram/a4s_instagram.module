@@ -1278,6 +1278,7 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
     //$user_medias = $user_medias['nodes'];
     $user_medias_count = count($user_medias);
     $user_medias_to_like = array();
+    $media_indexes_to_like = array();
     /*
     switch ($amount) {
       case 1:
@@ -1295,6 +1296,7 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
       do {
         $r =  mt_rand(1, $user_medias_count);
       }while (in_array($r, $media_indexes_to_like) && ++$iterations < $max_iterations);
+      $media_indexes_to_like[] = $r;
     }
     
     foreach ($media_indexes_to_like as $media_index_to_like) {
