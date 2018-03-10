@@ -1318,7 +1318,7 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
     for ($i = 0; $i < $amount; $i++) {
       $iterations = 0;
       do {
-        $r =  mt_rand(1, $user_medias_count);
+        $r =  mt_rand(1, $user_medias_count - 1);
       }while (in_array($r, $media_indexes_to_like) && ++$iterations < $max_iterations);
       $media_indexes_to_like[] = $r;
     }
