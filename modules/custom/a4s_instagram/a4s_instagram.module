@@ -2216,7 +2216,7 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
       if ($dpm) {
         dpm('$account_id: ' . $account_id . ', $username: ' . $username . ', $amount_to_like: ' . $amount_to_like . ', $activities[$users_events_per_account[$account_id][$username][0]]->user_id: ' . $activities[$users_events_per_account[$account_id][$username][0]]->user_id);
       }
-      a4s_instagram_set_user_medias_to_like($account_id, $username, $activities[$users_events_per_account[$account_id][$username][0]]->user_id, 'back-like', $amount_to_like, TRUE);
+      a4s_instagram_set_user_medias_to_like($account_id, $username, $activities[$users_events_per_account[$account_id][$username][0]]->user_id, 'back-like', $amount_to_like, $dpm);
     }
   }
   
