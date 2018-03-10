@@ -788,6 +788,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
 
 /**
  * Custom file_get_contents() with exceptions handler.
+ * @see https://stackoverflow.com/questions/272361/how-can-i-handle-the-warning-of-file-get-contents-function-in-php
  * 
  * @param type $url
  * @return boolean
@@ -1090,7 +1091,8 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
     $max_id = NULL;
     $tags_added = 0;
     while ($count_existing_in_db < $min_medias_for_tag) {
-      $results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
+      //$results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
+      $results = a4s_insta_getDataMultiple('fromRaw', 'tag', $tag, $max_id, 1);
       if (!$results) {
         break;
       }
