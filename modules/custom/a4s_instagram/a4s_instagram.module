@@ -793,28 +793,42 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
  * @return boolean
  */
 function a4s_instagram_file_get_contents($url, $dpm = FALSE) {
+  $response = FALSE;
+  if ($dpm) {
+    dpm($url, '$url');
+  }
   set_error_handler(create_function('$severity, $message, $file, $line', 'throw new ErrorException($message, $severity, $severity, $file, $line);'));
 
+  if ($dpm) {
+    dpm('2...');
+  }
   try {
+    if ($dpm) {
+      dpm('3...');
+    }
     $response = file_get_contents($url);
+    if ($dpm) {
+      dpm('4...');
+    }
+    //$return = $response;
     if ($response === FALSE) {
       if ($dpm) {
         dpm('a4s Insta Fetch-ERROR', 'Not Fatal, $url: ' . $url . '; file_get_contents() rerurn = FALSE, no exception fired');
       }
       watchdog('a4s Insta Fetch-ERROR', 'Not Fatal, $url: ' . $url . '; file_get_contents() rerurn = FALSE, no exception fired');
-      $return = FALSE;
+      //$return = FALSE;
     }
-    $return = $response;
+    
   } catch (Exception $e) {
       if ($dpm) {
         dpm('a4s Insta Fetch-ERROR', 'Fatal, $url: ' . $url . '; file_get_contents() error ==> ' . $e->getMessage());
       }
       watchdog('a4s Insta Fetch-ERROR', 'Fatal, $url: ' . $url . '; file_get_contents() error ==> ' . $e->getMessage());
-      $return = FALSE;
+      //$return = FALSE;
   }
 
   restore_error_handler();
-  return $return;
+  return $response;
 }
 
 /**
