@@ -842,6 +842,9 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
     $target_url .= '&max_id=' . $max_id; 
   }
   
+  if ($dpm) {
+    dpm($target_url, '$target_url');
+  }
   //$response = file_get_contents($target_url);
   $response = a4s_file_get_contents($target_url, $dpm);
   if (!trim($response)) {
