@@ -797,7 +797,7 @@ function a4s_instagram_file_get_contents($url, $dpm = FALSE) {
   if ($dpm) {
     dpm($url, '$url');
   }
-  set_error_handler(create_function('$severity, $message, $file, $line', 'throw new ErrorException($message, $severity, $severity, $file, $line);'));
+  //set_error_handler(create_function('$severity, $message, $file, $line', 'throw new ErrorException($message, $severity, $severity, $file, $line);'));
 
   if ($dpm) {
     dpm('2...');
@@ -818,6 +818,9 @@ function a4s_instagram_file_get_contents($url, $dpm = FALSE) {
       watchdog('a4s Insta Fetch-ERROR', 'Not Fatal, $url: ' . $url . '; file_get_contents() rerurn = FALSE, no exception fired');
       //$return = FALSE;
     }
+    else {
+      dpm(array($response), '$response');
+    }
     
   } catch (Exception $e) {
       if ($dpm) {
@@ -827,7 +830,7 @@ function a4s_instagram_file_get_contents($url, $dpm = FALSE) {
       //$return = FALSE;
   }
 
-  restore_error_handler();
+  //restore_error_handler();
   return $response;
 }
 
