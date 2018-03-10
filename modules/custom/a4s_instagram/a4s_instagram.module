@@ -430,7 +430,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
  */
 function a4s_insta_media_set_liked($username, $shortcode, $data) {
   
-  watchdog('Liked with Behat', 'Tag ' . @$_REQUEST['tag'] . ', data ==> <pre>'. print_r($data, TRUE) . '</pre>');
+  //watchdog('Liked with Behat', 'Tag ' . @$_REQUEST['tag'] . ', data ==> <pre>'. print_r($data, TRUE) . '</pre>');
   
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   
