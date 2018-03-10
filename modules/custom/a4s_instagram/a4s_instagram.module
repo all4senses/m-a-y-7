@@ -51,15 +51,22 @@ function a4s_instagram_menu() {
   );
   
   $items['insta/followers'] = array(
-    'title' => '', //t('Instagram Likes'),
+    'title' => '',
     'page callback' => 'a4s_instagram_followers_history_page',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   
   $items['insta/activity'] = array(
-    'title' => '', //t('Instagram Likes'),
+    'title' => '',
     'page callback' => 'a4s_instagram_activity_history_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['insta/activity-backlikes-prepare'] = array(
+    'title' => '',
+    'page callback' => 'a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -779,22 +786,6 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
   return $data_all;
 }
 
-
-function test() {
-  $target = 'Bf1Kk9pBPip';
-  $target_url = 'https://instagram.com/p/'. $target;
-  $target_url .= '?max_id=' . $max_id; 
-  $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookiesIn = '');
-  $shards = explode('window._sharedData = ', $insta_source['content']);
-  $insta_json = explode(';</script>', $shards[1]); 
-  $insta_array = json_decode($insta_json[0], TRUE);
-  
-  
-  dpm($insta_array, '$insta_array');
-}
-
-
-
 /**
  * 
  * @param type $data_type
@@ -1279,11 +1270,15 @@ function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
  * @param type $amount
  */
 function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $username_remote_id, $tag = 'back-like', $amount = 2, $dpm = FALSE) {
-  $user_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $username, $max_id = NULL);
-  if (!empty($user_medias['nodes']) && count($user_medias['nodes']) > 5) {
-    $user_medias = $user_medias['nodes'];
+  //$user_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $username, $max_id = NULL);
+  $max_id = NULL;
+  $user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2);
+  //if (!empty($user_medias['nodes']) && count($user_medias['nodes']) > 5) {
+  if (!empty($user_medias)) {
+    //$user_medias = $user_medias['nodes'];
     $user_medias_count = count($user_medias);
     $user_medias_to_like = array();
+    /*
     switch ($amount) {
       case 1:
         $media_indexes_to_like = array($user_medias_count - 1);
@@ -1291,6 +1286,15 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
       case 2:
         $media_indexes_to_like = array($user_medias_count - 1, intval($user_medias_count/2));
         break;
+    }
+    */
+    // Define $amount random indexes from first $pages_to_get = 2 users medias
+    $max_iterations = 200;
+    for ($i = 0; $i < $amount; $i++) {
+      $iterations = 0;
+      do {
+        $r =  mt_rand(1, $user_medias_count);
+      }while (in_array($r, $media_indexes_to_like) && ++$iterations < $max_iterations);
     }
     
     foreach ($media_indexes_to_like as $media_index_to_like) {
@@ -1543,7 +1547,9 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
       }
       
       // Plan to like several medias of this user in turn...
-      a4s_instagram_set_user_medias_to_like($account_id, $new_follower['username'], $new_follower['id'], 'back-like', 2, $dpm);
+      // Actually we will do this instead when an activity of an account will be updated and we there will see this new follower
+      // ...Along with new likers and commenters
+      //a4s_instagram_set_user_medias_to_like($account_id, $new_follower['username'], $new_follower['id'], 'back-like', 2, $dpm);
       /*
       $new_follower_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $new_follower['username'], $max_id = NULL);
       if (!empty($new_follower_medias['nodes']) && count($new_follower_medias['nodes']) > 10) {
@@ -2087,7 +2093,6 @@ function a4s_instagram_activity_history_page() {
   $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount', 'thumbnail'));  
   $query->orderBy('a.timestamp', 'desc');
   $activities = $query->execute()->fetchAllAssoc('aid');
-  //dpm($activities, '$activities');
   
   $activity_types = array(1 => 'Liked Your:', 2 => 'Commented Your:', 3 => 'Following You', 4 => 'Other (4)', 5 => 'Commented back:');
   $counts = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
@@ -2096,16 +2101,12 @@ function a4s_instagram_activity_history_page() {
       $counts[$activity->activity_type]++;
       
       $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($activity->username, $activity->user_id, $account_username = NULL, $account_id);
-      //dpm($user_extra_data, '$user_extra_data');
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="activity-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $activity->timestamp) . '</div>'
               . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $activity->username . '">' . utf8_decode($activity->fullname) . '</a></div>'
               
-              //. '<div class="activity-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
-              //. '<div class="like-ifollow">' . ($follower_data['main']->followed_back ? '<span style="color:white; background:green; display:block; padding:0 5px;">I follow</span>' : '<span style="color:white; background:lightgray; display:block; padding:0 5px;">I dont follow</span>') . '</div>'
               . '<div class="user-img"><a href="https://instagram.com/' . $activity->username . '"><img width="130px" src="' . $activity->thumbnail . '"></a></div>'
-              //. '<div class="user-item">Auto liked by me: ' . count($follower_data['auto_liked_medias']) . '</div>'
                   . '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
                   . '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
                   . '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
@@ -2123,7 +2124,6 @@ function a4s_instagram_activity_history_page() {
                        . (!$activity->extra_data ? '' : '<div class="media-item">Comment: ' . $activity->extra_data . '</div>')
                       )
                     )
-              //  )
             . '</div>';
     }
   }
@@ -2137,6 +2137,98 @@ function a4s_instagram_activity_history_page() {
   $out .= '<div>' . $short_report . '</div><br/>';
   $out .= $changed;
       
-  //dpm($followers_data, '$followers_data');
   return "<h1 class='page-header' style='letter-spacing:3px;'>Activities for the last $last_hours hours:</h1><br/>'$out";
+}
+
+/**
+ * 
+ * @param type $dpm
+ * @param type $max_session_users_to_like
+ * @param type $amount_to_like_followers
+ * @param type $amount_to_like_likers
+ * @param type $amount_to_like_multiple_likers
+ * @return string
+ */
+function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm = FALSE, $max_session_users_to_like = 2, $amount_to_like_followers = 3, $amount_to_like_likers = 2, $amount_to_like_multiple_likers = 3) {
+   
+  $query = db_select('a4s_insta_user_activities', 'a')
+    ->fields('a', array('aid', 'account_id', 'activity_type', 'user_id'))
+    ->isNull('a.activity_local_status');
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = a.user_id');
+  $query->fields('e', array('username'));  
+  $query->orderBy('a.timestamp', 'asc');
+  //$query->range(0, 3);
+  if(!$activities = $query->execute()->fetchAllAssoc('aid')) {
+    if ($dpm) {
+      dpm(array('Back-likes for new activities: ' => 'No new activities'), 'Empty activities result');
+      return;
+    }
+    drupal_json_output(array('Back-likes for new activities: ' => 'No new activities'));
+    drupal_exit();
+  }
+  
+  $this_session_users_to_like = 0;
+  $users_events = array();
+  $users_to_like = array();
+  
+  foreach ($activities as $aid => $activity) {
+    $users_events_per_account[$activity->account_id][$activity->username][] = $aid;
+  }
+  foreach ($users_events_per_account as $account_id => $target_users) {
+    foreach ($target_users as $target_username => $target_username_data) {
+      if (count($target_username_data) > 1) {
+        $amount_to_like = $amount_to_like_multiple_likers;
+      }
+      else {
+        $amount_to_like = $amount_to_like_likers;
+        foreach ($target_username_data as $aid) {
+          if ($activities[$aid]->activity_type == 3) {
+            $amount_to_like = $amount_to_like_followers;
+            break;
+          }
+        }
+      }
+      $users_to_like[$account_id][$target_username] = $amount_to_like;
+      if (++$this_session_users_to_like >= $max_session_users_to_like) {
+        break 2;
+      }
+      //dpm('loop inner ' . $this_session_users_to_like);
+    }
+    //dpm('loop outer');
+  }
+  
+  $events_to_set_processed = array();
+  foreach ($users_to_like as $account_id => $target_users) {
+    foreach ($target_users as $target_username => $target_username_data) {
+      $events_to_set_processed = array_merge($events_to_set_processed, $users_events_per_account[$account_id][$target_username]);
+    }
+  }
+  if ($dpm) {
+    dpm($activities, '$activities');
+    dpm($users_events_per_account, '$users_events_per_account');
+    dpm($users_to_like, '$users_to_like');
+    dpm($events_to_set_processed, '$events_to_set_processed');
+  }
+  
+  // Plan to like several medias of this user in turn...
+  foreach ($users_to_like as $account_id => $users) {
+    foreach ($users as $username => $amount_to_like) {
+      if ($dpm) {
+        dpm('$account_id: ' . $account_id . ', $username: ' . $username . ', $amount_to_like: ' . $amount_to_like . ', $activities[$users_events_per_account[$account_id][$username][0]]->user_id: ' . $activities[$users_events_per_account[$account_id][$username][0]]->user_id);
+      }
+      a4s_instagram_set_user_medias_to_like($account_id, $username, $activities[$users_events_per_account[$account_id][$username][0]]->user_id, 'back-like', $amount_to_like, TRUE);
+    }
+  }
+  
+  // Set processed events as processed in DB
+  db_update('a4s_insta_user_activities')
+      ->fields(array('activity_local_status' => 1))
+      ->condition('aid', $events_to_set_processed, 'IN')
+      ->execute();
+  
+  watchdog('a4s_instagram activities', 'Prepared back-like medias for ==> <pre>'. print_r($users_to_like, TRUE) . '</pre>');
+  if ($dpm) {
+    return 'Finished Activities back-likes medias preparing...';
+  }
+  drupal_json_output(array('Back-likes for new activities: ' => $users_to_like));
 }
