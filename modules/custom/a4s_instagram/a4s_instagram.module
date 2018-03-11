@@ -2258,13 +2258,17 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
     }
   }
   
-  // Set processed events as processed in DB
-  db_update('a4s_insta_user_activities')
-      ->fields(array('activity_local_status' => 1))
-      ->condition('aid', $events_to_set_processed, 'IN')
-      ->execute();
-  
-  watchdog('a4s insta activities like-back', 'Prepared back-like medias for ==> <pre>'. print_r($users_to_like, TRUE) . '</pre>');
+  if (!empty($events_to_set_processed)) {
+    // Set processed events as processed in DB
+    db_update('a4s_insta_user_activities')
+        ->fields(array('activity_local_status' => 1))
+        ->condition('aid', $events_to_set_processed, 'IN')
+        ->execute();
+    watchdog('a4s insta activities like-back', 'Prepared back-like medias for ==> <pre>'. print_r($users_to_like, TRUE) . '</pre>');
+  }
+  else {
+    watchdog('a4s insta activities like-back', '??? No back-like medias prepared for ==> <pre>'. print_r($users_to_like, TRUE) . '</pre>');
+  }
   
   if ($dpm) {
     dpm($activities, '$activities');
