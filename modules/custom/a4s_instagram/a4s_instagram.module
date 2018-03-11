@@ -1371,6 +1371,11 @@ function a4s_instagram_update_activity_single_username($username = 'all4senses',
     dpm($remote_activities, '$remote_activities');
   }
   
+  // Empty results... Cancel processing.
+  if (empty($remote_activities['edge_web_activity_feed']['edges'])) {
+    return;
+  }
+  
   $activity_types = array('1' => 'like', '2' => 'comment', '3' => 'follow');
   
   $new_activities = array();
