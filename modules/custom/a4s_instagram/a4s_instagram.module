@@ -2195,7 +2195,8 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
   
   $query = db_select('a4s_insta_user_activities', 'a')
     ->fields('a', array('aid', 'account_id', 'activity_type', 'user_id'))
-    ->isNull('a.activity_local_status');
+    ->isNull('a.activity_local_status')
+    ->condition('a.failed', 2, '<');
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = a.user_id');
   $query->fields('e', array('username'));  
   $query->orderBy('a.timestamp', 'asc');
@@ -2255,6 +2256,10 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
         $events_to_set_processed = array_merge($events_to_set_processed, $users_events_per_account[$account_id][$username]);
       }
       else {
+        db_update('a4s_insta_user_activities')
+          ->fields(array('failed' => $activities[$users_events_per_account[$account_id][$username][0]]->failed + 1))
+          ->condition('aid', $users_events_per_account[$account_id][$username][0])
+          ->execute();
         watchdog('a4s insta activities like-back', "Warning: no medias added for account_id: $account_id, username: $username");
         if ($dpm) {
           dpm('a4s insta activities like-back', "Warning: no medias added for account_id: $account_id, username: $username");

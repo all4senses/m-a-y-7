@@ -455,6 +455,13 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
+      'failed' => array(
+        'description' => 'Failed trials amount, like NULL, 1, 2, etc',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
       'extra_data' => array(
         'description' => 'Extra data for an event, for example, a comment text (should be trimmed to 100 chars)',
         'type' => 'varchar',
@@ -605,3 +612,13 @@ function a4s_instagram_update_7014() {
     db_create_table('a4s_insta_user_activities', $schema['a4s_insta_user_activities']);
   }
 }
+
+/**
+ * Add new field failed to a4s_insta_user_activities.
+ */
+function a4s_instagram_update_7015() {
+  if (!db_field_exists('a4s_insta_user_activities', 'failed')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_user_activities', 'failed', $schema['a4s_insta_user_activities']['fields']['failed']);
+  }
+ }
