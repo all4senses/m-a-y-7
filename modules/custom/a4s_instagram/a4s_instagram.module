@@ -2213,6 +2213,7 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
   $this_session_users_to_like = 0;
   $users_events = array();
   $users_to_like = array();
+  $users_to_like_success = array();
   
   foreach ($activities as $aid => $activity) {
     $users_events_per_account[$activity->account_id][$activity->username][] = $aid;
@@ -2254,12 +2255,15 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
       }
       if($added_medias_amount = a4s_instagram_set_user_medias_to_like($account_id, $username, $activities[$users_events_per_account[$account_id][$username][0]]->user_id, 'back-like', $amount_to_like, $dpm)) {
         $events_to_set_processed = array_merge($events_to_set_processed, $users_events_per_account[$account_id][$username]);
+        $users_to_like_success[$account_id][$username] = $added_medias_amount;
       }
       else {
+        
         db_update('a4s_insta_user_activities')
           ->fields(array('failed' => $activities[$users_events_per_account[$account_id][$username][0]]->failed + 1))
           ->condition('aid', $users_events_per_account[$account_id][$username][0])
           ->execute();
+        
         watchdog('a4s insta activities like-back', "Warning: no medias added for account_id: $account_id, username: $username");
         if ($dpm) {
           dpm('a4s insta activities like-back', "Warning: no medias added for account_id: $account_id, username: $username");
@@ -2285,8 +2289,9 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
     dpm($users_events_per_account, '$users_events_per_account');
     dpm($users_to_like, '$users_to_like');
     dpm($events_to_set_processed, '$events_to_set_processed');
+    dpm($users_to_like_success, '$users_to_like_success');
     
     return 'Finished Activities back-likes medias preparing...';
   }
-  drupal_json_output(array('Back-likes for new activities: ' => $users_to_like));
+  drupal_json_output(array('Back-likes for new activities (Empty means Problems): ' => $users_to_like_success));
 }
