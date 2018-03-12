@@ -260,7 +260,7 @@ function a4s_instagram_behat() {
               variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         }
         
-        $amount = 5;
+        $amount = 7;
         $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount, $return_type = 'data');
         $response_data['tag'] = $current_tag;
         break;
