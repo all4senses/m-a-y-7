@@ -260,7 +260,7 @@ function a4s_instagram_behat() {
               variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         }
         
-        $amount = 5;
+        $amount = 7;
         $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount, $return_type = 'data');
         $response_data['tag'] = $current_tag;
         break;
@@ -448,7 +448,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
         )
        )->execute();
     
-    watchdog('Request from Behat Error', "Not found: media $shortcode for $username, and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
+    //watchdog('Request from Behat, Warning', "Not found: media $shortcode for $username, and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
   }
   elseif ($data['liked'] === 'true' || $data['liked'] === 'liked_before') {
     db_update('a4s_insta_clicks_by_tag')
@@ -1260,7 +1260,9 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
       $not_liked_by_tag = array_merge($not_liked_by_tag, array_keys($media_to_db));
       $count_existing_in_db = count($not_liked_by_tag);
     }
-    watchdog('a4s get medias', 'Added ' . ($count_existing_in_db - $count_existing_in_db_before) . ' medias of a tag "' . $tag . '" for ' . $username);
+    if ($count_existing_in_db - $count_existing_in_db_before > 0) {
+      watchdog('a4s get medias', 'Added ' . ($count_existing_in_db - $count_existing_in_db_before) . ' medias of a tag "' . $tag . '" for ' . $username);
+    }
     $added_tags_amount[$tag] = $count_existing_in_db - $count_existing_in_db_before;
   }
   return $added_tags_amount;
