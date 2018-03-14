@@ -849,7 +849,9 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
   if ($response) {
       $data = json_decode($response, true);
       
-      //dpm($data, '$data fromA');
+      if ($dpm) {
+        dpm($data, '$data fromA');
+      }
       
       if (!empty($data)) {
           switch ($data_type) {
