@@ -867,10 +867,10 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
               break;
             case 'user/media':
               //$out = !empty($data['user']['media']) ? $data['user']['media'] : NULL;
-              $out = !empty($data['graphql']['user']['edge_owner_to_timeline_media']['edges']) ? $data['graphql']['user']['edge_owner_to_timeline_media']['edges'] : NULL;
+              $out = !empty($data['graphql']['user']['edge_owner_to_timeline_media']) ? $data['graphql']['user']['edge_owner_to_timeline_media'] : NULL;
               break;
             case 'media/likers':
-              $out = !empty($data['graphql']['shortcode_media']['edge_media_preview_like']['edges']) ? $data['graphql']['shortcode_media']['edge_media_preview_like']['edges'] : NULL;
+              $out = !empty($data['graphql']['shortcode_media']['edge_media_preview_like']) ? $data['graphql']['shortcode_media']['edge_media_preview_like'] : NULL;
               break;
             case 'tag':
               $out = !empty($data['graphql']['hashtag']['edge_hashtag_to_media']) ? $data['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
