@@ -945,9 +945,12 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
   
   switch ($data_type) {
     case 'user/profile':
-      // Remove actual media data, as we return here only a general profile info
-      $insta_array['entry_data']['ProfilePage'][0]['user']['media']['nodes'] = array();
-      $out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']) ? $insta_array['entry_data']['ProfilePage'][0]['user'] : NULL;
+      $out = !empty($insta_array['entry_data']['ProfilePage'][0]['graphql']['user']) ? $insta_array['entry_data']['ProfilePage'][0]['graphql']['user'] : NULL;
+      if (!empty($out)) {
+        // Remove actual media data, as we return here only a general profile info
+        //$out['media']['nodes'] = array();
+        $out['edge_owner_to_timeline_media']['edges'] = array();
+      }
       break;
     case 'user/media':
       //$out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']['media']) ? $insta_array['entry_data']['ProfilePage'][0]['user']['media'] : NULL;
