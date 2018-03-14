@@ -2240,7 +2240,7 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = a.user_id');
   $query->fields('e', array('username'));  
   $query->orderBy('a.timestamp', 'asc');
-  $query->range(0, $max_session_users_to_like);
+  //$query->range(0, $max_session_users_to_like);
   if(!$activities = $query->execute()->fetchAllAssoc('aid')) {
     if ($dpm) {
       dpm(array('Back-likes for new activities: ' => 'No new activities'), 'Empty activities result');
