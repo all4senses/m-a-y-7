@@ -1358,14 +1358,22 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
       $user_media = $user_medias[$media_index_to_like];
       $user_media_to_like_data = array(
         'account_id' => $account_id,
-        'shortcode' => $user_media['code'],
-        'caption' => !empty($user_media['caption']) ? drupal_substr(utf8_encode($user_media['caption']), 0, 25) : NULL,
+        //'shortcode' => $user_media['code'],
+        'shortcode' => $user_media['shortcode'],
+        
+        //'caption' => !empty($user_media['caption']) ? drupal_substr(utf8_encode($user_media['caption']), 0, 25) : NULL,
+        'caption' => !empty($user_media['edge_media_to_caption']['edges'][0]['node']['text']) ? drupal_substr(utf8_encode($user_media['edge_media_to_caption']['edges'][0]['node']['text']), 0, 25) : NULL,
+        
         'media_owner_id' => $username_remote_id,
         'tag' => $tag,
-        'likes_amount' => $user_media['likes']['count'],
+        //'likes_amount' => $user_media['likes']['count'],
+        'likes_amount' => $user_media['edge_liked_by']['count'],
+        
         'thumbnail' => !empty($user_media['thumbnail_resources'][0]['src']) ? $user_media['thumbnail_resources'][0]['src'] : NULL,
         'is_video' => empty($user_media['is_video']) ? NULL : 1,
-        'timestamp_taken' => $user_media['date'],
+        //'timestamp_taken' => $user_media['date'],
+        'timestamp_taken' => $user_media['taken_at_timestamp'],
+        
         'timestamp_added' => REQUEST_TIME,
       );
       // Add to DB...
