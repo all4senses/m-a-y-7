@@ -858,9 +858,12 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
       if (!empty($data)) {
           switch ($data_type) {
             case 'user/profile':
-              // Remove actual media data, as we return here only a general profile info
-              $data['user']['media']['nodes'] = array();
-              $out = !empty($data['user']) ? $data['user'] : NULL;
+              $out = !empty($data['graphql']['user']) ? $data['graphql']['user'] : NULL;
+              if (!empty($out)) {
+                // Remove actual media data, as we return here only a general profile info
+                //$data['user']['media']['nodes'] = array();
+                $out['edge_owner_to_timeline_media']['edges'] = array();
+              }
               /*
               $follows = $data['user']['follows']['count'];
               $followedBy = $data['user']['followed_by']['count'];
