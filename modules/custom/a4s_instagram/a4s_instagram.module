@@ -301,7 +301,7 @@ function a4s_instagram_behat() {
  */
 function a4s_insta_get_user_tags($username = NULL) {
   $insta_users_tags_default = array(
-    'all4senses' => array('designer', /*'art',*/ 'graphicdesign', 'photographer', /*'productdesign',*/ /*'architecture',*/ 'arhitect', 'photoart', /*'marketing',*/ 'artwork'),
+    'all4senses' => array('designer', 'art', 'graphicdesign', 'photographer', 'productdesign', 'architecture', 'arhitect', 'photoart', /*'marketing',*/ 'artwork', 'interiordesign', 'дизайнинтерьера', 'photoshoot', 'photosession', 'digitalart', '3dart'),
     'olyayuskasova' => array(
       'nsk', 'novosibirsk', 'новосибирск', 'нск', 'нск54', 'вьетнам', 'бизнес', 'тайланд', 'тай', 'толмачево', 'дом', 'nsk54',
       'нижневартовск', 'норильск', 'якутск', 'магадан', 'сургут', 'мальдивы',
