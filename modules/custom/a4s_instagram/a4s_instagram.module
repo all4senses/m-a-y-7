@@ -950,7 +950,8 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       $out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']) ? $insta_array['entry_data']['ProfilePage'][0]['user'] : NULL;
       break;
     case 'user/media':
-      $out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']['media']) ? $insta_array['entry_data']['ProfilePage'][0]['user']['media'] : NULL;
+      //$out = !empty($insta_array['entry_data']['ProfilePage'][0]['user']['media']) ? $insta_array['entry_data']['ProfilePage'][0]['user']['media'] : NULL;
+      $out = !empty($insta_array['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']) ? $insta_array['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media'] : NULL;
       break;
     case 'user/activity':
       $out = !empty($insta_array['entry_data']['ActivityFeed'][0]['graphql']['user']['activity_feed']) ? $insta_array['entry_data']['ActivityFeed'][0]['graphql']['user']['activity_feed'] : NULL;
