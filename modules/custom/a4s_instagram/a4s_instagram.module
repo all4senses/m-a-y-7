@@ -1075,7 +1075,9 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
         $data[] = utf8_encode($tag);
       }
     }
-    drupal_json_output(array('New added tags amount' => $added_tags_amount));
+    //drupal_json_output(array('New added tags amount' => $added_tags_amount));
+    echo '<pre>' . print_r($added_tags_amount, TRUE) . '</pre>';
+    drupal_exit();
   }
 }
 
