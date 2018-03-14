@@ -923,6 +923,10 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
     $target_url .= '?max_id=' . $max_id; 
   }
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookies_str);
+  if ($dpm) {
+    dpm($insta_source, '$insta_source');
+  }
+  
   if (empty($insta_source['content'])) {
     return NULL;
   }
