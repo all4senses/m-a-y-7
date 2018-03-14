@@ -1382,7 +1382,8 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
               $user_media_to_like_data
              )->execute();
       if ($cid) {
-        $user_medias_to_like[] = $user_media['code'];
+        //$user_medias_to_like[] = $user_media['code'];
+        $user_medias_to_like[] = $user_media['shortcode'];
       }
     }
     $added_medias_amount = count($user_medias_to_like);
