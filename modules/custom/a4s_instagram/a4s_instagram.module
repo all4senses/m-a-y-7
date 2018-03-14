@@ -2334,5 +2334,5 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
     
     return 'Finished Activities back-likes medias preparing...';
   }
-  drupal_json_output(array('Back-likes for new activities: ' => array('$users_to_like_success (Empty means Problems)' => $users_to_like_success, '$users_to_like (processed users)' => $users_to_like)));
+  drupal_json_output(array('Back-likes for new activities: ' => array('$users_to_like_success (Empty means Problems)' => $users_to_like_success, '$users_to_like (processed users)' => $users_to_like, '$events_to_set_processed' => $events_to_set_processed)));
 }
