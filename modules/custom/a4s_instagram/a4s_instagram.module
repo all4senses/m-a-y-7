@@ -2300,7 +2300,8 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
         
         db_update('a4s_insta_user_activities')
           ->fields(array('failed' => $activities[$users_events_per_account[$account_id][$username][0]]->failed + 1))
-          ->condition('aid', $users_events_per_account[$account_id][$username][0])
+          //->condition('aid', $users_events_per_account[$account_id][$username][0])
+          ->condition('aid', $users_events_per_account[$account_id][$username], 'IN')
           ->execute();
         
         watchdog('a4s insta activities like-back', "Warning: no medias added for account_id: $account_id, username: $username");
