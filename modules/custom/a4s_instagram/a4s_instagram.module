@@ -895,7 +895,7 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
  * @param type $max_id
  * @return array
  */
-function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $cookies_str = '', $dpm = FALSE) {
+function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $cookies_str = NULL, $dpm = FALSE) {
   switch ($data_type) {
     case 'user/profile':
     case 'user/media':
@@ -922,6 +922,11 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
   if ($max_id) {
     $target_url .= '?max_id=' . $max_id; 
   }
+  
+  if ($dpm) {
+    dpm($target_url, '$target_url');
+  }
+  
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookies_str);
   if ($dpm) {
     dpm($insta_source, '$insta_source for '. $target_url);
