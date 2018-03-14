@@ -1356,7 +1356,6 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
     
     foreach ($media_indexes_to_like as $media_index_to_like) {
       $user_media = $user_medias[$media_index_to_like]['node'];
-      dpm($user_media, '$user_media');
       $user_media_to_like_data = array(
         'account_id' => $account_id,
         //'shortcode' => $user_media['code'],
