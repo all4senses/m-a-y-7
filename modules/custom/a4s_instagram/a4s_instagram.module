@@ -1069,6 +1069,12 @@ function a4s_insta_get_images_to_click_byTags_allUsers_callback() {
     return 'Finished processing.';
   }
   else {
+    foreach ($added_tags_amount as $username => &$data) {
+      foreach ($data as $tag => $amount) {
+        $data[] = utf8_decode($tag);
+        $data[] = utf8_encode($tag);
+      }
+    }
     drupal_json_output(array('New added tags amount' => $added_tags_amount));
   }
 }
