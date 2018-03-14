@@ -2201,7 +2201,7 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
   $query->isNull('a.activity_local_status');
   $db_or = db_or()->isNull('a.failed')->condition('a.failed', 2, '<');
   $query->condition($db_or);
-  $query->condition('a.failed', 2, '<');
+  //$query->condition('a.failed', 2, '<');
   
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = a.user_id');
   $query->fields('e', array('username'));  
