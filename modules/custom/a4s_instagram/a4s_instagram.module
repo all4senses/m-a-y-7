@@ -924,7 +924,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
   }
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookies_str);
   if ($dpm) {
-    dpm($insta_source, '$insta_source');
+    dpm($insta_source, '$insta_source for '. $target_url);
   }
   
   if (empty($insta_source['content'])) {
