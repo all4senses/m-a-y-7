@@ -1348,11 +1348,22 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
   if (!empty($user_medias) && $user_medias_count = count($user_medias)) {
     // Define $amount random indexes from first $pages_to_get = 2 users medias
     $max_iterations = 200;
+    $already_liked_or_planned_array = array();
     for ($i = 0; $i < $amount; $i++) {
       $iterations = 0;
       do {
         $r =  mt_rand(1, $user_medias_count - 1);
-      }while (in_array($r, $media_indexes_to_like) && ++$iterations < $max_iterations);
+        
+        if (empty($already_liked_or_planned_array[$r])) {
+          $already_liked_or_planned = db_select('a4s_insta_clicks_by_tag', 't')
+            ->fields('t', array('cid'))
+            ->condition('t.shortcode', $user_medias[$r]['node']['shortcode'])
+            ->execute()->fetchField();
+          $already_liked_or_planned_array[$r] = $already_liked_or_planned ? 'yes' : 'no';
+        }
+      //}while (in_array($r, $media_indexes_to_like) && ++$iterations < $max_iterations);
+      }while ( ($already_liked_or_planned_array[$r] == 'yes' || in_array($r, $media_indexes_to_like) ) && ++$iterations < $max_iterations);
+      
       $media_indexes_to_like[] = $r;
     }
     
