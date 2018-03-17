@@ -203,14 +203,15 @@ function a4s_instagram_behat() {
       case 'alert':
         $alert_count_to_disable_behat = 3;
         $subject = 'Alert from Behat!';
-        $a4s_behat_alerts_count = variable_get('a4s_behat_alerts_count', 0);
-        variable_set('a4s_behat_alerts_count', ++$a4s_behat_alerts_count);
+        $a4s_behat_alerts_count = variable_get('a4s_behat_alerts_count', 0) + 1;
         watchdog('Probems with Behat, Alert', "Problems from Behat (#$a4s_behat_alerts_count):  " . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
         if ($a4s_behat_alerts_count >= $alert_count_to_disable_behat) {
           a4s_instagram_jenkins_insta_switch_status('disable');
+          $a4s_behat_alerts_count = 0;
           //drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
           watchdog('Probems with Behat, OFF', "Behat is TURNED OFF, because of $alert_count_to_disable_behat alerts of problems");
         }
+        variable_set('a4s_behat_alerts_count', $a4s_behat_alerts_count);
         break;
       
       
