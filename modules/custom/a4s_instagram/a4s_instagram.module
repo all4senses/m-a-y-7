@@ -2317,6 +2317,7 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
       foreach ($users_events_per_account[$account_id][$username] as $event_aid) {
         if ($activities[$aid]->activity_type == 3) {
           $current_user_event_type = 3;
+          break;
         }
       }
       if ($current_user_event_type != 3) {
