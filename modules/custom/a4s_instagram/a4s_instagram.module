@@ -2242,6 +2242,8 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
   $dpm = (!$dpm && empty($_GET['dpm'])) ? FALSE : TRUE;
   $max_session_users_to_like = !empty($_GET['users-per-session']) ? $_GET['users-per-session'] : $max_session_users_to_like;
   
+  $hours_to_skip_liking = 10;
+  
   $query = db_select('a4s_insta_user_activities', 'a')
     ->fields('a', array('aid', 'account_id', 'activity_type', 'user_id', 'failed'));
   
@@ -2306,7 +2308,38 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
       if ($dpm) {
         dpm('$account_id: ' . $account_id . ', $username: ' . $username . ', $amount_to_like: ' . $amount_to_like . ', $activities[$users_events_per_account[$account_id][$username][0]]->user_id: ' . $activities[$users_events_per_account[$account_id][$username][0]]->user_id);
       }
-      if($added_medias_amount = a4s_instagram_set_user_medias_to_like($account_id, $username, $activities[$users_events_per_account[$account_id][$username][0]]->user_id, 'back-like', $amount_to_like, $dpm)) {
+      
+      // If it's a Like activity (not a New Follower),
+      // Try to find out if there were already liked or planned to be liked medias of this user for the past X hours
+      // If yes, we won't like new his medias for this activity, and mark all his current activity
+      $recently_liked_media_id = NULL;
+      $current_user_event_type = 2;    
+      foreach ($users_events_per_account[$account_id][$username] as $event_aid) {
+        if ($activities[$aid]->activity_type == 3) {
+          $current_user_event_type = 3;
+        }
+      }
+      if ($current_user_event_type != 3) {
+        $query = db_select('a4s_insta_clicks_by_tag', 't')
+          ->fields('t', array('cid'));
+        $query->condition('t.account_id', $account_id);
+        $query->condition('t.media_owner_id', $activities[$users_events_per_account[$account_id][$username][0]]->user_id);
+        $db_or = db_or()->isNull('t.timestamp_liked')->condition('t.timestamp_liked', REQUEST_TIME - 60*60*$hours_to_skip_liking, '>');
+        $query->condition($db_or);
+        $recently_liked_media_id = $query->execute()->fetchField();
+      }
+      if ($recently_liked_media_id) {
+        db_update('a4s_insta_user_activities')
+          ->fields(array('activity_local_status' => 2)) // 2 - ignored
+          ->condition('aid', $users_events_per_account[$account_id][$username], 'IN')
+          ->execute();
+        
+        watchdog('a4s insta activities like-back', "Warning: Ignored adding medias to like from account_id [$account_id], a user [$username] already has been liked for the last $hours_to_skip_liking hours");
+        if ($dpm) {
+          dpm('a4s insta activities like-back', "Warning: Ignored adding medias to like from account_id [$account_id], a user [$username] already has been liked for the last $hours_to_skip_liking hours");
+        }
+      }
+      else if($added_medias_amount = a4s_instagram_set_user_medias_to_like($account_id, $username, $activities[$users_events_per_account[$account_id][$username][0]]->user_id, 'back-like', $amount_to_like, $dpm)) {
         $events_to_set_processed = array_merge($events_to_set_processed, $users_events_per_account[$account_id][$username]);
         $users_to_like_success[$account_id][$username] = $added_medias_amount;
       }
