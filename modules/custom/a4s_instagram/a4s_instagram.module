@@ -201,10 +201,16 @@ function a4s_instagram_behat() {
         
         
       case 'alert':
+        $alert_count_to_disable_behat = 3;
         $subject = 'Alert from Behat!';
-        a4s_instagram_jenkins_insta_switch_status('disable');
-        drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
-        watchdog('Probems with Behat', 'Behat is TURNED OFF, because of: ' . $subject . ' ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
+        $a4s_behat_alerts_count = variable_get('a4s_behat_alerts_count', 0);
+        variable_set('a4s_behat_alerts_count', ++$a4s_behat_alerts_count);
+        watchdog('Probems with Behat, Alert', 'Problems with Behat:  ' . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
+        if ($a4s_behat_alerts_count >= $alert_count_to_disable_behat) {
+          a4s_instagram_jenkins_insta_switch_status('disable');
+          //drupal_mail('a4s_instagram', 'behat_problems_alert', 'all4senses@gmail.com', LANGUAGE_NONE, array('subject' => $subject, 'message' => $_REQUEST['message'], 'data' => $_REQUEST['data']));
+          watchdog('Probems with Behat, OFF', "Behat is TURNED OFF, because of $alert_count_to_disable_behat alerts of problems");
+        }
         break;
       
       
@@ -281,6 +287,7 @@ function a4s_instagram_behat() {
           $errors = 'No username provided OR Empty liked medias results from behat.';
           break;
         }
+        variable_set('a4s_behat_alerts_count', 0);
         foreach (json_decode($_REQUEST['medias'], TRUE) as $shortcode => $data) {
           a4s_insta_media_set_liked($_REQUEST['username'], $shortcode, $data);
         }
