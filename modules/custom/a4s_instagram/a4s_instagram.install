@@ -490,6 +490,62 @@ function a4s_instagram_schema() {
     'primary key' => array('aid'),
   );
   
+  
+  
+  $schema['a4s_insta_auto_following'] = array(
+    'description' => 'Instagram auto following users',
+    'fields' => array(
+      'fid' => array(
+        'description' => 'Primary Key: Local Identifier for a following user.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'account_id' => array(
+        'description' => 'Account local ID, like 1 for all4senses, or 2 for olyayuskasova',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'remote_id' => array(
+        'description' => 'User Instagram ID, like 1535208087',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Status of following: NULL - not yet processed, 1 - successfully followed, 2 - not followed for some reason',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_started' => array(
+        'description' => 'The Unix timestamp when we started following a user',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_ended' => array(
+        'description' => 'The Unix timestamp when we unfollowed a user',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+    ),
+    'indexes' => array(
+      'fid' => array('fid'),
+      'account_id' => array('account_id'),
+      'remote_id' => array('remote_id'),
+      'status' => array('status'),
+      'timestamp_started' => array('timestamp_started'),
+      'timestamp_ended' => array('timestamp_ended'),
+    ),
+    'primary key' => array('fid'),
+  );
+  
   return $schema;
 }
 
@@ -622,3 +678,13 @@ function a4s_instagram_update_7015() {
     db_add_field('a4s_insta_user_activities', 'failed', $schema['a4s_insta_user_activities']['fields']['failed']);
   }
  }
+ 
+/**
+ * Add new table a4s_insta_auto_following.
+ */
+function a4s_instagram_update_7016() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_auto_following')) {
+    db_create_table('a4s_insta_auto_following', $schema['a4s_insta_auto_following']);
+  }
+}
