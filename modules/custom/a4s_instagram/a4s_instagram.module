@@ -426,7 +426,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
           $our_follower = db_select('a4s_insta_followers', 'f')
             ->fields('f', array('fid'))
             ->condition('f.account_id', $account_id)
-            ->condition('f.remote_id', $data->remote_id)
+            ->condition('f.remote_id', $data->media_owner_id)
             ->execute()
             ->fetchField();
           if (!$our_follower) {
@@ -434,7 +434,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
             $we_following = db_select('a4s_insta_auto_following', 'f')
               ->fields('f', array('fid'))
               ->condition('f.account_id', $account_id)
-              ->condition('f.remote_id', $data->remote_id)
+              ->condition('f.remote_id', $data->media_owner_id)
               ->execute()
               ->fetchField();
             if (!$we_following) {
@@ -442,11 +442,12 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
               // if it's time to follow
               $fid = db_insert('a4s_insta_auto_following')->fields(
                 array(
-                  'remote_id' => $data->remote_id,
+                  'remote_id' => $data->media_owner_id,
                   'account_id' => $account_id,
                 )
                )->execute();
               if ($fid) {
+                watchdog('a4s insta auto-follow', 'Planned to follow $account_id = ' . $account_id . ', media = ' . $data->shortcode . ', owner = ' . $data->media_owner_id);
                 $data->op = 'like-and-follow';
                 $auto_following_initiated;
               }
@@ -560,6 +561,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
       ->condition('remote_id', $data['owner']['remote_id'])
       ->condition('account_id', $account_id)
       ->execute();
+    watchdog('a4s insta auto-follow', 'Results: $account_id = ' . $account_id . ', media = ' . $shortcode . ', owner = ' . $data['owner']['remote_id']);
   }
   
 }
