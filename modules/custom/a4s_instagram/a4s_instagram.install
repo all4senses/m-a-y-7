@@ -135,24 +135,6 @@ function a4s_instagram_schema() {
         'length' => 100,
         'not null' => TRUE,
       ),
-      'username' => array(
-        'description' => 'Folower Instagram username, like grase.art.education',
-        'type' => 'varchar',
-        'length' => 100,
-        'not null' => TRUE,
-      ),
-      'full_name' => array(
-        'description' => 'Folower Instagram Full name, like ШКОЛА ЦИФРОВОЙ ИЛЛЮСТРАЦИИ',
-        'type' => 'varchar',
-        'length' => 100,
-        'not null' => TRUE,
-      ),
-      'thumbnail' => array(
-        'description' => 'Folower thumbnail, like https://instagram.fhen2-1.fna.fbcdn.net/vp/bcf500fbc5a4e97b54875aa7324578b4/5B2C5521/t51.2885-19/s150x150/21148060_113544536029882_7043022251133763584_a.jpg',
-        'type' => 'varchar',
-        'length' => 300,
-        'not null' => TRUE,
-      ),
       'followed_back' => array(
         'description' => 'If this follower is also followed back by our account',
         'type' => 'int',
@@ -191,8 +173,6 @@ function a4s_instagram_schema() {
       'fid' => array('fid'),
       'account_id' => array('account_id'),
       'remote_id' => array('remote_id'),
-      'username' => array('username'),
-      'full_name' => array('full_name'),
       'followed_back' => array('followed_back'),
       'is_following_now' => array('is_following_now'),
       'timestamp_added' => array('timestamp_added'),
