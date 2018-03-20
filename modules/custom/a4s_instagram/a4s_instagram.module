@@ -2494,8 +2494,8 @@ function a4s_instagram_autoFollowing_history_page() {
       $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($user->username, $user->remote_id, $account_username = NULL, $account_id);
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
-              . '<div class="activity-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $user->timestamp_started) . '</div>'
-              . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $user->username . '">' . utf8_decode($user->fullname) . '</a></div>'
+              . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . date('d/m/Y H:i', $user->timestamp_started) . '</div>'
+              . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $user->username . '">[' . $user->username . '] ' . utf8_decode($user->fullname) . '</a></div>'
               
               . '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="130px" src="' . $user->thumbnail . '"></a></div>'
                   //. '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
