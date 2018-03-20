@@ -2518,8 +2518,13 @@ function a4s_instagram_autoFollowing_history_page() {
               . '<div class="activity-date" style="margin-bottom:10px;">Status: ' . $status_str . '</div>'
               . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . (!$user->timestamp_started ? 'N/A' : date('d/m/Y H:i', $user->timestamp_started)) . '</div>'
               . '<div class="activity-date" style="margin-bottom:10px;">Ended: ' . (!$user->timestamp_ended ? 'N/A' : date('d/m/Y H:i', $user->timestamp_ended)) . '</div>'
-              . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $user->username . '">[' . $user->username . '] ' . utf8_decode($user->fullname) . '</a></div>'
-              
+          
+              . ($user->username 
+                  ? 
+                  '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $user->username . '">[' . $user->username . '] ' . utf8_decode($user->fullname) . '</a></div>'
+                  :
+                  '<div class="user-title" style="height:50px;"><a href="https://instagram.com/p/' . $user->media_shortcode . '">[Media: ' . utf8_decode($user->media_caption) . '] ' . '</a></div>'
+               )
               . (
                   $user->user_thumbnail 
                    ? 
