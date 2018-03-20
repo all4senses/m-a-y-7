@@ -2487,16 +2487,16 @@ function a4s_instagram_autoFollowing_history_page() {
   if (!empty($followed_or_not)) {
     foreach ($followed_or_not as $fid => $user) {
       //$counts[$activity->activity_type]++;
-      
+      $status_str = a4s_instagram_autoFollowing_statusMapping(NULL, $user->status);
       $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($user->username, $user->remote_id, $account_username = NULL, $account_id);
       $followed_or_not[$fid]->user_extra_data = $user_extra_data;
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
-              . '<div class="activity-date" style="margin-bottom:10px;">Status: ' . $user->status . '</div>'
-              . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . date('d/m/Y H:i', $user->timestamp_started) . '</div>'
+              . '<div class="activity-date" style="margin-bottom:10px;">Status: ' . $status_str  . '</div>'
+              . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . (!$user->timestamp_started ? 'N/A' : date('d/m/Y H:i', $user->timestamp_started)) . '</div>'
               . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $user->username . '">[' . $user->username . '] ' . utf8_decode($user->fullname) . '</a></div>'
               
-              . '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="130px" src="' . $user->thumbnail . '"></a></div>'
+              . '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="130px" src="' . $user->user_thumbnail . '"></a></div>'
                   //. '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
                   //. '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
                   //. '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
