@@ -2554,8 +2554,10 @@ function a4s_instagram_autoFollowing_history_page() {
   return "<h1 class='page-header' style='letter-spacing:3px;'>Auto following/unfollowing for the last $last_hours hours:</h1><br/>'$out";
 }
 
-
-function xxx() {
+/**
+ * Helper temporary function for copying extra user data from a table a4s_insta_followers to a a4s_insta_users_extra_data
+ */
+function _a4s_instagram_copyUserExtraData_from_between_tables() {
   
   $query = db_select('a4s_insta_followers', 'f')->fields('f', array());
   $followers = $query->execute()->fetchAllAssoc('fid');
@@ -2570,9 +2572,16 @@ function xxx() {
       ->execute()
       ->fetchObject();
     
+    $new_user_extra_data = array(
+      'username' => $follower->username,
+      'fullname' => $follower->full_name,
+      'thumbnail' => $follower->thumbnail,
+    );
     if (!empty($extra_data)) {
       if (empty($extra_data->username) || empty($extra_data->fullname) || empty($extra_data->thumbnail)) {
         $existing_extra_data_BAD[$extra_data->username] = $extra_data;
+        
+        db_update('a4s_insta_users_extra_data')->fields($new_user_extra_data)->condition('eid', $extra_data->eid)->execute();
       }
       else {
         $existing_extra_data_GOOD[$extra_data->username] = $extra_data;
@@ -2581,7 +2590,11 @@ function xxx() {
     }
     else {
       $not_existing_extra_data[$follower->username] = $follower;
+      $new_user_extra_data['remote_id'] = $follower->remote_id;
+      $new_user_extra_data['timestamp_added'] = REQUEST_TIME;
+      $eid = db_insert('a4s_insta_users_extra_data')->fields($new_user_extra_data)->execute();
     }
+    break;
   }
   dpm($existing_extra_data_GOOD, '$existing_extra_data_GOOD');
   dpm($existing_extra_data_BAD, '$existing_extra_data_BAD');
