@@ -440,12 +440,17 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
           if (!$our_follower) {
             // Check if we already follow, planned to follow or followed before this user
             $we_following = db_select('a4s_insta_auto_following', 'f')
-              ->fields('f', array('fid'))
+              ->fields('f', array('fid', 'timestamp_started', 'status'))
               ->condition('f.account_id', $account_id)
               ->condition('f.remote_id', $data->media_owner_id)
               ->execute()
-              ->fetchField();
-            if (!$we_following) {
+              ->fetchObject();
+            if (!empty($we_following) && empty($we_following->timestamp_started) && empty($we_following->status)) {
+              watchdog('a4s insta auto-follow', '!!! Re-Planned to follow $account_id = ' . $account_id . ', media = ' . $data->shortcode . ', owner = ' . $data->media_owner_id);
+              $data->op = 'like-and-follow';
+              $auto_following_initiated = TRUE;
+            }
+            else {
               // Set the first media (its owner) to follow
               // if it's time to follow
               $fid = db_insert('a4s_insta_auto_following')->fields(
@@ -1619,13 +1624,14 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   if ($dpm_all_new) {
     dpm($new_followers, '$new_followers');
   }
-  
+    
   // Get all existing followers (active and not active anymore)
-  $existing_followers = db_select('a4s_insta_followers', 'f')
-    ->fields('f', array('fid', 'username', 'full_name', 'remote_id', 'followed_back', 'is_following_now', 'timestamp_unfollowed_first_time'))
-    ->condition('f.account_id', $account_id)
-    ->execute()
-    ->fetchAllAssoc('remote_id');
+  $existing_followers = db_select('a4s_insta_followers', 'f');
+  $query->fields('f', array('fid', 'remote_id', 'followed_back', 'is_following_now', 'timestamp_unfollowed_first_time'));
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
+  $query->fields('e', array('username', 'fullname'));  
+  $query->condition('f.account_id', $account_id);
+  $existing_followers = $query->execute()->fetchAllAssoc('remote_id');
   
   if ($dpm_all_existing) {
     dpm($existing_followers, '$existing_followers');
@@ -1677,13 +1683,13 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
          )->execute();
       // Update or insert extra user data
       $existing_user_extra_data = db_select('a4s_insta_users_extra_data', 'e')
-        ->fields('e', array('eid', 'username', 'full_name', 'remote_id', 'thumbnail'))
+        ->fields('e', array('eid', 'username', 'fullname', 'remote_id', 'thumbnail'))
         ->condition('e.remote_id', $new_follower['id'])
         ->execute()
         ->fetchObject();
       $new_user_extra_data = array(
         'username' => $new_follower['username'],
-        'full_name' => utf8_encode($new_follower['full_name']),
+        'fullname' => utf8_encode($new_follower['full_name']),
         'thumbnail' => $new_follower['profile_pic_url'],
       );
       if (!empty($existing_user_extra_data) && (empty($existing_user_extra_data->username) || empty($existing_user_extra_data->full_name) || empty($existing_user_extra_data->thumbnail)) ) {
@@ -1857,7 +1863,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   //}
   
   if (!empty($changed_followers)) {
-    $fields_to_unset = array('id', 'full_name', 'profile_pic_url', 'is_verified', 'requested_by_viewer');
+    $fields_to_unset = array('id', 'fullname', 'profile_pic_url', 'is_verified', 'requested_by_viewer');
     foreach ($changed_followers as $data_set_key => $data_set) {
       foreach ($data_set as $data_key => $data) {
         foreach ($fields_to_unset as $field_to_unset) {
@@ -1967,12 +1973,14 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
     $account_id = a4s_instagram_get_local_account_id_by_username($account_username);
   }
   $follower_data = array();
-  $follower_data['main'] = db_select('a4s_insta_followers', 'f')
-    ->fields('f', array())
-    ->condition('f.account_id', $account_id)
-    ->condition('f.username', $follower_username)
-    ->execute()
-    ->fetchObject();
+  
+  $query = db_select('a4s_insta_followers', 'f')
+    ->fields('f', array());
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
+  $query->fields('e', array('username'));  
+  $query->condition('f.account_id', $account_id)
+        ->condition('e.username', $follower_username);
+  $follower_data['main'] = $query->execute()->fetchObject();
   
   if (empty($follower_data['main'])) {
     return NULL;
@@ -2170,15 +2178,12 @@ function a4s_instagram_followers_history_page() {
   $last_hours = !empty($args[3]) ? $args[3] : 3;
   $out = '';
   
-  $followers = db_select('a4s_insta_followers', 'f')
-    ->fields('f', array('username'))
-    ->condition('f.account_id', $account_id)
-    ->condition('f.timestamp_updated', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
-    ->orderBy('f.timestamp_updated', 'desc')
-    ->execute()
-    //->fetchAllAssoc('fid');
-    ->fetchCol();
-  //dpm($followers, '$followers');
+  $query = db_select('a4s_insta_followers', 'f');
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
+  $query->fields('e', array('username'));  
+  $query->condition('f.account_id', $account_id)
+        ->condition('f.timestamp_updated', REQUEST_TIME - (60*60*$last_hours), '>'); // for last 1 hour
+  $followers = $query->orderBy('f.timestamp_updated', 'desc')->execute()->fetchCol();
   
   $unfollowed = 0;
   $new_followers = 0;
@@ -2545,7 +2550,7 @@ function a4s_instagram_autoFollowing_history_page() {
             . '</div>';
     }
   }
-  dpm($followed_or_not, '$followed_or_not');
+  //dpm($followed_or_not, '$followed_or_not');
   $short_report = '';
   foreach ($counts as $key => $value) {
     if ($value) {
