@@ -2040,7 +2040,7 @@ function a4s_instagram_get_user_statistics__relatedToRequestedAccount($target_us
   $user_data['follower'] = db_select('a4s_insta_followers', 'f')
     ->fields('f', array('fid', 'followed_back', 'timestamp_unfollowed_first_time', 'is_following_now'))
     ->condition('f.account_id', $account_id)
-    ->condition('f.username', $target_username)
+    ->condition('f.remote_id', $target_user_id)
     ->execute()
     ->fetchObject();
   
