@@ -2522,7 +2522,7 @@ function a4s_instagram_autoFollowing_history_page() {
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="activity-date" style="margin-bottom:10px;">Status: ' . $status_str . '</div>'
-              . '<div class="activity-date" style="margin-bottom:10px;">Added: ' . (!$user->timestamp_added ? 'N/A' : date('d/m/Y H:i', $user->added)) . '</div>'
+              . '<div class="activity-date" style="margin-bottom:10px;">Added: ' . (!$user->timestamp_added ? 'N/A' : date('d/m/Y H:i', $user->timestamp_added)) . '</div>'
               . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . (!$user->timestamp_started ? 'N/A' : date('d/m/Y H:i', $user->timestamp_started)) . '</div>'
               . '<div class="activity-date" style="margin-bottom:10px;">Ended: ' . (!$user->timestamp_ended ? 'N/A' : date('d/m/Y H:i', $user->timestamp_ended)) . '</div>'
           
