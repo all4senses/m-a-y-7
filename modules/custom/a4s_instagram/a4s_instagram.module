@@ -406,7 +406,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
             ->range(0, $amount);
       $not_liked_by_tag = $query->execute()->fetchAllAssoc('shortcode');
 
-      $already_auto_followed_someone_recently = FALSE;
+      $already_auto_followed_someone_recently = TRUE;
       $auto_following_allowed = variable_get('a4s_insta_auto_following', array(1 => TRUE, 2 => FALSE));
       if($auto_following_allowed[$account_id]) {
         $auto_following_period = variable_get('a4s_insta_auto_following_period_h', 3); // 3 hours
