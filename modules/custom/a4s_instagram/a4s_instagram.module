@@ -2547,10 +2547,10 @@ function a4s_instagram_autoFollowing_history_page() {
       $short_report .= ($short_report ? ', ' : '') . $key . ': ' . $value;
     }
   }
-  $out .= '<div>' . $short_report . '</div><br/>';
+  $out .= '<div>' . $short_report . '</div><br/><br/>';
   $out .= $changed;
       
-  return "<h1 class='page-header' style='letter-spacing:3px;'>Auto following/unfollowing for the last $last_hours hours:</h1><br/>'$out";
+  return "<h1 class='page-header' style='letter-spacing:3px;'>Auto following/unfollowing for the last $last_hours hours:</h1><br/>$out";
 }
 
 /**
