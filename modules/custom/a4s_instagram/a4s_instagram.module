@@ -2484,6 +2484,12 @@ function a4s_instagram_autoFollowing_history_page() {
   $query->orderBy('f.timestamp_ended', 'desc');
   $followed_or_not = $query->execute()->fetchAllAssoc('fid');
   
+  $counts = array(
+    'Planned' => 0,
+    'Following' => 0,
+    'Unfollowed' => 0,
+    'Skipped' => 0,
+  );
   if (!empty($followed_or_not)) {
     foreach ($followed_or_not as $fid => $user) {
       
@@ -2492,13 +2498,20 @@ function a4s_instagram_autoFollowing_history_page() {
       
       if ($user->timestamp_ended) {
         $status_str = '<span style="color:gray;">Unfollowed</span>';
+        $counts['Unfollowed']++;
       }
       elseif ($user->timestamp_started) {
         $status_str = '<span style="color:green;">Following</span>';
+        $counts['Following']++;
+      }
+      elseif (!$user->status) {
+        $status_str = '<span>Planned</span>';
+        $counts['Planned']++;
       }
       else {
         $status_str = a4s_instagram_autoFollowing_statusMapping(NULL, $user->status);
         $status_str = '<span style="color:red;">' . ($status_str ? $status_str : 'N/A') . '</span>';
+        $counts['Skipped']++;
       }
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
@@ -2529,11 +2542,11 @@ function a4s_instagram_autoFollowing_history_page() {
   }
   dpm($followed_or_not, '$followed_or_not');
   $short_report = '';
-//  foreach ($counts as $key => $value) {
-//    if ($value) {
-//      $short_report .= ($short_report ? ', ' : '') . $activity_types[$key] . ' ' . $value;
-//    }
-//  }
+  foreach ($counts as $key => $value) {
+    if ($value) {
+      $short_report .= ($short_report ? ', ' : '') . $key . ': ' . $value;
+    }
+  }
   $out .= '<div>' . $short_report . '</div><br/>';
   $out .= $changed;
       
