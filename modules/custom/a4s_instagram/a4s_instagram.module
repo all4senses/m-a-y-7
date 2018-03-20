@@ -2494,7 +2494,7 @@ function a4s_instagram_autoFollowing_history_page() {
         $status_str = '<span style="color:gray;">Unfollowed</span>';
       }
       elseif ($user->timestamp_started) {
-        $status_str == '<span style="color:green;">Following</span>';
+        $status_str = '<span style="color:green;">Following</span>';
       }
       else {
         $status_str = a4s_instagram_autoFollowing_statusMapping(NULL, $user->status);
