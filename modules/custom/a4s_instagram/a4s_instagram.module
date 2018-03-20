@@ -2499,7 +2499,13 @@ function a4s_instagram_autoFollowing_history_page() {
               . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . (!$user->timestamp_started ? 'N/A' : date('d/m/Y H:i', $user->timestamp_started)) . '</div>'
               . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $user->username . '">[' . $user->username . '] ' . utf8_decode($user->fullname) . '</a></div>'
               
-              . '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="130px" src="' . $user->user_thumbnail . '"></a></div>'
+              . (
+                  $user->user_thumbnail 
+                   ? 
+                  '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="130px" src="' . $user->user_thumbnail . '"></a></div>'
+                  :
+                  '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="70px" src="' . $user->media_thumbnail . '"></a></div>'
+                  )
                   //. '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
                   //. '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
                   //. '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
