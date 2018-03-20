@@ -402,13 +402,13 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
     case 'data':
       
       $query = db_select('a4s_insta_clicks_by_tag', 'l')
-            ->fields('l', array('shortcode', 'caption', 'media_owner_id'))
+            ->fields('l', array('cid', 'shortcode', 'caption', 'media_owner_id'))
             ->condition('l.tag', $tag)
             ->condition('l.account_id', $account_id)
             ->isNull('l.liked');
 
       $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
-      $query->fields('e', array('cid', 'username', 'followed_by_amount', 'following_amount', 'posts_amount'));
+      $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));
       $query->orderBy('l.timestamp_added')
             ->range(0, $amount);
       $not_liked_by_tag = $query->execute()->fetchAllAssoc('shortcode');
