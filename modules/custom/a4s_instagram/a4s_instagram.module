@@ -2486,6 +2486,7 @@ function a4s_instagram_autoFollowing_history_page() {
   $query->addField('m', 'shortcode', 'media_shortcode');
   $query->addField('m', 'thumbnail', 'media_thumbnail');
   
+  $query->orderBy('f.timestamp_added', 'desc');
   $query->orderBy('f.timestamp_started', 'desc');
   $query->orderBy('f.timestamp_ended', 'desc');
   $followed_or_not = $query->execute()->fetchAllAssoc('fid');
