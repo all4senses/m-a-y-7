@@ -2476,7 +2476,7 @@ function a4s_instagram_autoFollowing_history_page() {
   $query->addField('e', 'thumbnail', 'user_thumbnail');  
   
   $query->leftJoin('a4s_insta_clicks_by_tag', 'm', 'm.cid = f.local_media_cid');
-  $query->addField('m', 'shortcode', 'media_caption');
+  $query->addField('m', 'caption', 'media_caption');
   $query->addField('m', 'shortcode', 'media_shortcode');
   $query->addField('m', 'thumbnail', 'media_thumbnail');
   
