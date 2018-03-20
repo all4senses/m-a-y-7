@@ -2532,9 +2532,9 @@ function a4s_instagram_autoFollowing_history_page() {
                   :
                   '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="70px" src="' . $user->media_thumbnail . '"></a></div>'
                   )
-                  . '<div class="user-item" style="margin-top:5px;">Followers: ' . $user->followed_by_amount . '</div>'
-                  . '<div class="user-item">Following: ' . $user->following_amount . '</div>'
-                  . '<div class="user-item">Posts: ' . $user->posts_amount . '</div>'
+                  . '<div class="user-item" style="margin-top:5px;">Followers: ' . ($user->followed_by_amount ? $user->followed_by_amount : 'N/A' ). '</div>'
+                  . '<div class="user-item">Following: ' . ($user->following_amount ? $user->following_amount : 'N/A') . '</div>'
+                  . '<div class="user-item">Posts: ' . ($user->posts_amount ? $user->posts_amount : 'N/A') . '</div>'
                   
                   . '<div class="user-item">Your follower: ' . (!empty($user_extra_data['follower']) && $user_extra_data['follower']->is_following_now ? '<span style="color:white;background:green;">Yes' : '<span style="color:red;">' . (!empty($user_extra_data['follower']) && !$user_extra_data['follower']->is_following_now ? 'Not anymore' : 'No') . '</span>') . (!empty($user_extra_data['repeating_following']) ? '<span title="' . print_r($user_extra_data['repeating_following'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
                   . '<div class="user-item">You follow him: ' . (!empty($user_extra_data['follower']) ? ($user_extra_data['follower']->followed_back ? 'Yes' : 'No') : 'N/A') . '</div>'
