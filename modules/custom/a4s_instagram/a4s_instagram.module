@@ -560,7 +560,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
       ->condition('remote_id', $data['owner']['remote_id'])
       ->condition('account_id', $account_id)
       ->execute();
-    watchdog('a4s insta auto-follow', 'Results: $account_id = ' . $account_id . ', media = ' . $shortcode . ', owner = ' . $data['owner']['remote_id']);
+    watchdog('a4s insta auto-follow', 'Results: $account_id = ' . $account_id . ', owner = ' . $data['owner']['remote_id'] . ', media = ' . $shortcode . ', status = ' . $data['auto_following_status']);
   }
   
 }
