@@ -64,6 +64,13 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta/auto-follow'] = array(
+    'title' => '',
+    'page callback' => 'a4s_instagram_autoFollowing_history_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
   $items['insta/activity-backlikes-prepare'] = array(
     'title' => '',
     'page callback' => 'a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback',
@@ -2453,4 +2460,66 @@ function a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback($dpm 
     return 'Finished Activities back-likes medias preparing...';
   }
   drupal_json_output(array('Back-likes for new activities: ' => array('$users_to_like_success (Empty means Problems)' => $users_to_like_success, '$users_to_like (processed users)' => $users_to_like, '$events_to_set_processed' => $events_to_set_processed)));
+}
+
+/**
+ * 
+ * @return string
+ */
+function a4s_instagram_autoFollowing_history_page() {
+  
+  $args = arg();
+  if (empty($args[2]) || !$account_id = a4s_instagram_get_local_account_id_by_username($args[2])) {
+    return 'Wrong request...';
+  }
+ 
+  $last_hours = !empty($args[3]) ? $args[3] : 3;
+  $out = '';
+  $changed = '';
+  
+  $query = db_select('a4s_insta_auto_following', 'f')
+    ->fields('f', array())
+    ->condition('f.account_id', $account_id)
+    //->condition('a.timestamp', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
+    ;
+  $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
+  $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount', 'thumbnail'));  
+  $query->orderBy('f.timestamp_started', 'desc');
+  $followed_or_not = $query->execute()->fetchAllAssoc('fid');
+  
+  if (!empty($followed_or_not)) {
+    foreach ($followed_or_not as $user) {
+      //$counts[$activity->activity_type]++;
+      
+      $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($$useractivity->username, $user->remote_id, $account_username = NULL, $account_id);
+      
+      $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
+              . '<div class="activity-date" style="margin-bottom:10px;">' . date('d/m/Y H:i', $user->timestamp_started) . '</div>'
+              . '<div class="user-title" style="height:50px;"><a href="https://instagram.com/' . $user->username . '">' . utf8_decode($user->fullname) . '</a></div>'
+              
+              . '<div class="user-img"><a href="https://instagram.com/' . $user->username . '"><img width="130px" src="' . $user->thumbnail . '"></a></div>'
+                  //. '<div class="user-item" style="margin-top:5px;">Followers: ' . $activity->followed_by_amount . '</div>'
+                  //. '<div class="user-item">Following: ' . $activity->following_amount . '</div>'
+                  //. '<div class="user-item">Posts: ' . $activity->posts_amount . '</div>'
+                  
+                  . '<div class="user-item">Your follower: ' . (!empty($user_extra_data['follower']) && $user_extra_data['follower']->is_following_now ? '<span style="color:white;background:green;">Yes' : '<span style="color:red;">' . (!empty($user_extra_data['follower']) && !$user_extra_data['follower']->is_following_now ? 'Not anymore' : 'No') . '</span>') . (!empty($user_extra_data['repeating_following']) ? '<span title="' . print_r($user_extra_data['repeating_following'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
+                  . '<div class="user-item">You follow him: ' . (!empty($user_extra_data['follower']) ? ($user_extra_data['follower']->followed_back ? 'Yes' : 'No') : 'N/A') . '</div>'
+                  . '<div class="user-item">Auto liked by me: ' . count($user_extra_data['auto_liked_medias']) . '</div>'
+          
+                  //. '<div class="activity-type" style="margin-top:20px; ' . ($activity->activity_type == 3 ? 'background:green; color:white;' : 'color:green;') . '">' . $activity_types[$activity->activity_type] . '</div>'
+                  
+            . '</div>';
+    }
+  }
+  
+  $short_report = '';
+//  foreach ($counts as $key => $value) {
+//    if ($value) {
+//      $short_report .= ($short_report ? ', ' : '') . $activity_types[$key] . ' ' . $value;
+//    }
+//  }
+  $out .= '<div>' . $short_report . '</div><br/>';
+  $out .= $changed;
+      
+  return "<h1 class='page-header' style='letter-spacing:3px;'>Auto following/unfollowing for the last $last_hours hours:</h1><br/>'$out";
 }
