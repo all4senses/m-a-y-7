@@ -514,6 +514,12 @@ function a4s_instagram_schema() {
         'length' => 100,
         'not null' => TRUE,
       ),
+      'local_media_cid' => array(
+        'description' => 'CID index from the local table a4s_insta_clicks_by_tag',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
       'status' => array(
         'description' => 'Status of following: NULL - not yet processed, 1 - successfully followed, 2 - not followed for some reason',
         'type' => 'int',
@@ -688,3 +694,14 @@ function a4s_instagram_update_7016() {
     db_create_table('a4s_insta_auto_following', $schema['a4s_insta_auto_following']);
   }
 }
+
+/**
+ * Add new field local_media_cid to a4s_insta_auto_following.
+ */
+function a4s_instagram_update_7017() {
+  if (!db_field_exists('a4s_insta_auto_following', 'local_media_cid')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_auto_following', 'local_media_cid', $schema['a4s_insta_auto_following']['fields']['local_media_cid']);
+  }
+ }
+

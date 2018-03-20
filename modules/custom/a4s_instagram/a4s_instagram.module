@@ -408,7 +408,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
             ->isNull('l.liked');
 
       $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
-      $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));
+      $query->fields('e', array('cid', 'username', 'followed_by_amount', 'following_amount', 'posts_amount'));
       $query->orderBy('l.timestamp_added')
             ->range(0, $amount);
       $not_liked_by_tag = $query->execute()->fetchAllAssoc('shortcode');
@@ -452,6 +452,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
                 array(
                   'remote_id' => $data->media_owner_id,
                   'account_id' => $account_id,
+                  'local_media_cid' => $data->cid,
                 )
                )->execute();
               if ($fid) {
@@ -1697,15 +1698,33 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
             array(
               'account_id' => $account_id,
               'remote_id' => $new_follower['id'],
-              'username' => $new_follower['username'],
-              'full_name' => utf8_encode($new_follower['full_name']),
-              'thumbnail' => $new_follower['profile_pic_url'],
+              //'username' => $new_follower['username'],
+              //'full_name' => utf8_encode($new_follower['full_name']),
+              //'thumbnail' => $new_follower['profile_pic_url'],
               'followed_back' => $new_follower['followed_by_viewer'],
               'timestamp_added' => $current_time,
               'timestamp_updated' => $current_time,
               'is_following_now' => 1,
             )
          )->execute();
+      // Update or insert extra user data
+      $existing_user_extra_data = db_select('a4s_insta_users_extra_data', 'e')
+        ->fields('e', array('eid', 'username', 'full_name', 'remote_id', 'thumbnail'))
+        ->condition('e.remote_id', $new_follower['id'])
+        ->execute()
+        ->fetchObject();
+      $new_user_extra_data = array(
+        'username' => $new_follower['username'],
+        'full_name' => utf8_encode($new_follower['full_name']),
+        'thumbnail' => $new_follower['profile_pic_url'],
+      );
+      if (!empty($existing_user_extra_data) && (empty($existing_user_extra_data->username) || empty($existing_user_extra_data->full_name) || empty($existing_user_extra_data->thumbnail)) ) {
+        db_update('a4s_insta_users_extra_data')->fields($new_user_extra_data)->condition('eid', $existing_user_extra_data->eid)->execute();
+      }
+      else {
+        $new_user_extra_data['remote_id'] = $new_follower['id'];
+        $eid = db_insert('a4s_insta_users_extra_data')->fields($new_user_extra_data)->execute();
+      }
       
       $changed_followers['added'][] = $new_follower;
       if ($dpm) {
@@ -2479,19 +2498,30 @@ function a4s_instagram_autoFollowing_history_page() {
   
   $query = db_select('a4s_insta_auto_following', 'f')
     ->fields('f', array())
-    ->condition('f.account_id', $account_id)
+    ->condition('f.account_id', $account_id);
     //->condition('a.timestamp', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
-    ;
+  $threshold_timestamp = REQUEST_TIME - (60*60*$last_hours);
+  $db_or = db_or()->condition('f.timestamp_started', $threshold_timestamp, '>')->condition('f.timestamp_ended', $threshold_timestamp, '>');  
+  
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
-  $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount', 'thumbnail'));  
+  $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount'));  
+  $query->addField('e', 'thumbnail', 'user_thumbnail');  
+  
+  $query->leftJoin('a4s_insta_clicks_by_tag', 'm', 'm.cid = f.local_media_cid');
+  $query->addField('m', 'shortcode', 'media_caption');
+  $query->addField('m', 'shortcode', 'media_shortcode');
+  $query->addField('m', 'thumbnail', 'media_thumbnail');
+  
   $query->orderBy('f.timestamp_started', 'desc');
+  $query->orderBy('f.timestamp_ended', 'desc');
   $followed_or_not = $query->execute()->fetchAllAssoc('fid');
   
   if (!empty($followed_or_not)) {
-    foreach ($followed_or_not as $user) {
+    foreach ($followed_or_not as $fid => $user) {
       //$counts[$activity->activity_type]++;
       
       $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($user->username, $user->remote_id, $account_username = NULL, $account_id);
+      $followed_or_not[$fid]['user_extra_data'] = $user_extra_data;
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . date('d/m/Y H:i', $user->timestamp_started) . '</div>'
@@ -2511,7 +2541,7 @@ function a4s_instagram_autoFollowing_history_page() {
             . '</div>';
     }
   }
-  
+  dpm($followed_or_not, '$followed_or_not');
   $short_report = '';
 //  foreach ($counts as $key => $value) {
 //    if ($value) {
@@ -2522,4 +2552,38 @@ function a4s_instagram_autoFollowing_history_page() {
   $out .= $changed;
       
   return "<h1 class='page-header' style='letter-spacing:3px;'>Auto following/unfollowing for the last $last_hours hours:</h1><br/>'$out";
+}
+
+
+function xxx() {
+  
+  $query = db_select('a4s_insta_followers', 'f')->fields('f', array());
+  $followers = $query->execute()->fetchAllAssoc('fid');
+  
+  $existing_extra_data_GOOD = array();
+  $existing_extra_data_BAD = array();
+  $not_existing_extra_data = array();
+  foreach ($followers as $follower) {
+    $extra_data = db_select('a4s_insta_users_extra_data', 'd')
+      ->fields('d', array())
+      ->condition('d.remote_id', $follower->remote_id)
+      ->execute()
+      ->fetchObject();
+    
+    if (!empty($extra_data)) {
+      if (empty($extra_data->username) || empty($extra_data->fullname) || empty($extra_data->thumbnail)) {
+        $existing_extra_data_BAD[$extra_data->username] = $extra_data;
+      }
+      else {
+        $existing_extra_data_GOOD[$extra_data->username] = $extra_data;
+      }
+      
+    }
+    else {
+      $not_existing_extra_data[$follower->username] = $follower;
+    }
+  }
+  dpm($existing_extra_data_GOOD, '$existing_extra_data_GOOD');
+  dpm($existing_extra_data_BAD, '$existing_extra_data_BAD');
+  dpm($not_existing_extra_data, '$not_existing_extra_data');
 }
