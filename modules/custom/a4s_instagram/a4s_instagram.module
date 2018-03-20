@@ -558,9 +558,9 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
   
   // Set auto following results
   if (!empty($data['auto_following_status'])) {
-    $status_mapping = array('ok' => 1, 'Already following' => 2, 'Not found either Follow or Following button' => 3, 'Not found Following button after clicking on Follow button' => 4);
-    $fields_to_update = array('status' => $status_mapping[$data['auto_following_status']]);
-    if ($status_mapping[$data['auto_following_status']] === 1) {
+    $status_int = a4s_instagram_autoFollowing_statusMapping($data['auto_following_status']);
+    $fields_to_update = array('status' => $status_int);
+    if ($status_int === 1) {
       $fields_to_update['timestamp_started'] = REQUEST_TIME;
     }
     db_update('a4s_insta_auto_following')
@@ -574,57 +574,25 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
 }
 
 /**
- * @Then I get next medias and like them
+ * 
+ * @param type $status_str
+ * @param type $status_int
  */
-/*
-public function iGetNextMediasAndLikeThem() {
-  // Request cookies and creds from a handler server
-  $data = array('op' => 'get_medias_to_like');
-  $results = $this->a4s_curl($data);
-
-  echo print_r($results, true);
-
-  if (empty($results['medias'])) {
-    echo 'Empty dedias recieved. Cancelled.';
-    return;
+function a4s_instagram_autoFollowing_statusMapping($status_str, $status_int = NULL) {
+  $status_mapping = array('ok' => 1, 
+                          'Already following' => 2, 
+                          'Not found either Follow or Following button' => 3, 
+                          'Not found Following button after clicking on Follow button' => 4,
+                          'Disabled statistics' => 5,
+                         );
+  if ($status_str) {
+    return !empty($status_mapping[$status_str]) ? $status_mapping[$status_str] : NULL;
   }
-  
-  $processed_medias = array();
-  foreach ($results['medias'] as $media) {
-    echo "\n\n\nProcess Media $media... \n";
-    $this->getSession()->visit($this->locatePath('/p/' . $media));
-    sleep(3);
-    if ($this->a4s_currentPageMedia_isLiked()) {
-      echo "....it has been already liked before. Skipped";
-      $processed_medias[$media] = TRUE;
-      continue;
-    }
-    echo "....Try to click...\n";
-    $this->a4s_iClick('css', ".coreSpriteHeartOpen");
-    sleep(3);
-    $processed_medias[$media] = $this->a4s_currentPageMedia_isLiked() ? TRUE : FALSE;
-    if ($processed_medias[$media]) {
-      echo $processed_medias[$media] ? "....Liked successfully\n" : "....NOT Liked...Problem! \n";
-    }
+  elseif ($status_int) {
+    return array_search($status_int, $status_mapping);
   }
-  
-  $data = array('op' => 'set_medias_like_results', 'medias' => $processed_medias);
-  $results = $this->a4s_curl($data);
-  
-  echo "Results from handler...\n";
-  echo print_r($results, TRUE);
+  return NULL;
 }
-*/
-
-/*
-    public function a4s_currentPageMedia_isLiked()
-    {
-       $node = $this->getSession()->getPage()->find('css', ".coreSpriteHeartFull");
-       return $node === null ? FALSE : TRUE;
-    }
-*/
-    
-    
 
 /**
  * Implements hook_mail().
