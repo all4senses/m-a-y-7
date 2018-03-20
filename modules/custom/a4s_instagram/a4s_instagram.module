@@ -1977,7 +1977,7 @@ function a4s_instagram_get_follower_info($follower_username, $account_username =
   $query = db_select('a4s_insta_followers', 'f')
     ->fields('f', array());
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
-  $query->fields('e', array('username'));  
+  $query->fields('e', array('username', 'fullname', 'thumbnail'));  
   $query->condition('f.account_id', $account_id)
         ->condition('e.username', $follower_username);
   $follower_data['main'] = $query->execute()->fetchObject();
@@ -2204,7 +2204,7 @@ function a4s_instagram_followers_history_page() {
       }
       $changed .= '<div class="follower" style="float:left; width:140px; height:390px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="follower-type">' . ($follower_data['main']->is_following_now ? '<span style="color:limegreen;">Following from:</span>' : '<span style="color:red;">Unfollowed from:</span>') .  (!empty($follower_data['extra']) ? '<span title="' . print_r($follower_data['extra'], TRUE) . '"  style="background:yellow; float:right; margin-right:10px; padding:0 3px; cursor:help;">R</span>' : '') . '</div>'
-              . '<div class="like-title" style="height:50px;"><a href="https://instagram.com/' . $follower_data['main']->username . '">' . utf8_decode($follower_data['main']->full_name) . '</a></div>'
+              . '<div class="like-title" style="height:50px;"><a href="https://instagram.com/' . $follower_data['main']->username . '">' . utf8_decode($follower_data['main']->fullname) . '</a></div>'
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Updated:</div>' . $follower_data['main']->timestamp_updated . '</div>'
               . '<div class="follower-date" style="margin-bottom:10px;"><div>Added:</div>' . $follower_data['main']->timestamp_added . '</div>'
               
