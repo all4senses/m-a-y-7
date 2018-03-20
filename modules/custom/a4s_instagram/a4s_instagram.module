@@ -2489,7 +2489,7 @@ function a4s_instagram_autoFollowing_history_page() {
       //$counts[$activity->activity_type]++;
       
       $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($user->username, $user->remote_id, $account_username = NULL, $account_id);
-      $followed_or_not[$fid]['user_extra_data'] = $user_extra_data;
+      $followed_or_not[$fid]->user_extra_data = $user_extra_data;
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="activity-date" style="margin-bottom:10px;">Status: ' . $user->status . '</div>'
