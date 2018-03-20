@@ -458,6 +458,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
                   'remote_id' => $data->media_owner_id,
                   'account_id' => $account_id,
                   'local_media_cid' => $data->cid,
+                  'timestamp_added' => REQUEST_TIME,
                 )
                )->execute();
               if ($fid) {
@@ -2474,7 +2475,7 @@ function a4s_instagram_autoFollowing_history_page() {
     ->condition('f.account_id', $account_id);
     //->condition('a.timestamp', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
   $threshold_timestamp = REQUEST_TIME - (60*60*$last_hours);
-  $db_or = db_or()->condition('f.timestamp_started', $threshold_timestamp, '>')->condition('f.timestamp_ended', $threshold_timestamp, '>');  
+  $db_or = db_or()->condition('f.timestamp_started', $threshold_timestamp, '>')->condition('f.timestamp_ended', $threshold_timestamp, '>')->condition('f.timestamp_added', $threshold_timestamp, '>');  
   
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
   $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount'));  
@@ -2521,6 +2522,7 @@ function a4s_instagram_autoFollowing_history_page() {
       
       $changed .= '<div class="activity" style="float:left; width:140px; height:520px; margin-right:5px; margin-bottom:30px;">'
               . '<div class="activity-date" style="margin-bottom:10px;">Status: ' . $status_str . '</div>'
+              . '<div class="activity-date" style="margin-bottom:10px;">Added: ' . (!$user->timestamp_added ? 'N/A' : date('d/m/Y H:i', $user->added)) . '</div>'
               . '<div class="activity-date" style="margin-bottom:10px;">Started: ' . (!$user->timestamp_started ? 'N/A' : date('d/m/Y H:i', $user->timestamp_started)) . '</div>'
               . '<div class="activity-date" style="margin-bottom:10px;">Ended: ' . (!$user->timestamp_ended ? 'N/A' : date('d/m/Y H:i', $user->timestamp_ended)) . '</div>'
           

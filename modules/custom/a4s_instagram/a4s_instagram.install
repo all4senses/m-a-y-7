@@ -507,6 +507,12 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
+      'timestamp_added' => array(
+        'description' => 'The Unix timestamp when we a row has been added',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
       'timestamp_started' => array(
         'description' => 'The Unix timestamp when we started following a user',
         'type' => 'int',
@@ -526,6 +532,7 @@ function a4s_instagram_schema() {
       'account_id' => array('account_id'),
       'remote_id' => array('remote_id'),
       'status' => array('status'),
+      'timestamp_added' => array('timestamp_added'),
       'timestamp_started' => array('timestamp_started'),
       'timestamp_ended' => array('timestamp_ended'),
     ),
@@ -683,5 +690,16 @@ function a4s_instagram_update_7017() {
     $schema = a4s_instagram_schema();
     db_add_field('a4s_insta_auto_following', 'local_media_cid', $schema['a4s_insta_auto_following']['fields']['local_media_cid']);
   }
- }
+}
+
+/**
+ * Add new field timestamp_added to a4s_insta_auto_following.
+ */
+function a4s_instagram_update_7018() {
+  if (!db_field_exists('a4s_insta_auto_following', 'timestamp_added')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_auto_following', 'timestamp_added', $schema['a4s_insta_auto_following']['fields']['timestamp_added']);
+  }
+}
+
 
