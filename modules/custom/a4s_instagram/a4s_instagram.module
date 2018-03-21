@@ -185,10 +185,18 @@ function a4s_insta_get_user_tags($account = NULL) {
     $accounts_to_process = array();
   }
 
+  /*
   $insta_users_tags_default = array(
     'all4senses' => array('designer', 'art', 'graphicdesign', 'photographer', 'productdesign', 'architecture', 'arhitect', 'photoart', 'artwork', 'interiordesign', 'дизайнинтерьера', 'photoshoot', 'photosession', 'digitalart', '3dart'),
     'olyayuskasova' => array(
       'nsk', 'novosibirsk', 'новосибирск', 'нск', 'нск54', 'вьетнам', 'бизнес', 'тайланд', 'тай', 'толмачево', 'дом', 'nsk54', 'нижневартовск', 'норильск', 'якутск', 'магадан', 'сургут', 'мальдивы',
+      ),
+  );
+  */
+  $insta_users_tags_default = array(
+    'all4senses' => array('designer, art, graphicdesign, photographer, productdesign, architecture, arhitect, photoart, artwork, interiordesign, дизайнинтерьера, photoshoot, photosession, digitalart, 3dart'),
+    'olyayuskasova' => array(
+      'nsk, novosibirsk, новосибирск, нск, нск54, вьетнам, бизнес, тайланд, тай, толмачево, дом, nsk54, нижневартовск, норильск, якутск, магадан, сургут, мальдивы',
       ),
   );
   
@@ -196,11 +204,20 @@ function a4s_insta_get_user_tags($account = NULL) {
     $all_tags = array();
     foreach ($accounts_to_process as $account) {
       $all_tags[$account] = variable_get('a4s_insta_account_tags__' . $account, $insta_users_tags_default[$account]);
+      $all_tags[$account] = explode(',', $all_tags[$account]);
+      foreach ($all_tags[$account] as &$tag) {
+        $tag = trim($tag);
+      }
     }
     return $all_tags;
   }
   
-  return variable_get('a4s_insta_account_tags__' . $account, $insta_users_tags_default[$account]);
+  $tags = variable_get('a4s_insta_account_tags__' . $account, $insta_users_tags_default[$account]);
+  $tags = explode(',', $tags);
+  foreach ($tags as &$tag) {
+    $tag = trim($tag);
+  }
+  return $tags;
 }
 
 /**
