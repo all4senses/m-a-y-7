@@ -43,17 +43,38 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
-  $items['insta/likes'] = array(
-    'title' => '', //t('Instagram Likes'),
-    'page callback' => 'a4s_instagram_likes_history_page',
+  $items['insta/activity-backlikes-prepare'] = array(
+    'title' => '',
+    'page callback' => 'a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   
+
+  $items['insta'] = array(
+    'title' => t('Instagram'),
+    'page callback' => 'a4s_instagram_stub_page',
+    'access callback' => 'user_is_logged_in',
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  
+  $items['insta/likes'] = array(
+    'title' => 'Liked recently', //t('Instagram Likes'),
+    'page callback' => 'a4s_instagram_likes_history_page',
+    //'access arguments' => array('access content'),
+    'access callback' => 'user_is_logged_in',
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
   $items['insta/followers'] = array(
-    'title' => '',
+    'title' => 'Followed/unfolloed recently',
     'page callback' => 'a4s_instagram_followers_history_page',
-    'access arguments' => array('access content'),
+    //'access arguments' => array('access content'),
+    'access callback' => 'user_is_logged_in',
+    'menu_name' => 'main-menu',
     'type' => MENU_CALLBACK,
   );
   
@@ -71,12 +92,6 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
-  $items['insta/activity-backlikes-prepare'] = array(
-    'title' => '',
-    'page callback' => 'a4s_instagram_get_newLikersAndFollowers_mediasToBackLike_callback',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
   
   $items['settings'] = array(
     'title' => 'A4S Settings',
@@ -89,25 +104,6 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
-  $items['xxx'] = array(
-    'title' => t('test'),
-    'page callback' => 'a4s_instagram_stub_page',
-    //'access arguments' => array('access content'),
-    'access callback' => 'user_is_logged_in',
-    'menu_name' => 'main-menu',
-    //'mlid' => 'a4s_11',
-    'type' => MENU_NORMAL_ITEM,
-  );
-  $items['xxx/yyy'] = array(
-    'title' => t('test 2'),
-    'page callback' => 'a4s_instagram_stub_page',
-    //'access arguments' => array('access content'),
-    'access callback' => 'user_is_logged_in',
-    'menu_name' => 'main-menu',
-    //'mlid' => 'a4s_12',
-    //'plid' => 'a4s_11',
-    'type' => MENU_NORMAL_ITEM,
-  );
   
   
   return $items;
