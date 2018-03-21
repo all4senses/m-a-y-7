@@ -93,7 +93,7 @@ function a4s_instagram_menu() {
     'title' => t('test'),
     'page callback' => 'a4s_instagram_behat',
     'access arguments' => array('access content'),
-    'menu_name' => 'main_menu',
+    'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
   );
   
