@@ -78,9 +78,51 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['settings'] = array(
+    'title' => 'A4S Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('a4s_instagram_settings'),
+    //'access callback' => 'crc_portal_access_check',
+    'access arguments' => array('administer site configuration'),
+    //'menu_name' => 'user-menu',
+    //'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
+  );
+  
   return $items;
 }
 
+/**
+ * The main a4s Settings page at /settings
+ * 
+ * @param type $form
+ * @param type $form_state
+ * @return type
+ */
+function a4s_instagram_settings($form, $form_state) {
+  
+  $form['insta_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Insta settings',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#access' => user_access('administer site configuration')
+  );
+  
+    $form['insta_settings']['a4s_insta_auto_following_period_h'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Auto Following period, hours',
+      '#default_value' => variable_get('a4s_insta_auto_following_period_h', 2),
+    );
+    $form['insta_settings']['a4s_insta_auto_unfollowing_period_h'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Auto Unfollowing period, hours',
+      '#default_value' => variable_get('a4s_insta_auto_unfollowing_period_h', 2),
+    );
+  
+  return system_settings_form($form);
+}
+  
 /**
  * 
  */
