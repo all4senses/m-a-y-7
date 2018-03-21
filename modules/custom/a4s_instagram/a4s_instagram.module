@@ -129,7 +129,7 @@ function a4s_instagram_settings($form, $form_state) {
       $form['insta_settings']['accounts_creds']['a4s_insta_accounts'] = array(
         '#type' => 'textfield',
         '#title' => 'Accounts list, coma separated',
-        '#default_value' => variable_get('a4s_insta_accounts', 'olyayuskasova, all4senses'),
+        '#default_value' => variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova'),
       );
       
       if($all_accounts = a4s_instagram_get_accounts_to_process()) {
@@ -150,7 +150,7 @@ function a4s_instagram_settings($form, $form_state) {
  * @return array
  */
 function a4s_instagram_get_accounts_to_process() {
-  if($accounts_to_process = variable_get('a4s_insta_accounts', 'olyayuskasova, all4senses')) {
+  if($accounts_to_process = variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova')) {
     $accounts_to_process = explode(',', $accounts_to_process);
     foreach ($accounts_to_process as &$account_to_process) {
       $account_to_process = trim($account_to_process);
@@ -172,7 +172,8 @@ function a4s_instagram_get_accounts_credentials($domain, $account = NULL) {
   if ($domain != 'https://instagram.com') {
     return NULL;
   }
-  if(!$all_accounts = a4s_instagram_get_accounts_to_process() || ($account && empty($all_accounts[$account]))) {
+  $all_accounts = a4s_instagram_get_accounts_to_process();
+  if($all_accounts || ($account && empty($all_accounts[$account]))) {
     return NULL;
   }
   if (!$account) {
