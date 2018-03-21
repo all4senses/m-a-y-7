@@ -384,6 +384,39 @@ function a4s_insta_user_credentials_environment($domain = NULL, $username = NULL
 
 /**
  * 
+ * @return type
+ */
+function a4s_instagram_get_media_of_planned_to_autoUnfollow_user($account_id) {
+  $media = NULL;
+  $auto_unfollowing_period = variable_get('a4s_insta_auto_unfollowing_period_h', 2); // Hours
+  if (!$auto_unfollowing_period) {
+    // Unfollowing is turned off.
+    return NULL;
+  }
+  $local_media_cid = db_select('a4s_insta_auto_following', 'f')
+                ->fields('f', array('local_media_cid'))
+                ->condition('f.account_id', $account_id)
+                ->isNull('f.timestamp_ended')
+                ->isNotNull('f.timestamp_started')
+                ->condition('f.timestamp_started', REQUEST_TIME - 60*60*$auto_unfollowing_period, '<')
+                ->orderBy('f.timestamp_started', 'asc')
+                ->execute()
+                ->fetchField();
+  
+  if ($local_media_cid) {
+    $query = db_select('a4s_insta_clicks_by_tag', 'l')
+          ->fields('l', array('cid', 'shortcode', 'caption', 'media_owner_id'))
+          ->condition('l.cid', $local_media_cid);
+
+    $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
+    $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));
+    $media = $query->execute()->fetchObject();
+  }
+  return $media;
+}
+
+/**
+ * 
  * @param type $username
  * @param type $tag
  * @param type $amount
@@ -413,18 +446,26 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
             ->range(0, $amount);
       $not_liked_by_tag = $query->execute()->fetchAllAssoc('shortcode');
 
+      if($media_of_planned_to_autoUnfollow_user = a4s_instagram_get_media_of_planned_to_autoUnfollow_user($account_id)) {
+        $media_of_planned_to_unfollow_user->op = 'unfollow';
+        $not_liked_by_tag[$media_of_planned_to_unfollow_user->shortcode] = $media_of_planned_to_unfollow_user;
+        watchdog('a4s insta auto-Unfollow', 'Planned to --Unfollow-- $account_id = ' . $account_id . ', media = ' . $media_of_planned_to_unfollow_user->shortcode . ', owner = ' . $media_of_planned_to_unfollow_user->media_owner_id);
+      }
+      
       $already_auto_followed_someone_recently = TRUE;
       $auto_following_allowed = variable_get('a4s_insta_auto_following', array(1 => TRUE, 2 => FALSE));
       if($tag != 'back-like' && $tag != 'unfollow-like' && $auto_following_allowed[$account_id]) {
-        $auto_following_period = variable_get('a4s_insta_auto_following_period_h', 3); // 3 hours
-        $already_auto_followed_someone_recently = db_select('a4s_insta_auto_following', 'f')
-                ->fields('f', array('fid'))
-                ->condition('f.account_id', $account_id)
-                ->isNotNull('f.timestamp_started')
-                ->condition('f.timestamp_started', REQUEST_TIME - 60*60*$auto_following_period, '>')
-                ->orderBy('f.timestamp_started', 'desc')
-                ->execute()
-                ->fetchField();
+        if ($auto_following_period = variable_get('a4s_insta_auto_following_period_h', 3)) { // Hour(s)
+          // We allow auto following ONLY if Following is NOT turned on, that is $auto_following_period != NULL.
+          $already_auto_followed_someone_recently = db_select('a4s_insta_auto_following', 'f')
+              ->fields('f', array('fid'))
+              ->condition('f.account_id', $account_id)
+              ->isNotNull('f.timestamp_started')
+              ->condition('f.timestamp_started', REQUEST_TIME - 60*60*$auto_following_period, '>')
+              ->orderBy('f.timestamp_started', 'desc')
+              ->execute()
+              ->fetchField();
+        }
       }
       $auto_following_initiated = FALSE;
       foreach ($not_liked_by_tag as $key => $data) {
@@ -574,7 +615,20 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
       ->condition('remote_id', $data['owner']['remote_id'])
       ->condition('account_id', $account_id)
       ->execute();
-    watchdog('a4s insta auto-follow', 'Results: $account_id = ' . $account_id . ', owner = ' . $data['owner']['remote_id'] . ', media = ' . $shortcode . ', status = ' . $data['auto_following_status']);
+    watchdog('a4s insta auto-follow', 'Results: status = ' . $data['auto_following_status'] . ', media = ' . $shortcode . ', owner = ' . $data['owner']['remote_id'] . ', $account_id = ' . $account_id);
+  }
+  elseif (!empty($data['auto_unfollowing_status'])) {
+    $status_int = a4s_instagram_autoFollowing_statusMapping($data['auto_unfollowing_status']);
+    $fields_to_update = array('status' => $status_int);
+    if ($status_int === 1 || $status_int == 7) { // Successfully unfollowed or was already undollowed before this
+      $fields_to_update['timestamp_ended'] = REQUEST_TIME;
+    }
+    db_update('a4s_insta_auto_following')
+      ->fields($fields_to_update)
+      ->condition('remote_id', $data['owner']['remote_id'])
+      ->condition('account_id', $account_id)
+      ->execute();
+    watchdog('a4s insta auto-Unfollow', 'Results: status = ' . $data['auto_unfollowing_status'] . ', media = ' . $shortcode . ', owner = ' . $data['owner']['remote_id'] . ', $account_id = ' . $account_id);
   }
   
 }
@@ -590,6 +644,8 @@ function a4s_instagram_autoFollowing_statusMapping($status_str, $status_int = NU
                           'Not found either Follow or Following button' => 3, 
                           'Not found Following button after clicking on Follow button' => 4,
                           'Disabled statistics' => 5,
+                          'Not found Follow button after clicking on Following button' => 6,
+                          'Already unfollowed' => 7, 
                          );
   if ($status_str) {
     return !empty($status_mapping[$status_str]) ? $status_mapping[$status_str] : NULL;
