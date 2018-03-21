@@ -293,16 +293,17 @@ function a4s_instagram_behat() {
         $insta_last_data_processed['username'] = $current_user;
         variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
-        $users_credentials = variable_get('a4s_users_credentials', array());
-        if ( empty($users_credentials[$_REQUEST['target_domain']][$current_user]) ) {
+        //$users_credentials = variable_get('a4s_users_credentials', array());
+        //if ( empty($users_credentials[$_REQUEST['target_domain']][$current_user]) ) {
+        if (!$curent_user_pass = a4s_instagram_get_account_credentials($_REQUEST['target_domain'], $current_user)) {
           $status = FALSE;
           $errors = 'We do not have credentials for ' . $current_user;
           break;
         }
         
         $response_data['creds'] = a4s_insta_user_credentials_environment($_REQUEST['target_domain'], $current_user);
-        $response_data['creds']['p'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
-        //$response_data['creds']['p'] = a4s_instagram_get_account_credentials($_REQUEST['target_domain'], $current_user);
+        //$response_data['creds']['p'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
+        $response_data['creds']['p'] = $curent_user_pass;
         
         $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
         if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$current_user]['cookies'])) {
