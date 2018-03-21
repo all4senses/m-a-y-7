@@ -89,6 +89,15 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['xxx'] = array(
+    'title' => t('test'),
+    'page callback' => 'a4s_instagram_behat',
+    'access arguments' => array('access content'),
+    'menu_name' => 'main_menu',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  
   return $items;
 }
 
