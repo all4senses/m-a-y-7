@@ -177,7 +177,11 @@ function a4s_instagram_get_accounts_credentials($domain, $account = NULL) {
     return NULL;
   }
   if (!$account) {
-    return $all_accounts;
+    $all_creds = array();
+    foreach ($all_accounts as $account) {
+      $all_creds[$account] = variable_get('a4s_insta_account_pass__' . $account, NULL);
+    }
+    return $all_creds;
   }
   return variable_get('a4s_insta_account_pass__' . $account, NULL);
 }
