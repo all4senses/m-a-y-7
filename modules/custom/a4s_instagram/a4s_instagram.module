@@ -122,7 +122,7 @@ function a4s_instagram_settings($form, $form_state) {
  
     $form['insta_settings']['accounts_creds'] = array(
       '#type' => 'fieldset',
-      '#title' => 'Accounts passwords',
+      '#title' => 'Accounts credentials',
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
     );
