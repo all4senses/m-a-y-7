@@ -173,7 +173,7 @@ function a4s_instagram_get_accounts_credentials($domain, $account = NULL) {
     return NULL;
   }
   $all_accounts = a4s_instagram_get_accounts_to_process();
-  if($all_accounts || ($account && empty($all_accounts[$account]))) {
+  if(!$all_accounts || ($account && empty($all_accounts[$account]))) {
     return NULL;
   }
   if (!$account) {
