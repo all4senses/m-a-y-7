@@ -119,10 +119,64 @@ function a4s_instagram_settings($form, $form_state) {
       '#title' => 'Auto Unfollowing period, hours',
       '#default_value' => variable_get('a4s_insta_auto_unfollowing_period_h', 2),
     );
-  
+ 
+    if($all_accounts = a4s_instagram_get_accounts_to_process()) {
+      
+      $form['insta_settings']['accounts_creds'] = array(
+        '#type' => 'fieldset',
+        '#title' => 'Accounts passwords',
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+      );
+        
+        foreach ($all_accounts as $account) {
+          $form['insta_settings']['accounts_creds']['a4s_insta_account_pass__' . $account] = array(
+            '#type' => 'textfield',
+            '#title' => 'Auto Following period, hours',
+            '#default_value' => variable_get('a4s_insta_account_pass__' . $account, NULL),
+          );
+        }
+    }
+    
   return system_settings_form($form);
 }
-  
+
+/**
+ * 
+ * @return array
+ */
+function a4s_instagram_get_accounts_to_process() {
+  if($accounts_to_process = variable_get('a4s_insta_accounts', 'olyayuskasova, all4senses')) {
+    $accounts_to_process = explode(',', $accounts_to_process);
+    foreach ($accounts_to_process as &$account_to_process) {
+      $account_to_process = trim($account_to_process);
+    }
+  }
+  else {
+    $accounts_to_process = array();
+  }
+  return $accounts_to_process;
+}
+
+/**
+ * 
+ * @param type $domain
+ * @param type $account
+ * @return type
+ */
+function a4s_instagram_get_accounts_credentials($domain, $account = NULL) {
+  if ($domain != 'https://instagram.com') {
+    return NULL;
+  }
+  if(!$all_accounts = a4s_instagram_get_accounts_to_process() || ($account && empty($all_accounts[$account]))) {
+    return NULL;
+  }
+  if (!$account) {
+    return $all_accounts;
+  }
+  return variable_get('a4s_insta_account_pass__' . $account, NULL);
+}
+        
 /**
  * 
  */
@@ -201,29 +255,30 @@ function a4s_instagram_behat() {
         }
 
         // Send different user creds every time
-        $users_to_process = array('olyayuskasova', 'all4senses');
+        //$users_to_process = array('olyayuskasova', 'all4senses');
+        $accounts_to_process = a4s_instagram_get_accounts_to_process();
         
         $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
         
-        if (count($users_to_process) > 1) {
+        if (count($accounts_to_process) > 1) {
           if (empty($insta_last_data_processed['username'])) {
-            $current_user = $users_to_process[0];
+            $current_user = $accounts_to_process[0];
           }
           else {
-            foreach ($users_to_process as $key => $user) {
+            foreach ($accounts_to_process as $key => $user) {
               if ($user == $insta_last_data_processed['username']) {
-                if ($key + 1 >= count($users_to_process)) {
-                  $current_user = $users_to_process[0];
+                if ($key + 1 >= count($accounts_to_process)) {
+                  $current_user = $accounts_to_process[0];
                 }
                 else {
-                  $current_user = $users_to_process[$key + 1];
+                  $current_user = $accounts_to_process[$key + 1];
                 }
               }
             }
           }
         }
         else {
-          $current_user = $users_to_process[0];
+          $current_user = $accounts_to_process[0];
         }
         
         $insta_last_data_processed['username'] = $current_user;
@@ -238,6 +293,7 @@ function a4s_instagram_behat() {
         
         $response_data['creds'] = a4s_insta_user_credentials_environment($_REQUEST['target_domain'], $current_user);
         $response_data['creds']['p'] = $users_credentials[$_REQUEST['target_domain']][$current_user];
+        //$response_data['creds']['p'] = a4s_instagram_get_account_credentials($_REQUEST['target_domain'], $current_user);
         
         $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
         if (!empty($behat_insta_cookies[$_REQUEST['target_domain']][$current_user]['cookies'])) {
