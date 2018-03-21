@@ -1627,7 +1627,7 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   }
     
   // Get all existing followers (active and not active anymore)
-  $existing_followers = db_select('a4s_insta_followers', 'f');
+  $query = db_select('a4s_insta_followers', 'f');
   $query->fields('f', array('fid', 'remote_id', 'followed_back', 'is_following_now', 'timestamp_unfollowed_first_time'));
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
   $query->fields('e', array('username', 'fullname'));  
