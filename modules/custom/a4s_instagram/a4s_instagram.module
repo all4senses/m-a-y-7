@@ -98,7 +98,7 @@ function a4s_instagram_menu() {
     'mlid' => 'a4s_11',
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['xxx'] = array(
+  $items['yyy'] = array(
     'title' => t('test 2'),
     'page callback' => 'a4s_instagram_behat',
     //'access arguments' => array('access content'),
