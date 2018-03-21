@@ -546,6 +546,22 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
   
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
   
+  if (!empty($data['auto_unfollowing_status'])) {
+    $status_int = a4s_instagram_autoFollowing_statusMapping($data['auto_unfollowing_status']);
+    $fields_to_update = array('status' => $status_int);
+    if ($status_int === 1 || $status_int == 7) { // Successfully unfollowed or was already undollowed before this
+      $fields_to_update['timestamp_ended'] = REQUEST_TIME;
+    }
+    db_update('a4s_insta_auto_following')
+      ->fields($fields_to_update)
+      ->condition('remote_id', $data['owner']['remote_id'])
+      ->condition('account_id', $account_id)
+      ->execute();
+    watchdog('a4s insta auto-Unfollow', 'Results: status = ' . $data['auto_unfollowing_status'] . ', media = ' . $shortcode . ', owner = ' . $data['owner']['remote_id'] . ', $account_id = ' . $account_id);
+    return;
+  }
+  
+  
   if ($data['liked'] == 'false' || strpos($data['liked'], 'disallowed_') !== FALSE) {
     db_delete('a4s_insta_clicks_by_tag')
       ->condition('shortcode', $shortcode)
@@ -618,19 +634,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
       ->execute();
     watchdog('a4s insta auto-follow', 'Results: status = ' . $data['auto_following_status'] . ', media = ' . $shortcode . ', owner = ' . $data['owner']['remote_id'] . ', $account_id = ' . $account_id);
   }
-  elseif (!empty($data['auto_unfollowing_status'])) {
-    $status_int = a4s_instagram_autoFollowing_statusMapping($data['auto_unfollowing_status']);
-    $fields_to_update = array('status' => $status_int);
-    if ($status_int === 1 || $status_int == 7) { // Successfully unfollowed or was already undollowed before this
-      $fields_to_update['timestamp_ended'] = REQUEST_TIME;
-    }
-    db_update('a4s_insta_auto_following')
-      ->fields($fields_to_update)
-      ->condition('remote_id', $data['owner']['remote_id'])
-      ->condition('account_id', $account_id)
-      ->execute();
-    watchdog('a4s insta auto-Unfollow', 'Results: status = ' . $data['auto_unfollowing_status'] . ', media = ' . $shortcode . ', owner = ' . $data['owner']['remote_id'] . ', $account_id = ' . $account_id);
-  }
+  
   
 }
 
