@@ -95,7 +95,7 @@ function a4s_instagram_menu() {
     //'access arguments' => array('access content'),
     'access callback' => 'user_is_logged_in',
     'menu_name' => 'main-menu',
-    'mlid' => 'a4s_11',
+    //'mlid' => 'a4s_11',
     'type' => MENU_NORMAL_ITEM,
   );
   $items['xxx/yyy'] = array(
@@ -104,8 +104,8 @@ function a4s_instagram_menu() {
     //'access arguments' => array('access content'),
     'access callback' => 'user_is_logged_in',
     'menu_name' => 'main-menu',
-    'mlid' => 'a4s_12',
-    'plid' => 'a4s_11',
+    //'mlid' => 'a4s_12',
+    //'plid' => 'a4s_11',
     'type' => MENU_NORMAL_ITEM,
   );
   
