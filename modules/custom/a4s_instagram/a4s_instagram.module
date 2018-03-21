@@ -92,8 +92,20 @@ function a4s_instagram_menu() {
   $items['xxx'] = array(
     'title' => t('test'),
     'page callback' => 'a4s_instagram_behat',
-    'access arguments' => array('access content'),
+    //'access arguments' => array('access content'),
+    'access callback' => 'user_is_logged_in',
     'menu_name' => 'main-menu',
+    'mlid' => 'a4s_11',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['xxx'] = array(
+    'title' => t('test 2'),
+    'page callback' => 'a4s_instagram_behat',
+    //'access arguments' => array('access content'),
+    'access callback' => 'user_is_logged_in',
+    'menu_name' => 'main-menu',
+    'mlid' => 'a4s_12',
+    'plid' => 'a4s_11',
     'type' => MENU_NORMAL_ITEM,
   );
   
