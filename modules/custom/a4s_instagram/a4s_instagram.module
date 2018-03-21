@@ -91,7 +91,7 @@ function a4s_instagram_menu() {
   
   $items['xxx'] = array(
     'title' => t('test'),
-    'page callback' => 'a4s_instagram_behat',
+    //'page callback' => 'a4s_instagram_behat',
     //'access arguments' => array('access content'),
     'access callback' => 'user_is_logged_in',
     'menu_name' => 'main-menu',
