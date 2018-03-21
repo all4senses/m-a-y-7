@@ -447,9 +447,10 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
       $not_liked_by_tag = $query->execute()->fetchAllAssoc('shortcode');
 
       if($media_of_planned_to_autoUnfollow_user = a4s_instagram_get_media_of_planned_to_autoUnfollow_user($account_id)) {
-        $media_of_planned_to_unfollow_user->op = 'unfollow';
-        $not_liked_by_tag[$media_of_planned_to_unfollow_user->shortcode] = $media_of_planned_to_unfollow_user;
-        watchdog('a4s insta auto-Unfollow', 'Planned to --Unfollow-- $account_id = ' . $account_id . ', media = ' . $media_of_planned_to_unfollow_user->shortcode . ', owner = ' . $media_of_planned_to_unfollow_user->media_owner_id);
+        $media_of_planned_to_autoUnfollow_user->op = 'unfollow';
+        $not_liked_by_tag[$media_of_planned_to_autoUnfollow_user->shortcode] = $media_of_planned_to_autoUnfollow_user;
+        watchdog('a4s insta auto-Unfollow', 'Planned to --Unfollow-- $account_id = ' . $account_id . ', media = ' . $media_of_planned_to_autoUnfollow_user->shortcode . ', owner = ' . $media_of_planned_to_autoUnfollow_user->media_owner_id);
+        watchdog('a4s insta auto-Unfollow', 'Data prepared to --Unfollow-- <pre>' . print_r($media_of_planned_to_autoUnfollow_user, TRUE) . '</pre>' );
       }
       
       $already_auto_followed_someone_recently = TRUE;
