@@ -91,7 +91,7 @@ function a4s_instagram_menu() {
   
   $items['xxx'] = array(
     'title' => t('test'),
-    //'page callback' => 'a4s_instagram_behat',
+    'page callback' => 'a4s_instagram_stub_page',
     //'access arguments' => array('access content'),
     'access callback' => 'user_is_logged_in',
     'menu_name' => 'main-menu',
@@ -100,7 +100,7 @@ function a4s_instagram_menu() {
   );
   $items['xxx/yyy'] = array(
     'title' => t('test 2'),
-    'page callback' => 'a4s_instagram_behat',
+    'page callback' => 'a4s_instagram_stub_page',
     //'access arguments' => array('access content'),
     'access callback' => 'user_is_logged_in',
     'menu_name' => 'main-menu',
@@ -111,6 +111,11 @@ function a4s_instagram_menu() {
   
   
   return $items;
+}
+
+
+function a4s_instagram_stub_page() {
+  return '';
 }
 
 /**
