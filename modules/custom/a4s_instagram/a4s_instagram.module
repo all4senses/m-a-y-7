@@ -109,6 +109,30 @@ function a4s_instagram_settings($form, $form_state) {
     '#access' => user_access('administer site configuration')
   );
   
+  
+    $form['insta_settings']['accounts_tags_to_like'] = array(
+      '#type' => 'fieldset',
+      '#title' => 'Tags to like per account',
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+    $all_accounts = a4s_instagram_get_accounts_to_process();
+    if($all_accounts) {
+      foreach ($all_accounts as $account) {
+        $form['insta_settings']['accounts_tags_to_like']['a4s_insta_account_tags__' . $account] = array(
+          '#type' => 'textfield',
+          '#title' => "$account tags to like",
+          '#default_value' => variable_get('a4s_insta_account_tags__' . $account, NULL),
+        );
+      }
+    }
+  
+    $form['insta_settings']['a4s_insta_amount_of_medias_to_like_per_session'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Amount of medias to like per each session (like every 10, 20,..., etc minutes)',
+      '#default_value' => variable_get('a4s_insta_amount_of_medias_to_like_per_session', 7),
+    );
+    
     $form['insta_settings']['a4s_insta_auto_following_period_h'] = array(
       '#type' => 'textfield',
       '#title' => 'Auto Following period, hours',
@@ -132,7 +156,7 @@ function a4s_instagram_settings($form, $form_state) {
         '#default_value' => variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova'),
       );
       
-      if($all_accounts = a4s_instagram_get_accounts_to_process()) {
+      if($all_accounts) {
         foreach ($all_accounts as $account) {
           $form['insta_settings']['accounts_creds']['a4s_insta_account_pass__' . $account] = array(
             '#type' => 'textfield',
@@ -382,7 +406,7 @@ function a4s_instagram_behat() {
               variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         }
         
-        $amount = 7;
+        $amount = variable_set('a4s_insta_amount_of_medias_to_like_per_session', 7);
         $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount, $return_type = 'data');
         $response_data['tag'] = $current_tag;
         break;
@@ -424,10 +448,9 @@ function a4s_instagram_behat() {
  */
 function a4s_insta_get_user_tags($username = NULL) {
   $insta_users_tags_default = array(
-    'all4senses' => array('designer', 'art', 'graphicdesign', 'photographer', 'productdesign', 'architecture', 'arhitect', 'photoart', /*'marketing',*/ 'artwork', 'interiordesign', 'РґРёР·Р°Р№РЅРёРЅС‚РµСЂСЊРµСЂР°', 'photoshoot', 'photosession', 'digitalart', '3dart'),
+    'all4senses' => array('designer', 'art', 'graphicdesign', 'photographer', 'productdesign', 'architecture', 'arhitect', 'photoart', 'artwork', 'interiordesign', 'дизайнинтерьера', 'photoshoot', 'photosession', 'digitalart', '3dart'),
     'olyayuskasova' => array(
-      'nsk', 'novosibirsk', 'РЅРѕРІРѕСЃРёР±РёСЂСЃРє', 'РЅСЃРє', 'РЅСЃРє54', 'РІСЊРµС‚РЅР°Рј', 'Р±РёР·РЅРµСЃ', 'С‚Р°Р№Р»Р°РЅРґ', 'С‚Р°Р№', 'С‚РѕР»РјР°С‡РµРІРѕ', 'РґРѕРј', 'nsk54',
-      'РЅРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє', 'РЅРѕСЂРёР»СЊСЃРє', 'СЏРєСѓС‚СЃРє', 'РјР°РіР°РґР°РЅ', 'СЃСѓСЂРіСѓС‚', 'РјР°Р»СЊРґРёРІС‹',
+      'nsk', 'novosibirsk', 'новосибирск', 'нск', 'нск54', 'вьетнам', 'бизнес', 'тайланд', 'тай', 'толмачево', 'дом', 'nsk54', 'нижневартовск', 'норильск', 'якутск', 'магадан', 'сургут', 'мальдивы',
       ),
   );
   $insta_users_tags = variable_get('a4s_insta_users_tags', $insta_users_tags_default);
