@@ -109,7 +109,6 @@ function a4s_instagram_settings($form, $form_state) {
     '#access' => user_access('administer site configuration')
   );
   
-  
     $form['insta_settings']['accounts_tags_to_like'] = array(
       '#type' => 'fieldset',
       '#title' => 'Tags to like per account',
@@ -132,6 +131,16 @@ function a4s_instagram_settings($form, $form_state) {
       '#title' => 'Amount of medias to like per each session (like every 10, 20,..., etc minutes)',
       '#default_value' => variable_get('a4s_insta_amount_of_medias_to_like_per_session', 7),
     );
+    
+    if($all_accounts) {
+      foreach ($all_accounts as $account) {
+        $form['insta_settings']['a4s_insta_account_allow_to_autofollow__' . $account] = array(
+          '#type' => 'checkbox',
+          '#title' => "$account is allowed to auto follow",
+          '#default_value' => variable_get('a4s_insta_account_allow_to_autofollow__' . $account, NULL),
+        );
+      }
+    }
     
     $form['insta_settings']['a4s_insta_auto_following_period_h'] = array(
       '#type' => 'textfield',
@@ -173,18 +182,19 @@ function a4s_instagram_settings($form, $form_state) {
  * 
  * @param type $account
  */
+function a4s_instagram_is_account_allowed_to_autoFollow($account) {
+  return variable_get('a4s_insta_account_allow_to_autofollow__' . $account, NULL);
+}
+
+
+/**
+ * 
+ * @param type $account
+ */
 function a4s_insta_get_user_tags($account = NULL) {
   
-  if($accounts_to_process = variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova')) {
-    $accounts_to_process = explode(',', $accounts_to_process);
-    foreach ($accounts_to_process as &$account_to_process) {
-      $account_to_process = trim($account_to_process);
-    }
-  }
-  else {
-    $accounts_to_process = array();
-  }
-
+  $accounts_to_process = a4s_instagram_get_accounts_to_process();
+  
   /*
   $insta_users_tags_default = array(
     'all4senses' => array('designer', 'art', 'graphicdesign', 'photographer', 'productdesign', 'architecture', 'arhitect', 'photoart', 'artwork', 'interiordesign', 'дизайнинтерьера', 'photoshoot', 'photosession', 'digitalart', '3dart'),
@@ -616,8 +626,13 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
       }
       
       $already_auto_followed_someone_recently = TRUE;
-      $auto_following_allowed = variable_get('a4s_insta_auto_following', array(1 => TRUE, 2 => FALSE));
-      if($tag != 'back-like' && $tag != 'unfollow-like' && $auto_following_allowed[$account_id]) {
+      
+      //$auto_following_allowed = variable_get('a4s_insta_auto_following', array(1 => TRUE, 2 => FALSE));
+      //$auto_following_allowed_for_account = variable_get('a4s_insta_auto_following', array(1 => TRUE, 2 => FALSE));
+      $auto_following_allowed_for_account = a4s_instagram_is_account_allowed_to_autoFollow($username);
+      
+      //if($tag != 'back-like' && $tag != 'unfollow-like' && $auto_following_allowed[$account_id]) {
+      if($tag != 'back-like' && $tag != 'unfollow-like' && $auto_following_allowed_for_account) {
         if ($auto_following_period = variable_get('a4s_insta_auto_following_period_h', 3)) { // Hour(s)
           // We allow auto following ONLY if Following is NOT turned on, that is $auto_following_period != NULL.
           $already_auto_followed_someone_recently = db_select('a4s_insta_auto_following', 'f')
@@ -633,7 +648,7 @@ function a4s_insta_get_medias_to_like($username, $tag, $amount, $return_type = '
       $auto_following_initiated = FALSE;
       foreach ($not_liked_by_tag as $key => $data) {
         
-        if (!$auto_following_initiated && $auto_following_allowed && !$already_auto_followed_someone_recently) {
+        if (!$auto_following_initiated && !$already_auto_followed_someone_recently) {
           // Check if it's already our follower OR it was our follower before
           $our_follower = db_select('a4s_insta_followers', 'f')
             ->fields('f', array('fid'))
