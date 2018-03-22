@@ -353,10 +353,10 @@ function a4s_insta_get_account_conditions_to_like_medias($username = NULL) {
         list($all_conditions[$account][$group][$type]['from'], $all_conditions[$account][$group][$type]['to']) = explode(',', $data);
         dpm($all_conditions, '$all_conditions');
       }
-      foreach ($all_conditions[$account][$group][$type] as &$data) {
-        dpm($data, '$data before trim');
-        $data = trim($data);
-        dpm($data, '$data after trim');
+      foreach ($all_conditions[$account][$group][$type] as &$value) {
+        dpm($value, '$value before trim');
+        $value = trim($value);
+        dpm($value, '$value after trim');
       }
     }
   }
