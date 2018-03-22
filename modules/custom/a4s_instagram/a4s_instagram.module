@@ -235,6 +235,66 @@ function a4s_instagram_settings($form, $form_state) {
       '#default_value' => variable_get('a4s_insta_history_period_hours_default', 12),
     );
     
+    
+    
+    
+    $form['insta_settings']['accounts_conditions_to_like'] = array(
+      '#type' => 'fieldset',
+      '#title' => 'Conditions for target medias and users to like, per account',
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+        
+        if($all_accounts) {
+          foreach ($all_accounts as $account) {
+            
+            $form['insta_settings']['accounts_conditions_to_like'][$account] = array(
+              '#type' => 'fieldset',
+              '#title' => "$account conditions",
+              '#collapsible' => TRUE,
+              '#collapsed' => FALSE,
+            );
+           
+                $form['insta_settings']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[media_likes]__' . $account] = array(
+                  '#type' => 'textfield',
+                  '#title' => "Media likes (from, to)",
+                  '#default_value' => variable_get('a4s_insta_account_like_condition_[media_likes]__' . $account, NULL),
+                );
+                $form['insta_settings']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[user_posts]__' . $account] = array(
+                  '#type' => 'textfield',
+                  '#title' => "User posts (from, to)",
+                  '#default_value' => variable_get('a4s_insta_account_like_condition_[user_posts]__' . $account, NULL),
+                );
+                $form['insta_settings']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[user_followers]__' . $account] = array(
+                  '#type' => 'textfield',
+                  '#title' => "User followers (from, to)",
+                  '#default_value' => variable_get('a4s_insta_account_like_condition_[user_followers]__' . $account, NULL),
+                );
+                $form['insta_settings']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[user_following]__' . $account] = array(
+                  '#type' => 'textfield',
+                  '#title' => "User following (from, to)",
+                  '#default_value' => variable_get('a4s_insta_account_like_condition_[user_following]__' . $account, NULL),
+                );
+                $form['insta_settings']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[user_following]__' . $account] = array(
+                  '#type' => 'textfield',
+                  '#title' => "Username does not contain substrings (coma separated)",
+                  '#default_value' => variable_get('a4s_insta_account_like_condition_[user_name_not_contain]__' . $account, NULL),
+                );
+                
+          }
+        }
+    
+        /*
+        $like_conditions_default = array('media' => array('likes' => array('from' => 0, 'to' => 200)), 
+                                       'user' => array('posts' => array('from' => 1, 'to' => 500), 
+                                                       'followers' => array('from' => 1, 'to' => 2000), 
+                                                       'following' => array('from' => 20, 'to' => 800),
+                                                       'username_does_not_contain' => array('vulkan', 'casino')
+                                                      )
+                                      );
+        $like_conditions_default = variable_get('a4s_like_conditions', $like_conditions_default);
+        */
+    
     $form['insta_settings']['accounts_creds'] = array(
       '#type' => 'fieldset',
       '#title' => 'Accounts credentials',
