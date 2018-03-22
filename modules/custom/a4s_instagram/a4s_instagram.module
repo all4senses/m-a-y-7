@@ -444,7 +444,7 @@ function a4s_instagram_behat() {
         
         //$users_credentials = variable_get('a4s_users_credentials', array());
         //if ( empty($users_credentials[$_REQUEST['target_domain']][$current_user]) ) {
-        if (!$curent_user_pass = a4s_instagram_get_account_credentials($_REQUEST['target_domain'], $current_user)) {
+        if (!$curent_user_pass = a4s_instagram_get_accounts_credentials($_REQUEST['target_domain'], $current_user)) {
           $status = FALSE;
           $errors = 'We do not have credentials for ' . $current_user;
           break;
