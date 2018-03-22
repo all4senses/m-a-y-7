@@ -218,6 +218,16 @@ function a4s_instagram_settings($form, $form_state) {
       '#title' => 'Auto Unfollowing period, hours',
       '#default_value' => variable_get('a4s_insta_auto_unfollowing_period_h', 2),
     );
+    $form['insta_settings']['a4s_insta_auto_following_period_h'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Auto Following period, hours',
+      '#default_value' => variable_get('a4s_insta_auto_following_period_h', 2),
+    );
+    $form['insta_settings']['a4s_insta_autofollow_history_show_only_valid'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Auto follow history: show only success or not processed',
+      '#default_value' => variable_get('a4s_insta_autofollow_history_show_only_valid', TRUE),
+    );
  
     $form['insta_settings']['a4s_insta_history_period_hours_default'] = array(
       '#type' => 'textfield',
@@ -2786,7 +2796,11 @@ function a4s_instagram_autoFollowing_history_page() {
     //->condition('a.timestamp', REQUEST_TIME - (60*60*$last_hours), '>') // for last 1 hour
   $threshold_timestamp = REQUEST_TIME - (60*60*$last_hours);
   $db_or = db_or()->condition('f.timestamp_started', $threshold_timestamp, '>')->condition('f.timestamp_ended', $threshold_timestamp, '>')->condition('f.timestamp_added', $threshold_timestamp, '>');  
-  
+  $query->condition($db_or);
+  if (variable_get('a4s_insta_autofollow_history_show_only_valid', TRUE)) {
+    $db_or = db_or()->condition('f.status', 1)->isNull('f.status');
+    $query->condition($db_or);
+  }
   $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = f.remote_id');
   $query->fields('e', array('username', 'fullname', 'followed_by_amount', 'following_amount', 'posts_amount'));  
   $query->addField('e', 'thumbnail', 'user_thumbnail');  
