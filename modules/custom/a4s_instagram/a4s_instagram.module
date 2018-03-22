@@ -224,7 +224,7 @@ function a4s_instagram_settings($form, $form_state) {
       '#default_value' => variable_get('a4s_insta_auto_following_period_h', 2),
     );
     $form['insta_settings']['a4s_insta_autofollow_history_show_only_valid'] = array(
-      '#type' => 'textfield',
+      '#type' => 'checkbox',
       '#title' => 'Auto follow history: show only success or not processed',
       '#default_value' => variable_get('a4s_insta_autofollow_history_show_only_valid', TRUE),
     );
