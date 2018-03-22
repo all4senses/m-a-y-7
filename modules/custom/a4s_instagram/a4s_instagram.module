@@ -136,7 +136,7 @@ function a4s_instagram_menu() {
         }        
   
   $items['settings'] = array(
-    'title' => 'Settings',
+    'title' => t('Settings'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('a4s_instagram_settings'),
     //'access callback' => 'crc_portal_access_check',
@@ -2399,7 +2399,7 @@ function a4s_instagram_likes_history_page() {
     return 'Wrong request...';
   }
  
-  $last_hours = !empty($args[3]) ? $args[3] : 3;
+  $last_hours = !empty($args[3]) ? $args[3] : variable_get('a4s_insta_history_period_hours_default', 12);
   $out = '';
   
   $query = db_select('a4s_insta_clicks_by_tag', 't')
@@ -2480,7 +2480,7 @@ function a4s_instagram_followers_history_page() {
     return 'Wrong request...';
   }
  
-  $last_hours = !empty($args[3]) ? $args[3] : 3;
+  $last_hours = !empty($args[3]) ? $args[3] : variable_get('a4s_insta_history_period_hours_default', 12);
   $out = '';
   
   $query = db_select('a4s_insta_followers', 'f');
@@ -2543,7 +2543,7 @@ function a4s_instagram_activity_history_page() {
     return 'Wrong request...';
   }
  
-  $last_hours = !empty($args[3]) ? $args[3] : 3;
+  $last_hours = !empty($args[3]) ? $args[3] : variable_get('a4s_insta_history_period_hours_default', 12);
   $out = '';
   $changed = '';
   
@@ -2769,8 +2769,8 @@ function a4s_instagram_autoFollowing_history_page() {
   if (empty($args[2]) || !$account_id = a4s_instagram_get_local_account_id_by_username($args[2])) {
     return 'Wrong request...';
   }
- 
-  $last_hours = !empty($args[3]) ? $args[3] : 3;
+  
+  $last_hours = !empty($args[3]) ? $args[3] : variable_get('a4s_insta_history_period_hours_default', 12);
   $out = '';
   $changed = '';
   
