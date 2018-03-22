@@ -344,14 +344,19 @@ function a4s_insta_get_account_conditions_to_like_medias($username = NULL) {
   foreach ($accounts_to_process as $account) {
     foreach (['media_likes' => 'media', 'user_posts' => 'user', 'user_followers' => 'user', 'user_following' => 'user', 'user_name_not_contain' => 'user'] as $type => $group) {
       $data = variable_get("a4s_insta_account_like_condition_[$type]__" . $account, NULL);
+      dpm($data, '$data');
       if ($type == 'user_name_not_contain') {
         $all_conditions[$account][$group][$type] = explode(',', $data);
+        dpm($all_conditions, '$all_conditions');
       }
       else {
         list($all_conditions[$account][$group][$type]['from'], $all_conditions[$account][$group][$type]['to']) = explode(',', $data);
+        dpm($all_conditions, '$all_conditions');
       }
       foreach ($all_conditions[$account][$group][$type] as &$data) {
+        dpm($data, '$data before trim');
         $data = trim($data);
+        dpm($data, '$data after trim');
       }
     }
   }
