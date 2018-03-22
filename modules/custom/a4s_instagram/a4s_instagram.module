@@ -115,39 +115,45 @@ function a4s_instagram_menu() {
             'type' => MENU_NORMAL_ITEM,
           );
         }    
-  /*
-  $items['insta/activity'] = array(
-    'title' => '',
-    'page callback' => 'a4s_instagram_activity_history_page',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-  
-  $items['insta/auto-follow'] = array(
-    'title' => '',
-    'page callback' => 'a4s_instagram_autoFollowing_history_page',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-  */
+        
+        
+    $items['insta/auto-follow'] = array(
+      'title' => t('Auto-following'),
+      'page callback' => 'a4s_instagram_stub_page',
+      'access callback' => 'user_is_logged_in',
+      'menu_name' => 'main-menu',
+      'type' => MENU_NORMAL_ITEM,
+    ); 
+        foreach ($all_accounts as $account) {
+          $items["insta/auto-follow/$account"] = array(
+            'title' => $account,
+            'page callback' => 'a4s_instagram_autoFollowing_history_page',
+            //'access arguments' => array('access content'),
+            'access callback' => 'user_is_logged_in',
+            'menu_name' => 'main-menu',
+            'type' => MENU_NORMAL_ITEM,
+          );
+        }        
   
   $items['settings'] = array(
-    'title' => 'A4S Settings',
+    'title' => 'Settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('a4s_instagram_settings'),
     //'access callback' => 'crc_portal_access_check',
     'access arguments' => array('administer site configuration'),
     //'menu_name' => 'user-menu',
     //'type' => MENU_NORMAL_ITEM,
-    'type' => MENU_CALLBACK,
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
   );
-  
-  
   
   return $items;
 }
 
-
+/**
+ * 
+ * @return string
+ */
 function a4s_instagram_stub_page() {
   return '';
 }
