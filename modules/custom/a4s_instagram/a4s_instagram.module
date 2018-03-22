@@ -59,15 +59,22 @@ function a4s_instagram_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   
+    $items['insta/likes'] = array(
+      'title' => t('Liked recently'),
+      'page callback' => 'a4s_instagram_stub_page',
+      'access callback' => 'user_is_logged_in',
+      'menu_name' => 'main-menu',
+      'type' => MENU_NORMAL_ITEM,
+    );
   
-  $items['insta/likes'] = array(
-    'title' => 'Liked recently', //t('Instagram Likes'),
-    'page callback' => 'a4s_instagram_likes_history_page',
-    //'access arguments' => array('access content'),
-    'access callback' => 'user_is_logged_in',
-    'menu_name' => 'main-menu',
-    'type' => MENU_NORMAL_ITEM,
-  );
+      $items['insta/likes/all4senses'] = array(
+        'title' => 'all4senses', //t('Instagram Likes'),
+        'page callback' => 'a4s_instagram_likes_history_page',
+        //'access arguments' => array('access content'),
+        'access callback' => 'user_is_logged_in',
+        'menu_name' => 'main-menu',
+        'type' => MENU_NORMAL_ITEM,
+      );
   
   $items['insta/followers'] = array(
     'title' => 'Followed/unfolloed recently',
@@ -75,7 +82,7 @@ function a4s_instagram_menu() {
     //'access arguments' => array('access content'),
     'access callback' => 'user_is_logged_in',
     'menu_name' => 'main-menu',
-    'type' => MENU_CALLBACK,
+    'type' => MENU_NORMAL_ITEM,
   );
   
   $items['insta/activity'] = array(
