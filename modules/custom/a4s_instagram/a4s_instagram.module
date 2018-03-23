@@ -275,10 +275,10 @@ function a4s_instagram_settings($form, $form_state) {
                   '#title' => "User following (from, to)",
                   '#default_value' => variable_get('a4s_insta_account_like_condition_[user_following]__' . $account, '20, 800'),
                 );
-                $form['insta_settings']['accounts_conditions_to_like'][$account]['a4s_insta_account_like_condition_[user_name_not_contain]__' . $account] = array(
+                $form['insta_settings']['accounts_conditions_to_like'][$account]['a4s_insta_account_like_condition_[username_does_not_contain]__' . $account] = array(
                   '#type' => 'textfield',
                   '#title' => "Username does not contain substrings (coma separated)",
-                  '#default_value' => variable_get('a4s_insta_account_like_condition_[user_name_not_contain]__' . $account, 'vulkan, casino'),
+                  '#default_value' => variable_get('a4s_insta_account_like_condition_[username_does_not_contain]__' . $account, 'vulkan, casino'),
                 );
                 
           }
@@ -342,9 +342,9 @@ function a4s_insta_get_account_conditions_to_like_medias($username = NULL) {
   }
   $all_conditions = array();
   foreach ($accounts_to_process as $account) {
-    foreach (['media_likes' => 'media', 'user_posts' => 'user', 'user_followers' => 'user', 'user_following' => 'user', 'user_name_not_contain' => 'user'] as $type => $group) {
+    foreach (['media_likes' => 'media', 'user_posts' => 'user', 'user_followers' => 'user', 'user_following' => 'user', 'username_does_not_contain' => 'user'] as $type => $group) {
       $data = variable_get("a4s_insta_account_like_condition_[$type]__" . $account, NULL);
-      if ($type == 'user_name_not_contain') {
+      if ($type == 'username_does_not_contain') {
         $all_conditions[$account][$group][$type] = explode(',', $data);
       }
       else {
