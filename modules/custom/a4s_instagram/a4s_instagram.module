@@ -334,7 +334,7 @@ function a4s_insta_get_account_conditions_to_like_medias($username = NULL) {
   $like_conditions_default = variable_get('a4s_like_conditions', $like_conditions_default);
   */
   $accounts_to_process = a4s_instagram_get_accounts_to_process();
-  if ($username && empty($accounts_to_process[$username])) {
+  if ($username && !in_array($username, $accounts_to_process)) {
     return NULL;
   }
   if ($username) {
