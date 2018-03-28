@@ -759,7 +759,7 @@ function a4s_instagram_get_media_of_planned_to_autoUnfollow_user($account_id) {
           ->condition('l.cid', $local_media_cid);
 
     $query->leftJoin('a4s_insta_users_extra_data', 'e', 'e.remote_id = l.media_owner_id');
-    $query->fields('e', array('username', 'followed_by_amount', 'following_amount', 'posts_amount'));
+    $query->fields('e', array(/*'username',*/ 'followed_by_amount', 'following_amount', 'posts_amount'));
     $media = $query->execute()->fetchObject();
   }
   return $media;
