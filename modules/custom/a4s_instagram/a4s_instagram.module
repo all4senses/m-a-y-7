@@ -2898,6 +2898,9 @@ function a4s_instagram_autoFollowing_history_page() {
   if ($last_hours == 'all-following') {
     $query->condition('f.status', 1)->isNull('f.timestamp_ended');
   }
+  elseif ($last_hours == 'all-followed') {
+    $query->condition('w.is_following_now', 1);
+  }
   else {
     $threshold_timestamp = REQUEST_TIME - (60*60*$last_hours);
     $db_or = db_or()->condition('f.timestamp_started', $threshold_timestamp, '>')->condition('f.timestamp_ended', $threshold_timestamp, '>')->condition('f.timestamp_added', $threshold_timestamp, '>');  
