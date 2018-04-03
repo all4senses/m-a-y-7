@@ -2928,7 +2928,7 @@ function a4s_instagram_autoFollowing_history_page() {
   if ($last_hours == 'all') {
     // Select ALL rows
   }
-  if ($last_hours == 'all-following') {
+  elseif ($last_hours == 'all-following') {
     $query->condition('f.status', 1)->isNull('f.timestamp_ended');
   }
   elseif ($last_hours == 'all-followed') {
