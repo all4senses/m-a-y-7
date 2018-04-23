@@ -571,7 +571,7 @@ function a4s_instagram_behat() {
         
         
       case 'alert':
-        $alert_count_to_disable_behat = 3;
+        $alert_count_to_disable_behat = variable_get('a4s_max_fails_before_behat_disable', 7);
         $subject = 'Alert from Behat!';
         $a4s_behat_alerts_count = variable_get('a4s_behat_alerts_count', 0) + 1;
         watchdog('Probems with Behat, Alert', "Problems from Behat (#$a4s_behat_alerts_count):  " . $_REQUEST['message'] . ' ==> <pre>'. print_r($_REQUEST['data'], TRUE) . '</pre>');
