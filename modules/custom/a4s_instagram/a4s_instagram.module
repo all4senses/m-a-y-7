@@ -3105,6 +3105,6 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_username, $pages_coun
   $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
   $ds_user_id = $user_profile['id'];
   
-  $data = a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count, $end_cursor, $items_per_query, $ds_user_id = NULL);
+  $data = a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count, $end_cursor, $items_per_query, $ds_user_id);
   return $data;
 }
