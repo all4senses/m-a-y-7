@@ -228,14 +228,15 @@ function a4s_instagram_settings($form, $form_state) {
     if(!$all_accounts = a4s_instagram_get_accounts_to_process('all')) {
       return;
     }
-      
+    $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+    
     $form['insta_settings']['settings_per_account'] = array(
       '#type' => 'fieldset',
       '#title' => 'Settings, per account',
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
-        
+    
         foreach ($all_accounts as $account) {
 
           $form['insta_settings']['settings_per_account'][$account] = array(
@@ -245,12 +246,26 @@ function a4s_instagram_settings($form, $form_state) {
             '#collapsed' => FALSE,
           );
 
-              $form['insta_settings']['settings_per_account'][$account]['a4s_insta_account_pass__' . $account] = array(
-                '#type' => 'textfield',
-                '#title' => "Pass",
-                '#default_value' => variable_get('a4s_insta_account_pass__' . $account, NULL),
+              $form['insta_settings']['settings_per_account'][$account]['creds'] = array(
+                '#type' => 'fieldset',
+                '#title' => "$account",
+                '#collapsible' => TRUE,
+                '#collapsed' => TRUE,
               );
+                  $form['insta_settings']['settings_per_account'][$account]['creds']['a4s_insta_account_pass__' . $account] = array( 
+                    '#type' => 'textfield',
+                    '#title' => "Pass",
+                    '#default_value' => variable_get('a4s_insta_account_pass__' . $account, NULL),
+                  );
+                  $form['insta_settings']['settings_per_account'][$account]['creds']['a4s_insta_account_cookies__' . $account] = array( 
+                    '#type' => 'textfield',
+                    '#title' => "Current cookies (do not change!)",
+                    '#default_value' => $behat_insta_cookies['https://instagram.com'][$account],
+                  );
               
+              
+              
+                  
               
               $form['insta_settings']['settings_per_account'][$account]['a4s_remote_accounts_to_get_folowers'] = array(
                 '#type' => 'fieldset',
@@ -452,7 +467,7 @@ function a4s_instagram_get_accounts_credentials($domain, $account = NULL) {
   if ($domain != 'https://instagram.com') {
     return NULL;
   }
-  $all_accounts = a4s_instagram_get_accounts_to_process();
+  $all_accounts = a4s_instagram_get_accounts_to_process('all');
   if(!$all_accounts || ($account && !in_array($account, $all_accounts))) {
     return NULL;
   }
