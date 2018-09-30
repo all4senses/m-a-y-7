@@ -184,52 +184,12 @@ function a4s_instagram_settings($form, $form_state) {
     );
   
   
-  
-  
-  
-  
-  
-    /*
-    $form['insta_settings']['accounts_tags_to_like'] = array(
-      '#type' => 'fieldset',
-      '#title' => 'Tags to like per account',
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
-    );
- 
-    
-    if($all_accounts) {
-      foreach ($all_accounts as $account) {
-        $form['insta_settings']['accounts_tags_to_like']['a4s_insta_account_tags__' . $account] = array(
-          '#type' => 'textarea',
-          '#title' => "$account tags to like",
-          '#default_value' => variable_get('a4s_insta_account_tags__' . $account, NULL),
-        );
-      }
-    }
-    */
-  
     $form['insta_settings']['a4s_insta_amount_of_medias_to_like_per_session'] = array(
       '#type' => 'textfield',
       '#title' => 'Amount of medias to like per each session (like every 10, 20,..., etc minutes)',
       '#default_value' => variable_get('a4s_insta_amount_of_medias_to_like_per_session', 7),
     );
     
-    /*
-    if($all_accounts) {
-      foreach ($all_accounts as $account) {
-        $form['insta_settings']['a4s_insta_account_allow_to_autofollow__' . $account] = array(
-          '#type' => 'checkbox',
-          '#title' => "$account is allowed to auto follow",
-          '#default_value' => variable_get('a4s_insta_account_allow_to_autofollow__' . $account, NULL),
-        );
-      }
-    }
-    */
-    
-    
-    
- 
     $form['insta_settings']['a4s_insta_history_period_hours_default'] = array(
       '#type' => 'textfield',
       '#title' => 'History, last hours to show',
@@ -258,77 +218,6 @@ function a4s_instagram_settings($form, $form_state) {
           '#default_value' => variable_get('a4s_insta_autofollow_history_show_only_valid', TRUE),
         );
     
-    /*
-    $form['insta_settings']['accounts_conditions_to_like'] = array(
-      '#type' => 'fieldset',
-      '#title' => 'Conditions for target medias and users to like, per account',
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
-    );
-        
-        if($all_accounts) {
-          foreach ($all_accounts as $account) {
-            
-            $form['insta_settings']['accounts_conditions_to_like'][$account] = array(
-              '#type' => 'fieldset',
-              '#title' => "$account conditions",
-              '#collapsible' => TRUE,
-              '#collapsed' => FALSE,
-            );
-           
-                $form['insta_settings']['accounts_conditions_to_like'][$account]['a4s_insta_account_like_condition_[likes]__' . $account] = array(
-                  '#type' => 'textfield',
-                  '#title' => "Media likes (from, to)",
-                  '#default_value' => variable_get('a4s_insta_account_like_condition_[likes]__' . $account, '0, 200'),
-                );
-                $form['insta_settings']['accounts_conditions_to_like'][$account]['a4s_insta_account_like_condition_[posts]__' . $account] = array(
-                  '#type' => 'textfield',
-                  '#title' => "User posts (from, to)",
-                  '#default_value' => variable_get('a4s_insta_account_like_condition_[posts]__' . $account, '1, 500'),
-                );
-                $form['insta_settings']['accounts_conditions_to_like'][$account]['a4s_insta_account_like_condition_[followers]__' . $account] = array(
-                  '#type' => 'textfield',
-                  '#title' => "User followers (from, to)",
-                  '#default_value' => variable_get('a4s_insta_account_like_condition_[followers]__' . $account, '1, 2000'),
-                );
-                $form['insta_settings']['accounts_conditions_to_like'][$account]['a4s_insta_account_like_condition_[following]__' . $account] = array(
-                  '#type' => 'textfield',
-                  '#title' => "User following (from, to)",
-                  '#default_value' => variable_get('a4s_insta_account_like_condition_[following]__' . $account, '20, 800'),
-                );
-                $form['insta_settings']['accounts_conditions_to_like'][$account]['a4s_insta_account_like_condition_[username_does_not_contain]__' . $account] = array(
-                  '#type' => 'textfield',
-                  '#title' => "Username does not contain substrings (coma separated)",
-                  '#default_value' => variable_get('a4s_insta_account_like_condition_[username_does_not_contain]__' . $account, 'vulkan, casino'),
-                );
-              
-          }
-        }
-    */
-        
-        
-    /*
-    $form['insta_settings']['accounts_creds'] = array(
-      '#type' => 'fieldset',
-      '#title' => 'Accounts credentials',
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    );
-      
-      
-      if($all_accounts) {
-        foreach ($all_accounts as $account) {
-          $form['insta_settings']['accounts_creds']['a4s_insta_account_pass__' . $account] = array(
-            '#type' => 'textfield',
-            '#title' => "$account password",
-            '#default_value' => variable_get('a4s_insta_account_pass__' . $account, NULL),
-          );
-        }
-      }
-      
-      */
-      
-    
       
     if(!$all_accounts) {
       return;
@@ -356,9 +245,29 @@ function a4s_instagram_settings($form, $form_state) {
                 '#default_value' => variable_get('a4s_insta_account_pass__' . $account, NULL),
               );
               
+              
+              $form['insta_settings']['settings_per_account'][$account]['a4s_remote_accounts_to_get_folowers'] = array(
+                '#type' => 'fieldset',
+                '#title' => "Remote accounts to get folowers from",
+                '#collapsible' => TRUE,
+                '#collapsed' => FALSE,
+              );
+                  $form['insta_settings']['settings_per_account'][$account]['a4s_remote_accounts_to_get_folowers']['a4s_remote_accounts_to_get_folowers__' . $account] = array(
+                    '#type' => 'textarea',
+                    '#title' => "List of remote accounts (which you think has followers that you also need (and the same interests as you)",
+                    '#default_value' => variable_get('a4s_remote_accounts_to_get_folowers__' . $account, NULL),
+                  );
+              
+                  $form['insta_settings']['settings_per_account'][$account]['a4s_remote_accounts_to_get_folowers']['a4s_like_remote_accounts_followers__' . $account] = array(
+                    '#type' => 'checkbox',
+                    '#title' => "Like remote accounts (above) followers (before medias found by tags)",
+                    '#default_value' => variable_get('a4s_like_remote_accounts_followers__' . $account, NULL),
+                  );
+              
+              
               $form['insta_settings']['settings_per_account'][$account]['a4s_insta_account_tags__' . $account] = array(
                 '#type' => 'textarea',
-                '#title' => "Tags to like",
+                '#title' => "Find users by Tags to like",
                 '#default_value' => variable_get('a4s_insta_account_tags__' . $account, NULL),
               );
 
@@ -403,11 +312,7 @@ function a4s_instagram_settings($form, $form_state) {
               );
 
         }
-        
-      
-      
-      
-      
+          
     
   return system_settings_form($form);
 }
