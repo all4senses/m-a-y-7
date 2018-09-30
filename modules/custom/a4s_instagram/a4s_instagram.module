@@ -167,8 +167,6 @@ function a4s_instagram_stub_page() {
  */
 function a4s_instagram_settings($form, $form_state) {
   
-  $all_accounts = a4s_instagram_get_accounts_to_process();
-  
   $form['insta_settings'] = array(
     '#type' => 'fieldset',
     '#title' => 'Insta settings',
@@ -179,8 +177,14 @@ function a4s_instagram_settings($form, $form_state) {
   
     $form['insta_settings']['a4s_insta_accounts'] = array(
       '#type' => 'textfield',
-      '#title' => 'Active accounts list, coma separated',
+      '#title' => 'All own accounts list, coma separated',
       '#default_value' => variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova'),
+    );
+    
+    $form['insta_settings']['a4s_insta_accounts_active'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Active own accounts list (which are being processed currently), coma separated',
+      '#default_value' => variable_get('a4s_insta_accounts_active', 'all4senses, olyayuskasova'),
     );
   
   
@@ -219,7 +223,9 @@ function a4s_instagram_settings($form, $form_state) {
         );
     
       
-    if(!$all_accounts) {
+        
+        
+    if(!$all_accounts = a4s_instagram_get_accounts_to_process('all')) {
       return;
     }
       
@@ -412,8 +418,19 @@ function a4s_insta_get_user_tags($account = NULL) {
  * 
  * @return array
  */
-function a4s_instagram_get_accounts_to_process() {
-  if($accounts_to_process = variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova')) {
+function a4s_instagram_get_accounts_to_process($status = 'active') {
+  
+  switch ($status) {
+    case 'all':
+      $variable_name = 'a4s_insta_accounts';
+      break;
+    
+    case 'active':
+      $variable_name = 'a4s_insta_accounts_active';
+      break;
+  }
+  
+  if($accounts_to_process = variable_get($variable_name, 'all4senses, olyayuskasova')) {
     $accounts_to_process = explode(',', $accounts_to_process);
     foreach ($accounts_to_process as &$account_to_process) {
       $account_to_process = trim($account_to_process);
