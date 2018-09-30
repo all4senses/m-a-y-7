@@ -167,6 +167,8 @@ function a4s_instagram_stub_page() {
  */
 function a4s_instagram_settings($form, $form_state) {
   
+  $all_accounts = a4s_instagram_get_accounts_to_process();
+  
   $form['insta_settings'] = array(
     '#type' => 'fieldset',
     '#title' => 'Insta settings',
@@ -175,13 +177,27 @@ function a4s_instagram_settings($form, $form_state) {
     '#access' => user_access('administer site configuration')
   );
   
+    $form['insta_settings']['a4s_insta_accounts'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Active accounts list, coma separated',
+      '#default_value' => variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova'),
+    );
+  
+  
+  
+  
+  
+  
+  
+    /*
     $form['insta_settings']['accounts_tags_to_like'] = array(
       '#type' => 'fieldset',
       '#title' => 'Tags to like per account',
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
-    $all_accounts = a4s_instagram_get_accounts_to_process();
+ 
+    
     if($all_accounts) {
       foreach ($all_accounts as $account) {
         $form['insta_settings']['accounts_tags_to_like']['a4s_insta_account_tags__' . $account] = array(
@@ -191,6 +207,7 @@ function a4s_instagram_settings($form, $form_state) {
         );
       }
     }
+    */
   
     $form['insta_settings']['a4s_insta_amount_of_medias_to_like_per_session'] = array(
       '#type' => 'textfield',
@@ -198,6 +215,7 @@ function a4s_instagram_settings($form, $form_state) {
       '#default_value' => variable_get('a4s_insta_amount_of_medias_to_like_per_session', 7),
     );
     
+    /*
     if($all_accounts) {
       foreach ($all_accounts as $account) {
         $form['insta_settings']['a4s_insta_account_allow_to_autofollow__' . $account] = array(
@@ -207,6 +225,7 @@ function a4s_instagram_settings($form, $form_state) {
         );
       }
     }
+    */
     
     $form['insta_settings']['a4s_insta_auto_following_period_h'] = array(
       '#type' => 'textfield',
@@ -237,7 +256,7 @@ function a4s_instagram_settings($form, $form_state) {
     
     
     
-    
+    /*
     $form['insta_settings']['accounts_conditions_to_like'] = array(
       '#type' => 'fieldset',
       '#title' => 'Conditions for target medias and users to like, per account',
@@ -280,21 +299,20 @@ function a4s_instagram_settings($form, $form_state) {
                   '#title' => "Username does not contain substrings (coma separated)",
                   '#default_value' => variable_get('a4s_insta_account_like_condition_[username_does_not_contain]__' . $account, 'vulkan, casino'),
                 );
-                
+              
           }
         }
-    
+    */
+        
+        
+    /*
     $form['insta_settings']['accounts_creds'] = array(
       '#type' => 'fieldset',
       '#title' => 'Accounts credentials',
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
     );
-      $form['insta_settings']['accounts_creds']['a4s_insta_accounts'] = array(
-        '#type' => 'textfield',
-        '#title' => 'Accounts list, coma separated',
-        '#default_value' => variable_get('a4s_insta_accounts', 'all4senses, olyayuskasova'),
-      );
+      
       
       if($all_accounts) {
         foreach ($all_accounts as $account) {
@@ -305,6 +323,89 @@ function a4s_instagram_settings($form, $form_state) {
           );
         }
       }
+      
+      */
+      
+    
+      
+    if(!$all_accounts) {
+      return;
+    }
+      
+    $form['insta_settings']['settings_per_account'] = array(
+      '#type' => 'fieldset',
+      '#title' => 'Settings, per account',
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+        
+        foreach ($all_accounts as $account) {
+
+          $form['insta_settings']['settings_per_account'][$account] = array(
+            '#type' => 'fieldset',
+            '#title' => "$account settings",
+            '#collapsible' => TRUE,
+            '#collapsed' => FALSE,
+          );
+
+              $form['insta_settings']['settings_per_account']['a4s_insta_account_tags__' . $account] = array(
+                '#type' => 'textarea',
+                '#title' => "$account tags to like",
+                '#default_value' => variable_get('a4s_insta_account_tags__' . $account, NULL),
+              );
+
+              $form['insta_settings']['settings_per_account']['a4s_insta_account_allow_to_autofollow__' . $account] = array(
+                '#type' => 'checkbox',
+                '#title' => "Autofollow is ON for [$account]",
+                '#default_value' => variable_get('a4s_insta_account_allow_to_autofollow__' . $account, NULL),
+              );
+
+              $form['insta_settings']['settings_per_account']['accounts_conditions_to_like'] = array(
+                '#type' => 'fieldset',
+                '#title' => "$account Media likes conditions",
+                '#collapsible' => TRUE,
+                '#collapsed' => FALSE,
+              );
+
+                  $form['insta_settings']['settings_per_account']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[likes]__' . $account] = array(
+                    '#type' => 'textfield',
+                    '#title' => "Media likes (from, to)",
+                    '#default_value' => variable_get('a4s_insta_account_like_condition_[likes]__' . $account, '0, 200'),
+                  );
+                  $form['insta_settings']['settings_per_account']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[posts]__' . $account] = array(
+                    '#type' => 'textfield',
+                    '#title' => "User posts (from, to)",
+                    '#default_value' => variable_get('a4s_insta_account_like_condition_[posts]__' . $account, '1, 500'),
+                  );
+                  $form['insta_settings']['settings_per_account']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[followers]__' . $account] = array(
+                    '#type' => 'textfield',
+                    '#title' => "User followers (from, to)",
+                    '#default_value' => variable_get('a4s_insta_account_like_condition_[followers]__' . $account, '1, 2000'),
+                  );
+                  $form['insta_settings']['settings_per_account']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[following]__' . $account] = array(
+                    '#type' => 'textfield',
+                    '#title' => "User following (from, to)",
+                    '#default_value' => variable_get('a4s_insta_account_like_condition_[following]__' . $account, '20, 800'),
+                  );
+                  $form['insta_settings']['settings_per_account']['accounts_conditions_to_like']['a4s_insta_account_like_condition_[username_does_not_contain]__' . $account] = array(
+                    '#type' => 'textfield',
+                    '#title' => "Username does not contain substrings (coma separated)",
+                    '#default_value' => variable_get('a4s_insta_account_like_condition_[username_does_not_contain]__' . $account, 'vulkan, casino'),
+                  );
+
+              $form['insta_settings']['settings_per_account'][$account]['a4s_insta_account_pass__' . $account] = array(
+                '#type' => 'textfield',
+                '#title' => "Pass",
+                '#default_value' => variable_get('a4s_insta_account_pass__' . $account, NULL),
+              );
+
+
+        }
+        
+      
+      
+      
+      
     
   return system_settings_form($form);
 }
@@ -3093,18 +3194,16 @@ function _a4s_instagram_copyUserExtraData_from_between_tables() {
 function a4s_insta_get_remoteUser_data($data_type, $remote_username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10) {
   
   // The data will be requested by this user being logged in
-  $username = 'all4senses';
+  $own_account = 'all4senses';
   
   $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-  if (empty($behat_insta_cookies['https://instagram.com'][$username]['ds_user_id'])) {
+  if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
     return FALSE;
   }
-  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$username];
+  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
   
-  $remote_user = 'lmadcatl';
   $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
-  $ds_user_id = $user_profile['id'];
   
-  $data = a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count, $end_cursor, $items_per_query, $ds_user_id);
+  $data = a4s_insta_queryGraphql_multiple($data_type, $own_account, $pages_count, $end_cursor, $items_per_query, $user_profile['id']);
   return $data;
 }

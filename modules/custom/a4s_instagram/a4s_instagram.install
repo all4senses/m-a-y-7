@@ -5,7 +5,159 @@
  */
 function a4s_instagram_schema() {
   $schema = array();
+  
+  $schema['a4s_insta_own_users'] = array(
+    'description' => 'Own accounts, that we are handlling, like all4senses, olgayuskasova, etc',
+    'fields' => array(
+      'uid' => array(
+        'description' => 'Primary Key: Local Identifier for an own user, like 1 for all4senses, or 2 for olyayuskasova',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'remote_id' => array(
+        'description' => 'Instagram User ID, like 1535208087',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'username' => array(
+        'description' => 'User Instagram username, like all4senses, olgayuskasova',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'fullname' => array(
+        'description' => 'A full name of a user',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'thumbnail' => array(
+        'description' => 'A thumbnail of a user, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'followed_by_amount' => array(
+        'description' => 'Amount of followers',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'following_amount' => array(
+        'description' => 'Amount of users, that this user is following',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'posts_amount' => array(
+        'description' => 'Amount of posts, that this user has uploaded',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+      'extra_data' => array(
+        'description' => 'Extra data, like the last $end_cursor value from requested followers, following, etc, for repeating amounts requests from Instagram, etc',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+      
+      'timestamp_created' => array(
+        'description' => 'The Unix timestamp when an Instagram user has been created in Instagram',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+      'timestamp_added' => array(
+        'description' => 'The Unix timestamp when a user has been added to DB',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_updated' => array(
+        'description' => 'The Unix timestamp when a user has been updated',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
 
+    ),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'remote_id' => array('remote_id'),
+      'username' => array('username'),
+      'timestamp_updated' => array('timestamp_updated'),
+    ),
+    'primary key' => array('uid'),
+  );
+  
+    
+  $schema['a4s_insta_own_users_activity'] = array(
+    'description' => 'Own accounts activity, that is showing changing the data (followers, likes, posts, etc) in time',
+    'fields' => array(
+      'aid' => array(
+        'description' => 'Primary Key: activity id',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'local_uid' => array(
+        'description' => 'Primary Key: uid from the table a4s_insta_own_users',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'followed_by_amount' => array(
+        'description' => 'Amount of followers',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'following_amount' => array(
+        'description' => 'Amount of users, that this user is following',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'posts_amount' => array(
+        'description' => 'Amount of posts, that this user has uploaded',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'likes_amount' => array(
+        'description' => 'How many likes has a user',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the row has been updated',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+    ),
+    'indexes' => array(
+      'aid' => array('aid'),
+      'local_uid' => array('local_uid'),
+      'timestamp' => array('timestamp_updated'),
+    ),
+    'primary key' => array('aid'),
+  );
+  
+  
+  
+  
+  
+  
   $schema['a4s_insta_clicks_by_tag'] = array(
     'description' => 'Clicked media',
     'fields' => array(
@@ -539,6 +691,164 @@ function a4s_instagram_schema() {
     'primary key' => array('fid'),
   );
   
+  
+  
+  
+  // ------------------------------------------------------------------
+  // ---------------------------------------------------------------------
+  // Get some interesting Instagram user's followers 
+  // and affect them (like, autofollow, etc) to access more relative auditory
+  // ------------------------------------------------------------------
+  
+  $schema['a4s_insta_remote_users'] = array(
+    'description' => 'Data (like usernames, followers, etc) of Instagram users which we plan to get followers from, oto further liking them',
+    'fields' => array(
+      'uid' => array(
+        'description' => 'Primary Key: Local Identifier for an Instagram user.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'remote_id' => array(
+        'description' => 'User Instagram ID, like 1535208087',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'username' => array(
+        'description' => 'User Instagram username, like grase.art.education',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'fullname' => array(
+        'description' => 'A full name of a user, like for_walls',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'thumbnail' => array(
+        'description' => 'A thumbnail of a user, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'followed_by_amount' => array(
+        'description' => 'Amount of followers',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'following_amount' => array(
+        'description' => 'Amount of users, that this user is following',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'posts_amount' => array(
+        'description' => 'Amount of posts, that this user has uploaded',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+      'extra_data' => array(
+        'description' => 'Extra data, like the last $end_cursor value from requested followers, following, etc, for repeating amounts requests from Instagram, etc',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+      
+      'user_created' => array(
+        'description' => 'The Unix timestamp when an Instagram user has been created in Instagram',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when data has been added/updated to DB',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+
+    ),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'remote_id' => array('remote_id'),
+      'username' => array('username'),
+      'fullname' => array('fullname'),
+      'user_created' => array('user_created'),
+      'timestamp' => array('timestamp'),
+    ),
+    'primary key' => array('eid'),
+  );
+  
+  
+  $schema['a4s_insta_remote_users_followers'] = array(
+    'description' => 'Remote users folowers',
+    'fields' => array(
+      'fid' => array(
+        'description' => 'Primary Key: Local Identifier for a follower.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'user_uid_local' => array(
+        'description' => 'Remote user local ID (uid in the table a4s_insta_remote_users)',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+      ),
+      
+      'follower_id' => array(
+        'description' => 'Folower Instagram ID, like 1535208087',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'liked_by_our_accounts' => array(
+        'description' => 'If this follower liked by one of our accounts (all4senses, etc), it contains indexes (uid from the table a4s_insta_own_users) it in the format: [1] OR [1][2], etc',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'followed_by_our_accounts' => array(
+        'description' => 'If this follower is followed at least one time by one of our accounts (all4senses, etc), it contains indexes (uid from the table a4s_insta_own_users) it in the format: [1] OR [1][2], etc',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_added' => array(
+        'description' => 'The Unix timestamp when a follower has been added to DB',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp_updated' => array(
+        'description' => 'The Unix timestamp when a follower has been updated',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+
+    ),
+    'indexes' => array(
+      'fid' => array('fid'),
+      'user_uid_local' => array('user_uid_local'),
+      'follower_id' => array('follower_id'),
+      'liked_by_our_accounts' => array('liked_by_our_accounts'),
+      'followed_by_our_accounts' => array('followed_by_our_accounts'),
+      'timestamp_updated' => array('timestamp_updated'),
+    ),
+    'primary key' => array('fid'),
+  );
+  
   return $schema;
 }
 
@@ -701,5 +1011,37 @@ function a4s_instagram_update_7018() {
     db_add_field('a4s_insta_auto_following', 'timestamp_added', $schema['a4s_insta_auto_following']['fields']['timestamp_added']);
   }
 }
+
+
+/**
+ * Add new tables a4s_insta_own_users, a4s_insta_own_users_activity, a4s_insta_remote_users, a4s_insta_remote_users_followers
+ */
+function a4s_instagram_update_7019() {
+  
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_own_users')) {
+    db_create_table('a4s_insta_own_users', $schema['a4s_insta_own_users']);
+  }
+  
+  if (!db_table_exists('a4s_insta_own_users_activity')) {
+    db_create_table('a4s_insta_own_users_activity', $schema['a4s_insta_own_users_activity']);
+  }
+  
+  if (!db_table_exists('a4s_insta_remote_users')) {
+    db_create_table('a4s_insta_remote_users', $schema['a4s_insta_remote_users']);
+  }
+  
+  if (!db_table_exists('a4s_insta_remote_users_followers')) {
+    db_create_table('a4s_insta_remote_users_followers', $schema['a4s_insta_remote_users_followers']);
+  }
+  
+}
+
+
+  
+  
+  
+  
+  
 
 
