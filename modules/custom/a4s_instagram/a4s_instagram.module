@@ -1122,7 +1122,7 @@ function  a4s_instagram_page() {
  * @param type $items_per_query
  * @return type
  */
-function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10) {
+function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10, $ds_user_id = NULL) {
   $data = array();
   $data_all = array();
   $max_id = NULL;
@@ -1132,7 +1132,7 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = N
   $pages_processed = 0;
   
   do {
-    $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query);
+    $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query, $ds_user_id);
     // If we have an empty (FALSE) result from Instagram, break the look, and return FALSE, 
     // because we have now some failure and don't need to update the data now
     if (!$data) {
@@ -3078,4 +3078,33 @@ function _a4s_instagram_copyUserExtraData_from_between_tables() {
   dpm($existing_extra_data_GOOD, '$existing_extra_data_GOOD');
   dpm($existing_extra_data_BAD, '$existing_extra_data_BAD');
   dpm($not_existing_extra_data, '$not_existing_extra_data');
+}
+
+/**
+ * 
+ * @param type $data_type
+ *  following, followers
+ * @param type $remote_username
+ * @param type $pages_count
+ * @param type $end_cursor
+ * @param type $items_per_query
+ * @return boolean
+ */
+function a4s_insta_get_remoteUser_data($data_type, $remote_username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10) {
+  
+  // The data will be requested by this user being logged in
+  $username = 'all4senses';
+  
+  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+  if (empty($behat_insta_cookies['https://instagram.com'][$username]['ds_user_id'])) {
+    return FALSE;
+  }
+  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$username];
+  
+  $remote_user = 'lmadcatl';
+  $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
+  $ds_user_id = $user_profile['id'];
+  
+  $data = a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count, $end_cursor, $items_per_query, $ds_user_id = NULL);
+  return $data;
 }
