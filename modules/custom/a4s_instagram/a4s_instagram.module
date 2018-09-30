@@ -248,7 +248,7 @@ function a4s_instagram_settings($form, $form_state) {
 
               $form['insta_settings']['settings_per_account'][$account]['creds'] = array(
                 '#type' => 'fieldset',
-                '#title' => "$account",
+                '#title' => "Creds",
                 '#collapsible' => TRUE,
                 '#collapsed' => TRUE,
               );
@@ -258,9 +258,9 @@ function a4s_instagram_settings($form, $form_state) {
                     '#default_value' => variable_get('a4s_insta_account_pass__' . $account, NULL),
                   );
                   $form['insta_settings']['settings_per_account'][$account]['creds']['a4s_insta_account_cookies__' . $account] = array( 
-                    '#type' => 'textfield',
+                    '#type' => 'textarea',
                     '#title' => "Current cookies (do not change!)",
-                    '#default_value' => $behat_insta_cookies['https://instagram.com'][$account],
+                    '#default_value' => !empty($behat_insta_cookies['https://instagram.com'][$account]) ? print_r($behat_insta_cookies['https://instagram.com'][$account], TRUE) : NULL,
                   );
               
               
