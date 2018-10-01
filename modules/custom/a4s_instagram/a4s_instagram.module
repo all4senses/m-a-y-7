@@ -3205,12 +3205,13 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
     foreach ($remote_accounts as $remote_account) {
       $remote_account = trim($remote_account);
       $remote_account_data = db_select('a4s_insta_remote_users', 'r')
-        ->fields('r', array('uid'))
-        ->condition('r.username', $account)
+        ->fields('r', array())
+        ->condition('r.username', $remote_account)
         ->execute()
         ->fetchObject();
       
       if (!$remote_account_data) {
+        dpm('Get new $remote_account_data from Instagram');
         if (!$remote_account_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_account)) {
           watchdog('a4s_insta', "User [$remote_account]: Error while retrieving a remote account profile data", array(), WATCHDOG_WARNING);
           continue;
