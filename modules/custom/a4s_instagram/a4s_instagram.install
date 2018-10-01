@@ -162,7 +162,7 @@ function a4s_instagram_schema() {
       'following_amount' => array('following_amount'),
       'posts_amount' => array('posts_amount'),
       'likes_amount' => array('likes_amount'),
-      'timestamp' => array('timestamp_updated'),
+      'timestamp' => array('timestamp'),
     ),
     'primary key' => array('aid'),
   );
