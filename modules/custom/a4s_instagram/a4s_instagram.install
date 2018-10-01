@@ -808,7 +808,7 @@ function a4s_instagram_schema() {
       'user_created' => array('user_created'),
       'timestamp' => array('timestamp'),
     ),
-    'primary key' => array('eid'),
+    'primary key' => array('uid'),
   );
   
   
