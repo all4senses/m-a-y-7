@@ -3212,6 +3212,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       
       if ($remote_account_data) {
         $remote_account_data = (array) $remote_account_data;
+        $remote_account_data['fullname'] = utf8_decode($remote_account_data['fullname']);
+        $remote_account_data['biography'] = utf8_decode($remote_account_data['biography']);
         dpm($remote_account_data, '$remote_account_data from DB');
       }
       else {
@@ -3224,8 +3226,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         $remote_account_data = array(
           'remote_id' => $remote_account_profile['id'],
           'username' => $remote_account_profile['username'],
-          //'fullname' => utf8_encode($remote_account_profile['full_name']),
-          'fullname' => $remote_account_profile['full_name'],
+          'fullname' => utf8_encode($remote_account_profile['full_name']),
+          //'fullname' => $remote_account_profile['full_name'],
           'thumbnail' => $remote_account_profile['profile_pic_url'], 
           //'biography' => utf8_encode($remote_account_profile['biography']),
           'biography' => $remote_account_profile['biography'],
@@ -3243,6 +3245,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           continue;
         }
       }
+      
       
       $remote_account_extra_data = !empty($remote_account_data['extra_data']) ? json_decode($remote_account_data['extra_data'], TRUE) : array();
       dpm($remote_account_extra_data, '$remote_account_extra_data');
@@ -3270,8 +3273,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             'user_uid_local' => $remote_account_data['uid'],
             'follower_id' => $follower['id'],
             'username' => $follower['username'],
-            //'fullname' => utf8_encode($follower['full_name']),
-            'fullname' => $follower['full_name'],
+            'fullname' => utf8_encode($follower['full_name']),
+            //'fullname' => $follower['full_name'],
             'thumbnail' => $follower['profile_pic_url'],
             'liked_by_our_accounts' => NULL,
             'followed_by_our_accounts' => NULL,
