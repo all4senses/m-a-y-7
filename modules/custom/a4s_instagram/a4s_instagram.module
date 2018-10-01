@@ -3198,7 +3198,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       continue;
     }
     $remote_accounts = variable_get('a4s_remote_accounts_to_get_folowers__' . $account, NULL);
-    $remote_accounts = explode(',');
+    $remote_accounts = explode(',', $remote_accounts);
     foreach ($remote_accounts as $remote_account) {
       $remote_account = trim($remote_account);
       $remote_account_data = db_select('a4s_insta_remote_users', 'r')
