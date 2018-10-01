@@ -3244,7 +3244,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       $end_cursor = $previous_end_cursor = !empty($remote_account_extra_data['followers']['end_cursor']) ? $remote_account_extra_data['followers']['end_cursor'] : NULL;
       dpm($end_cursor, '$end_cursor before');
       
-      $remote_user_followers = a4s_insta_get_remoteUser_data($data_type = 'followers', $remote_account_data['remote_id'], $remote_acсount, $pages_count, $end_cursor, $items_per_query);
+      $remote_user_followers = a4s_insta_get_remoteUser_data($data_type = 'followers', $remote_account_data['remote_id'], $remote_account, $pages_count, $end_cursor, $items_per_query);
       dpm($end_cursor, '$end_cursor after');
       dpm($remote_user_followers, '$remote_user_followers');
       if (!empty($remote_user_followers)) {
