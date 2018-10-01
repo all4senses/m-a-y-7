@@ -3164,20 +3164,23 @@ function _a4s_instagram_copyUserExtraData_from_between_tables() {
  * @param type $items_per_query
  * @return boolean
  */
-function a4s_insta_get_remoteUser_data($data_type, $remote_username, $pages_count = NULL, &$end_cursor = NULL, $items_per_query = 10) {
+function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remote_username = NULL, $pages_count = NULL, &$end_cursor = NULL, $items_per_query = 10) {
   
   // The data will be requested by this user being logged in
   $own_account = 'all4senses';
   
-  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-  if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
-    return FALSE;
+  if (!$remote_user_id) {
+    $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+    if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
+      return FALSE;
+    }
+    $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
+
+    $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
+    $remote_user_id = $user_profile['id'];
   }
-  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
   
-  $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
-  
-  $data = a4s_insta_queryGraphql_multiple($data_type, $own_account, $pages_count, $end_cursor, $items_per_query, $user_profile['id']);
+  $data = a4s_insta_queryGraphql_multiple($data_type, $own_account, $pages_count, $end_cursor, $items_per_query, $remote_user_id);
   return $data;
 }
 
@@ -3202,7 +3205,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
     foreach ($remote_accounts as $remote_account) {
       $remote_account = trim($remote_account);
       $remote_account_data = db_select('a4s_insta_remote_users', 'r')
-        ->fields('r', array())
+        ->fields('r', array('uid'))
         ->condition('r.username', $account)
         ->execute()
         ->fetchObject();
@@ -3216,9 +3219,11 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         $remote_account_data = array(
           'remote_id' => $remote_account_profile['id'],
           'username' => $remote_account_profile['username'],
-          'fullname' => utf8_encode($remote_account_profile['full_name']),
+          //'fullname' => utf8_encode($remote_account_profile['full_name']),
+          'fullname' => $remote_account_profile['full_name'],
           'thumbnail' => $remote_account_profile['profile_pic_url'], 
-          'biography' => utf8_encode($remote_account_profile['biography']),
+          //'biography' => utf8_encode($remote_account_profile['biography']),
+          'biography' => $remote_account_profile['biography'],
           'followed_by_amount' => $remote_account_profile['edge_followed_by']['count'],
           'following_amount' => $remote_account_profile['edge_follow']['count'],
           'posts_amount' => $remote_account_profile['edge_owner_to_timeline_media']['count'], 
@@ -3228,14 +3233,20 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         );
         $remote_account_data['uid'] = db_insert('a4s_insta_remote_users')->fields($remote_account_data)->execute();
         dpm($remote_account_data, '$remote_account_data');
+        if (empty($remote_account_data['uid'])) {
+          watchdog('a4s_insta', "Error while adding a remote user [$remote_account] to DB", array(), WATCHDOG_ERROR);
+          continue;
+        }
       }
       
       $remote_account_extra_data = !empty($remote_account_data['extra_data']) ? json_decode($remote_account_data['extra_data'], TRUE) : array();
       dpm($remote_account_extra_data, '$remote_account_extra_data');
       $end_cursor = $previous_end_cursor = !empty($remote_account_extra_data['followers']['end_cursor']) ? $remote_account_extra_data['followers']['end_cursor'] : NULL;
       dpm($end_cursor, '$end_cursor before');
-      $remote_user_followers = a4s_insta_get_remoteUser_data($data_type = 'followers', $remote_acсount, $pages_count = 2, $end_cursor, $items_per_query = 40);
+      
+      $remote_user_followers = a4s_insta_get_remoteUser_data($data_type = 'followers', $remote_account_data['remote_id'], $remote_acсount, $pages_count = 2, $end_cursor, $items_per_query = 40);
       dpm($end_cursor, '$end_cursor after');
+      dpm($remote_user_followers, '$remote_user_followers');
       if (!empty($remote_user_followers)) {
         $follower_added_before = array();
         foreach ($remote_user_followers as $follower) {
@@ -3254,7 +3265,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             'user_uid_local' => $remote_account_data['uid'],
             'follower_id' => $follower['id'],
             'username' => $follower['username'],
-            'fullname' => utf8_encode($follower['full_name']),
+            //'fullname' => utf8_encode($follower['full_name']),
+            'fullname' => $follower['full_name'],
             'thumbnail' => $follower['profile_pic_url'],
             'liked_by_our_accounts' => NULL,
             'followed_by_our_accounts' => NULL,
@@ -3262,7 +3274,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             'timestamp_updated' => REQUEST_TIME,
           );
           $remote_account_follower_data['fid'] = db_insert('a4s_insta_remote_users_followers')->fields($remote_account_follower_data)->execute();
-          dpm($remote_account_follower_data, '$remote_account_follower_data');
+          //dpm($remote_account_follower_data, '$remote_account_follower_data');
         }
       }
       if ($previous_end_cursor != $end_cursor) {
