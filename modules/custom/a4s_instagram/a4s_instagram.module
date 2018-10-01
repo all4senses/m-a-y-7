@@ -3256,16 +3256,16 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       dpm($end_cursor, '$end_cursor after');
       dpm($remote_user_followers, '$remote_user_followers');
       if (!empty($remote_user_followers)) {
-        $follower_added_before = array();
+        $followers_added_before = array();
         foreach ($remote_user_followers as $follower) {
           $follower = $follower['node'];
           // Check if this follower of this remote user is not already in our DB
           $follower_added_before = db_select('a4s_insta_remote_users_followers', 'f')
             ->fields('f', array('follower_id'))
             ->condition('f.user_uid_local', $remote_account_data['uid'])->condition('f.follower_id', $follower['id'])
-            ->execute()->fetchObject();
+            ->execute()->fetchField();
           if ($follower_added_before) {
-            $follower_added_before[] = $follower_added_before;
+            $followers_added_before[] = $follower_added_before;
             continue;
           }
           // Write a new follower of this remote user to DB
@@ -3283,6 +3283,9 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           );
           $remote_account_follower_data['fid'] = db_insert('a4s_insta_remote_users_followers')->fields($remote_account_follower_data)->execute();
           //dpm($remote_account_follower_data, '$remote_account_follower_data');
+        }
+        if (!empty($followers_added_before)) {
+          dpm($followers_added_before, 'FOUND ADDED BEFORE, $followers_added_before');
         }
       }
       if ($previous_end_cursor != $end_cursor) {
