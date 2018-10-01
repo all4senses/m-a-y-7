@@ -3210,7 +3210,11 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         ->execute()
         ->fetchObject();
       
-      if (!$remote_account_data) {
+      if ($remote_account_data) {
+        $remote_account_data = (array) $remote_account_data;
+        dpm($remote_account_data, '$remote_account_data from DB');
+      }
+      else {
         dpm('Get new $remote_account_data from Instagram');
         if (!$remote_account_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_account)) {
           watchdog('a4s_insta', "User [$remote_account]: Error while retrieving a remote account profile data", array(), WATCHDOG_WARNING);
@@ -3233,7 +3237,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           'timestamp' => REQUEST_TIME,
         );
         $remote_account_data['uid'] = db_insert('a4s_insta_remote_users')->fields($remote_account_data)->execute();
-        dpm($remote_account_data, '$remote_account_data');
+        dpm($remote_account_data, '$remote_account_data new');
         if (empty($remote_account_data['uid'])) {
           watchdog('a4s_insta', "Error while adding a remote user [$remote_account] to DB", array(), WATCHDOG_ERROR);
           continue;
