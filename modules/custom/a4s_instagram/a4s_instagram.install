@@ -120,8 +120,7 @@ function a4s_instagram_schema() {
       ),
       'local_uid' => array(
         'description' => 'Primary Key: uid from the table a4s_insta_own_users',
-        'type' => 'serial',
-        'unsigned' => TRUE,
+        'type' => 'int',
         'not null' => TRUE,
       ),
       'followed_by_amount' => array(
