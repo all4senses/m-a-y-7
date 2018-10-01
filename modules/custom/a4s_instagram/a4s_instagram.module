@@ -254,7 +254,7 @@ function a4s_instagram_settings($form, $form_state) {
           $form['insta_settings']['settings_per_account'][$account] = array(
             '#type' => 'fieldset',
             //'#title' => $account_original == $account_original ? $account_original : "$account_original [sanitized name: $account]",
-            '#title' => $account_original == $account_original ? $account_original : "$account_original [sanitized name: $account]",
+            '#title' => $account,
             '#collapsible' => TRUE,
             '#collapsed' => FALSE,
           );
