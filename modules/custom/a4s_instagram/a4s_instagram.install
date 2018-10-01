@@ -63,7 +63,7 @@ function a4s_instagram_schema() {
       'extra_data' => array(
         'description' => 'Extra data, like the last $end_cursor value from requested followers, following, etc, for repeating amounts requests from Instagram, etc',
         'type' => 'blob',
-        'not null' => TRUE,
+        'not null' => FALSE,
         'size' => 'big',
       ),
       
@@ -92,11 +92,22 @@ function a4s_instagram_schema() {
       'uid' => array('uid'),
       'remote_id' => array('remote_id'),
       'username' => array('username'),
+      'fullname' => array('fullname'),
+      'followed_by_amount' => array('followed_by_amount'),
+      'following_amount' => array('following_amount'),
+      'posts_amount' => array('posts_amount'),
       'timestamp_updated' => array('timestamp_updated'),
     ),
     'primary key' => array('uid'),
   );
   
+  
+  
+  
+  
+      
+       
+       
     
   $schema['a4s_insta_own_users_activity'] = array(
     'description' => 'Own accounts activity, that is showing changing the data (followers, likes, posts, etc) in time',
@@ -148,12 +159,19 @@ function a4s_instagram_schema() {
     'indexes' => array(
       'aid' => array('aid'),
       'local_uid' => array('local_uid'),
+      'followed_by_amount' => array('followed_by_amount'),
+      'following_amount' => array('following_amount'),
+      'posts_amount' => array('posts_amount'),
+      'likes_amount' => array('likes_amount'),
       'timestamp' => array('timestamp_updated'),
     ),
     'primary key' => array('aid'),
   );
   
   
+  
+  
+      
   
   
   
@@ -728,6 +746,13 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
+      'biography' => array(
+        'description' => 'Extra data, like the last $end_cursor value from requested followers, following, etc, for repeating amounts requests from Instagram, etc',
+        'type' => 'blob',
+        'not null' => FALSE,
+        'size' => 'big',
+      ),
+      
       'thumbnail' => array(
         'description' => 'A thumbnail of a user, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
         'type' => 'varchar',
@@ -757,7 +782,7 @@ function a4s_instagram_schema() {
       'extra_data' => array(
         'description' => 'Extra data, like the last $end_cursor value from requested followers, following, etc, for repeating amounts requests from Instagram, etc',
         'type' => 'blob',
-        'not null' => TRUE,
+        'not null' => FALSE,
         'size' => 'big',
       ),
       
@@ -809,6 +834,25 @@ function a4s_instagram_schema() {
         'type' => 'varchar',
         'length' => 100,
         'not null' => TRUE,
+      ),
+      'username' => array(
+        'description' => 'Folower Instagram username',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'fullname' => array(
+        'description' => 'Folower Instagram fullname',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'thumbnail' => array(
+        'description' => 'A thumbnail of a follower, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       'liked_by_our_accounts' => array(
         'description' => 'If this follower liked by one of our accounts (all4senses, etc), it contains indexes (uid from the table a4s_insta_own_users) it in the format: [1] OR [1][2], etc',
