@@ -3195,7 +3195,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
     
     $processing_results = 'No active remote users set for fetching followers. Slipping processing.';
-    watchdog('a4s_insta', "ok: results ==> $processing_results", array(), WATCHDOG_INFO);
+    watchdog('a4s remote users followers', "ok: results ==> $processing_results", array(), WATCHDOG_INFO);
     drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
     drupal_exit();
   }
@@ -3222,9 +3222,9 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         dpm($remote_account_data, '$remote_account_data from DB');
       }
       else {
-        dpm('Get new $remote_account_data from Instagram');
+        dpm('Get new $remote_account_data from Instagram...');
         if (!$remote_account_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_account)) {
-          watchdog('a4s_insta', "User [$remote_account]: Error while retrieving a remote account profile data", array(), WATCHDOG_WARNING);
+          watchdog('a4s remote users followers', "User [$remote_account]: Error while retrieving a remote account profile data", array(), WATCHDOG_WARNING);
           $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['___error'] = 'Error while retrieving a remote account profile data';
           continue;
         }
@@ -3247,7 +3247,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         $remote_account_data['uid'] = db_insert('a4s_insta_remote_users')->fields($remote_account_data)->execute();
         dpm($remote_account_data, '$remote_account_data new');
         if (empty($remote_account_data['uid'])) {
-          watchdog('a4s_insta', "Error while adding a remote user [$remote_account] to DB", array(), WATCHDOG_ERROR);
+          watchdog('a4s remote users followers', "Error while adding a remote user [$remote_account] to DB", array(), WATCHDOG_ERROR);
           $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['___error'] = 'Error while adding a remote user to DB';
           continue;
         }
@@ -3269,7 +3269,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       
       $remote_user_followers = a4s_insta_get_remoteUser_data($data_type = 'followers', $remote_account_data['remote_id'], $remote_account, $pages_count, $end_cursor, $items_per_query);
       if ($remote_user_followers === FALSE) {
-        watchdog('a4s_insta', "Error while fetching followers for a remote user [$remote_account] from Instagram", array(), WATCHDOG_WARNING);
+        watchdog('a4s remote users followers', "Error while fetching followers for a remote user [$remote_account] from Instagram", array(), WATCHDOG_WARNING);
         $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['___error'] = 'Error while fetching followers from Instagram';
         continue;
       }
@@ -3364,7 +3364,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
     $status = 'ok';
     $watchdog_status = WATCHDOG_INFO;
   }
-  watchdog('a4s_insta', "$status: results ==><pre>" . print_r($processing_results, TRUE) . '</pre>', array(), $watchdog_status);
+  watchdog('a4s remote users followers', "$status: results ==><pre>" . print_r($processing_results, TRUE) . '</pre>', array(), $watchdog_status);
   dpm($processing_results, "processing_results: $status");
   drupal_json_output(array('status' => $status, 'results' => $processing_results));
 }
