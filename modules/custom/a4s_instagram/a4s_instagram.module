@@ -3193,7 +3193,10 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
 function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_per_query = 40) {
   
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
-    drupal_json_output(array('status' => FALSE, 'results' => 'No active remote users set for fetching followers. Slipping processing.'));
+    
+    $processing_results = 'No active remote users set for fetching followers. Slipping processing.';
+    watchdog('a4s_insta', "ok: results ==> $processing_results", array(), WATCHDOG_INFO);
+    drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
     drupal_exit();
   }
 
@@ -3222,7 +3225,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         dpm('Get new $remote_account_data from Instagram');
         if (!$remote_account_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_account)) {
           watchdog('a4s_insta', "User [$remote_account]: Error while retrieving a remote account profile data", array(), WATCHDOG_WARNING);
-          $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['msg'] = 'Error while retrieving a remote account profile data';
+          $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['___error'] = 'Error while retrieving a remote account profile data';
           continue;
         }
         // Write a new remote user profile to DB
@@ -3245,7 +3248,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         dpm($remote_account_data, '$remote_account_data new');
         if (empty($remote_account_data['uid'])) {
           watchdog('a4s_insta', "Error while adding a remote user [$remote_account] to DB", array(), WATCHDOG_ERROR);
-          $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['msg'] = 'Error while adding a remote user to DB';
+          $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['___error'] = 'Error while adding a remote user to DB';
           continue;
         }
       }
@@ -3287,7 +3290,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             continue;
           }
           
-          $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'] = empty($processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added']) ? 1 : ++$processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'];
+          // Collect the total amount of followers to report
+          $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'] = empty($processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added']) ? 1 : ++$processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'];
           
           // Write a new follower of this remote user to DB
           $remote_account_follower_data = array(
@@ -3316,7 +3320,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           $remote_account_extra_data['followers']['finished_fetching_followers'] = TRUE;
           $remote_account_extra_data['followers']['the_last_end_cursor'] = $previous_end_cursor;
           
-          $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['__finished_fetching'] = TRUE;
+          $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['__finished_fetching'] = TRUE;
         }
         
         // Update the remote user data, tocontinue getting its data next time it from the previous point
@@ -3332,5 +3336,23 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
                     
   }
   
-  drupal_json_output(array('status' => FALSE, 'results' => $processing_results));
+  if (!empty($processing_results['errors'])) {
+    $status = 'error';
+    $watchdog_status = WATCHDOG_ERRROR;
+  }
+  elseif (!empty($processing_results['warnings'])) {
+    $status = 'warning';
+    $watchdog_status = WATCHDOG_WARNING;
+  }
+  elseif (!empty($processing_results['success'])) {
+    $status = 'success';
+    $watchdog_status = WATCHDOG_DEBUG;
+  }
+  else {
+    $status = 'ok';
+    $watchdog_status = WATCHDOG_INFO;
+  }
+  watchdog('a4s_insta', "$status: results ==><pre>" . print_r($processing_results, TRUE) . '</pre>', array(), $watchdog_status);
+  dpm($processing_results, "processing_results: $status");
+  drupal_json_output(array('status' => $status, 'results' => $processing_results));
 }
