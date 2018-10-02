@@ -3259,7 +3259,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       
       if (!empty($remote_account_extra_data['followers']['finished_fetching_followers'])) {
         dpm("Finished feching followers for $remote_account. Skipped.");
-        $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['msg'] = 'Finished feching followers. Skipped.';
+        $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['___warning'] = 'Finished feching followers. Skipped.';
         continue;
       }
       
@@ -3270,7 +3270,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       $remote_user_followers = a4s_insta_get_remoteUser_data($data_type = 'followers', $remote_account_data['remote_id'], $remote_account, $pages_count, $end_cursor, $items_per_query);
       if ($remote_user_followers === FALSE) {
         watchdog('a4s_insta', "Error while fetching followers for a remote user [$remote_account] from Instagram", array(), WATCHDOG_WARNING);
-        $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['msg'] = 'Error while fetching followers from Instagram';
+        $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['___error'] = 'Error while fetching followers from Instagram';
         continue;
       }
       dpm($end_cursor, '$end_cursor after');
@@ -3313,6 +3313,9 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           dpm($followers_added_before, 'FOUND ADDED BEFORE, $followers_added_before');
         }
       }
+      
+      $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['end_cursor'] = array('current' => $end_cursor, 'previous' => $previous_end_cursor);
+          
       if ($previous_end_cursor != $end_cursor) {
         
         $remote_account_extra_data['followers']['end_cursor'] = $end_cursor;
