@@ -3253,7 +3253,6 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         }
       }
       
-      
       $remote_account_extra_data = !empty($remote_account_data['extra_data']) ? json_decode($remote_account_data['extra_data'], TRUE) : array();
       dpm($remote_account_extra_data, '$remote_account_extra_data');
       
@@ -3277,6 +3276,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       dpm($remote_user_followers, '$remote_user_followers');
       if (!empty($remote_user_followers)) {
         $followers_added_before = array();
+        $new_followers = array();
         foreach ($remote_user_followers as $follower) {
           $follower = $follower['node'];
           // Check if this follower of this remote user is not already in our DB
@@ -3306,15 +3306,23 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             'timestamp_added' => REQUEST_TIME,
             'timestamp_updated' => REQUEST_TIME,
           );
-          $remote_account_follower_data['fid'] = db_insert('a4s_insta_remote_users_followers')->fields($remote_account_follower_data)->execute();
+          $fid = db_insert('a4s_insta_remote_users_followers')->fields($remote_account_follower_data)->execute();
+          if ($fid) {
+            $new_followers[] = $follower['username'];
+          }
           //dpm($remote_account_follower_data, '$remote_account_follower_data');
         }
         if (!empty($followers_added_before)) {
-          dpm($followers_added_before, 'FOUND ADDED BEFORE, $followers_added_before');
+          dpm($followers_added_before, "FOUND ADDED BEFORE, followers_added_before for $remote_account");
         }
+        
+        if (!empty($new_followers)) {
+          dpm($new_followers, "NEW FETCHED ADDED TO DB, new_followers for $remote_account");
+        }
+        
       }
       
-      $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['end_cursor'] = array('current' => $end_cursor, 'previous' => $previous_end_cursor);
+      //$processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['end_cursor'] = array('current' => $end_cursor, 'previous' => $previous_end_cursor);
           
       if ($previous_end_cursor != $end_cursor) {
         $remote_account_extra_data['followers']['end_cursor'] = $end_cursor;
@@ -3326,7 +3334,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         }
       }
       
-      $total_fetched_per_remote_account = empty($processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added']) ? NULL : $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'];
+      $total_fetched_per_remote_account = count($new_followers);
       if ($total_fetched_per_remote_account) {
         $remote_account_extra_data['followers']['total_fetched'] = empty($remote_account_extra_data['followers']['total_fetched']) ? $total_fetched_per_remote_account : $remote_account_extra_data['followers']['total_fetched'] + $total_fetched_per_remote_account;
       }
