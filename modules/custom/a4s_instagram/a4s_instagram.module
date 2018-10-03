@@ -352,8 +352,46 @@ function a4s_instagram_settings($form, $form_state) {
   return system_settings_form($form);
 }
 
+/**
+ * Make some changes to DB while saving a site settings
+ * 
+ * @param type $form
+ * @param type $form_state
+ */
 function a4s_instagram_settings_validate($form, $form_state) {
   dpm($form_state, '$form_state');
+  
+  // If a list of own accounts has been changed, let's add new users data to DB
+  if ($form_state['values']['a4s_insta_accounts'] != $form_state['complete form']['insta_settings']['a4s_insta_accounts']['#default_value']) {
+    $accounts = explode(',', $form_state['values']['a4s_insta_accounts']);
+    foreach ($accounts as $own_account) {
+      $own_account_data = db_select('a4s_insta_own_users', 'u')
+        ->fields('u', array('uid'))
+        ->condition('u.username', $own_account)
+        ->execute()->fetchObject();
+      
+      if (!$own_account_data) {
+        $own_account_profile = a4s_insta_get_userProfile($own_account);
+        $own_account_data = array(
+          'remote_id' => $own_account_profile['id'],
+          'username' => $own_account,
+          'fullname' => utf8_encode($own_account_profile['full_name']),
+          'thumbnail' => $own_account_profile['profile_pic_url'],
+          'followed_by_amount' => $own_account_profile['edge_followed_by']['count'],
+          'following_amount' => $own_account_profile['edge_follow']['count'],
+          'posts_amount' => $own_account_profile['edge_owner_to_timeline_media']['count'],
+          'extra_data' => NULL, 
+          'timestamp_created' => NULL, 
+          'timestamp_added' => REQUEST_TIME, 
+          'timestamp_updated' => REQUEST_TIME,
+        );
+        $fid = db_insert('a4s_insta_own_users')->fields($own_account_data)->execute();
+      }
+    }
+  }
+  
+  
+  
 }
 
 /**
@@ -3186,19 +3224,40 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
   $own_account = 'all4senses';
   
   if (!$remote_user_id) {
+    /*
     $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
     if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
       return FALSE;
     }
     $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
-
     $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
+    */
+    $user_profile = a4s_insta_get_userProfile($remote_username);
     $remote_user_id = $user_profile['id'];
   }
   $data = a4s_insta_queryGraphql_multiple($data_type, $own_account, $pages_count, $end_cursor, $items_per_query, $remote_user_id);
   return $data;
 }
 
+/**
+ * 
+ * @param type $remote_username
+ * @return boolean
+ */
+function a4s_insta_get_userProfile($remote_username) {
+  // The data will be requested by this user being logged in
+  $own_account = 'all4senses';
+  
+  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+  if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
+    return FALSE;
+  }
+  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
+
+  $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
+  dpm($user_profile, '$user_profile');
+  return $user_profile;
+}
 /**
  * 
  * @param int $pages_count
