@@ -1594,6 +1594,8 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
     case 'user/profile':
     case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
+      
+      // Uncomment if it will stop working for anomymous
       //$cookies_str = a4s_insta_getCookies($own_account);
       break;
     
@@ -3330,6 +3332,8 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
  * @return boolean
  */
 function a4s_insta_get_userProfile($remote_username) {
+  $cookies_str = NULL;
+  /*
   // The data will be requested by this user being logged in
   $own_account = 'all4senses';
   
@@ -3338,8 +3342,10 @@ function a4s_insta_get_userProfile($remote_username) {
     return FALSE;
   }
   $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
-
-  $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
+  $cookies_str = a4s_insta_getCookies($own_account);
+  */
+  
+  $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL, $cookies_str);
   return $user_profile;
 }
 /**
@@ -3661,7 +3667,7 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
     $account_id = a4s_instagram_get_local_account_id_by_username($own_account);
     foreach ($own_account as $remote_account) {
        foreach ($remote_account as $follower) {
-         $added += a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-account-follower', $amount = $medias_to_like_per_follower, $dpm);
+         $added += a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-follower', $amount = $medias_to_like_per_follower, $dpm);
        }
     }
   }
