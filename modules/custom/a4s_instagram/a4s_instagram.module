@@ -2035,8 +2035,8 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
   $added_medias_amount = 0;
   $max_id = NULL;
   //$user_medias = a4s_insta_getDataSingle__fromA($data_type = 'user/media', $target = $username, $max_id = NULL);
-  //$user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
-  $user_medias = a4s_insta_getDataMultiple('fromRaw', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
+  $user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
+  //$user_medias = a4s_insta_getDataMultiple('fromRaw', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
   if ($dpm) {
     dpm($user_medias, '$user_medias');
   }
