@@ -1205,6 +1205,9 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = N
   
   do {
     $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query, $ds_user_id);
+    
+    watchdog('a4s_insta fix', '2. $data => <pre>' . print_r($data, TRUE) . '</pre>');
+    
     // If we have an empty (FALSE) result from Instagram, break the look, and return FALSE, 
     // because we have now some failure and don't need to update the data now
     if (!$data) {
@@ -1268,6 +1271,8 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   $variables = urlencode($variables);
   $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
+  
+  watchdog('a4s_insta fix', '3. a4s_insta_instagramCurlPage__withCookies results => <pre>' . print_r($results, TRUE) . '</pre>');
   
   if ($dpm) {
     dpm($results, '$results');
@@ -3180,7 +3185,7 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
     $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
     $remote_user_id = $user_profile['id'];
   }
-  
+  watchdog('a4s_insta fix', '$remote_user_id = ' . $remote_user_id);
   $data = a4s_insta_queryGraphql_multiple($data_type, $own_account, $pages_count, $end_cursor, $items_per_query, $remote_user_id);
   return $data;
 }
