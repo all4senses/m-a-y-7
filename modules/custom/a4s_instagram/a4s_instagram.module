@@ -1978,7 +1978,7 @@ function a4s_instagram_get_local_account_id_by_username($username) {
   $account_id = db_select('a4s_insta_own_users', 'u')
         ->fields('u', array('uid'))
         ->condition('u.username', $username)
-        ->execute()->fetchObject();
+        ->execute()->fetchField();
   
   return $account_id;
   /*
@@ -3566,11 +3566,11 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
  */
 function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts_per_own_user_to_process = 3, $followers_per_remote_user_to_process = 2, $medias_to_like_per_follower = 3, $dpm = FALSE) {
   
-  /*
+  
   $remote_accounts_per_own_user_to_process = 3; 
   $followers_per_remote_user_to_process = 1; 
   $medias_to_like_per_follower = 2;
-  */
+  
   
   $added = 0;
   
