@@ -3679,13 +3679,14 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
   foreach ($followers_data as $own_account_username => $own_account_data) {
     $account_id = $own_accounts_ids[$own_account_username];
     
-    foreach ($own_account_data as $remote_account_data) {
+    foreach ($own_account_data as $remote_account => $remote_account_data) {
        foreach ($remote_account_data as $follower) {
          if ($added = a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-follower', $amount = $medias_to_like_per_follower, $dpm)) {
            // Mark a follower as liked
-           $db_or = db_or()->isNull('f.liked_by_our_accounts')->condition('f.liked_by_our_accounts', '%%[' . $account_id . ']%%', 'NOT LIKE');
+           $db_or = db_or()->isNull('liked_by_our_accounts')->condition('liked_by_our_accounts', '%%[' . $account_id . ']%%', 'NOT LIKE');
            db_update('a4s_insta_remote_users_followers')
             ->fields(array('liked_by_our_accounts' => $follower->liked_by_our_accounts . "[$account_id]"))
+            ->condition('user_uid_local', $remote_account)
             ->condition('follower_id', $follower->follower_id)
             ->condition($db_or)
             ->execute();
