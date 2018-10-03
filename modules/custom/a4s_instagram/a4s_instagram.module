@@ -772,7 +772,13 @@ function a4s_instagram_behat() {
 
         $current_user = $_REQUEST['username'];
         
-        if ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
+        
+        if (variable_get('a4s_like_remote_accounts_followers__' . $current_user, NULL) && $remote_followers_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'remote-follower', $amount = NULL, $return_type = 'amount')) {
+          $current_tag = 'remote-follower';
+          // Should we undo this?
+          $response_data['force_like'] = TRUE;
+        }
+        elseif ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'back-like';
           $response_data['force_like'] = TRUE;
         }
@@ -3604,7 +3610,7 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
   $medias_to_like_per_follower = 2;
   */
   
-  $added = 0;
+  $added_total = 0;
   
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
      $processing_results = 'No active own users set for fetching remote accounts followers medias to like to. Skipping processing.';
@@ -3619,8 +3625,12 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
   $followers_data = array();
   $processing_results = array();
 
+  $account_id = a4s_instagram_get_local_account_id_by_username($own_account_username);
+  
+  $own_accounts_ids = array();
+  
   foreach ($all_accounts as $own_account) {
-
+      $own_accounts_ids[$own_account] = a4s_instagram_get_local_account_id_by_username($own_account);
       if (!$like_remote_accounts_followers = variable_get('a4s_like_remote_accounts_followers__' . $own_account, NULL)) {
           if ($dpm) {
             dpm("Skipped remote users followers for $own_account, because it is turned off in settings");
@@ -3649,11 +3659,12 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
 
           // Get next $followers_per_remote_user_to_process followers to fetch medias from
           $query = db_select('a4s_insta_remote_users_followers', 'f')
-                ->fields('f', array('fid', 'user_uid_local', 'follower_id', 'username'));
+                ->fields('f', array('fid', 'user_uid_local', 'follower_id', 'username', 'liked_by_our_accounts'));
           $query->leftJoin('a4s_insta_remote_users', 'r', 'r.uid = f.user_uid_local');
           $query->fields('r', array( 'username'));
           $query->condition('r.username', $remote_account)
                 ->isNull('f.liked_by_our_accounts')
+                ->condition('f.liked_by_our_accounts', '%%['. $own_accounts_ids[$own_account] . ']%%', 'NOT LIKE')
                 //->orderBy('fid')
                 ->range(0, $followers_per_remote_user_to_process);
           $followers_data[$own_account][$remote_account] = $query->execute()->fetchAllAssoc('fid');
@@ -3667,11 +3678,20 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
     dpm($followers_data, '$followers_data');
   }
   
-  foreach ($followers_data as $own_account_username => $own_account) {
-    $account_id = a4s_instagram_get_local_account_id_by_username($own_account_username);
-    foreach ($own_account as $remote_account) {
-       foreach ($remote_account as $follower) {
-         $added += a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-follower', $amount = $medias_to_like_per_follower, $dpm);
+  foreach ($followers_data as $own_account_username => $own_account_data) {
+    $account_id = $own_accounts_ids[$own_account_username];
+    
+    foreach ($own_account_data as $remote_account_data) {
+       foreach ($remote_account_data as $follower) {
+         if ($added = a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-follower', $amount = $medias_to_like_per_follower, $dpm)) {
+           // Mark a follower as liked
+           db_update('a4s_insta_remote_users_followers')
+            ->fields(array('liked_by_our_accounts' => $follower->liked_by_our_accounts . "[$account_id]"))
+            ->condition('follower_id', $follower->follower_id)
+            ->condition('liked_by_our_accounts', '%%['. $account_id . ']%%', 'NOT LIKE')
+            ->execute();
+         }
+         $added_total += $added;
        }
     }
   }
