@@ -3404,7 +3404,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
   
   if (!empty($processing_results['errors'])) {
     $status = 'error';
-    $watchdog_status = WATCHDOG_ERRROR;
+    $watchdog_status = WATCHDOG_ERROR;
   }
   elseif (!empty($processing_results['warnings'])) {
     $status = 'warning';
