@@ -1580,7 +1580,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       
       
       $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-      if (empty($behat_insta_cookies['https://instagram.com'][$target]['ds_user_id'])) {
+      if (empty($behat_insta_cookies['https://instagram.com']['all4senses']['ds_user_id'])) {
         return FALSE;
       }
       $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$target];
