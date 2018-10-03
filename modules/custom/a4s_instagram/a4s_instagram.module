@@ -372,6 +372,10 @@ function a4s_instagram_settings_validate($form, $form_state) {
       
       if (!$own_account_data) {
         $own_account_profile = a4s_insta_get_userProfile($own_account);
+        if (empty($own_account_profile['id'])) {
+          drupal_set_message("Error has occured while fetching a profile data saving for an Own account [$own_account] from Instagram", 'error');
+          continue;
+        }
         $own_account_data = array(
           'remote_id' => $own_account_profile['id'],
           'username' => $own_account,
@@ -390,7 +394,7 @@ function a4s_instagram_settings_validate($form, $form_state) {
           drupal_set_message("A new Own account [$own_account] has been added to our DB with a local uid=$uid");
         }
         else {
-          drupal_set_message("Error has occured while saving a new Own account [$own_account] to our DB");
+          drupal_set_message("Error has occured while saving a new Own account [$own_account] to our DB", 'error');
         }
       }
     }
