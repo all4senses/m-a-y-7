@@ -385,7 +385,13 @@ function a4s_instagram_settings_validate($form, $form_state) {
           'timestamp_added' => REQUEST_TIME, 
           'timestamp_updated' => REQUEST_TIME,
         );
-        $fid = db_insert('a4s_insta_own_users')->fields($own_account_data)->execute();
+        $uid = db_insert('a4s_insta_own_users')->fields($own_account_data)->execute();
+        if ($uid) {
+          drupal_set_message("A new Own account [$own_account] has been added to our DB with a local uid=$uid");
+        }
+        else {
+          drupal_set_message("Error has occured while saving a new Own account [$own_account] to our DB");
+        }
       }
     }
   }
