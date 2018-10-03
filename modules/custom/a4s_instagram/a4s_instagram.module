@@ -419,6 +419,7 @@ function a4s_instagram_settings_validate($form, $form_state) {
     dpm($own_accounts, '$own_accounts');
     foreach ($own_accounts as $own_account_username => $own_account) {
       if (!in_array($own_account_username, $own_accounts_active)) {
+        dpm('!in_array($own_account_username, $own_accounts_active)');
         if ($own_account->active) {
           // Update DB to set active = 0
           db_update('a4s_insta_own_users')
@@ -429,6 +430,7 @@ function a4s_instagram_settings_validate($form, $form_state) {
         }
       }
       elseif (!$own_account->active) {
+        dpm('elseif (!$own_account->active) {');
         // Update DB to set active = 1
         db_update('a4s_insta_own_users')
             ->fields(array('active' => 1))
