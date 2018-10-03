@@ -3253,6 +3253,9 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         }
       }
       
+      $total_fetched_per_remote_account = NULL;
+      $total_added_before_remote_account = NULL;
+      
       $remote_account_extra_data = !empty($remote_account_data['extra_data']) ? json_decode($remote_account_data['extra_data'], TRUE) : array();
       dpm($remote_account_extra_data, '$remote_account_extra_data');
       
@@ -3309,16 +3312,19 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           }
           //dpm($remote_account_follower_data, '$remote_account_follower_data');
         }
+        
         if (!empty($followers_added_before)) {
+          $total_added_before_remote_account = count($followers_added_before);
           dpm($followers_added_before, "FOUND ADDED BEFORE, followers_added_before for $remote_account");
           // Collect the total amount of followers to report
-          $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] = count($followers_added_before);
+          $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] = $total_added_before_remote_account;
         }
         
         if (!empty($new_followers)) {
+          $total_fetched_per_remote_account = count($new_followers);
           dpm($new_followers, "NEW FETCHED ADDED TO DB, new_followers for $remote_account");
           // Collect the total amount of followers to report
-          $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'] = count($new_followers);
+          $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_this_time'] = $total_fetched_per_remote_account;
         }
         
       }
@@ -3335,10 +3341,13 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         }
       }
       
-      $total_fetched_per_remote_account = count($new_followers);
+      $remote_account_extra_data['followers']['total_fetched'] = empty($remote_account_extra_data['followers']['total_fetched']) ? 0 : $remote_account_extra_data['followers']['total_fetched'] = empty($remote_account_extra_data['followers']['total_fetched']);
       if ($total_fetched_per_remote_account) {
-        $remote_account_extra_data['followers']['total_fetched'] = empty($remote_account_extra_data['followers']['total_fetched']) ? $total_fetched_per_remote_account : $remote_account_extra_data['followers']['total_fetched'] + $total_fetched_per_remote_account;
+        $remote_account_extra_data['followers']['fetched_last_time'] = $total_fetched_per_remote_account;
+        $remote_account_extra_data['followers']['total_fetched'] += $total_fetched_per_remote_account;
       }
+      
+      $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_fetched'] = $remote_account_extra_data['followers']['total_fetched'];
       
       if ($previous_end_cursor != $end_cursor || $total_fetched_per_remote_account) {
         
