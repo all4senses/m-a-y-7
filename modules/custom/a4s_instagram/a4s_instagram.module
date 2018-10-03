@@ -1577,6 +1577,18 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
     case 'user/profile':
     case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
+      
+      
+      $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+      if (empty($behat_insta_cookies['https://instagram.com'][$target]['ds_user_id'])) {
+        return FALSE;
+      }
+      $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$target];
+      //Example:
+      //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
+      $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
+      
+      
       break;
     case 'user/activity':
       $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
