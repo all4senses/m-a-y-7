@@ -3290,9 +3290,6 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             continue;
           }
           
-          // Collect the total amount of followers to report
-          $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'] = empty($processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added']) ? 1 : ++$processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'];
-          
           // Write a new follower of this remote user to DB
           $remote_account_follower_data = array(
             'user_uid_local' => $remote_account_data['uid'],
@@ -3314,10 +3311,14 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
         }
         if (!empty($followers_added_before)) {
           dpm($followers_added_before, "FOUND ADDED BEFORE, followers_added_before for $remote_account");
+          // Collect the total amount of followers to report
+          $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] = count($followers_added_before);
         }
         
         if (!empty($new_followers)) {
           dpm($new_followers, "NEW FETCHED ADDED TO DB, new_followers for $remote_account");
+          // Collect the total amount of followers to report
+          $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'] = count($new_followers);
         }
         
       }
