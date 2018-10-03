@@ -1562,6 +1562,23 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
 }
 
 /**
+ * 
+ * @param type $own_account
+ * @return boolean|string
+ */
+function a4s_insta_getCookies($own_account = 'all4senses') {
+  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+  if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
+    return FALSE;
+  }
+  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
+  //Example:
+  //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
+  $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
+  return $cookies_str;
+}
+
+/**
  * https://gist.github.com/cosmocatalano/4544576
  * and fix instead of file_get_contents()
  * https://stackoverflow.com/questions/21677579/server-configuration-by-allow-url-fopen-0-in
@@ -1577,20 +1594,12 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
     case 'user/profile':
     case 'user/media':
       $target_url = 'https://instagram.com/'. $target;
-      
-      
-      $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-      if (empty($behat_insta_cookies['https://instagram.com']['all4senses']['ds_user_id'])) {
-        return FALSE;
-      }
-      $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$target];
-      //Example:
-      //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
-      $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
-      
-      
+      //$cookies_str = a4s_insta_getCookies($own_account);
       break;
+    
     case 'user/activity':
+      
+      /*
       $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
       if (empty($behat_insta_cookies['https://instagram.com'][$target]['ds_user_id'])) {
         return FALSE;
@@ -1599,6 +1608,10 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       //Example:
       //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
       $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
+      */
+      $cookies_str = a4s_insta_getCookies($own_account);
+      
+      
       $target_url = 'https://instagram.com/accounts/activity';
       break;
     case 'media/likers':
