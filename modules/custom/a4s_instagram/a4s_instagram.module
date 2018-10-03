@@ -3635,7 +3635,7 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
     $account_id = a4s_instagram_get_local_account_id_by_username($own_account);
     foreach ($own_account as $remote_account) {
        foreach ($remote_account as $follower) {
-         $added += a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-account-follower', $amount = $medias_to_like_per_follower, $dpm = TRUE);
+         $added += a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-account-follower', $amount = $medias_to_like_per_follower, $dpm);
        }
     }
   }
