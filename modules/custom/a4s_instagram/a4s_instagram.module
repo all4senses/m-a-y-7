@@ -359,7 +359,6 @@ function a4s_instagram_settings($form, $form_state) {
  * @param type $form_state
  */
 function a4s_instagram_settings_validate($form, $form_state) {
-  dpm($form_state, '$form_state');
   
   // If a list of own accounts has been changed, let's add new users data to DB
   if ($form_state['values']['a4s_insta_accounts'] != $form_state['complete form']['insta_settings']['a4s_insta_accounts']['#default_value']) {
