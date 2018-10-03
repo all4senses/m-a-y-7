@@ -365,6 +365,7 @@ function a4s_instagram_settings_validate($form, $form_state) {
   if ($form_state['values']['a4s_insta_accounts'] != $form_state['complete form']['insta_settings']['a4s_insta_accounts']['#default_value']) {
     $accounts = explode(',', $form_state['values']['a4s_insta_accounts']);
     foreach ($accounts as $own_account) {
+      $own_account = trim($own_account);
       $own_account_data = db_select('a4s_insta_own_users', 'u')
         ->fields('u', array('uid'))
         ->condition('u.username', $own_account)
