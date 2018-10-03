@@ -365,7 +365,9 @@ function a4s_instagram_settings_validate($form, $form_state) {
   if ($form_state['values']['a4s_insta_accounts'] != $form_state['complete form']['insta_settings']['a4s_insta_accounts']['#default_value']) {
     $accounts = explode(',', $form_state['values']['a4s_insta_accounts']);
     foreach ($accounts as $own_account) {
-      $own_account = trim($own_account);
+      if(!$own_account = trim($own_account)) {
+        continue;
+      }
       $own_account_data = db_select('a4s_insta_own_users', 'u')
         ->fields('u', array('uid'))
         ->condition('u.username', $own_account)
@@ -405,7 +407,9 @@ function a4s_instagram_settings_validate($form, $form_state) {
   if ($form_state['values']['a4s_insta_accounts_active'] != $form_state['complete form']['insta_settings']['a4s_insta_accounts_active']['#default_value']) {
     $own_accounts_active = explode(',', $form_state['values']['a4s_insta_accounts']);
     foreach ($own_accounts_active as &$own_account_active) {
-      $own_account_active = trim($own_account_active);
+      if(!$own_account_active = trim($own_account_active)) {
+        continue;
+      }
     }
     // Get all own accounts from DB
     $own_accounts = db_select('a4s_insta_own_users', 'u')
