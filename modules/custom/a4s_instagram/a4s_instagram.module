@@ -1425,7 +1425,7 @@ function a4s_insta_getDataMultiple($request_type, $data_type, $target, &$max_id,
   do {
     switch ($request_type) {
       case 'fromRaw':
-        $data = a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id);
+        $data = a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id, NULL, $dpm);
         break;
       case 'fromA':
         $data = a4s_insta_getDataSingle__fromA($data_type, $target, $max_id, $dpm);
