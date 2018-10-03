@@ -3203,6 +3203,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
   $processing_results = array();
   foreach ($all_accounts as $account) {
     if (!$like_remote_accounts_followers = variable_get('a4s_like_remote_accounts_followers__' . $account, NULL)) {
+      dpm("Skipped remote users followers for $account, because it is turned off in settings");
+      $processing_results['warning']['own accounts'][$account]['remote accounts']['___warning'] = 'Remote users followers fetching/liking is turned off';
       continue;
     }
     $remote_accounts = variable_get('a4s_remote_accounts_to_get_folowers__' . $account, NULL);
