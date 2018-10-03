@@ -405,7 +405,7 @@ function a4s_instagram_settings_validate($form, $form_state) {
   }
   
   if ($form_state['values']['a4s_insta_accounts_active'] != $form_state['complete form']['insta_settings']['a4s_insta_accounts_active']['#default_value']) {
-    $own_accounts_active = explode(',', $form_state['values']['a4s_insta_accounts']);
+    $own_accounts_active = explode(',', $form_state['values']['a4s_insta_accounts_active']);
     foreach ($own_accounts_active as $key => &$own_account_active) {
       if(!$own_account_active = trim($own_account_active)) {
         unset($own_accounts_active[$key]);
