@@ -385,6 +385,7 @@ function a4s_instagram_settings_validate($form, $form_state) {
           'followed_by_amount' => $own_account_profile['edge_followed_by']['count'],
           'following_amount' => $own_account_profile['edge_follow']['count'],
           'posts_amount' => $own_account_profile['edge_owner_to_timeline_media']['count'],
+          'active' => 1,
           'extra_data' => NULL, 
           'timestamp_created' => NULL, 
           'timestamp_added' => REQUEST_TIME, 
@@ -401,6 +402,37 @@ function a4s_instagram_settings_validate($form, $form_state) {
     }
   }
   
+  if ($form_state['values']['a4s_insta_accounts_active'] != $form_state['complete form']['insta_settings']['a4s_insta_accounts_active']['#default_value']) {
+    $own_accounts_active = explode(',', $form_state['values']['a4s_insta_accounts']);
+    foreach ($own_accounts_active as &$own_account_active) {
+      $own_account_active = trim($own_account_active);
+    }
+    // Get all own accounts from DB
+    $own_accounts = db_select('a4s_insta_own_users', 'u')
+        ->fields('u', array('uid', 'username', 'active'))
+        ->execute()->fetchAllAssoc('username');
+    foreach ($own_accounts as $own_account_username => $own_account) {
+      if (!in_array($own_account_username, $own_accounts_active)) {
+        if ($own_account->active) {
+          // Update DB to set active = 0
+          db_update('a4s_insta_own_users')
+            ->fields(array('active' => 0))
+            ->condition('uid', $own_account->uid)
+            ->execute();
+          drupal_set_message("Changed an Own account [$own_account_username] status to Inactive in our DB");
+        }
+      }
+      elseif (!$own_account->active) {
+        // Update DB to set active = 1
+        db_update('a4s_insta_own_users')
+            ->fields(array('active' => 1))
+            ->condition('uid', $own_account->uid)
+            ->execute();
+        drupal_set_message("Changed an Own account [$own_account_username] status to Active in our DB");
+      }
+    }
+    
+  }
   
   
 }
@@ -1557,8 +1589,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
   }
   
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookies_str);
-  //if ($dpm) 
-    {
+  if ($dpm) {
     dpm($insta_source, '$insta_source for '. $target_url);
   }
   
@@ -3267,7 +3298,6 @@ function a4s_insta_get_userProfile($remote_username) {
   $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
 
   $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
-  dpm($user_profile, '$user_profile');
   return $user_profile;
 }
 /**
