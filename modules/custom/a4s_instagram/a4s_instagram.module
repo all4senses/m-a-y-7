@@ -775,8 +775,8 @@ function a4s_instagram_behat() {
         
         if (variable_get('a4s_like_remote_accounts_followers__' . $current_user, NULL) && $remote_followers_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'remote-follower', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'remote-follower';
-          // Should we undo this?
-          $response_data['force_like'] = TRUE;
+          // Should we like users with too many followings, post etc?
+          $response_data['force_like'] = FALSE;//TRUE;
         }
         elseif ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'back-like';
@@ -1638,8 +1638,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
   }
   
   $insta_source = a4s_insta_instagramCurlPage__fromRaw($target_url, $cookies_str);
-  //if ($dpm) {
-  {
+  if ($dpm) {
     dpm($insta_source, '$insta_source for '. $target_url);
   }
   
