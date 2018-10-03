@@ -352,6 +352,10 @@ function a4s_instagram_settings($form, $form_state) {
   return system_settings_form($form);
 }
 
+function a4s_instagram_settings_validate($form, $form_state) {
+  dpm($form_state, '$form_state');
+}
+
 /**
  * 
  * @param type $account
@@ -679,7 +683,8 @@ function a4s_instagram_behat() {
           $current_tag = 'unfollow-like';
         }
         else {
-        
+              // Define a current tag to like
+          
               $insta_current_user_tags = a4s_insta_get_user_tags($current_user);
               $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
               //watchdog('Request media from handler', '$insta_last_data_processed ==> <pre>'. print_r($insta_last_data_processed, TRUE) . '</pre>');
@@ -1206,8 +1211,6 @@ function a4s_insta_queryGraphql_multiple($data_type, $username, $pages_count = N
   do {
     $data = a4s_insta_queryGraphql_single($data_type, $username, $end_cursor, $items_per_query, $ds_user_id);
     
-    watchdog('a4s_insta fix', '3. $data => <pre>' . print_r($data, TRUE) . '</pre>');
-    
     // If we have an empty (FALSE) result from Instagram, break the look, and return FALSE, 
     // because we have now some failure and don't need to update the data now
     if (!$data) {
@@ -1268,17 +1271,9 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
   }
   
   $variables = '{"id":' . '"' . ($ds_user_id ? $ds_user_id : $behat_insta_cookies_user['ds_user_id']) . '","first":' . $items_per_query . ',"after":"' . $end_cursor . '"}';
-  
-  watchdog('a4s_insta fix', '31. $variables = ' . $variables);
-  
   $variables = urlencode($variables);
   $url = "https://www.instagram.com/graphql/query/?query_hash=$query_hash&variables=$variables";
   $results = a4s_insta_instagramCurlPage__withCookies($url, $cookies_str);
-  
-  watchdog('a4s_insta fix', '32. $ds_user_id = ' . $ds_user_id);
-  watchdog('a4s_insta fix', '33. $url = ' . $url);
-  watchdog('a4s_insta fix', '34. $cookies_str = ' . $cookies_str);
-  watchdog('a4s_insta fix', '35. a4s_insta_instagramCurlPage__withCookies results => <pre>' . print_r($results, TRUE) . '</pre>');
   
   if ($dpm) {
     dpm($results, '$results');
@@ -1882,9 +1877,18 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
  * @return type
  */
 function a4s_instagram_get_local_account_id_by_username($username) {
+  
+  $account_id = db_select('a4s_insta_own_users', 'u')
+        ->fields('u', array('uid'))
+        ->condition('u.username', $username)
+        ->execute()->fetchObject();
+  
+  return $account_id;
+  /*
   $map_username_to_account_id_default = array('all4senses' => 1, 'olyayuskasova' => 2);
   $map_username_to_account_id = variable_get('a4s_map_username_to_account_id', $map_username_to_account_id_default);
   return !empty($map_username_to_account_id[$username]) ? $map_username_to_account_id[$username] : FALSE;
+  */
 }
 
 /**
@@ -3191,7 +3195,6 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
     $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL);
     $remote_user_id = $user_profile['id'];
   }
-  watchdog('a4s_insta fix', '1. $remote_user_id = ' . $remote_user_id);
   $data = a4s_insta_queryGraphql_multiple($data_type, $own_account, $pages_count, $end_cursor, $items_per_query, $remote_user_id);
   return $data;
 }
@@ -3206,7 +3209,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
   
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
     
-    $processing_results = 'No active remote users set for fetching followers. Slipping processing.';
+    $processing_results = 'No active own users set for fetching followers from remote accounts. Skipping processing.';
     watchdog('a4s remote users followers', "ok: results ==> $processing_results", array(), WATCHDOG_INFO);
     if ($dpm) {
       dpm($processing_results);
@@ -3434,4 +3437,88 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
     dpm($processing_results, "processing_results: $status");
   }
   drupal_json_output(array('status' => $status, 'results' => $processing_results));
+}
+
+
+/**
+ * 
+ * @param type $remote_accounts_per_own_user_to_process
+ * @param type $followers_per_remote_user_to_process
+ * @param type $medias_to_like_per_follower
+ * @param type $dpm
+ */
+function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts_per_own_user_to_process = 3, $followers_per_remote_user_to_process = 2, $medias_to_like_per_follower = 3, $dpm = FALSE) {
+  
+  $remote_accounts_per_own_user_to_process = 3; 
+  $followers_per_remote_user_to_process = 2; 
+  $medias_to_like_per_follower = 3;
+
+  if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
+     $processing_results = 'No active own users set for fetching remote accounts followers medias to like to. Skipping processing.';
+     watchdog('a4s remote users followers: get-n-plan medias', "ok: results ==> $processing_results", array(), WATCHDOG_INFO);
+     if ($dpm) {
+       dpm($processing_results);
+     }
+     drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
+     drupal_exit();
+  }
+
+  $followers_data = array();
+  $processing_results = array();
+
+  foreach ($all_accounts as $own_account) {
+
+      if (!$like_remote_accounts_followers = variable_get('a4s_like_remote_accounts_followers__' . $own_account, NULL)) {
+          if ($dpm) {
+            dpm("Skipped remote users followers for $own_account, because it is turned off in settings");
+          }
+          $processing_results['warning']['own accounts'][$own_account]['remote accounts']['___warning'] = 'Remote users followers fetching/liking is turned off';
+          continue;
+      }
+
+      $remote_accounts = variable_get('a4s_remote_accounts_to_get_folowers__' . $own_account, NULL);
+      $remote_accounts = explode(',', $remote_accounts);
+      if (empty($remote_accounts)) {
+          if ($dpm) {
+            dpm("Skipped remote users followers medias fetching for $own_account, because the list of remote accounts is empty in settings");
+          }
+          $processing_results['warning']['own accounts'][$own_account]['remote accounts']['___warning'] = 'Remote accounts list is empty';
+          continue;
+      }
+
+      foreach ($remote_accounts as $key => $remote_account) {
+
+          // Process only first $remote_accounts_per_own_user_to_process remote accounts per own user
+          if ($remote_accounts_per_own_user_to_process-1 < $key) {
+            continue;
+          }
+          $remote_account = trim($remote_account);
+
+          // Get next $followers_per_remote_user_to_process followers to fetch medias from
+          $query = db_select('a4s_insta_remote_users_followers', 'f')
+                ->fields('f', array('fid', 'user_uid_local', 'follower_id', 'username'));
+          $query->leftJoin('a4s_insta_remote_users', 'r', 'r.uid = f.user_uid_local');
+          $query->fields('r', array( 'username'));
+          $query->condition('r.username', $remote_account)
+                ->isNull('f.liked_by_our_accounts')
+                //->orderBy('fid')
+                ->range(0, $followers_per_remote_user_to_process);
+          $followers_data[$own_account][$remote_account] = $query->execute()->fetchAllAssoc('fid');
+
+      } // End of foreach ($remote_accounts as $key => $remote_account) {
+
+  } // End of foreach ($all_accounts as $account) {
+
+
+  foreach ($followers_data as $own_account) {
+    $account_id = a4s_instagram_get_local_account_id_by_username($own_account);
+    foreach ($own_account as $remote_account) {
+       foreach ($remote_account as $follower) {
+         a4s_instagram_set_user_medias_to_like($account_id, $follower->username, $follower->follower_id, $tag = 'remote-account-follower', $amount = $medias_to_like_per_follower, $dpm = TRUE);
+       }
+    }
+  }
+
+  dpm($followers, '$followers');
+
 }
