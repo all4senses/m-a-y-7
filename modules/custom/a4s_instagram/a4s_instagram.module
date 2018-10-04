@@ -3830,7 +3830,9 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $extra_data['saved_media']['total_fetched'] = !empty($extra_data['saved_media']['total_fetched']) ? $extra_data['saved_media']['total_fetched'] : NULL;
   $extra_data['saved_media']['fetched_last_time'] = !empty($extra_data['saved_media']['fetched_last_time']) ? $extra_data['saved_media']['fetched_last_time'] : NULL;
   
-  $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count, $end_cursor = $extra_data['saved_media']['current_end_cursor'], $items_per_query);
+  $end_cursor = $extra_data['saved_media']['current_end_cursor'];
+      
+  $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count, $end_cursor, $items_per_query);
   dpm($results, '$results');
   
   if ($results === FALSE) {
@@ -3843,7 +3845,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
     $media = array(
       'own_user_uid_local' => $own_user_data->uid,
-      'type_video' => $result['is_video'],
+      'type_video' => $result['is_video'] ? 1 : NULL,
       'media_id' => $result['id'],
       'media_caption' => drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 150),
       'shortcode' => $result['shortcode'],
