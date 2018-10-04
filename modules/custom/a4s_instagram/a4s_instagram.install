@@ -926,17 +926,17 @@ function a4s_instagram_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'uid_local' => array(
+      'own_user_uid_local' => array(
         'description' => 'Own user local ID (uid in the table a4s_insta_own_users)',
         'type' => 'int',
         'not null' => TRUE,
       ),
-      
-      'media_type' => array(
-        'description' => 'Image (1) or Video (2)',
+      'type_video' => array(
+        'description' => 'NULL - image, 1 - video',
         'type' => 'int',
         'size' => 'tiny',
-        'not null' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       'media_id' => array(
         'description' => 'Media Instagram ID',
@@ -950,6 +950,13 @@ function a4s_instagram_schema() {
         'length' => 20,
         'not null' => TRUE,
       ),
+      'media_caption' => array(
+        'description' => 'Media caption',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      
       'owner_id' => array(
         'description' => 'Owner Instagram ID',
         'type' => 'varchar',

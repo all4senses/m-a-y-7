@@ -3798,13 +3798,15 @@ function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses'
  * 
  * @param type $own_account_username
  */
-function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
+function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $return = FALSE, $dpm = FALSE) {
+  
+  $medias = array();
   
   // Get local user data
   $own_user_data = db_select('a4s_insta_own_users', 'u')
-            ->fields('u', array('uid', 'extra_data'))
-            ->condition('u.username', $own_account_username)
-            ->execute()->fetchObject();
+    ->fields('u', array('uid', 'extra_data'))
+    ->condition('u.username', $own_account_username)
+    ->execute()->fetchObject();
   $extra_data = $own_user_data->extra_data;
   if (empty($extra_data)) {
     $extra_data = array(
@@ -3832,13 +3834,16 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
   
   foreach ($results as $result) {
     $result = $result['node'];
+    
+    $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
     $media = array(
-      'uid_local' => $own_user_data->uid,
-      'type_image' => !$result['is_video'],
+      'own_user_uid_local' => $own_user_data->uid,
+      'type_video' => $result['is_video'],
       'media_id' => $result['id'],
+      'media_caption' => drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 150),
       'shortcode' => $result['shortcode'],
       'owner_id' => $result['owner']['id'],
-      'owner_username' => NULL,
+      'owner_username' => $owner_username,
       'commented_by_amount' => $result['edge_media_to_comment']['count'],
       'liked_by_amount' => $result['edge_liked_by']['count'],
       'display_url' => $result['display_url'],
@@ -3846,21 +3851,12 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
       'timestamp_taken' => $result['taken_at_timestamp'],
       'timestamp' => REQUEST_TIME,
     );
-    $uid = db_insert('a4s_insta_own_accounts_saved_medias')->fields($media)->execute();
+    $mid = db_insert('a4s_insta_own_accounts_saved_medias')->fields($media)->execute();
+    
+    if ($mid) {
+      $medias[] = $media;
+    }
   }
-  
-  /*
-  id (String, 19 characters ) 1882108983953510538
-  __typename (String, 10 characters ) GraphImage
-  edge_media_to_caption (Array, 1 element)
-  edges (Array, 1 element)
-  0 (Array, 1 element)
-  node (Array, 1 element)
-  text (String, 378 characters ) Super sorry for being so quiet recently - but I...
-  shortcode (String, 11 characters ) BoemCYpHtCK
-  */
-  
-  
   
   $fetched_count = count($fetched_count);
   $extra_data['saved_media']['total_fetched'] += $fetched_count;
@@ -3873,5 +3869,62 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
     ->condition('uid', $own_user_data->uid)
     ->execute();
   
+  dpm($extra_data, '$extra_data');
+  dpm($medias, '$medias');
   
+  if ($return) {
+    return $extra_data;
+  }
+  watchdog('a4s_insta_get_saved_medias', "extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>');
+  drupal_json_output(array('status' => TRUE, 'results' => $extra_data));
+}
+
+/**
+ * 
+ * @param type $account_id
+ * @param type $media_shortcode
+ */
+function a4s_insta_find_instagramUsername_by($account_id = NULL, $media_shortcode = NULL) {
+  
+  $username = NULL;
+
+  // Try to find this user in our DB
+  if ($account_id) {
+    
+    $username = db_select('a4s_insta_own_accounts_saved_medias', 'u')
+      ->fields('u', array('owner_username'))
+      ->condition('u.owner_id', $account_id)
+      ->execute()->fetchField();
+    
+    if ($username) {
+      return $username;
+    }
+    
+    $username = db_select('a4s_insta_users_extra_data', 'u')
+      ->fields('u', array('username'))
+      ->condition('u.remote_id', $account_id)
+      ->execute()->fetchField();
+    
+    if ($username) {
+      return $username;
+    }
+    
+    $username = db_select('a4s_insta_remote_users_followers', 'u')
+      ->fields('u', array('username'))
+      ->condition('u.follower_id', $account_id)
+      ->execute()->fetchField();
+    
+    if ($username) {
+      return $username;
+    }
+    
+  }
+  
+  if (!$media_shortcode) {
+    return NULL;
+  }
+  
+  // Get a username from a media info
+  $media_info = a4s_insta_getDataSingle__fromRaw('media/info', $media_shortcode, $max_id = NULL, $cookies_str = NULL, $dpm = FALSE) ;
+  return !empty($media_info['owner']['username']) ? $media_info['owner']['username'] : NULL;
 }
