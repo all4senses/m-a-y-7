@@ -983,8 +983,6 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
-      
-      
       'display_url' => array(
         'description' => 'A thumbnail of a follower, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
         'type' => 'varchar',
@@ -999,7 +997,6 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
-            
       'timestamp_taken' => array(
         'description' => 'The Unix timestamp when media has been taken',
         'type' => 'int',
@@ -1015,15 +1012,29 @@ function a4s_instagram_schema() {
 
     ),
     'indexes' => array(
-      'fid' => array('fid'),
-      'user_uid_local' => array('user_uid_local'),
-      'follower_id' => array('follower_id'),
-      'liked_by_our_accounts' => array('liked_by_our_accounts'),
-      'followed_by_our_accounts' => array('followed_by_our_accounts'),
-      'timestamp_updated' => array('timestamp_updated'),
+      'mid' => array('mid'),
+      'own_user_uid_local' => array('own_user_uid_local'),
+      'type_video' => array('type_video'),
+      'media_id' => array('media_id'),
+      'shortcode' => array('shortcode'),
+      'owner_id' => array('owner_id'),
+      'owner_username' => array('owner_username'),
+      'commented_by_amount' => array('commented_by_amount'),
+      'liked_by_amount' => array('liked_by_amount'),
+      'timestamp_taken' => array('timestamp_taken'),
+      'timestamp' => array('timestamp'),
     ),
-    'primary key' => array('fid'),
+    'primary key' => array('mid'),
   );
+  
+  
+  
+  
+  
+  
+      
+  
+  
   
   return $schema;
 }
@@ -1216,18 +1227,19 @@ function a4s_instagram_update_7020() {
  * Add new tables a4s_insta_remote_users_followers
  */
 function a4s_instagram_update_7021() {
-  
   $schema = a4s_instagram_schema();
   if (!db_table_exists('a4s_insta_remote_users_followers')) {
     db_create_table('a4s_insta_remote_users_followers', $schema['a4s_insta_remote_users_followers']);
   }
 }
 
-
-  
-  
-  
-  
-  
-
+/**
+ * Add new tables a4s_insta_own_accounts_saved_medias
+ */
+function a4s_instagram_update_7022() {
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_own_accounts_saved_medias')) {
+    db_create_table('a4s_insta_own_accounts_saved_medias', $schema['a4s_insta_own_accounts_saved_medias']);
+  }
+}
 
