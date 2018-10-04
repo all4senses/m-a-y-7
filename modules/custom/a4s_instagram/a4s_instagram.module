@@ -3359,7 +3359,7 @@ function a4s_insta_get_userProfile($remote_username) {
  * @param int $items_per_query
  * @return type
  */
-function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE, $return = FALSE) {
+function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE, $dpm_skipped = FALSE, $return = FALSE) {
   
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
     
@@ -3550,10 +3550,9 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
         }
         
         if (!empty($condition_skipped_followers)) {
-          dpm($condition_skipped_followers, '$skipped_followers');
           $total_condition_skipped_per_remote_account = count($condition_skipped_followers);
-          if ($dpm) {
-            dpm($condition_skipped_followers, "Skipped Followers of remote account [$remote_account]");
+          if ($dpm || $dpm_skipped) {
+            dpm($condition_skipped_followers, "Condition Skipped Followers of remote account [$remote_account]");
           }
           // Collect the total amount of skipped followers to report
           $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___condition_skipped'] = $total_condition_skipped_per_remote_account;
