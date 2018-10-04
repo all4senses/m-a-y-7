@@ -3491,6 +3491,9 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
         $followers_added_before = array();
         $new_followers = array();
         $condition_skipped_followers = array();
+        
+        dpm($remote_account_data, '$remote_account_data');
+        
         foreach ($remote_user_followers as $follower) {
           $follower = $follower['node'];
           // Check if this follower of this remote user is not already in our DB
