@@ -1597,7 +1597,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
     case 'user/saved':
     
       $cookies_str = a4s_insta_getCookies($target);
-      $target_url = "https://instagram.com/$target/saved";
+      $target_url = "https://instagram.com/$target/saved/";
       
       break;
     
@@ -1669,6 +1669,9 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       break;
     case 'tag':
       $out = !empty($insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']) ? $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
+      break;
+    case 'user/saved':
+      $out = $insta_array;
       break;
   }
   return $out;
