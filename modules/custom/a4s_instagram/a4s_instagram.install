@@ -947,7 +947,7 @@ function a4s_instagram_schema() {
       'shortcode' => array(
         'description' => 'Folower Instagram username',
         'type' => 'varchar',
-        'length' => 20,
+        'length' => 255,
         'not null' => TRUE,
       ),
       'media_caption' => array(
