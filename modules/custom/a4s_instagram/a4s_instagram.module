@@ -1402,7 +1402,7 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
       $data = !empty($results['data']['user']['edge_follow']) ? $results['data']['user']['edge_follow'] : NULL;
       break;
     case 'saved_media':
-      $data = !empty($results['data']['user']['edge_saved_media']) ? $results['data']['user']['edge_follow'] : NULL;
+      $data = !empty($results['data']['user']['edge_saved_media']) ? $results['data']['user']['edge_saved_media'] : NULL;
       break;
   }
   return $data;
