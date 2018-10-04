@@ -1615,6 +1615,7 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       break;
     
     case 'media/likers':
+    case 'media/info':
       $target_url = 'https://instagram.com/p/'. $target;
       break;
     case 'tag':
@@ -1664,6 +1665,9 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       break;
     case 'media/likers':
       $out = !empty($insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']) ? $insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like'] : NULL;
+      break;
+    case 'media/info':
+      $out = !empty($insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media']) ? $insta_array['entry_data']['PostPage'][0]['graphql']['shortcode_media'] : NULL;
       break;
     case 'tag':
       $out = !empty($insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']) ? $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
@@ -3819,12 +3823,55 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
   $extra_data['saved_media']['total_fetched'] = !empty($extra_data['saved_media']['total_fetched']) ? $extra_data['saved_media']['total_fetched'] : NULL;
   $extra_data['saved_media']['fetched_last_time'] = !empty($extra_data['saved_media']['fetched_last_time']) ? $extra_data['saved_media']['fetched_last_time'] : NULL;
   
-  //$end_cursor = 'QVFEUUw4NHdVTUdibERhLUZyLVlqRTNYeTVsRUNzdldkUHJkY09iQVJLc1FoWW1YaWJpYkV1ZTlsOHg4b0dETUw3aVRPcTI3emZTWncwTkJfWDVZOGE2Qg==';
-
-  //$results = a4s_insta_queryGraphql_single('saved_media', $own_account_username, $end_cursor = $extra_data['saved_media']['current_end_cursor'], $items_per_query = 10, $ds_user_id = NULL, $dpm = TRUE);
-
   $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count = 2, $end_cursor = $extra_data['saved_media']['current_end_cursor'], $items_per_query = 20);
-
   dpm($results, '$results');
+  
+  if ($results === FALSE) {
+    return;
+  }
+  
+  foreach ($results as $result) {
+    $result = $result['node'];
+    $media = array(
+      'uid_local' => $own_user_data->uid,
+      'type_image' => !$result['is_video'],
+      'media_id' => $result['id'],
+      'shortcode' => $result['shortcode'],
+      'owner_id' => $result['owner']['id'],
+      'owner_username' => NULL,
+      'commented_by_amount' => $result['edge_media_to_comment']['count'],
+      'liked_by_amount' => $result['edge_liked_by']['count'],
+      'display_url' => $result['display_url'],
+      'thumbnail' => $result['thumbnail_src'],
+      'timestamp_taken' => $result['taken_at_timestamp'],
+      'timestamp' => REQUEST_TIME,
+    );
+    $uid = db_insert('a4s_insta_own_accounts_saved_medias')->fields($media)->execute();
+  }
+  
+  /*
+  id (String, 19 characters ) 1882108983953510538
+  __typename (String, 10 characters ) GraphImage
+  edge_media_to_caption (Array, 1 element)
+  edges (Array, 1 element)
+  0 (Array, 1 element)
+  node (Array, 1 element)
+  text (String, 378 characters ) Super sorry for being so quiet recently - but I...
+  shortcode (String, 11 characters ) BoemCYpHtCK
+  */
+  
+  
+  
+  $fetched_count = count($fetched_count);
+  $extra_data['saved_media']['total_fetched'] += $fetched_count;
+  $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
+  $extra_data['saved_media']['last_end_cursor'] = $extra_data['saved_media']['current_end_cursor'];
+  $extra_data['saved_media']['current_end_cursor'] = $end_cursor;
+  
+  db_update('a4s_insta_own_users')
+    ->fields(array('extra_data' => json_encode($extra_data)))
+    ->condition('uid', $own_user_data->uid)
+    ->execute();
+  
   
 }
