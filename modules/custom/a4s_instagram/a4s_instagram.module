@@ -785,17 +785,18 @@ function a4s_instagram_behat() {
         $current_user = $_REQUEST['username'];
         
         
-        if (variable_get('a4s_like_remote_accounts_followers__' . $current_user, NULL) && $remote_followers_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'remote-follower', $amount = NULL, $return_type = 'amount')) {
-          $current_tag = 'remote-follower';
-          // We don't check conditions, because we added correct users already
-          $response_data['force_like'] = TRUE;
-        }
-        elseif ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
+        
+        if ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'back-like';
           $response_data['force_like'] = TRUE;
         }
         elseif ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'unfollow-like', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'unfollow-like';
+        }
+        elseif (variable_get('a4s_like_remote_accounts_followers__' . $current_user, NULL) && $remote_followers_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'remote-follower', $amount = NULL, $return_type = 'amount')) {
+          $current_tag = 'remote-follower';
+          // We don't check conditions, because we added correct users already
+          $response_data['force_like'] = TRUE;
         }
         else {
               // Define a current tag to like
