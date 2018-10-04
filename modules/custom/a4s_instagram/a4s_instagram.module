@@ -3888,16 +3888,16 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $extra_data['saved_media']['total_fetched'] = !empty($extra_data['saved_media']['total_fetched']) ? $extra_data['saved_media']['total_fetched'] : NULL;
   $extra_data['saved_media']['fetched_last_time'] = !empty($extra_data['saved_media']['fetched_last_time']) ? $extra_data['saved_media']['fetched_last_time'] : NULL;
   
+  $extra_data['saved_media']['previous_last_media'] = !empty($extra_data['saved_media']['previous_last_media']) ? $extra_data['saved_media']['previous_last_media'] : NULL;
+  $extra_data['saved_media']['current_last_media'] = !empty($extra_data['saved_media']['current_last_media']) ? $extra_data['saved_media']['current_last_media'] : NULL;
+  
   $end_cursor = $extra_data['saved_media']['current_end_cursor'];
       
   $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count, $end_cursor, $items_per_query);
   if ($dpm) {
     dpm($results, '$results');
   }
-  
-  $extra_data['saved_media']['last_end_cursor'] = $extra_data['saved_media']['current_end_cursor'];
-  $extra_data['saved_media']['current_end_cursor'] = $end_cursor;
-  
+    
   if ($results === FALSE) {
     $msg = 'Error while fetching Saved medias.Skipped.';
     if($return) {
@@ -3906,9 +3906,22 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
       }
       return $msg;
     }
-    drupal_json_output(array('status' => FALSE, 'error' => $msg, 'results' => $extra_data));
+    drupal_json_output(array('status' => FALSE, 'error' => $msg, 'results_prev' => $extra_data));
     drupal_exit();
   }
+  
+
+  // Just in case, save right away the current end_cursor, 
+  // so in case of failure (in the middle of mediass adding to DB), 
+  // we won't loop through already written intoDB medias
+  
+  $extra_data['saved_media']['last_end_cursor'] = $extra_data['saved_media']['current_end_cursor'];
+  $extra_data['saved_media']['current_end_cursor'] = $end_cursor;
+  
+  db_update('a4s_insta_own_users')
+    ->fields(array('extra_data' => json_encode($extra_data)))
+    ->condition('uid', $own_user_data->uid)
+    ->execute();
   
   foreach ($results as $result) {
     $result = $result['node'];
@@ -3952,6 +3965,11 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $fetched_count = count($medias);
   $extra_data['saved_media']['total_fetched'] += $fetched_count;
   $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
+  
+  
+  $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
+  $extra_data['saved_media']['current_last_media'] = $medias[$fetched_count-1]['shortcode'];
+  
   
   db_update('a4s_insta_own_users')
     ->fields(array('extra_data' => json_encode($extra_data)))
