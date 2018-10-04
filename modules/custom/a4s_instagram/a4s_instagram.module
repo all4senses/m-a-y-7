@@ -3512,7 +3512,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
           );
                
           // Check if it makes sense to like this user (not too many following, followers, posts, etc)
-          if (!a4s_insta_shouldWeLikeUser($account, $follower['username'])) {
+          if (!a4s_insta_shouldWeLikeUser($account, $remote_account_follower_data)) {
             $skipped_followers[] = $follower['username'];
             continue;
           }
