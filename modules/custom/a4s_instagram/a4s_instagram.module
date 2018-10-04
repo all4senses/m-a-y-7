@@ -3900,6 +3900,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     
   if ($results === FALSE) {
     $msg = 'Error while fetching Saved medias.Skipped.';
+    watchdog('a4s_insta_get_saved_medias', "$msg: prev extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>', array(), WATCHDOG_ERROR);
     if($return) {
       if ($dpm) {
         dpm($msg, '$msg');
@@ -3989,10 +3990,10 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     dpm($medias, '$medias');
   }
   
+  watchdog('a4s_insta_get_saved_medias', "extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>');
   if ($return) {
     return $extra_data;
   }
-  watchdog('a4s_insta_get_saved_medias', "extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>');
   drupal_json_output(array('status' => TRUE, 'results' => $extra_data));
 }
 
