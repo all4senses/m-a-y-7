@@ -3513,7 +3513,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
                
           // Check if it makes sense to like this user (not too many following, followers, posts, etc)
           if (!a4s_insta_shouldWeLikeUser($account, $remote_account_follower_data)) {
-            $skipped_followers[] = $follower['username'];
+            //$skipped_followers[] = $follower['username'];
+            $skipped_followers[$follower['username']] = $remote_account_follower_data;
             continue;
           }
           
@@ -3544,6 +3545,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
         }
         
         if (!empty($skipped_followers)) {
+          dpm($skipped_followers, '$skipped_followers');
           $total_skipped_per_remote_account = count($skipped_followers);
           if ($dpm) {
             dpm($skipped_followers, "Skipped Followers of remote account [$remote_account]");
