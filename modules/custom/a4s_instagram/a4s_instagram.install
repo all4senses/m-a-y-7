@@ -961,13 +961,15 @@ function a4s_instagram_schema() {
         'description' => 'Owner Instagram ID',
         'type' => 'varchar',
         'length' => 100,
-        'not null' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       'owner_username' => array(
         'description' => 'Owner Instagram username',
         'type' => 'varchar',
         'length' => 100,
-        'not null' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       
       'commented_by_amount' => array(

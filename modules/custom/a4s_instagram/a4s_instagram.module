@@ -159,6 +159,13 @@ function a4s_instagram_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['insta-get-saved-medias-all'] = array(
+    'page callback' => 'a4s_insta_getSavedMedias_for_allOwnAccounts',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  
   return $items;
 }
 
@@ -3796,98 +3803,6 @@ function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses'
 
 /**
  * 
- * @param type $own_account_username
- * @param int $pages_count
- * @param int $items_per_query
- * @param type $return
- * @param type $dpm
- * @return type
- */
-function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count = 1, $items_per_query = 10, $return = FALSE, $dpm = FALSE) {
-  
-  $medias = array();
-  
-  // Get local user data
-  $own_user_data = db_select('a4s_insta_own_users', 'u')
-    ->fields('u', array('uid', 'extra_data'))
-    ->condition('u.username', $own_account_username)
-    ->execute()->fetchObject();
-  $extra_data = $own_user_data->extra_data;
-  if (empty($extra_data)) {
-    $extra_data = array(
-      'saved_media' => array(
-        'total_fetched' => NULL,
-        'fetched_last_time' => NULL,
-        'current_end_cursor' => NULL,
-        'last_end_cursor' => NULL,
-      ),
-    );
-  }
-  else {
-    $extra_data = json_decode($extra_data, TRUE);
-  }
-  $extra_data['saved_media']['current_end_cursor'] = !empty($extra_data['saved_media']['current_end_cursor']) ? $extra_data['saved_media']['current_end_cursor'] : NULL;
-  $extra_data['saved_media']['total_fetched'] = !empty($extra_data['saved_media']['total_fetched']) ? $extra_data['saved_media']['total_fetched'] : NULL;
-  $extra_data['saved_media']['fetched_last_time'] = !empty($extra_data['saved_media']['fetched_last_time']) ? $extra_data['saved_media']['fetched_last_time'] : NULL;
-  
-  $end_cursor = $extra_data['saved_media']['current_end_cursor'];
-      
-  $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count, $end_cursor, $items_per_query);
-  dpm($results, '$results');
-  
-  if ($results === FALSE) {
-    return;
-  }
-  
-  foreach ($results as $result) {
-    $result = $result['node'];
-    
-    $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
-    $media = array(
-      'own_user_uid_local' => $own_user_data->uid,
-      'type_video' => $result['is_video'] ? 1 : NULL,
-      'media_id' => $result['id'],
-      'media_caption' => drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 150),
-      'shortcode' => $result['shortcode'],
-      'owner_id' => $result['owner']['id'],
-      'owner_username' => $owner_username,
-      'commented_by_amount' => $result['edge_media_to_comment']['count'],
-      'liked_by_amount' => $result['edge_liked_by']['count'],
-      'display_url' => $result['display_url'],
-      'thumbnail' => $result['thumbnail_src'],
-      'timestamp_taken' => $result['taken_at_timestamp'],
-      'timestamp' => REQUEST_TIME,
-    );
-    $mid = db_insert('a4s_insta_own_accounts_saved_medias')->fields($media)->execute();
-    
-    if ($mid) {
-      $medias[] = $media;
-    }
-  }
-  
-  $fetched_count = count($medias);
-  $extra_data['saved_media']['total_fetched'] += $fetched_count;
-  $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
-  $extra_data['saved_media']['last_end_cursor'] = $extra_data['saved_media']['current_end_cursor'];
-  $extra_data['saved_media']['current_end_cursor'] = $end_cursor;
-  
-  db_update('a4s_insta_own_users')
-    ->fields(array('extra_data' => json_encode($extra_data)))
-    ->condition('uid', $own_user_data->uid)
-    ->execute();
-  
-  dpm($extra_data, '$extra_data');
-  dpm($medias, '$medias');
-  
-  if ($return) {
-    return $extra_data;
-  }
-  watchdog('a4s_insta_get_saved_medias', "extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>');
-  drupal_json_output(array('status' => TRUE, 'results' => $extra_data));
-}
-
-/**
- * 
  * @param type $account_id
  * @param type $media_shortcode
  */
@@ -3935,3 +3850,138 @@ function a4s_insta_find_instagramUsername_by($account_id = NULL, $media_shortcod
   $media_info = a4s_insta_getDataSingle__fromRaw('media/info', $media_shortcode, $max_id = NULL, $cookies_str = NULL, $dpm = FALSE) ;
   return !empty($media_info['owner']['username']) ? $media_info['owner']['username'] : NULL;
 }
+
+/**
+ * 
+ * @param type $own_account_username
+ * @param int $pages_count
+ * @param int $items_per_query
+ * @param type $return
+ * @param type $dpm
+ * @return type
+ */
+function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count = 1, $items_per_query = 10, $return = FALSE, $dpm = FALSE) {
+  
+  $medias = array();
+  
+  // Get local user data
+  $own_user_data = db_select('a4s_insta_own_users', 'u')
+    ->fields('u', array('uid', 'extra_data'))
+    ->condition('u.username', $own_account_username)
+    ->execute()->fetchObject();
+  $extra_data = $own_user_data->extra_data;
+  if (empty($extra_data)) {
+    $extra_data = array(
+      'saved_media' => array(
+        'total_fetched' => NULL,
+        'fetched_last_time' => NULL,
+        'current_end_cursor' => NULL,
+        'last_end_cursor' => NULL,
+      ),
+    );
+  }
+  else {
+    $extra_data = json_decode($extra_data, TRUE);
+  }
+  $extra_data['saved_media']['current_end_cursor'] = !empty($extra_data['saved_media']['current_end_cursor']) ? $extra_data['saved_media']['current_end_cursor'] : NULL;
+  $extra_data['saved_media']['total_fetched'] = !empty($extra_data['saved_media']['total_fetched']) ? $extra_data['saved_media']['total_fetched'] : NULL;
+  $extra_data['saved_media']['fetched_last_time'] = !empty($extra_data['saved_media']['fetched_last_time']) ? $extra_data['saved_media']['fetched_last_time'] : NULL;
+  
+  $end_cursor = $extra_data['saved_media']['current_end_cursor'];
+      
+  $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count, $end_cursor, $items_per_query);
+  if ($dpm) {
+    dpm($results, '$results');
+  }
+  
+  $extra_data['saved_media']['last_end_cursor'] = $extra_data['saved_media']['current_end_cursor'];
+  $extra_data['saved_media']['current_end_cursor'] = $end_cursor;
+  
+  if ($results === FALSE) {
+    $msg = 'Error while fetching Saved medias.Skipped.';
+    if($return) {
+      if ($dpm) {
+        dpm($msg, '$msg');
+      }
+      return $msg;
+    }
+    drupal_json_output(array('status' => FALSE, 'error' => $msg, 'results' => $extra_data));
+    drupal_exit();
+  }
+  
+  foreach ($results as $result) {
+    $result = $result['node'];
+    
+    // Check whether this media is already in  our DB
+    $media_is_in_db_already = db_select('a4s_insta_own_accounts_saved_medias', 'm')
+      ->fields('m', array('mid'))
+      ->condition('m.shortcode', $result['shortcode'])
+      ->execute()->fetchField();
+    if ($media_is_in_db_already) {
+      $extra_data['saved_media']['current_end_cursor'] = NULL;
+      $extra_data['saved_media']['reset_fetcher_to_start_at_duplicated_media_shortcode'] = $result['shortcode'];
+      break;
+    }
+    
+    
+    $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
+    $media = array(
+      'own_user_uid_local' => $own_user_data->uid,
+      'type_video' => $result['is_video'] ? 1 : NULL,
+      'media_id' => $result['id'],
+      'media_caption' => drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 150),
+      'shortcode' => $result['shortcode'],
+      'owner_id' => $result['owner']['id'],
+      'owner_username' => $owner_username,
+      'commented_by_amount' => $result['edge_media_to_comment']['count'],
+      'liked_by_amount' => $result['edge_liked_by']['count'],
+      'display_url' => $result['display_url'],
+      'thumbnail' => $result['thumbnail_src'],
+      'timestamp_taken' => $result['taken_at_timestamp'],
+      'timestamp' => REQUEST_TIME,
+    );
+    
+    $mid = db_insert('a4s_insta_own_accounts_saved_medias')->fields($media)->execute();
+    
+    if ($mid) {
+      $medias[] = $media;
+    }
+  }
+  
+  $fetched_count = count($medias);
+  $extra_data['saved_media']['total_fetched'] += $fetched_count;
+  $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
+  
+  db_update('a4s_insta_own_users')
+    ->fields(array('extra_data' => json_encode($extra_data)))
+    ->condition('uid', $own_user_data->uid)
+    ->execute();
+  
+  if ($dpm) {
+    dpm($extra_data, '$extra_data');
+    dpm($medias, '$medias');
+  }
+  
+  if ($return) {
+    return $extra_data;
+  }
+  watchdog('a4s_insta_get_saved_medias', "extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>');
+  drupal_json_output(array('status' => TRUE, 'results' => $extra_data));
+}
+
+/**
+ * 
+ * @param type $pages_count
+ * @param type $items_per_query
+ * @param type $return
+ * @param type $dpm
+ * @return type
+ */
+function a4s_insta_getSavedMedias_for_allOwnAccounts($pages_count = 1, $items_per_query = 10, $return = FALSE, $dpm = FALSE) {
+  $own_account_username = 'all4senses';
+  $results = a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count, $items_per_query, $return, $dpm);
+  if ($return) {
+    return $results;
+  }
+}
+
