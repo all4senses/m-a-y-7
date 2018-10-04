@@ -153,6 +153,11 @@ function a4s_instagram_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
+  $items['insta-get-remote-followers-medias2like'] = array(
+    'page callback' => 'a4s_insta_getAndPlan_remoteUserFollower_medias_to_like',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
   
   return $items;
 }
