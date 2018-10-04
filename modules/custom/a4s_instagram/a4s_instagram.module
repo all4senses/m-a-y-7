@@ -1593,8 +1593,15 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       //$cookies_str = a4s_insta_getCookies($own_account);
       break;
     
-    case 'user/activity':
+    
+    case 'user/saved':
+    
+      $cookies_str = a4s_insta_getCookies($own_account);
+      $target_url = "https://instagram.com/$target/saved";
       
+      break;
+    
+    case 'user/activity':
       /*
       $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
       if (empty($behat_insta_cookies['https://instagram.com'][$target]['ds_user_id'])) {
@@ -1606,10 +1613,9 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
       */
       $cookies_str = a4s_insta_getCookies($own_account);
-      
-      
       $target_url = 'https://instagram.com/accounts/activity';
       break;
+    
     case 'media/likers':
       $target_url = 'https://instagram.com/p/'. $target;
       break;
@@ -3791,5 +3797,7 @@ function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses'
  * @param type $own_account_username
  */
 function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
+  
+  $data = a4s_insta_getDataSingle__fromRaw('user/saved', $own_account_username, $max_id = NULL);
   a4s_insta_get_userProfile($requested_account = $own_account_username, $logged_in_as_own_account = $own_account_username, $use_cookies = TRUE, $max_id = NULL);
 }
