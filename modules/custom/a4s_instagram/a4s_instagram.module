@@ -3737,11 +3737,14 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
               ->execute();
          
             $added_total += $added;
+            
+            $processing_results['added_medias'][$own_account_username][$remote_account][$follower->username] = $added;
        }
     }
   }
-  
-  drupal_json_output(array('status' => TRUE, 'added_total' => $added_total));
+  $processing_results['added_medias']['___total_added'] = $added_total;
+  watchdog('a4s_insta_get_remote_followers_medias', "Added total: $added_total, results ==><pre>" . print_r($processing_results, TRUE) . '</pre>');
+  drupal_json_output(array('status' => TRUE, 'results' => $processing_results));
 }
 
 /**
