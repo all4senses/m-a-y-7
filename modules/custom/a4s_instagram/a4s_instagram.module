@@ -3453,8 +3453,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
       $remote_account_extra_data['followers']['total_added'] = empty($remote_account_extra_data['followers']['total_added']) ? 0 : $remote_account_extra_data['followers']['total_added'];
       $remote_account_extra_data['followers']['total_condition_skipped'] = empty($remote_account_extra_data['followers']['total_condition_skipped']) ? 0 : $remote_account_extra_data['followers']['total_condition_skipped'];
 
-      $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'] = $remote_account_extra_data['followers']['total_added'];
-      $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_condition_skipped'] = $remote_account_extra_data['followers']['total_condition_skipped'];
+      $processing_results['before_processing']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_added'] = $remote_account_extra_data['followers']['total_added'];
+      $processing_results['before_processing']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_condition_skipped'] = $remote_account_extra_data['followers']['total_condition_skipped'];
   
       if (!empty($remote_account_extra_data['followers']['finished_fetching_followers'])) {
         if ($dpm) {
