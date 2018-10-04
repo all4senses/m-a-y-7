@@ -954,7 +954,8 @@ function a4s_instagram_schema() {
         'description' => 'Media caption',
         'type' => 'varchar',
         'length' => 255,
-        'not null' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       
       'owner_id' => array(

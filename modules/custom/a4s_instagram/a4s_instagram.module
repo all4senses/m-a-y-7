@@ -3926,6 +3926,9 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   foreach ($results as $result) {
     $result = $result['node'];
     
+    if (empty($result['id'])) {
+      continue;
+    }
     // Check whether this media is already in  our DB
     $media_is_in_db_already = db_select('a4s_insta_own_accounts_saved_medias', 'm')
       ->fields('m', array('mid'))
