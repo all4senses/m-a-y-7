@@ -3359,7 +3359,7 @@ function a4s_insta_get_userProfile($remote_username) {
  * @param int $items_per_query
  * @return type
  */
-function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE, $dpm_skipped = FALSE, $return = FALSE) {
+function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE, $dpm_followers = FALSE, $return = FALSE) {
   
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
     
@@ -3479,10 +3479,14 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
         $processing_results['errors']['own accounts'][$account]['remote accounts'][$remote_account]['___error'] = 'Error while fetching followers from Instagram';
         continue;
       }
-      if ($dpm) {
-        dpm($end_cursor, '$end_cursor after');
+      
+      if ($dpm || $dpm_followers) {
         dpm($remote_user_followers, '$remote_user_followers');
       }
+      if ($dpm) {
+        dpm($end_cursor, '$end_cursor after');
+      }
+          
       if (!empty($remote_user_followers)) {
         $followers_added_before = array();
         $new_followers = array();
@@ -3533,7 +3537,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
         
         if (!empty($followers_added_before)) {
           $total_added_before_remote_account = count($followers_added_before);
-          if ($dpm) {
+          if ($dpm || $dpm_followers) {
             dpm($followers_added_before, "FOUND ADDED BEFORE, followers_added_before for $remote_account");
           }
           // Collect the total amount of added before followers to report
@@ -3542,7 +3546,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
         
         if (!empty($new_followers)) {
           $total_added_per_remote_account = count($new_followers);
-          if ($dpm) {
+          if ($dpm || $dpm_followers) {
             dpm($new_followers, "NEW FETCHED ADDED TO DB, new_followers for $remote_account");
           }
           // Collect the total amount of followers to report
@@ -3551,7 +3555,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
         
         if (!empty($condition_skipped_followers)) {
           $total_condition_skipped_per_remote_account = count($condition_skipped_followers);
-          if ($dpm || $dpm_skipped) {
+          if ($dpm || $dpm_followers) {
             dpm($condition_skipped_followers, "Condition Skipped Followers of remote account [$remote_account]");
           }
           // Collect the total amount of skipped followers to report
