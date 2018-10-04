@@ -1401,6 +1401,9 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
     case 'following':
       $data = !empty($results['data']['user']['edge_follow']) ? $results['data']['user']['edge_follow'] : NULL;
       break;
+    case 'saved_media':
+      $data = !empty($results['data']['user']['edge_saved_media']) ? $results['data']['user']['edge_follow'] : NULL;
+      break;
   }
   return $data;
 }
@@ -1596,14 +1599,6 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       //$cookies_str = a4s_insta_getCookies($own_account);
       break;
     
-    
-    case 'user/saved':
-    
-      $cookies_str = a4s_insta_getCookies($target);
-      $target_url = "https://instagram.com/$target/saved";
-      
-      break;
-    
     case 'user/activity':
       /*
       $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
@@ -1672,9 +1667,6 @@ function a4s_insta_getDataSingle__fromRaw($data_type, $target, $max_id = NULL, $
       break;
     case 'tag':
       $out = !empty($insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']) ? $insta_array['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media'] : NULL;
-      break;
-    case 'user/saved':
-      $out = $insta_array;
       break;
   }
   return $out;
@@ -3804,6 +3796,35 @@ function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses'
  */
 function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
   
-  $data = a4s_insta_getDataSingle__fromRaw('user/saved', $own_account_username, $max_id = NULL);
-  a4s_insta_get_userProfile($requested_account = $own_account_username, $logged_in_as_own_account = $own_account_username, $use_cookies = TRUE, $max_id = NULL);
+  // Get local user data
+  $own_user_data = db_select('a4s_insta_own_users', 'u')
+            ->fields('u', array('uid', 'extra_data'))
+            ->condition('u.username', $own_account_username)
+            ->execute()->fetchObject();
+  $extra_data = $own_user_data->extra_data;
+  if (empty($extra_data)) {
+    $extra_data = array(
+      'saved_media' => array(
+        'total_fetched' => NULL,
+        'fetched_last_time' => NULL,
+        'current_end_cursor' => NULL,
+        'last_end_cursor' => NULL,
+      ),
+    );
+  }
+  else {
+    $extra_data = json_decode($extra_data, TRUE);
+  }
+  $extra_data['saved_media']['current_end_cursor'] = !empty($extra_data['saved_media']['current_end_cursor']) ? $extra_data['saved_media']['current_end_cursor'] : NULL;
+  $extra_data['saved_media']['total_fetched'] = !empty($extra_data['saved_media']['total_fetched']) ? $extra_data['saved_media']['total_fetched'] : NULL;
+  $extra_data['saved_media']['fetched_last_time'] = !empty($extra_data['saved_media']['fetched_last_time']) ? $extra_data['saved_media']['fetched_last_time'] : NULL;
+  
+  //$end_cursor = 'QVFEUUw4NHdVTUdibERhLUZyLVlqRTNYeTVsRUNzdldkUHJkY09iQVJLc1FoWW1YaWJpYkV1ZTlsOHg4b0dETUw3aVRPcTI3emZTWncwTkJfWDVZOGE2Qg==';
+
+  //$results = a4s_insta_queryGraphql_single('saved_media', $own_account_username, $end_cursor = $extra_data['saved_media']['current_end_cursor'], $items_per_query = 10, $ds_user_id = NULL, $dpm = TRUE);
+
+  $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count = 2, $end_cursor = $extra_data['saved_media']['current_end_cursor'], $items_per_query = 20);
+
+  dpm($results, '$results');
+  
 }
