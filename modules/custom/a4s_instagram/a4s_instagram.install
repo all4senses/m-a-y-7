@@ -860,6 +860,24 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
+      'followed_by_amount' => array(
+        'description' => 'Amount of followers',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'following_amount' => array(
+        'description' => 'Amount of users, that this user is following',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'posts_amount' => array(
+        'description' => 'Amount of posts, that this user has uploaded',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
       'liked_by_our_accounts' => array(
         'description' => 'If this follower liked by one of our accounts (all4senses, etc), it contains indexes (uid from the table a4s_insta_own_users) it in the format: [1] OR [1][2], etc',
         'type' => 'varchar',
@@ -1074,9 +1092,6 @@ function a4s_instagram_update_7019() {
   if (!db_table_exists('a4s_insta_remote_users')) {
     db_create_table('a4s_insta_remote_users', $schema['a4s_insta_remote_users']);
   }
-  if (!db_table_exists('a4s_insta_remote_users_followers')) {
-    db_create_table('a4s_insta_remote_users_followers', $schema['a4s_insta_remote_users_followers']);
-  }
 }
 
 /**
@@ -1086,6 +1101,17 @@ function a4s_instagram_update_7020() {
   $schema = a4s_instagram_schema();
   if (!db_table_exists('a4s_insta_own_users')) {
     db_create_table('a4s_insta_own_users', $schema['a4s_insta_own_users']);
+  }
+}
+
+/**
+ * Add new tables a4s_insta_remote_users_followers
+ */
+function a4s_instagram_update_7021() {
+  
+  $schema = a4s_instagram_schema();
+  if (!db_table_exists('a4s_insta_remote_users_followers')) {
+    db_create_table('a4s_insta_remote_users_followers', $schema['a4s_insta_remote_users_followers']);
   }
 }
 

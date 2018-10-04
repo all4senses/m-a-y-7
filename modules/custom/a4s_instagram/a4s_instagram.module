@@ -149,7 +149,7 @@ function a4s_instagram_menu() {
   
   $items['insta-get-remote-user-followers'] = array(
     'page callback' => 'a4s_insta_get_remoteUsers_followers_callback',
-    'page arguments' => array('1', '40'),
+    //'page arguments' => array('1', '5'),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -775,8 +775,8 @@ function a4s_instagram_behat() {
         
         if (variable_get('a4s_like_remote_accounts_followers__' . $current_user, NULL) && $remote_followers_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'remote-follower', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'remote-follower';
-          // Should we like users with too many followings, post etc?
-          $response_data['force_like'] = FALSE;//TRUE;
+          // We don't check conditions, because we added correct users already
+          $response_data['force_like'] = TRUE;
         }
         elseif ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'back-like';
@@ -3359,7 +3359,7 @@ function a4s_insta_get_userProfile($remote_username) {
  * @param int $items_per_query
  * @return type
  */
-function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_per_query = 40, $dpm = FALSE) {
+function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE) {
   
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
     
@@ -3495,25 +3495,27 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers'][$follower_added_before] = 'Already added before. Skipped.';
             continue;
           }
-                 
-          // Check if it makes sense to like this user (not too many following, followers, posts, etc)
-          if (!a4s_insta_shouldWeLikeUser($account, $follower['username'])) {
-            $skipped_followers[] = $follower['username'];
-            continue;
-          }
-          
+                    
           $remote_account_follower_data = array(
             'user_uid_local' => $remote_account_data['uid'],
             'follower_id' => $follower['id'],
             'username' => $follower['username'],
             'fullname' => utf8_encode($follower['full_name']),
-            //'fullname' => $follower['full_name'],
+            'followed_by_amount' => NULL,
+            'following_amount' => NULL,
+            'posts_amount' => NULL,
             'thumbnail' => $follower['profile_pic_url'],
             'liked_by_our_accounts' => NULL,
             'followed_by_our_accounts' => NULL,
             'timestamp_added' => REQUEST_TIME,
             'timestamp_updated' => REQUEST_TIME,
           );
+               
+          // Check if it makes sense to like this user (not too many following, followers, posts, etc)
+          if (!a4s_insta_shouldWeLikeUser($account, $follower['username'])) {
+            $skipped_followers[] = $follower['username'];
+            continue;
+          }
           
           // Write a new follower of this remote user to DB
           $fid = db_insert('a4s_insta_remote_users_followers')->fields($remote_account_follower_data)->execute();
@@ -3723,25 +3725,29 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
  * @param type $account
  * @param type $remote_account_follower_data
  */
-function a4s_insta_shouldWeLikeUser($own_account_username, $follower_username)  {
+function a4s_insta_shouldWeLikeUser($own_account_username, &$follower_data)  {
   
-  $follower_profile = a4s_insta_get_userProfile($follower_username);
+  $follower_profile = a4s_insta_get_userProfile($follower_data['username']);
   if (empty($follower_profile['id'])) {
     // If we can't get a profile let's just in case like this user, even though we can't check the conditions
     return TRUE;
   }
   
+  $follower_data['followed_by_amount'] = $follower_profile['edge_followed_by']['count'];
+  $follower_data['following_amount'] = $follower_profile['edge_follow']['count'];
+  $follower_data['posts_amount'] = $follower_profile['edge_owner_to_timeline_media']['count'];
+  
   $conditions = a4s_insta_get_account_conditions_to_like_medias($own_account_username);
   if(
       
-      $follower_profile['edge_follow']['count'] < $conditions['user']['following']['from']  ||
-      $follower_profile['edge_follow']['count'] > $conditions['user']['following']['to'] ||
+      $follower_data['following_amount'] < $conditions['user']['following']['from']  ||
+      $follower_data['following_amount'] > $conditions['user']['following']['to'] ||
       
-      $follower_profile['edge_followed_by']['count'] < $conditions['user']['followers']['from']  ||
-      $follower_profile['edge_followed_by']['count'] > $conditions['user']['followers']['to'] ||
+      $follower_data['followed_by_amount'] < $conditions['user']['followers']['from']  ||
+      $follower_data['followed_by_amount'] > $conditions['user']['followers']['to'] ||
       
-      $follower_profile['edge_owner_to_timeline_media']['count'] < $conditions['user']['posts']['from']  ||
-      $follower_profile['edge_owner_to_timeline_media']['count'] > $conditions['user']['posts']['to']
+      $follower_data['posts_amount'] < $conditions['user']['posts']['from']  ||
+      $follower_data['posts_amount'] > $conditions['user']['posts']['to']
       
     ) {
       return FALSE;
