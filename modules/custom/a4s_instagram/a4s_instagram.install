@@ -831,7 +831,6 @@ function a4s_instagram_schema() {
       'user_uid_local' => array(
         'description' => 'Remote user local ID (uid in the table a4s_insta_remote_users)',
         'type' => 'int',
-        'size' => 'tiny',
         'not null' => TRUE,
       ),
       
@@ -900,6 +899,108 @@ function a4s_instagram_schema() {
       ),
       'timestamp_updated' => array(
         'description' => 'The Unix timestamp when a follower has been updated',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+
+    ),
+    'indexes' => array(
+      'fid' => array('fid'),
+      'user_uid_local' => array('user_uid_local'),
+      'follower_id' => array('follower_id'),
+      'liked_by_our_accounts' => array('liked_by_our_accounts'),
+      'followed_by_our_accounts' => array('followed_by_our_accounts'),
+      'timestamp_updated' => array('timestamp_updated'),
+    ),
+    'primary key' => array('fid'),
+  );
+  
+  
+  $schema['a4s_insta_own_accounts_saved_medias'] = array(
+    'description' => 'Remote users folowers',
+    'fields' => array(
+      'mid' => array(
+        'description' => 'Primary Key: Local Identifier for a media.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid_local' => array(
+        'description' => 'Own user local ID (uid in the table a4s_insta_own_users)',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      
+      'media_type' => array(
+        'description' => 'Image (1) or Video (2)',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+      ),
+      'media_id' => array(
+        'description' => 'Media Instagram ID',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'shortcode' => array(
+        'description' => 'Folower Instagram username',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+      ),
+      'owner_id' => array(
+        'description' => 'Owner Instagram ID',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'owner_username' => array(
+        'description' => 'Owner Instagram username',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      
+      'commented_by_amount' => array(
+        'description' => 'Media comments count',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+      'liked_by_amount' => array(
+        'description' => 'Amount of likes for a media',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      
+      
+      'display_url' => array(
+        'description' => 'A thumbnail of a follower, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'thumbnail' => array(
+        'description' => 'A thumbnail of a follower, like https://instagram.fhen2-1.fna.fbcdn.net/vp/6022b059c4ddf9da40dfcf833d06a2d4/5B4CCECC/t51.2885-19/s150x150/26070339_140701569945723_8263835635228344320_n.jpg',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+            
+      'timestamp_taken' => array(
+        'description' => 'The Unix timestamp when media has been taken',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when a media has been added/updated',
         'type' => 'int',
         'not null' => FALSE,
         'default' => NULL,

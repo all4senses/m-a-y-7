@@ -1573,23 +1573,6 @@ function a4s_insta_getDataSingle__fromA($data_type, $target, $max_id = NULL, $dp
 }
 
 /**
- * 
- * @param type $own_account
- * @return boolean|string
- */
-function a4s_insta_getCookies($own_account = 'all4senses') {
-  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-  if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
-    return FALSE;
-  }
-  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
-  //Example:
-  //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
-  $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
-  return $cookies_str;
-}
-
-/**
  * https://gist.github.com/cosmocatalano/4544576
  * and fix instead of file_get_contents()
  * https://stackoverflow.com/questions/21677579/server-configuration-by-allow-url-fopen-0-in
@@ -3338,28 +3321,6 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
 
 /**
  * 
- * @param type $remote_username
- * @return boolean
- */
-function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses', $use_cookies = FALSE) {
-  $cookies_str = NULL;
-  if ($use_cookies) {
-    // The data will be requested by this user being logged in
-    $own_account = 'all4senses';
-
-    $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-    if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
-      return FALSE;
-    }
-    $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
-    $cookies_str = a4s_insta_getCookies($own_account);
-  }
-  
-  $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL, $cookies_str);
-  return $user_profile;
-}
-/**
- * 
  * @param int $pages_count
  * @param int $items_per_query
  * @return type
@@ -3781,4 +3742,54 @@ function a4s_insta_shouldWeLikeUser($own_account_username, &$follower_data)  {
   }
   
   return TRUE;
+}
+
+/**
+ * 
+ * @param type $own_account
+ * @return boolean|string
+ */
+function a4s_insta_getCookies($own_account = 'all4senses') {
+  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+  if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
+    return FALSE;
+  }
+  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
+  //Example:
+  //$cookies_str = 'Cookie: csrftoken=GJ3PPaL2FfIQYA9J2RfkI2tYfdWeD0VD; ds_user_id=6218303298; sessionid=6218303298%3AUSbb2R456PKkYn%3A12; ';
+  $cookies_str = 'Cookie: csrftoken=' . $behat_insta_cookies_user['csrftoken'] . '; ds_user_id=' . $behat_insta_cookies_user['ds_user_id'] . '; sessionid=' . $behat_insta_cookies_user['sessionid'] . '; ';
+  return $cookies_str;
+}
+
+/**
+ * 
+ * @param type $remote_username
+ * @return boolean
+ */
+function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses', $use_cookies = FALSE, $max_id = NULL) {
+  $cookies_str = NULL;
+  if ($use_cookies) {
+    // The data will be requested by this user being logged in
+    /*
+    $own_account = 'all4senses';
+    $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+    if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
+      return FALSE;
+    }
+    $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
+    $cookies_str = a4s_insta_getCookies($own_account);
+    */
+    $cookies_str = a4s_insta_getCookies($own_account);
+  }
+  
+  $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL, $cookies_str);
+  return $user_profile;
+}
+
+/**
+ * 
+ * @param type $own_account_username
+ */
+function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username) {
+  a4s_insta_get_userProfile($requested_account = $own_account_username, $logged_in_as_own_account = $own_account_username, $use_cookies = TRUE, $max_id = NULL);
 }
