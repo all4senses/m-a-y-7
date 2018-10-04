@@ -1376,6 +1376,9 @@ function a4s_insta_queryGraphql_single($data_type, $username, $end_cursor = NULL
     case 'following':
       $query_hash = '58712303d941c6855d4e888c5f0cd22f'; // Folowing
       break;
+    case 'saved_media':
+      $query_hash = '8c86fed24fa03a8a2eea2a70a80c7b6b';
+      break;
   }
   
   $variables = '{"id":' . '"' . ($ds_user_id ? $ds_user_id : $behat_insta_cookies_user['ds_user_id']) . '","first":' . $items_per_query . ',"after":"' . $end_cursor . '"}';
