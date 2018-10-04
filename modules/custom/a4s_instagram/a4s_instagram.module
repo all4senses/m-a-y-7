@@ -3496,7 +3496,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
             ->execute()->fetchField();
           if ($follower_added_before) {
             $followers_added_before[] = $follower_added_before;
-            $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] = !empty($processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped']) ? '' : $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] = empty($processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped']) ? $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] . ',' : '';
+            $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] = !empty($processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped']) ? $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] . ',' : '';
             $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] .= "$follower_added_before";
             continue;
           }
