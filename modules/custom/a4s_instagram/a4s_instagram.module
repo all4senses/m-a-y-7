@@ -3449,6 +3449,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       }
       
       $remote_account_extra_data['followers']['total_fetched'] = empty($remote_account_extra_data['followers']['total_fetched']) ? 0 : $remote_account_extra_data['followers']['total_fetched'];
+      $remote_account_extra_data['followers']['total_skipped'] = empty($remote_account_extra_data['followers']['total_skipped']) ? 0 : $remote_account_extra_data['followers']['total_skipped'];
       
       if (!empty($remote_account_extra_data['followers']['finished_fetching_followers'])) {
         if ($dpm) {
@@ -3481,6 +3482,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       if (!empty($remote_user_followers)) {
         $followers_added_before = array();
         $new_followers = array();
+        $skipped_followers = array();
         foreach ($remote_user_followers as $follower) {
           $follower = $follower['node'];
           // Check if this follower of this remote user is not already in our DB
@@ -3493,8 +3495,13 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers'][$follower_added_before] = 'Already added before. Skipped.';
             continue;
           }
+                 
+          // Check if it makes sense to like this user (not too many following, followers, posts, etc)
+          if (!a4s_insta_shouldWeLikeUser($account, $follower['username'])) {
+            $skipped_followers[] = $follower['username'];
+            continue;
+          }
           
-          // Write a new follower of this remote user to DB
           $remote_account_follower_data = array(
             'user_uid_local' => $remote_account_data['uid'],
             'follower_id' => $follower['id'],
@@ -3507,6 +3514,8 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
             'timestamp_added' => REQUEST_TIME,
             'timestamp_updated' => REQUEST_TIME,
           );
+          
+          // Write a new follower of this remote user to DB
           $fid = db_insert('a4s_insta_remote_users_followers')->fields($remote_account_follower_data)->execute();
           if ($fid) {
             $new_followers[] = $follower['username'];
@@ -3519,7 +3528,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           if ($dpm) {
             dpm($followers_added_before, "FOUND ADDED BEFORE, followers_added_before for $remote_account");
           }
-          // Collect the total amount of followers to report
+          // Collect the total amount of added before followers to report
           $processing_results['warnings']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_before_skipped'] = $total_added_before_remote_account;
         }
         
@@ -3531,6 +3540,16 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
           // Collect the total amount of followers to report
           $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___added_this_time'] = $total_fetched_per_remote_account;
         }
+        
+        if (!empty($skipped_followers)) {
+          $total_skipped_per_remote_account = count($skipped_followers);
+          if ($dpm) {
+            dpm($skipped_followers, "Skipped Followers of remote account [$remote_account]");
+          }
+          // Collect the total amount of skipped followers to report
+          $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___skipped'] = $total_skipped_per_remote_account;
+        }
+        
         
       }
       
@@ -3549,6 +3568,10 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
       if ($total_fetched_per_remote_account) {
         $remote_account_extra_data['followers']['fetched_last_time'] = $total_fetched_per_remote_account;
         $remote_account_extra_data['followers']['total_fetched'] += $total_fetched_per_remote_account;
+      }
+      if ($total_skipped_per_remote_account) {
+        $remote_account_extra_data['followers']['skipped_last_time'] = $total_skipped_per_remote_account;
+        $remote_account_extra_data['followers']['total_skipped'] += $total_skipped_per_remote_account;
       }
       
       $processing_results['success']['own accounts'][$account]['remote accounts'][$remote_account]['followers']['___total_fetched'] = $remote_account_extra_data['followers']['total_fetched'];
@@ -3592,7 +3615,6 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 2, $items_p
   }
   drupal_json_output(array('status' => $status, 'results' => $processing_results));
 }
-
 
 /**
  * 
@@ -3694,4 +3716,36 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
   }
   
   drupal_json_output(array('status' => TRUE, 'added_total' => $added_total));
+}
+
+/**
+ * 
+ * @param type $account
+ * @param type $remote_account_follower_data
+ */
+function a4s_insta_shouldWeLikeUser($own_account_username, $follower_username)  {
+  
+  $follower_profile = a4s_insta_get_userProfile($follower_username);
+  if (empty($follower_profile['id'])) {
+    // If we can't get a profile let's just in case like this user, even though we can't check the conditions
+    return TRUE;
+  }
+  
+  $conditions = a4s_insta_get_account_conditions_to_like_medias($own_account_username);
+  if(
+      
+      $follower_profile['edge_follow']['count'] < $conditions['user']['following']['from']  ||
+      $follower_profile['edge_follow']['count'] > $conditions['user']['following']['to'] ||
+      
+      $follower_profile['edge_followed_by']['count'] < $conditions['user']['followers']['from']  ||
+      $follower_profile['edge_followed_by']['count'] > $conditions['user']['followers']['to'] ||
+      
+      $follower_profile['edge_owner_to_timeline_media']['count'] < $conditions['user']['posts']['from']  ||
+      $follower_profile['edge_owner_to_timeline_media']['count'] > $conditions['user']['posts']['to']
+      
+    ) {
+      return FALSE;
+  }
+  
+  return TRUE;
 }
