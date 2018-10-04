@@ -3797,8 +3797,13 @@ function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses'
 /**
  * 
  * @param type $own_account_username
+ * @param int $pages_count
+ * @param int $items_per_query
+ * @param type $return
+ * @param type $dpm
+ * @return type
  */
-function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $return = FALSE, $dpm = FALSE) {
+function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count = 1, $items_per_query = 10, $return = FALSE, $dpm = FALSE) {
   
   $medias = array();
   
@@ -3825,7 +3830,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $r
   $extra_data['saved_media']['total_fetched'] = !empty($extra_data['saved_media']['total_fetched']) ? $extra_data['saved_media']['total_fetched'] : NULL;
   $extra_data['saved_media']['fetched_last_time'] = !empty($extra_data['saved_media']['fetched_last_time']) ? $extra_data['saved_media']['fetched_last_time'] : NULL;
   
-  $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count = 2, $end_cursor = $extra_data['saved_media']['current_end_cursor'], $items_per_query = 20);
+  $results = a4s_insta_queryGraphql_multiple('saved_media', $own_account_username, $pages_count, $end_cursor = $extra_data['saved_media']['current_end_cursor'], $items_per_query);
   dpm($results, '$results');
   
   if ($results === FALSE) {
