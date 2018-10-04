@@ -3341,19 +3341,19 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
  * @param type $remote_username
  * @return boolean
  */
-function a4s_insta_get_userProfile($remote_username) {
+function a4s_insta_get_userProfile($remote_username, $own_account = 'all4senses', $use_cookies = FALSE) {
   $cookies_str = NULL;
-  /*
-  // The data will be requested by this user being logged in
-  $own_account = 'all4senses';
-  
-  $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
-  if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
-    return FALSE;
+  if ($use_cookies) {
+    // The data will be requested by this user being logged in
+    $own_account = 'all4senses';
+
+    $behat_insta_cookies = variable_get('a4s_behat_insta_cookies', array());
+    if (empty($behat_insta_cookies['https://instagram.com'][$own_account]['ds_user_id'])) {
+      return FALSE;
+    }
+    $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
+    $cookies_str = a4s_insta_getCookies($own_account);
   }
-  $behat_insta_cookies_user = $behat_insta_cookies['https://instagram.com'][$own_account];
-  $cookies_str = a4s_insta_getCookies($own_account);
-  */
   
   $user_profile = a4s_insta_getDataSingle__fromRaw('user/profile', $remote_username, $max_id = NULL, $cookies_str);
   return $user_profile;
