@@ -3359,7 +3359,7 @@ function a4s_insta_get_userProfile($remote_username) {
  * @param int $items_per_query
  * @return type
  */
-function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE) {
+function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE, $return = FALSE) {
   
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
     
@@ -3623,7 +3623,12 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
   if ($dpm) {
     dpm($processing_results, "processing_results: $status");
   }
-  drupal_json_output(array('status' => $status, 'results' => $processing_results));
+  
+  $output = array('status' => $status, 'results' => $processing_results);
+  if ($return) {
+    return $output;
+  }
+  drupal_json_output($output);
 }
 
 /**
