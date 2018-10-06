@@ -2924,6 +2924,9 @@ function a4s_instagram_activity_history_page() {
   $counts = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
   if (!empty($activities)) {
     foreach ($activities as $activity) {
+      if (empty($activity->activity_type)) {
+        $activity->activity_type = 0;
+      }
       if (empty($counts[$activity->activity_type])) {
         $counts[$activity->activity_type] = 0;
       }
