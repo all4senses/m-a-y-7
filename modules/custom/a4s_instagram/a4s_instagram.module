@@ -2924,6 +2924,9 @@ function a4s_instagram_activity_history_page() {
   $counts = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
   if (!empty($activities)) {
     foreach ($activities as $activity) {
+      if (empty($counts[$activity->activity_type])) {
+        $counts[$activity->activity_type] = 0;
+      }
       $counts[$activity->activity_type]++;
       
       $user_extra_data = a4s_instagram_get_user_statistics__relatedToRequestedAccount($activity->username, $activity->user_id, $account_username = NULL, $account_id);
