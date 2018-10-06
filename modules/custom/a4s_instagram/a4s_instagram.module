@@ -2961,6 +2961,7 @@ function a4s_instagram_activity_history_page() {
   }
   
   $short_report = '';
+  dpm($counts, '$counts');
   foreach ($counts as $key => $value) {
     if ($value) {
       $short_report .= ($short_report ? ', ' : '') . $activity_types[$key] . ' ' . $value;
