@@ -312,11 +312,25 @@ function a4s_instagram_settings($form, $form_state) {
                   );
               
               
-              $form['insta_settings']['settings_per_account'][$account]['a4s_insta_account_tags__' . $account] = array(
-                '#type' => 'textarea',
+                  
+                  
+              $form['insta_settings']['settings_per_account'][$account]['accounts_tags_to_like'] = array(
+                '#type' => 'fieldset',
                 '#title' => "Find users by Tags to like",
-                '#default_value' => variable_get('a4s_insta_account_tags__' . $account, NULL),
+                '#collapsible' => TRUE,
+                '#collapsed' => FALSE,
               );
+                  $form['insta_settings']['settings_per_account'][$account]['accounts_tags_to_like']['a4s_insta_account_tags__' . $account] = array(
+                    '#type' => 'textarea',
+                    '#title' => "Active tags",
+                    '#default_value' => variable_get('a4s_insta_account_tags__' . $account, NULL),
+                  );
+                  $form['insta_settings']['settings_per_account'][$account]['accounts_tags_to_like']['a4s_insta_account_tags_saved__' . $account] = array(
+                    '#type' => 'textarea',
+                    '#title' => "Inactive tags (saved)",
+                    '#default_value' => variable_get('a4s_insta_account_tags_saved__' . $account, NULL),
+                  );
+                  
 
               $form['insta_settings']['settings_per_account'][$account]['accounts_conditions_to_like'] = array(
                 '#type' => 'fieldset',
