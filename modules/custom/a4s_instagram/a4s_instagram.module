@@ -559,6 +559,9 @@ function a4s_insta_get_user_tags($account = NULL) {
     'all4senses' => NULL,// 'designer, art, graphicdesign, photographer, productdesign, architecture, arhitect, photoart, artwork, interiordesign, дизайнинтерьера, photoshoot, photosession, digitalart, 3dart',
     'olyayuskasova' => NULL, // 'nsk, novosibirsk, новосибирск, нск, нск54, вьетнам, бизнес, тайланд, тай, толмачево, дом, nsk54, нижневартовск, норильск, якутск, магадан, сургут, мальдивы',
   );
+  if (empty($insta_users_tags_default[$account])) {
+    $insta_users_tags_default[$account] = NULL;
+  }
   
   if (!$account) {
     $all_tags = array();
