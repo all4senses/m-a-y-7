@@ -2633,8 +2633,19 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
  */
 function a4s_instagram_update_followers_all_users_callback() {
   // Process different user every time
-  $users_to_process = array('olyayuskasova', 'all4senses');
+  //$users_to_process = array('olyayuskasova', 'all4senses');
 
+  if(!$users_to_process = a4s_instagram_get_accounts_to_process('active')) {
+    
+    $processing_results = 'No active own users set for followers update. Skipping processing.';
+    watchdog('a4s users followers', "ok: results ==> $processing_results", array(), WATCHDOG_INFO);
+    if ($dpm) {
+      dpm($processing_results);
+    }
+    drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
+    drupal_exit();
+  }
+  
   $last_followers_update_user = variable_get('a4s_insta_last_followers_update_user', array());
 
   if (count($users_to_process) > 1) {
@@ -2673,8 +2684,20 @@ function a4s_instagram_update_followers_all_users_callback() {
  */
 function a4s_instagram_update_activity_all_users_callback() {
   // Process different user every time
-  $users_to_process = array('olyayuskasova', 'all4senses');
+  //$users_to_process = array('olyayuskasova', 'all4senses');
 
+  if(!$users_to_process = a4s_instagram_get_accounts_to_process('active')) {
+    
+    $processing_results = 'No active own users set for fetching accounts activity. Skipping processing.';
+    watchdog('a4s users activity', "ok: results ==> $processing_results", array(), WATCHDOG_INFO);
+    if ($dpm) {
+      dpm($processing_results);
+    }
+    drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
+    drupal_exit();
+  }
+  
+  
   $last_activity_update_user = variable_get('a4s_insta_last_activity_update_user', array());
 
   if (count($users_to_process) > 1) {
