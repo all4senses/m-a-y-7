@@ -2897,6 +2897,7 @@ function a4s_instagram_likes_history_page() {
       
       $count_user_liked = db_select('a4s_insta_clicks_by_tag', 't')
         ->fields('t', array('cid'))
+        ->condition('t.account_id', $account_id)
         ->condition('t.media_owner_id', $like->media_owner_id)
         ->condition('t.liked', 1)
         //->condition('t.timestamp_liked', REQUEST_TIME - (60*60*$last_hours), '>'); // for last 1 hour
