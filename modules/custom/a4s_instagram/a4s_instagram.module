@@ -691,6 +691,7 @@ function a4s_instagram_get_accounts_credentials($domain, $account = NULL) {
  */
 function a4s_instagram_behat() {
   
+  watchdog('a4s test ff', '$_SERVER => <pre>' . print_r($_SERVER, TRUE) . '</pre>');
   /*
   $url = '';
   $ch = curl_init($url);
