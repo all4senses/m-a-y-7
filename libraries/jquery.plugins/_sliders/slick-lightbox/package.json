@@ -5,7 +5,7 @@
   "devDependencies": {
     "coffee-script": "~1.7.1",
     "coffeedoc": "~0.3.1",
-    "ecstatic": "~0.5.1",
+    "ecstatic": "~4.1.2",
     "gulp": "~3.9",
     "gulp-coffee": "~1.4.1",
     "gulp-cssmin": "^0.1.7",
