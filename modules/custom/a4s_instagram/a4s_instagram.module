@@ -691,7 +691,7 @@ function a4s_instagram_get_accounts_credentials($domain, $account = NULL) {
  */
 function a4s_instagram_behat() {
   
-  watchdog('a4s test ff', '$_REQUEST => <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER => <pre>' . print_r($_SERVER, TRUE) . '</pre>');
+  //watchdog('a4s test ff', '$_REQUEST => <pre>' . print_r($_REQUEST, TRUE) . '</pre>, $_SERVER => <pre>' . print_r($_SERVER, TRUE) . '</pre>');
   /*
   $url = '';
   $ch = curl_init($url);
@@ -940,7 +940,7 @@ function a4s_insta_user_credentials_environment($domain, $username = NULL) {
         'u' => 'all4senses', 'p' => NULL,
         'u_field' => 'Phone number, username, or email',
         'p_field' => 'Password',
-        'login_button' => 'Log in',
+        'login_button' => 'Log In',
         'login_confirm_text' => array('All4senses Creative Group', 'Turn On Notifications', 'We Detected An Unusual Login Attempt'),
         'turn_on_notifications_button' => 'Turn On',
         'this_was_me_button' => 'This Was Me',
@@ -949,7 +949,7 @@ function a4s_insta_user_credentials_environment($domain, $username = NULL) {
         'u' => 'olyayuskasova', 'p' => NULL,
         'u_field' => 'Phone number, username, or email',
         'p_field' => 'Password',
-        'login_button' => 'Log in',
+        'login_button' => 'Log In',
         'login_confirm_text' => array('Olga Yuskasova', 'Turn On Notifications', 'We Detected An Unusual Login Attempt'),
         'turn_on_notifications_button' => 'Turn On',
         'this_was_me_button' => 'This Was Me',
@@ -964,7 +964,7 @@ function a4s_insta_user_credentials_environment($domain, $username = NULL) {
       'u' => $username, 'p' => NULL,
       'u_field' => 'Phone number, username, or email',
       'p_field' => 'Password',
-      'login_button' => 'Log in',
+      'login_button' => 'Log In',
       'login_confirm_text' => array($account_title, 'Turn On Notifications', 'We Detected An Unusual Login Attempt'),
       'turn_on_notifications_button' => 'Turn On',
       'this_was_me_button' => 'This Was Me',
