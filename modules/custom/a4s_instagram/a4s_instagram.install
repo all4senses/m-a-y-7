@@ -233,8 +233,9 @@ function a4s_instagram_schema() {
       'thumbnail' => array(
         'description' => 'Thumbnail url, like https://instagram.fhen2-1.fna.fbcdn.net/vp/b59d6686691d760027f5b23efedbd550/5B191656/t51.2885-15/s150x150/e35/28151996_944615975691766_6409985277619601408_n.jpg',
         'type' => 'varchar',
-        'length' => 250,
-        'not null' => TRUE,
+        'length' => 400,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       'is_video' => array(
         'description' => 'If a media is a video',
@@ -1246,3 +1247,13 @@ function a4s_instagram_update_7022() {
   }
 }
 
+/**
+ * Change a length of field (to 400) thumbnail to a4s_insta_clicks_by_tag.
+ */
+function a4s_instagram_update_7023() {
+  if (db_field_exists('a4s_insta_clicks_by_tag', 'thumbnail')) {
+   $schema = a4s_instagram_schema();
+   $thumbnail = $schema['a4s_insta_clicks_by_tag']['fields']['thumbnail'];
+   db_change_field('a4s_insta_clicks_by_tag', 'thumbnail', 'thumbnail', $thumbnail, array());
+ }
+}
