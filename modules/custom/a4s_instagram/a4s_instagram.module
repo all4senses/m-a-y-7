@@ -254,7 +254,18 @@ function a4s_instagram_settings($form, $form_state) {
       '#title' => 'Per user Not working time (Example: all4senses=>08:00-15:00/Sun;olyayuskasova=>23:00-10:00/Sun)',
       '#default_value' => variable_get('a4s_insta_not_working_time_per_account', NULL),
     );
-  
+    
+    $form['insta_settings']['a4s_insta_min_time_between_likes_in_minutes'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Min time between likes (in minutes)',
+      '#default_value' => variable_get('a4s_insta_min_time_between_likes_in_minutes', 5),
+    );
+    $form['insta_settings']['a4s_insta_max_time_between_likes_in_minutes'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Max time between likes (in minutes)',
+      '#default_value' => variable_get('a4s_insta_max_time_between_likes_in_minutes', 17),
+    );
+    
     $form['insta_settings']['a4s_max_amount_of_medias_to_like_per_session'] = array(
       '#type' => 'textfield',
       '#title' => 'Max amount of medias to like per each session (in can me randomly set below this value)',
@@ -997,7 +1008,7 @@ function a4s_instagram_behat() {
           $last_time_liked_previous = variable_get('a4s_last_time_liked', NULL);
           $last_time_liked_previous = !$last_time_liked_previous ? 'N/A' : date('H:i:s, d/m/Y', $last_time_liked_previous);
           $last_time_liked = variable_set('a4s_last_time_liked', REQUEST_TIME);
-          $random_minutes_between_likes = mt_rand(7, 20);
+          $random_minutes_between_likes = mt_rand(variable_get('a4s_insta_min_time_between_likes_in_minutes', 5), variable_get('a4s_insta_max_time_between_likes_in_minutes', 17));
           
           $next_time_to_like = REQUEST_TIME + ($random_minutes_between_likes*60);
           variable_set('a4s_next_time_to_like', $next_time_to_like);
@@ -1026,7 +1037,7 @@ function a4s_instagram_behat() {
         $next_time_to_like_previous = variable_get('a4s_next_time_to_like', NULL);
         $next_time_to_like_previous = !$next_time_to_like_previous ? 'N/A' : date('H:i:s, d/m/Y', $next_time_to_like_previous);
         variable_set('a4s_last_time_liked', REQUEST_TIME);
-        $random_minutes_between_likes = mt_rand(7, 20);
+        $random_minutes_between_likes = mt_rand(variable_get('a4s_insta_min_time_between_likes_in_minutes', 5), variable_get('a4s_insta_max_time_between_likes_in_minutes', 17));
         $next_time_to_like = REQUEST_TIME + ($random_minutes_between_likes*60);
         variable_set('a4s_next_time_to_like', $next_time_to_like);
         $next_time_to_like = !$next_time_to_like ? 'N/A' : date('H:i:s, d/m/Y', $next_time_to_like);
