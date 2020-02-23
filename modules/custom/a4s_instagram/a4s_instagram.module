@@ -2502,8 +2502,8 @@ function a4s_instagram_update_followers_single_username($username = 'all4senses'
   $changed_followers = array();
   
   $account_id = a4s_instagram_get_local_account_id_by_username($username);
-  
-  $new_followers = a4s_insta_queryGraphql_multiple('followers', $username, $pages_count = NULL, $end_cursor = NULL, $items_per_query = 10);
+  $pages_count = NULL; $end_cursor = NULL;
+  $new_followers = a4s_insta_queryGraphql_multiple('followers', $username, $pages_count, $end_cursor, $items_per_query = 10);
   
   if(empty($new_followers)) {
     watchdog('a4s followers', "$username: => new_followers is EMPTY, possible failure to get the data from Instagram");
