@@ -785,7 +785,7 @@ function a4s_instagram_behat() {
           $last_time_liked = !$last_time_liked ? 'N/A' : date('H:i:s, d/m/Y', $last_time_liked);
           $next_time_to_like = !$next_time_to_like ? 'N/A' : date('H:i:s, d/m/Y', $next_time_to_like);
           $response_data['reason_short'] = 'Too early to like!';
-          $response_data['reason_long'] = 'It is not yet time to like. Last one was liked at ' . date('d/m/Y H:i:s', $last_time_liked) . '. Next like should start at ' . date('d/m/Y H:i:s', $next_time_to_like);
+          $response_data['reason_long'] = "It is not yet time to like. Last one was liked at $last_time_liked. Next like should start at $next_time_to_like";
           watchdog('Next like time', 'Too early! Last: ' . $last_time_liked . ', Next: ' . $next_time_to_like);
           $break;
         }
