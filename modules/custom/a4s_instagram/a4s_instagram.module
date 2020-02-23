@@ -2049,11 +2049,17 @@ function a4s_insta_get_images_to_click_byTags_singleUser($username = 'olyayuskas
         ->execute()
         ->fetchCol();
     $count_existing_in_db = $count_existing_in_db_before = count($not_liked_by_tag);
+    if ($dpm) {
+      dpm($count_existing_in_db_before, '$count_existing_in_db_before');
+    }
     $max_id = NULL;
     $tags_added = 0;
     while ($count_existing_in_db < $min_medias_for_tag) {
       //$results = a4s_insta_getDataMultiple('fromA', 'tag', $tag, $max_id, 1);
       $results = a4s_insta_getDataMultiple('fromRaw', 'tag', $tag, $max_id, 1);
+      if ($dpm) {
+        dpm($results, '$results');
+      }
       if (!$results) {
         break;
       }
