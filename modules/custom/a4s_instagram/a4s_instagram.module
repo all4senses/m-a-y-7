@@ -934,7 +934,11 @@ function a4s_instagram_behat() {
           $last_time_liked_previous = !$last_time_liked_previous ? 'N/A' : date('H:i:s, d/m/Y', $last_time_liked_previous);
           $last_time_liked = variable_set('a4s_last_time_liked', REQUEST_TIME);
           $random_minutes_between_likes = mt_rand(7, 20);
-          $next_time_to_like = variable_set('a4s_next_time_to_like', REQUEST_TIME + ($random_minutes_between_likes*60));
+          
+          $next_time_to_like = REQUEST_TIME + ($random_minutes_between_likes*60);
+          variable_set('a4s_next_time_to_like', $next_time_to_like);
+          $next_time_to_like = date('H:i:s, d/m/Y', $next_time_to_like);
+          $response_data['next_like'] = "in $random_minutes_between_likes mins, at $next_time_to_like";
           watchdog('Next like time', "in {$random_minutes_between_likes}m, onReq: $next_time_to_like (last_time_liked_previous: $last_time_liked_previous");
         }
         break;
@@ -963,6 +967,7 @@ function a4s_instagram_behat() {
         variable_set('a4s_next_time_to_like', $next_time_to_like);
         $next_time_to_like = !$next_time_to_like ? 'N/A' : date('H:i:s, d/m/Y', $next_time_to_like);
         watchdog('Next like time', "in {$random_minutes_between_likes}m, onResult: $next_time_to_like (previously set to $next_time_to_like_previous, while getting a request for medias at $last_successful_request_for_media)");
+        $response_data['next_like'] = "in $random_minutes_between_likes mins, at $next_time_to_like";
         
         if (empty($_REQUEST['medias']) || empty($_REQUEST['username'])) {
           $status = FALSE;
