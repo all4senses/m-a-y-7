@@ -850,11 +850,11 @@ function a4s_instagram_behat() {
             }
           }
           list($not_working_time, $not_working_days) = explode('/', $not_working_time);
-          $not_working_time_type = "per_user [[[[ $current_user ]]]]";
+          $not_working_time_type = "per_user [[[[current user is $current_user ]]]]";
         }
         else if ($not_working_time_default = variable_get('a4s_insta_not_working_time_default', NULL)) { // '20:00-10:00/Sat,Sun'
           list($not_working_time, $not_working_days) = explode('/', $not_working_time_default);
-          $not_working_time_type = 'default';
+          $not_working_time_type = "default [[[[current user is $current_user ]]]]";
         }
         if ($not_working_time_type) {
           if (stripos($not_working_days, $current_day_str) !== FALSE) {
