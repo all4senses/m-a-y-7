@@ -4291,7 +4291,10 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
  * @param type $dpm
  * @return type
  */
-function a4s_insta_getSavedMedias_for_allOwnAccounts($pages_count = 1, $items_per_query = 10, $return = FALSE, $dpm = FALSE) {
+function a4s_insta_getSavedMedias_for_allOwnAccounts($pages_count = 1, $items_per_query = 30, $return = FALSE, $dpm = FALSE) {
+  if (!empty($_GET['dpm'])) {
+    $dpm = TRUE;
+  }
   $own_account_username = 'all4senses';
   $results = a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count, $items_per_query, $return, $dpm);
   if ($return) {
