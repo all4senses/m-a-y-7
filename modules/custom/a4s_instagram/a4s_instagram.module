@@ -3904,6 +3904,10 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
  */
 function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts_per_own_user_to_process = 3, $followers_per_remote_user_to_process = 2, $medias_to_like_per_follower = 3, $dpm = FALSE) {
   
+  if (!empty('dpm')) {
+    $dpm = TRUE;
+  }
+  
   /*
   $remote_accounts_per_own_user_to_process = 3; 
   $followers_per_remote_user_to_process = 1; 
@@ -3997,7 +4001,13 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
   }
   $processing_results['added_medias']['___total_added'] = $added_total;
   watchdog('a4s_insta_get_remote_followers_medias', "Added total: $added_total, results ==><pre>" . print_r($processing_results, TRUE) . '</pre>');
-  drupal_json_output(array('status' => TRUE, 'results' => $processing_results));
+  
+  if ($dpm) {
+    return;
+  }
+  else {
+    drupal_json_output(array('status' => TRUE, 'results' => $processing_results));
+  }
 }
 
 /**
