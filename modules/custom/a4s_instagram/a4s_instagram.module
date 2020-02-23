@@ -4277,7 +4277,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   }
   
   watchdog('a4s_insta_get_saved_medias', "extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>');
-  if ($return) {
+  if ($return || $dpm) {
     return $extra_data;
   }
   drupal_json_output(array('status' => TRUE, 'results' => $extra_data));
