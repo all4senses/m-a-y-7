@@ -244,10 +244,20 @@ function a4s_instagram_settings($form, $form_state) {
       '#default_value' => variable_get('a4s_insta_accounts_active', 'all4senses, olyayuskasova'),
     );
   
+    $form['insta_settings']['a4s_insta_not_working_time_default'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Default Not working time (Example: 20:00-10:00/Sat,Sun OR 20:00-10:00 OR /Sat,Sun)',
+      '#default_value' => variable_get('a4s_insta_not_working_time_default', NULL),
+    );
+    $form['insta_settings']['a4s_insta_not_working_time_per_account'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Per user Not working time (Example: all4senses=>08:00-15:00/Sun;olyayuskasova=>23:00-10:00/Sun)',
+      '#default_value' => variable_get('a4s_insta_not_working_time_per_account', NULL),
+    );
   
     $form['insta_settings']['a4s_max_amount_of_medias_to_like_per_session'] = array(
       '#type' => 'textfield',
-      '#title' => 'Amount of medias to like per each session (like every 10, 20,..., etc minutes)',
+      '#title' => 'Max amount of medias to like per each session (in can me randomly set below this value)',
       '#default_value' => variable_get('a4s_max_amount_of_medias_to_like_per_session', 4),
     );
     
@@ -778,6 +788,7 @@ function a4s_instagram_behat() {
         }
         
         
+        
         $last_time_liked = variable_get('a4s_last_time_liked', NULL);
         $next_time_to_like = variable_get('a4s_next_time_to_like', NULL);
         if ($next_time_to_like > REQUEST_TIME) {
@@ -823,6 +834,54 @@ function a4s_instagram_behat() {
         }
         
         $current_user = $accounts_to_process[$current_user_index];
+        
+        
+        // Check not working time
+        $not_working_time_type = NULL;
+        $current_date_str = date('m/d/Y', REQUEST_TIME); 
+        $current_day_str = date('D', REQUEST_TIME);
+        $not_working_time_per_account = variable_get('a4s_insta_not_working_time_per_account', NULL); // 'all4senses=>08:00-15:00/Sun;olyayuskasova=>23:00-10:00/Sun'
+        if ($not_working_time_per_account && stripos($not_working_time_per_account, $current_user) !== FALSE) {
+          $not_working_time_per_account = explode(';', $not_working_time_per_account);
+          foreach ($not_working_time_per_account as $not_working_time_account) {
+            list($not_working_time_account_name, $not_working_time) = explode('=>', $not_working_time_account);
+            if ($not_working_time_account_name == $current_user) {
+              break;
+            }
+          }
+          list($not_working_time, $not_working_days) = explode('/', $not_working_time);
+          $not_working_time_type = 'per_user';
+        }
+        else if ($not_working_time_default = variable_get('a4s_insta_not_working_time_default', NULL)) { // '20:00-10:00/Sat,Sun'
+          list($not_working_time, $not_working_days) = explode('/', $not_working_time_default);
+          $not_working_time_type = 'default';
+        }
+        if ($not_working_time_type) {
+          if (stripos($not_working_days, $current_day_str) !== FALSE) {
+            $response_data['reason_short'] = 'not_working_time';
+            $response_data['reason_long'] = "No like at not working day ($not_working_time_type): $not_working_days";
+            watchdog('a4s Not working time', "No like at not working day ($not_working_time_type): $not_working_days");
+            $break;
+          }
+          else {
+            list($not_working_time_start, $not_working_time_finish) = explode('-', $not_working_time);
+            $not_working_time_start = strtotime("$not_working_time_start, $current_date_str"); // 'H:i:s, m/d/Y'
+            $not_working_time_finish = strtotime("$not_working_time_finish, $current_date_str"); // 'H:i:s, m/d/Y'
+            if ($not_working_time_start > $not_working_time_finish) {
+              $not_working_time_finish = strtotime('+1 day', $not_working_time_finish);
+            }
+            if (REQUEST_TIME > $not_working_time_start && REQUEST_TIME <= $not_working_time_finish) {
+              $response_data['reason_short'] = 'not_working_time';
+              $response_data['reason_long'] = "No like at not working time ($not_working_time_type): $not_working_time";
+              watchdog('a4s Not working time', "No like at not working time ($not_working_time_type): $not_working_time");
+              $break;
+            }
+          }
+        }
+        
+        
+        
+        
         $insta_last_data_processed['username'] = $current_user;
         variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
