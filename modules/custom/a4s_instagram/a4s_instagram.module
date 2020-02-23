@@ -3607,7 +3607,9 @@ function a4s_insta_get_remoteUser_data($data_type, $remote_user_id = NULL, $remo
  * @return type
  */
 function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_per_query = 5, $dpm = FALSE, $dpm_followers = FALSE, $return = FALSE) {
-  
+  if (!empty($_GET['dpm'])) {
+    $dpm = TRUE; $return = TRUE;
+  }
   if(!$all_accounts = a4s_instagram_get_accounts_to_process('active')) {
     
     $processing_results = 'No active own users set for fetching followers from remote accounts. Skipping processing.';
@@ -3615,8 +3617,13 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
     if ($dpm) {
       dpm($processing_results);
     }
-    drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
-    drupal_exit();
+    if ($return) {
+      return;
+    }
+    else {
+      drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
+      drupal_exit();
+    }
   }
 
   $processing_results = array();
