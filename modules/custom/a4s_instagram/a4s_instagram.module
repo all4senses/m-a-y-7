@@ -923,6 +923,7 @@ function a4s_instagram_behat() {
         
         $max_amount = variable_get('a4s_max_amount_of_medias_to_like_per_session', 4);
         $amount = mt_rand(2, $max_amount);
+        $response_data['medias_amount'] = $amount;
         $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount, $return_type = 'data');
         $response_data['tag'] = $current_tag;
         
@@ -1288,7 +1289,7 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
     //watchdog('Request from Behat, Warning', "Not found: media $shortcode for $username, and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
   }
   
-  if ($data['liked'] == 'false' || $data['liked'] == 'Possibly action blocked') {
+  if (in_array($data['liked'], array('false', 'Possibly action blocked', 'page_not_found'))) {
     db_update('a4s_insta_clicks_by_tag')
       ->fields(array('liked' => 2)) // 2 = Not liked, but kind of marked as processed
       ->condition('shortcode', $shortcode)
@@ -1300,8 +1301,11 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
       variable_set('a4s_behat_alerts_count', $a4s_behat_alerts_count);
       a4s_instagram_jenkins_insta_switch_status('disable');
     }
-    else {
+    elseif ($data['liked'] == 'false') {
       watchdog('Request from Behat, Warning', "Not liked for unknown reason: media $shortcode for $username, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
+    }
+    elseif ($data['liked'] == 'page_not_found') {
+      watchdog('Request from Behat, Warning', "Not liked. Page not found: media $shortcode for $username, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>', array(), WATCHDOG_NOTICE);
     }
   }
   elseif ($data['liked'] === 'true' || $data['liked'] === 'liked_before') {
