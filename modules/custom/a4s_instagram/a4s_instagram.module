@@ -2289,6 +2289,10 @@ function a4s_instagram_jenkins_insta_switch_status($op = 'disable') {
  * @param type $amount
  */
 function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $username_remote_id, $tag = 'back-like', $amount = 2, $dpm = FALSE) {
+  if (!empty($_GET['dpm'])) {
+    $dpm = TRUE;
+  }
+  
   $media_indexes_to_like = array();
   $user_medias_to_like = array();
   $added_medias_amount = 0;
