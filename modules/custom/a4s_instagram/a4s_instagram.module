@@ -245,10 +245,10 @@ function a4s_instagram_settings($form, $form_state) {
     );
   
   
-    $form['insta_settings']['a4s_insta_amount_of_medias_to_like_per_session'] = array(
+    $form['insta_settings']['a4s_max_amount_of_medias_to_like_per_session'] = array(
       '#type' => 'textfield',
       '#title' => 'Amount of medias to like per each session (like every 10, 20,..., etc minutes)',
-      '#default_value' => variable_get('a4s_insta_amount_of_medias_to_like_per_session', 7),
+      '#default_value' => variable_get('a4s_max_amount_of_medias_to_like_per_session', 4),
     );
     
     $form['insta_settings']['a4s_insta_history_period_hours_default'] = array(
@@ -767,30 +767,62 @@ function a4s_instagram_behat() {
         // Send different user creds every time
         //$users_to_process = array('olyayuskasova', 'all4senses');
         $accounts_to_process = a4s_instagram_get_accounts_to_process();
+        $accounts_to_process_count = count($accounts_to_process);
         
         $insta_last_data_processed = variable_get('a4s_insta_last_data_sent', array());
         
-        if (count($accounts_to_process) > 1) {
-          if (empty($insta_last_data_processed['username'])) {
-            $current_user = $accounts_to_process[0];
-          }
-          else {
-            foreach ($accounts_to_process as $key => $user) {
-              if ($user == $insta_last_data_processed['username']) {
-                if ($key + 1 >= count($accounts_to_process)) {
-                  $current_user = $accounts_to_process[0];
-                }
-                else {
-                  $current_user = $accounts_to_process[$key + 1];
-                }
-              }
-            }
-          }
-        }
-        else {
-          $current_user = $accounts_to_process[0];
+        if (!$accounts_to_process_count) {
+          $status = FALSE; 
+          $errors = 'Active Accounts list is empty! It should not be empty! If you do not want to process any accounts, just disable the project!';
+          break;
         }
         
+        
+        $last_time_liked = variable_get('a4s_last_time_liked', NULL);
+        $next_time_to_like = variable_get('a4s_next_time_to_like', NULL);
+        if ($next_time_to_like > REQUEST_TIME) {
+          $status = TRUE;
+          $last_time_liked = !$last_time_liked ? 'N/A' : date('H:i:s, d/m/Y', $last_time_liked);
+          $next_time_to_like = !$next_time_to_like ? 'N/A' : date('H:i:s, d/m/Y', $next_time_to_like);
+          $response_data['reason_short'] = 'Too early to like!';
+          $response_data['reason_long'] = 'It is not yet time to like. Last one was liked at ' . date('d/m/Y H:i:s', $last_time_liked) . '. Next like should start at ' . date('d/m/Y H:i:s', $next_time_to_like);
+          watchdog('Next like time', 'Too early! Last: ' . $last_time_liked . ', Next: ' . $next_time_to_like);
+          $break;
+        }
+        
+        
+        if ($accounts_to_process_count == 1) {
+          $current_user_index = 0;
+        }
+        else {
+          switch (variable_get('method_of_next_account_to_process_choose', 'random')) { // 'circle', 'random'
+          
+                  case 'circle':
+                    if (empty($insta_last_data_processed['username'])) {
+                      $current_user_index = 0;
+                    }
+                    else {
+                      foreach ($accounts_to_process as $key => $user) {
+                        if ($user == $insta_last_data_processed['username']) {
+                          if ($key + 1 >= $accounts_to_process_count) {
+                            $current_user_index = 0;
+                          }
+                          else {
+                            $current_user_index = $key + 1;
+                          }
+                        }
+                      }
+                    }
+                    break;
+
+                    
+                  case 'random':
+                    $current_user_index = mt_rand(0, $accounts_to_process_count - 1);
+                    break;
+                }
+        }
+        
+        $current_user = $accounts_to_process[$current_user_index];
         $insta_last_data_processed['username'] = $current_user;
         variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         
@@ -845,8 +877,6 @@ function a4s_instagram_behat() {
 
         $current_user = $_REQUEST['username'];
         
-        
-        
         if ($back_likes_planned_amount = a4s_insta_get_medias_to_like($current_user, $tag = 'back-like', $amount = NULL, $return_type = 'amount')) {
           $current_tag = 'back-like';
           $response_data['force_like'] = TRUE;
@@ -891,31 +921,65 @@ function a4s_instagram_behat() {
               variable_set('a4s_insta_last_data_sent', $insta_last_data_processed);
         }
         
-        $amount = variable_get('a4s_insta_amount_of_medias_to_like_per_session', 7);
+        $max_amount = variable_get('a4s_max_amount_of_medias_to_like_per_session', 4);
+        $amount = mt_rand(2, $max_amount);
         $response_data['medias'] = a4s_insta_get_medias_to_like($current_user, $current_tag, $amount, $return_type = 'data');
         $response_data['tag'] = $current_tag;
+        
+        if (!empty($response_data['medias'])) {
+          // If we have medias to like, remember the time of this session start
+          // Next like session should start not earlier, than in $random_minutes_between_likes from now.
+          $last_time_liked_previous = variable_get('a4s_last_time_liked', NULL);
+          $last_time_liked_previous = !$last_time_liked_previous ? 'N/A' : date('H:i:s, d/m/Y', $last_time_liked_previous);
+          $last_time_liked = variable_set('a4s_last_time_liked', REQUEST_TIME);
+          $random_minutes_between_likes = mt_rand(7, 20);
+          $next_time_to_like = variable_set('a4s_next_time_to_like', REQUEST_TIME + ($random_minutes_between_likes*60));
+          watchdog('Next like time', 'OnMediaReq: ' . date('H:i:s, d/m/Y', $next_time_to_like) . ' ($last_time_liked_previous: ' . $last_time_liked_previous);
+        }
         break;
         
         
         
         
       case 'set_medias_like_results':
-        $links = array();
-        if (!empty($_REQUEST['medias'])) {
-          foreach (json_decode($_REQUEST['medias'], TRUE) as $media => $data) {
-            $links[] = l($media, 'https://instagram.com/p/' . $media, array('attributes' => array('absolute' => TRUE)));
-          }
-        }
-        watchdog('Liked with Behat', 'Tag ' . @$_REQUEST['tag'] . ' for ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>, links ===> <pre>' . print_r($links, TRUE) . '</pre>');
+        
+        // Clarify the next like session start time
+        // Previously we set it on request the media list to like,
+        // But now we just reset it
+        // Previously we set it to prevent the case, 
+        // if Jenkins has received from us a list of medias, liked them, but for some reason has not reported back here
+
+        // If we have liked medias, remember the time of this session end
+        // Next like session should start not earlier, than in $random_minutes_between_likes from now.
+        
+        $last_successful_request_for_media = variable_get('a4s_last_successful_request_for_media', NULL);
+        $last_successful_request_for_media = !$last_successful_request_for_media ? 'N/A' : date('H:i:s, d/m/Y', $last_successful_request_for_media);
+        $next_time_to_like_previous = variable_get('a4s_next_time_to_like', NULL);
+        $next_time_to_like_previous = !$next_time_to_like_previous ? 'N/A' : date('H:i:s, d/m/Y', $next_time_to_like_previous);
+        variable_set('a4s_last_time_liked', REQUEST_TIME);
+        $random_minutes_between_likes = mt_rand(7, 20);
+        $next_time_to_like = REQUEST_TIME + ($random_minutes_between_likes*60);
+        variable_set('a4s_next_time_to_like', $next_time_to_like);
+        watchdog('Next like time', 'S.Clarify: ' . date('H:i:s, d/m/Y', $next_time_to_like) . ' (previously set to ' . $next_time_to_like_previous . ', while getting a request foe medias at ' . date('H:i:s, d/m/Y', $last_successful_request_for_media) . ')');
+
         if (empty($_REQUEST['medias']) || empty($_REQUEST['username'])) {
           $status = FALSE;
           $errors = 'No username provided OR Empty liked medias results from behat.';
+          watchdog('Liked with Behat', 'No username provided OR Empty liked medias results from behat. $_REQUEST ==> <pre>'. print_r($_REQUEST, TRUE) . '</pre>', array(), WATCHDOG_WARNING);
           break;
         }
+        
+        $links = array();
+        foreach (json_decode($_REQUEST['medias'], TRUE) as $media => $data) {
+          $links[] = l($media, 'https://instagram.com/p/' . $media, array('attributes' => array('absolute' => TRUE)));
+        }
+        watchdog('Liked with Behat', 'Tag ' . @$_REQUEST['tag'] . ' for ' . $_REQUEST['username'] . ' ==> <pre>'. print_r(@$_REQUEST['medias'], TRUE) . '</pre>, links ===> <pre>' . print_r($links, TRUE) . '</pre>');
+        
         variable_set('a4s_behat_alerts_count', 0);
         foreach (json_decode($_REQUEST['medias'], TRUE) as $shortcode => $data) {
           a4s_insta_media_set_liked($_REQUEST['username'], $shortcode, $data);
         }
+        
         break;
     }
   }
@@ -1223,13 +1287,22 @@ function a4s_insta_media_set_liked($username, $shortcode, $data) {
     
     //watchdog('Request from Behat, Warning', "Not found: media $shortcode for $username, and have been removed from likes DB table! _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
   }
-  if ($data['liked'] == 'false') {
+  
+  if ($data['liked'] == 'false' || $data['liked'] == 'Possibly action blocked') {
     db_update('a4s_insta_clicks_by_tag')
       ->fields(array('liked' => 2)) // 2 = Not liked, but kind of marked as processed
       ->condition('shortcode', $shortcode)
       ->condition('account_id', $account_id)
       ->execute();
-    watchdog('Request from Behat, Warning', "Not liked for unknown reason: media $shortcode for $username, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
+    if ($data['liked'] == 'Possibly action blocked') {
+      watchdog('Request from Behat, Warning', "Not liked and will be PAUSED. Possibly action blocked: media $shortcode for $username, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>', array(), WATCHDOG_CRITICAL);
+      $a4s_behat_alerts_count = variable_get('a4s_behat_alerts_count', 0) + 1;
+      variable_set('a4s_behat_alerts_count', $a4s_behat_alerts_count);
+      a4s_instagram_jenkins_insta_switch_status('disable');
+    }
+    else {
+      watchdog('Request from Behat, Warning', "Not liked for unknown reason: media $shortcode for $username, _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
+    }
   }
   elseif ($data['liked'] === 'true' || $data['liked'] === 'liked_before') {
     db_update('a4s_insta_clicks_by_tag')
