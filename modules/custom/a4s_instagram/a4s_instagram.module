@@ -2301,14 +2301,14 @@ function a4s_instagram_set_user_medias_to_like($account_id = 1, $username, $user
   //$user_medias = a4s_insta_getDataMultiple('fromA', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
   $user_medias = a4s_insta_getDataMultiple('fromRaw', 'user/media', $username, $max_id, $pages_to_get = 2, $dpm);
   if ($dpm) {
-    dpm($user_medias, '$user_medias');
+    dpm($user_medias, '$user_medias for ' . $username);
   }
   //if (!empty($user_medias['nodes']) && count($user_medias['nodes']) > 5) {
   if (!empty($user_medias) && $user_medias_count = count($user_medias)) {
     // Define $amount random indexes from first $pages_to_get = 2 users medias
     $max_iterations = 200;
     $already_liked_or_planned_array = array();
-    for ($i = 0; $i < $amount; $i++) {
+    for ($i = 0; $i < $amount && $i < $user_medias_count; $i++) {
       $iterations = 0;
       do {
         $r =  $user_medias_count > 2 ? mt_rand(1, $user_medias_count - 1) : 1;
