@@ -3622,7 +3622,7 @@ function a4s_insta_get_remoteUsers_followers_callback($pages_count = 1, $items_p
       dpm($processing_results);
     }
     if ($return) {
-      return;
+      return 'Done';
     }
     else {
       drupal_json_output(array('status' => 'ok', 'results' => $processing_results));
