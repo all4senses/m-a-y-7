@@ -4003,7 +4003,7 @@ function a4s_insta_getAndPlan_remoteUserFollower_medias_to_like($remote_accounts
   watchdog('a4s_insta_get_remote_followers_medias', "Added total: $added_total, results ==><pre>" . print_r($processing_results, TRUE) . '</pre>');
   
   if ($dpm) {
-    return;
+    return 'Done';
   }
   else {
     drupal_json_output(array('status' => TRUE, 'results' => $processing_results));
