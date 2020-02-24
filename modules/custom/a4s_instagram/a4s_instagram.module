@@ -799,6 +799,7 @@ function a4s_instagram_behat() {
         
         
       case 'get_creds':
+        watchdog('Request from Behat', "1. _REQUEST ==> <pre>" . print_r($_REQUEST, TRUE) . '</pre>');
         if (empty($_REQUEST['target_domain'])/* || empty($_REQUEST['username'])*/) {
           $status = FALSE;
           $errors = 'Wrong source parameters';
