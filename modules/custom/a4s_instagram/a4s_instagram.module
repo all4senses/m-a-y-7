@@ -820,7 +820,7 @@ function a4s_instagram_behat() {
         }
         
         
-        if (!variable('a4s_insta_ignore_next_time_to_like_value', FALSE)) {
+        if (!variable_get('a4s_insta_ignore_next_time_to_like_value', FALSE)) {
             $last_time_liked = variable_get('a4s_last_time_liked', NULL);
             $next_time_to_like = variable_get('a4s_next_time_to_like', NULL);
             if ($next_time_to_like > REQUEST_TIME) {
@@ -869,7 +869,7 @@ function a4s_instagram_behat() {
         
         
         // Check not working time
-        if (!variable('a4s_insta_ignore_not_working_time_value', FALSE)) {
+        if (!variable_get('a4s_insta_ignore_not_working_time_value', FALSE)) {
             $not_working_time_type = NULL;
             $current_date_str = date('m/d/Y', REQUEST_TIME); 
             $current_day_str = date('D', REQUEST_TIME);
