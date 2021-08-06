@@ -4316,6 +4316,9 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
 
 /**
  * 
+ * In FlyNow crontab currently:
+ * http://a4s-local.m-a-y-7.ru/insta-get-saved-medias-all?items=50&pages=3
+ * 
  * @param type $pages_count
  * @param type $items_per_query
  * @param type $return
