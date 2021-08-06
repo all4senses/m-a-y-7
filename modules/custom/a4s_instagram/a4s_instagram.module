@@ -4366,6 +4366,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
               'media_caption_access' => $caption_access,
               'display_url' => $image_name, //$result['display_url'],
               'thumbnail' => $image_th_name, //$result['thumbnail_src'],
+              'timestamp' => REQUEST_TIME,
             ))
           ->condition('shortcode', $result['shortcode'])
           ->condition('own_user_uid_local', $own_user_data->uid)
