@@ -4356,6 +4356,13 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     if ($mid) {
       $medias[] = $media;
     }
+    
+    // Download the image
+    $file_local_abs = DRUPAL_ROOT . "/f/insta_media/{$owner_username}_{$result['shortcode']}.jpg";
+    a4s_insta_curl_file_from_remote_site_likeBrowser($result['display_url'], $file_local_abs);
+    // Download the thumbnail
+    $file_local_abs = DRUPAL_ROOT . "/f/insta_media/{$owner_username}_{$result['shortcode']}_th.jpg";
+    a4s_insta_curl_file_from_remote_site_likeBrowser($result['thumbnail_src'], $file_local_abs);
   }
   
   $fetched_count = count($medias);
