@@ -4294,7 +4294,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   
   
   $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
-  $extra_data['saved_media']['current_last_media'] = $medias[$fetched_count-1]['shortcode'];
+  $extra_data['saved_media']['current_last_media'] = $fetched_count ? $medias[$fetched_count-1]['shortcode'] : NULL;
   
   
   db_update('a4s_insta_own_users')
