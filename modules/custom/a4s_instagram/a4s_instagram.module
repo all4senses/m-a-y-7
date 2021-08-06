@@ -4403,15 +4403,17 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   
   
   $fetched_count = count($results);
+  $added_count = count($medias);
   $extra_data['saved_media']['total_fetched'] += $fetched_count;
   $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
   
-  $extra_data['saved_media']['added_new'] = count($medias);
+  $extra_data['saved_media']['added_new'] = $added_count;
   $extra_data['saved_media']['skipped_or_updated'] = $skipped_or_updated;
   
   
   $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
-  $extra_data['saved_media']['current_last_media'] = $fetched_count ? $medias[$fetched_count-1]['shortcode'] : NULL;
+  //$extra_data['saved_media']['current_last_media'] = $fetched_count ? $medias[$fetched_count-1]['shortcode'] : NULL;
+  $extra_data['saved_media']['current_last_media'] = $fetched_count ? $results[$fetched_count-1]['node']['shortcode'] : NULL;
   
   $extra_data['saved_media']['processing_time_sec'] = time() - REQUEST_TIME;
   
@@ -4425,7 +4427,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     dpm($medias, '$medias');
   }
   
-  watchdog('a4s_insta_get_saved_medias', "extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>');
+  watchdog('a4s_insta_get_saved_medias', $fetched_count ? ("extra_data ==><pre>" . print_r($extra_data, TRUE) . '</pre>') : 'No new media found.');
   if ($return || $dpm) {
     return $extra_data;
   }
