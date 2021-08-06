@@ -4248,7 +4248,7 @@ function a4s_insta_find_instagramUsername_by($account_id = NULL, $media_shortcod
  * @param type $dpm
  * @return type
  */
-function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count = 1, $items_per_query = 10, $return = FALSE, $dpm = FALSE) {
+function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count = 1, $items_per_query = 10, $return = FALSE, $dpm = FALSE, $reset_count = FALSE) {
   
   $medias = array();
   
@@ -4258,7 +4258,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     ->condition('u.username', $own_account_username)
     ->execute()->fetchObject();
   $extra_data = $own_user_data->extra_data;
-  if (empty($extra_data)) {
+  if ($reset_count || empty($extra_data)) {
     $extra_data = array(
       'saved_media' => array(
         'total_fetched' => NULL,
@@ -4311,63 +4311,99 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     ->condition('uid', $own_user_data->uid)
     ->execute();
   
+  $skipped_or_updated = 0;
   foreach ($results as $result) {
     $result = $result['node'];
     
     if (empty($result['id'])) {
       continue;
     }
+    
+    
+    // Download the image
+    $image_name = "/f/insta_media/{$owner_username}_{$result['shortcode']}.jpg";
+    $file_local_abs = DRUPAL_ROOT . $image_name;
+    if (!file_exists($file_local_abs)) {
+      a4s_insta_curl_file_from_remote_site_likeBrowser($result['display_url'], $file_local_abs);
+    }
+    // Download the thumbnail
+    $image_th_name = "/f/insta_media/{$owner_username}_{$result['shortcode']}_th.jpg";
+    $file_local_abs = DRUPAL_ROOT . $image_th_name;
+    if (!file_exists($file_local_abs)) {
+      a4s_insta_curl_file_from_remote_site_likeBrowser($result['thumbnail_src'], $file_local_abs);
+    }
+    
+    $caption = !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) 
+                  ? 
+               drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 440) . '...'
+                  :
+               NULL;
+    $caption_access = !empty($result['accessibility_caption']) 
+                  ? 
+               drupal_substr(utf8_encode($result['accessibility_caption']), 0, 240) . '...'
+                  :
+               NULL;
+    
     // Check whether this media is already in  our DB
     $media_is_in_db_already = db_select('a4s_insta_own_accounts_saved_medias', 'm')
       ->fields('m', array('mid'))
       ->condition('m.shortcode', $result['shortcode'])
       ->execute()->fetchField();
+    
     if ($media_is_in_db_already) {
-      $extra_data['saved_media']['current_end_cursor'] = NULL;
-      $extra_data['saved_media']['reset_fetcher_to_start_at_duplicated_media_shortcode'] = $result['shortcode'];
-      break;
+        $skipped_or_updated++;
+        
+        //$extra_data['saved_media']['current_end_cursor'] = NULL;
+        $extra_data['saved_media']['reset_fetcher_to_start_at_duplicated_media_shortcode'] = $result['shortcode'];
+        //break;
+        
+        // We can update something
+        db_update('a4s_insta_own_accounts_saved_medias')
+          ->fields(array(
+              'media_caption' => $caption,
+              'media_caption_access' => $caption_access,
+              'display_url' => $image_name, //$result['display_url'],
+              'thumbnail' => $image_th_name, //$result['thumbnail_src'],
+            ))
+          ->condition('shortcode', $result['shortcode'])
+          ->condition('own_user_uid_local', $own_user_data->uid)
+          ->execute();
+    }
+    else {
+        $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
+        
+        $media = array(
+          'own_user_uid_local' => $own_user_data->uid,
+          'type_video' => $result['is_video'] ? 1 : NULL,
+          'media_id' => $result['id'],
+          'media_caption' => $caption,
+          'media_caption_access' => $caption_access,
+          'shortcode' => $result['shortcode'],
+          'owner_id' => $result['owner']['id'],
+          'owner_username' => $owner_username,
+          'commented_by_amount' => $result['edge_media_to_comment']['count'],
+          'liked_by_amount' => $result['edge_liked_by']['count'],
+          'display_url' => $image_name, //$result['display_url'],
+          'thumbnail' => $image_th_name, //$result['thumbnail_src'],
+          'timestamp_taken' => $result['taken_at_timestamp'],
+          'timestamp' => REQUEST_TIME,
+        );
+
+        $mid = db_insert('a4s_insta_own_accounts_saved_medias')->fields($media)->execute();
+
+        if ($mid) {
+          $medias[] = $media;
+        }
     }
     
     
-    $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
-    $caption = !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) 
-                  ? 
-               drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 150) . '...'
-                  :
-               NULL;
-    $media = array(
-      'own_user_uid_local' => $own_user_data->uid,
-      'type_video' => $result['is_video'] ? 1 : NULL,
-      'media_id' => $result['id'],
-      'media_caption' => $caption,
-      'shortcode' => $result['shortcode'],
-      'owner_id' => $result['owner']['id'],
-      'owner_username' => $owner_username,
-      'commented_by_amount' => $result['edge_media_to_comment']['count'],
-      'liked_by_amount' => $result['edge_liked_by']['count'],
-      'display_url' => $result['display_url'],
-      'thumbnail' => $result['thumbnail_src'],
-      'timestamp_taken' => $result['taken_at_timestamp'],
-      'timestamp' => REQUEST_TIME,
-    );
-    
-    $mid = db_insert('a4s_insta_own_accounts_saved_medias')->fields($media)->execute();
-    
-    if ($mid) {
-      $medias[] = $media;
-    }
-    
-    // Download the image
-    $file_local_abs = DRUPAL_ROOT . "/f/insta_media/{$owner_username}_{$result['shortcode']}.jpg";
-    a4s_insta_curl_file_from_remote_site_likeBrowser($result['display_url'], $file_local_abs);
-    // Download the thumbnail
-    $file_local_abs = DRUPAL_ROOT . "/f/insta_media/{$owner_username}_{$result['shortcode']}_th.jpg";
-    a4s_insta_curl_file_from_remote_site_likeBrowser($result['thumbnail_src'], $file_local_abs);
   }
   
   $fetched_count = count($medias);
   $extra_data['saved_media']['total_fetched'] += $fetched_count;
   $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
+  
+  $extra_data['saved_media']['skipped_or_updated'] = $skipped_or_updated;
   
   
   $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
@@ -4412,8 +4448,10 @@ function a4s_insta_getSavedMedias_for_allOwnAccounts($pages_count = 1, $items_pe
   if (!empty($_GET['items'])) {
     $items_per_query = $_GET['items'];
   }
+  $reset_count = !empty($_GET['reset-count']) ? TRUE : FALSE;
+
   $own_account_username = 'all4senses';
-  $results = a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count, $items_per_query, $return, $dpm);
+  $results = a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $pages_count, $items_per_query, $return, $dpm, $reset_count);
   if ($dpm) {
     return 'Done!';
   }
