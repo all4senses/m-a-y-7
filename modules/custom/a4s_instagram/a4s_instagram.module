@@ -4402,10 +4402,12 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     
   }
   
+  
   $fetched_count = count($results);
   $extra_data['saved_media']['total_fetched'] += $fetched_count;
   $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
   
+  $extra_data['saved_media']['added_new'] = count($medias);
   $extra_data['saved_media']['skipped_or_updated'] = $skipped_or_updated;
   
   
