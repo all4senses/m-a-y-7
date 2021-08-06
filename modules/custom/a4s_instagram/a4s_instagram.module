@@ -4324,6 +4324,9 @@ function a4s_insta_getSavedMedias_for_allOwnAccounts($pages_count = 1, $items_pe
   if (!empty($_GET['dpm'])) {
     $dpm = TRUE;
   }
+  if (!empty($_GET['pages'])) {
+    $pages_count = $_GET['pages'];
+  }
   if (!empty($_GET['items'])) {
     $items_per_query = $_GET['items'];
   }
