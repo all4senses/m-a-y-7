@@ -4350,6 +4350,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $media_is_in_db_already = db_select('a4s_insta_own_accounts_saved_medias', 'm')
       ->fields('m', array('mid'))
       ->condition('m.shortcode', $result['shortcode'])
+      ->condition('own_user_uid_local', $own_user_data->uid)
       ->execute()->fetchField();
     
     if ($media_is_in_db_already) {
