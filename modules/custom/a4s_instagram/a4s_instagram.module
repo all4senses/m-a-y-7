@@ -4320,6 +4320,8 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     }
     
     
+    $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
+    
     // Download the image
     $image_name = "/f/insta_media/{$owner_username}_{$result['shortcode']}.jpg";
     $file_local_abs = DRUPAL_ROOT . $image_name;
@@ -4370,7 +4372,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
           ->execute();
     }
     else {
-        $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
+        
         
         $media = array(
           'own_user_uid_local' => $own_user_data->uid,
