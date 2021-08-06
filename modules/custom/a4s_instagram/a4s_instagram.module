@@ -4373,8 +4373,6 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
           ->execute();
     }
     else {
-        
-        
         $media = array(
           'own_user_uid_local' => $own_user_data->uid,
           'type_video' => $result['is_video'] ? 1 : NULL,
@@ -4414,6 +4412,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
   $extra_data['saved_media']['current_last_media'] = $fetched_count ? $medias[$fetched_count-1]['shortcode'] : NULL;
   
+  $extra_data['saved_media']['processing_time_sec'] = time() - REQUEST_TIME;
   
   db_update('a4s_insta_own_users')
     ->fields(array('extra_data' => json_encode($extra_data)))
