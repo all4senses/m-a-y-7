@@ -4324,7 +4324,7 @@ function a4s_insta_getSavedMedias_for_allOwnAccounts($pages_count = 1, $items_pe
   if (!empty($_GET['dpm'])) {
     $dpm = TRUE;
   }
-  if (empty($_GET['items'])) {
+  if (!empty($_GET['items'])) {
     $items_per_query = $_GET['items'];
   }
   $own_account_username = 'all4senses';
