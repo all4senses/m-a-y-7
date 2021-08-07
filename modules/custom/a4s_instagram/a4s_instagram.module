@@ -4427,7 +4427,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     dpm($medias, '$medias');
   }
   
-  if ($fetched_count) {
+  if (!$fetched_count) {
     $report_str = 'No new media found.';
   }
   else {
