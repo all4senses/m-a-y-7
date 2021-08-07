@@ -4337,12 +4337,12 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     
     $caption = !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) 
                   ? 
-               drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 440) . '...'
+               drupal_substr(utf8_encode($result['edge_media_to_caption']['edges'][0]['node']['text']), 0, 890) . '...'
                   :
                NULL;
     $caption_access = !empty($result['accessibility_caption']) 
                   ? 
-               drupal_substr(utf8_encode($result['accessibility_caption']), 0, 240) . '...'
+               drupal_substr(utf8_encode($result['accessibility_caption']), 0, 490) . '...'
                   :
                NULL;
     
