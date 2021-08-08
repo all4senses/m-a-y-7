@@ -4312,8 +4312,8 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     ->execute();
   
   $skipped_or_updated = 0;
-  foreach ($results as $result) {
-    $result = $result['node'];
+  foreach ($results as &$result) {
+    $result = &$result['node'];
     
     if (empty($result['id'])) {
       continue;
@@ -4321,6 +4321,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     
     
     $owner_username = a4s_insta_find_instagramUsername_by($result['owner']['id'], $result['shortcode']);
+    $result['owner_username'] = $owner_username;
     
     // Download the image
     $image_name = "/f/insta_media/{$owner_username}_{$result['shortcode']}.jpg";
@@ -4414,6 +4415,12 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
   //$extra_data['saved_media']['current_last_media'] = $fetched_count ? $medias[$fetched_count-1]['shortcode'] : NULL;
   $extra_data['saved_media']['current_last_media'] = $fetched_count ? $results[$fetched_count-1]['node']['shortcode'] : NULL;
+  if ($fetched_count) {
+    // http://a4s-local.m-a-y-7.ru/f/insta_media/aluizio_foto_B7xE9GIpDF2.jpg
+    $local_img_url = 'http://a4s-local.m-a-y-7.ru/f/insta_media/' . $results[$fetched_count-1]['node']['owner_username'] . '_' . $results[$fetched_count-1]['node']['shortcode'] . '.jpg';
+    $local_img_url = '<a href="'. $local_img_url . '">' . $local_img_url . '</a>';
+    $extra_data['saved_media']['current_last_media_local_img'] = $local_img_url;
+  }
   
   $extra_data['saved_media']['processing_time_sec'] = time() - REQUEST_TIME;
   
