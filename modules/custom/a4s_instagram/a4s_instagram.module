@@ -4354,6 +4354,8 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
       ->condition('own_user_uid_local', $own_user_data->uid)
       ->execute()->fetchField();
     
+    $media_type = $result['is_video'] ? 1 : ($result['__typename'] == 'GraphSidecar' ? 2 : NULL);
+    
     if ($media_is_in_db_already) {
         $skipped_or_updated++;
         
@@ -4364,6 +4366,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
         // We can update something
         db_update('a4s_insta_own_accounts_saved_medias')
           ->fields(array(
+              'type_video' => $media_type, 
               'media_caption' => $caption,
               'media_caption_access' => $caption_access,
               'display_url' => $image_name, //$result['display_url'],
@@ -4377,7 +4380,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     else {
         $media = array(
           'own_user_uid_local' => $own_user_data->uid,
-          'type_video' => $result['is_video'] ? 1 : NULL,
+          'type_video' => $media_type, //$result['is_video'] ? 1 : NULL,
           'media_id' => $result['id'],
           'media_caption' => $caption,
           'media_caption_access' => $caption_access,
@@ -4426,6 +4429,10 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $insta_page_url = "https://www.instagram.com/p/{$results[$fetched_count-1]['node']['shortcode']}/";
     $insta_page_url = '<a href="'. $insta_page_url . '">' . $insta_page_url . '</a>';
     $extra_data['saved_media']['current_last_media_insta_page'] = $insta_page_url;
+    // Has several medias
+    if ($results[$fetched_count-1]['node']['__typename'] == 'GraphSidecar') {
+      $extra_data['saved_media']['current_last_media_has_several_medias'] = 'YES';
+    }
   }
   
   $extra_data['saved_media']['processing_time_sec'] = time() - REQUEST_TIME;
