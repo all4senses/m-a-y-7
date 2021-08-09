@@ -4432,6 +4432,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     // Has several medias
     if ($results[$fetched_count-1]['node']['__typename'] == 'GraphSidecar') {
       $extra_data['saved_media']['current_last_media_has_several_medias'] = 'YES';
+      $extra_data['saved_media']['current_last_media_data'] = $results[$fetched_count-1]['node'];
     }
   }
   
