@@ -4416,10 +4416,16 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   //$extra_data['saved_media']['current_last_media'] = $fetched_count ? $medias[$fetched_count-1]['shortcode'] : NULL;
   $extra_data['saved_media']['current_last_media'] = $fetched_count ? $results[$fetched_count-1]['node']['shortcode'] : NULL;
   if ($fetched_count) {
+    // Local image link
     // http://a4s-local.m-a-y-7.ru/f/insta_media/aluizio_foto_B7xE9GIpDF2.jpg
     $local_img_url = 'http://a4s-local.m-a-y-7.ru/f/insta_media/' . $results[$fetched_count-1]['node']['owner_username'] . '_' . $results[$fetched_count-1]['node']['shortcode'] . '.jpg';
     $local_img_url = '<a href="'. $local_img_url . '">' . $local_img_url . '</a>';
     $extra_data['saved_media']['current_last_media_local_img'] = $local_img_url;
+    // Original instagram page link
+    // https://www.instagram.com/p/Bnzg0g9HvR0/
+    $insta_page_url = "https://www.instagram.com/p/{$results[$fetched_count-1]['node']['shortcode']}/";
+    $insta_page_url = '<a href="'. $insta_page_url . '">' . $insta_page_url . '</a>';
+    $extra_data['saved_media']['current_last_media_insta_page'] = $insta_page_url;
   }
   
   $extra_data['saved_media']['processing_time_sec'] = time() - REQUEST_TIME;
