@@ -4436,6 +4436,13 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
       $extra_data['saved_media']['current_last_media_has_several_medias'] = 'YES';
       //$extra_data['saved_media']['current_last_media_data'] = $results[$last_index]['node'];
       $extra_data['saved_media']['current_last_media_shortcode'] = $results[$last_index]['node']['shortcode'];
+      
+      // Show all shortcodes by index
+      $indexes_map = [];
+      foreach ($results as $index_key => $index_data) {
+        $indexes_map[$index_key] = $index_data['node']['shortcode'];
+      }
+      $extra_data['saved_media']['current_media_indexes'] = $indexes_map;
     }
   }
   
