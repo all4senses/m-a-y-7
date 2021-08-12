@@ -4433,7 +4433,6 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $extra_data['saved_media']['current_last_media_insta_page'] = $insta_page_url;
     
     // Has several medias
-    unset($extra_data['saved_media']['current_last_media_data']);
     if ($results[$last_index]['node']['__typename'] == 'GraphSidecar') {
       $extra_data['saved_media']['current_last_media_has_several_medias'] = 'YES';
       ///////$extra_data['saved_media']['current_last_media_data'] = $results[$last_index]['node'];
@@ -4445,6 +4444,9 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
         $indexes_map[$index_key] = $index_data['node']['shortcode'];
       }
       $extra_data['saved_media']['current_media_indexes'] = $indexes_map;
+    }
+    else {
+      unset($extra_data['saved_media']['current_last_media_data'], $extra_data['saved_media']['current_last_media_has_several_medias'], $extra_data['saved_media']['current_last_media_shortcode'], $extra_data['saved_media']['current_media_indexes']);
     }
     
   }
