@@ -4329,7 +4329,8 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $updated = 0;
   $skipped = 0;
   $added = 0;
-  foreach ($results as &$result) {
+  $last_downloaded_key = -1;
+  foreach ($results as $result_key => &$result) {
     $result = &$result['node'];
     
     if (empty($result['id'])) {
@@ -4345,6 +4346,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $file_local_abs = DRUPAL_ROOT . $image_name;
     if (!file_exists($file_local_abs)) {
       $already_downloaded = FALSE;
+      $last_downloaded_key = $result_key;
       a4s_insta_curl_file_from_remote_site_likeBrowser($result['display_url'], $file_local_abs, FALSE, $downloaded);
       if ($downloaded) {
         $extra_data['saved_media']['total_downloaded']++;
@@ -4467,7 +4469,35 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
   //$extra_data['saved_media']['current_last_media'] = $fetched_count ? $medias[$fetched_count-1]['shortcode'] : NULL;
   $extra_data['saved_media']['current_last_media'] = $fetched_count ? $results[$last_index]['node']['shortcode'] : NULL;
+  
+  
+  if ($last_downloaded_key >= 0) {
+    // Last downloaded links
+    // Local image link
+    // http://a4s-local.m-a-y-7.ru/f/insta_media/aluizio_foto_B7xE9GIpDF2.jpg
+    $local_img_url = 'http://a4s-local.m-a-y-7.ru/f/insta_media/' . $results[$last_downloaded_key]['node']['owner_username'] . '_' . $results[$last_downloaded_key]['node']['shortcode'] . '.jpg';
+    $local_img_url = '<a href="'. $local_img_url . '">' . $local_img_url . '</a>';
+    $extra_data['saved_media']['current_last_DOWNLOADED_media_local_img'] = $local_img_url;
+    // Original instagram page link
+    // https://www.instagram.com/p/Bnzg0g9HvR0/
+    $insta_page_url = "https://www.instagram.com/p/{$results[$last_downloaded_key]['node']['shortcode']}/";
+    $insta_page_url = '<a href="'. $insta_page_url . '">' . $insta_page_url . '</a>';
+    $extra_data['saved_media']['current_last_DOWNLOADED_media_insta_page'] = $insta_page_url;
+    
+    // Has several medias
+    if ($results[$last_downloaded_key]['node']['__typename'] == 'GraphSidecar') {
+      $extra_data['saved_media']['current_last_DOWNLOADED_media_has_several_medias'] = 'YES';
+      ///////$extra_data['saved_media']['current_last_media_data'] = $results[$last_index]['node'];
+      $extra_data['saved_media']['current_last_DOWNLOADED_media_shortcode'] = $results[$last_downloaded_key]['node']['shortcode'];
+    }
+    else {
+      unset($extra_data['saved_media']['current_last_DOWNLOADED_media_data'], $extra_data['saved_media']['current_last_DOWNLOADED_media_has_several_medias']);
+    }
+  }
+  
   if ($fetched_count) {
+    // Last fetched links
+
     // Local image link
     // http://a4s-local.m-a-y-7.ru/f/insta_media/aluizio_foto_B7xE9GIpDF2.jpg
     $local_img_url = 'http://a4s-local.m-a-y-7.ru/f/insta_media/' . $results[$last_index]['node']['owner_username'] . '_' . $results[$last_index]['node']['shortcode'] . '.jpg';
@@ -4486,11 +4516,11 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
       $extra_data['saved_media']['current_last_media_shortcode'] = $results[$last_index]['node']['shortcode'];
       
       // Show all shortcodes by index
-      $indexes_map = [];
-      foreach ($results as $index_key => $index_data) {
-        $indexes_map[$index_key] = $index_data['node']['shortcode'];
-      }
-      $extra_data['saved_media']['current_media_indexes'] = $indexes_map;
+      //$indexes_map = [];
+      //foreach ($results as $index_key => $index_data) {
+      //  $indexes_map[$index_key] = $index_data['node']['shortcode'];
+      //}
+      //$extra_data['saved_media']['current_media_indexes'] = $indexes_map;
     }
     else {
       unset($extra_data['saved_media']['current_last_media_data'], $extra_data['saved_media']['current_last_media_has_several_medias'], $extra_data['saved_media']['current_last_media_shortcode'], $extra_data['saved_media']['current_media_indexes']);
