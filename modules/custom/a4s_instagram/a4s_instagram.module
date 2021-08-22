@@ -1690,7 +1690,7 @@ function a4s_insta_instagramCurlPage__withCookies($url, $cookies_str){
 /**
  * Get a picture from a remote server.
  */
-function a4s_insta_curl_file_from_remote_site_likeBrowser($url, $file_local_abs = NULL, $return_content = FALSE)
+function a4s_insta_curl_file_from_remote_site_likeBrowser($url, $file_local_abs = NULL, $return_content = FALSE, &$success = FALSE)
 {
 	
     $curl = curl_init();
@@ -1730,6 +1730,7 @@ function a4s_insta_curl_file_from_remote_site_likeBrowser($url, $file_local_abs 
     $data = curl_exec($curl);
 
     if ($data === false) {
+      $success = FALSE;
       $data = curl_error($curl);
       // close the connection
       curl_close($curl);
@@ -1741,6 +1742,9 @@ function a4s_insta_curl_file_from_remote_site_likeBrowser($url, $file_local_abs 
         return $data;
       }
     }
+    else {
+      $success = TRUE;
+    }
 
     // close the connection
     curl_close($curl);
@@ -1751,9 +1755,9 @@ function a4s_insta_curl_file_from_remote_site_likeBrowser($url, $file_local_abs 
     }
     else {
       // write content to a file
-      file_put_contents($file_local_abs, $data);
+      $success = file_put_contents($file_local_abs, $data);
 
-      return null; //OK
+      return !$success; // null = OK
     }
 }
 
@@ -4262,6 +4266,8 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $extra_data = array(
       'saved_media' => array(
         'total_fetched' => NULL,
+        'skipped_or_updated' => NULL,
+        'total_skipped_or_updated' => NULL,
         'fetched_last_time' => NULL,
         'current_end_cursor' => NULL,
         'last_end_cursor' => NULL,
@@ -4277,6 +4283,13 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   
   $extra_data['saved_media']['previous_last_media'] = !empty($extra_data['saved_media']['previous_last_media']) ? $extra_data['saved_media']['previous_last_media'] : NULL;
   $extra_data['saved_media']['current_last_media'] = !empty($extra_data['saved_media']['current_last_media']) ? $extra_data['saved_media']['current_last_media'] : NULL;
+  
+  $extra_data['saved_media']['total_downloaded'] = !empty($extra_data['saved_media']['total_downloaded']) ? $extra_data['saved_media']['total_downloaded'] : NULL;
+  $extra_data['saved_media']['total_downloaded_th'] = !empty($extra_data['saved_media']['total_downloaded_th']) ? $extra_data['saved_media']['total_downloaded_th'] : NULL;
+  
+  $extra_data['saved_media']['total_skipped_or_updated'] = !empty($extra_data['saved_media']['total_skipped_or_updated']) ? $extra_data['saved_media']['total_skipped_or_updated'] : NULL;
+  $extra_data['saved_media']['skipped_or_updated'] = !empty($extra_data['saved_media']['skipped_or_updated']) ? $extra_data['saved_media']['skipped_or_updated'] : NULL;
+  
   
   $end_cursor = $extra_data['saved_media']['current_end_cursor'];
       
@@ -4327,13 +4340,19 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $image_name = "/f/insta_media/{$owner_username}_{$result['shortcode']}.jpg";
     $file_local_abs = DRUPAL_ROOT . $image_name;
     if (!file_exists($file_local_abs)) {
-      a4s_insta_curl_file_from_remote_site_likeBrowser($result['display_url'], $file_local_abs);
+      a4s_insta_curl_file_from_remote_site_likeBrowser($result['display_url'], $file_local_abs, FALSE, $downloaded);
+      if ($downloaded) {
+        $extra_data['saved_media']['total_downloaded']++;
+      }
     }
     // Download the thumbnail
     $image_th_name = "/f/insta_media/{$owner_username}_{$result['shortcode']}_th.jpg";
     $file_local_abs = DRUPAL_ROOT . $image_th_name;
     if (!file_exists($file_local_abs)) {
-      a4s_insta_curl_file_from_remote_site_likeBrowser($result['thumbnail_src'], $file_local_abs);
+      a4s_insta_curl_file_from_remote_site_likeBrowser($result['thumbnail_src'], $file_local_abs, FALSE, $downloaded);
+      if ($downloaded) {
+        $extra_data['saved_media']['total_downloaded_th']++;
+      }
     }
     
     $caption = !empty($result['edge_media_to_caption']['edges'][0]['node']['text']) 
@@ -4409,12 +4428,20 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $fetched_count = count($results);
   $last_index = $fetched_count ? $fetched_count - 1 : 0;
   $added_count = count($medias);
-  $extra_data['saved_media']['total_fetched'] += $fetched_count;
+  
+  //$extra_data['saved_media']['total_fetched'] += $fetched_count;
+  $total_in_db = db_select('a4s_insta_own_accounts_saved_medias')->fields(NULL, array('field'))->countQuery()->execute()->fetchField();
+  //$total_in_db = db_select('a4s_insta_own_accounts_saved_medias', 'm')->fields('m', array('mid'))->countQuery()->execute()->fetchField();
+  $added_new_medias = $extra_data['saved_media']['total_fetched'] != $total_in_db ? TRUE : FALSE;
+  $extra_data['saved_media']['total_fetched'] = $total_in_db;
+
+  
   $extra_data['saved_media']['fetched_last_time'] = $fetched_count;
   $extra_data['saved_media']['fetched_last_index'] = $last_index;
   
   $extra_data['saved_media']['added_new'] = $added_count;
   $extra_data['saved_media']['skipped_or_updated'] = $skipped_or_updated;
+  $extra_data['saved_media']['total_skipped_or_updated'] += $skipped_or_updated;
   
   
   $extra_data['saved_media']['previous_last_media'] = $extra_data['saved_media']['current_last_media'];
@@ -4467,7 +4494,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $report_str = 'No new media found.';
   }
   else {
-    $report_str = "TtlNow:{$extra_data['saved_media']['total_fetched']},ftch:$fetched_count,upd:$skipped_or_updated,add:$added_count, data =><pre>" . print_r($extra_data, TRUE) . '</pre>';
+    $report_str = "TtlNow:{$extra_data['saved_media']['total_fetched']}" . ($added_new_medias ? '+' : '') . ",ftch:$fetched_count,upd:$skipped_or_updated,add:$added_count, data =><pre>" . print_r($extra_data, TRUE) . '</pre>';
   }
   watchdog('a4s_insta_get_saved_medias', $report_str);
   if ($return || $dpm) {
