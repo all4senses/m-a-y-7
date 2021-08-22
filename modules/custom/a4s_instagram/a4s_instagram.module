@@ -4491,7 +4491,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
       $extra_data['saved_media']['current_last_DOWNLOADED_media_shortcode'] = $results[$last_downloaded_key]['node']['shortcode'];
     }
     else {
-      unset($extra_data['saved_media']['current_last_DOWNLOADED_media_data'], $extra_data['saved_media']['current_last_DOWNLOADED_media_has_several_medias']);
+      unset($extra_data['saved_media']['current_last_DOWNLOADED_media_local_img'], $extra_data['saved_media']['current_last_DOWNLOADED_media_shortcode'], $extra_data['saved_media']['current_last_DOWNLOADED_media_has_several_medias']);
     }
   }
   
