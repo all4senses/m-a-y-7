@@ -4330,6 +4330,9 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $skipped = 0;
   $added = 0;
   $last_downloaded_key = -1;
+  
+  $local_images_links = [];
+  
   foreach ($results as $result_key => &$result) {
     $result = &$result['node'];
     
@@ -4343,6 +4346,13 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     
     // Download the image
     $image_name = "/f/insta_media/{$owner_username}_{$result['shortcode']}.jpg";
+    
+    
+    // Build array og links to local images, 
+    // to check if images exist locally
+    $local_img_url = 'http://a4s-local.m-a-y-7.ru/f/insta_media/' . $owner_username . '_' . $result['shortcode'] . '.jpg';
+    $local_images_links[$result_key] = '<a href="'. $local_img_url . '">' . $local_img_url . '</a>';
+    
     $file_local_abs = DRUPAL_ROOT . $image_name;
     if (!file_exists($file_local_abs)) {
       $already_downloaded = FALSE;
@@ -4533,6 +4543,8 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   }
   
   $extra_data['saved_media']['processing_time_sec'] = time() - REQUEST_TIME;
+  
+  $extra_data['saved_media']['___all_local_images'] = $local_images_links;
   
   db_update('a4s_insta_own_users')
     ->fields(array('extra_data' => json_encode($extra_data)))
