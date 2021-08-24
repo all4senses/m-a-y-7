@@ -4548,7 +4548,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $report_str = 'No new media found.';
   }
   else {
-    $report_str = "TtlNow:{$extra_data['saved_media']['total_fetched']}" . ($added_new_medias ? '+' : '') . ",ft:$fetched_count,u:$updated,s:$skipped,ad:$added, data =><pre>" . print_r($extra_data, TRUE) . '</pre>';
+    $report_str = ($added_new_medias ? '+++' : '') . "TtlNow:{$extra_data['saved_media']['total_fetched']},ft:$fetched_count,u:$updated,s:$skipped,ad:$added, data =><pre>" . print_r($extra_data, TRUE) . '</pre>';
   }
   watchdog('a4s_insta_get_saved_medias', $report_str);
   if ($return || $dpm) {
