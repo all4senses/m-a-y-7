@@ -4330,6 +4330,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
   $skipped = 0;
   $added = 0;
   $last_downloaded_key = -1;
+  $has_downloads = FALSE;
   
   $local_images_links = [];
   
@@ -4359,6 +4360,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
       $last_downloaded_key = $result_key;
       a4s_insta_curl_file_from_remote_site_likeBrowser($result['display_url'], $file_local_abs, FALSE, $downloaded);
       if ($downloaded) {
+        $has_downloads = TRUE;
         $extra_data['saved_media']['total_downloaded']++;
       }
       
@@ -4560,7 +4562,7 @@ function a4s_insta_getSavedMedias_for_singleOwnAccount($own_account_username, $p
     $report_str = 'No new media found.';
   }
   else {
-    $report_str = ($added_new_medias ? '+++' : '') . "TtlNow:{$extra_data['saved_media']['total_fetched']},ft:$fetched_count,u:$updated,s:$skipped,ad:$added, data =><pre>" . print_r($extra_data, TRUE) . '</pre>';
+    $report_str = ($added_new_medias ? '+++ ' : '') . ($has_downloads ? '*** ' : '') . "TtlNow:{$extra_data['saved_media']['total_fetched']},ft:$fetched_count,u:$updated,s:$skipped,ad:$added, data =><pre>" . print_r($extra_data, TRUE) . '</pre>';
   }
   watchdog('a4s_insta_get_saved_medias' . ($added_new_medias ? ' added' : ''), $report_str);
   if ($return || $dpm) {
