@@ -74,8 +74,7 @@ function closest (num, arr) {
                 
                 sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
                 */
-        
-                sicklightfull = $(this).attr('data-originalpath');
+                sicklightfull = $(this).attr('data-original');
                 
                 $(this).attr('data-sicklightfull', sicklightfull);
             });
