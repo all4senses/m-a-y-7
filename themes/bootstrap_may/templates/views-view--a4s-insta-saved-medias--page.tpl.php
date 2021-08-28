@@ -73,6 +73,14 @@ dpm($variables['view']->result, 'view->result');
       $out = '';
       foreach($variables['view']->result as $media) {
         
+        foreach ($media as $key => $value) {
+          // a4s_insta_own_accounts_saved_medias_display_url
+          $new_key = str_replace('a4s_insta_own_accounts_saved_medias_', '', $key);
+          $media->$new_key = $value;
+          unset($media->{$key});
+        }
+        
+        
         //$imageinfo = getimagesize($image->uri);
         
         // '/f/insta_media/santiagopgm_BkTzi1JBD5t.jpg';
