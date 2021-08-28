@@ -26,6 +26,7 @@
  *
  * @ingroup views_templates
  */
+dpm($variables, '$variables XXX');
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
