@@ -169,6 +169,9 @@ dpm($variables['view']->result, 'view->result');
       }
       $out = '<div class="masonry-items grid" id="grid">' . $out . '</div>';
       
+      print $out;
+      
+      
       
       
       print '<div style="margin-top: 40px">' . $rows . '</div>'; 
