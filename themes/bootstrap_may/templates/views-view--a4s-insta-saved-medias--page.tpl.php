@@ -54,7 +54,65 @@ dpm($variables['view']->result, 'view->result');
 
   <?php if ($rows): ?>
     <div class="view-content">
-      <?php print $rows; ?>
+      <?php 
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      $out = '';
+      foreach($variables['view']->result as $media) {
+        
+        //$imageinfo = getimagesize($image->uri);
+        
+        // '/f/insta_media/santiagopgm_BkTzi1JBD5t.jpg';
+        $url = str_replace('/f/', 'public://', $image->display_url);
+        $url =  drupal_realpath($url);
+        $imageinfo = getimagesize($url);
+        
+        $media->i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
+        $media->i_dimensions_str = $imageinfo[3];
+
+        //$media->image_path_original = str_replace('public://', '/f/', $image->uri);
+        //list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
+        
+        //data-original will be refined in js according to the current picture size
+        $out .= '<div class="masonry-item" style="background:' . $media->i_maincolor . ';">'
+                //. '<img data-originalpath="/' . $media->image_path_public . '" data-iaspect="' . $media->i_aspect . '" ' . $media->i_dimensions_str . ' class="masonry-item-img" data-original="' . $media->image_path_original . '"/>'
+                . '<img '
+                      //. 'data-originalpath="/' . $media->image_path_public . '" '
+                      . 'data-originalpath="/' . $media->display_url . '" '
+                      //. 'data-original="' . $media->image_path_original . '"'
+                      . 'data-original="' . $media->display_url . '"'
+                      . 'data-iaspect="' . $media->i_aspect . '" ' 
+                      . $media->i_dimensions_str 
+                      . ' class="masonry-item-img" '
+                      
+                . '/>'
+                . '<div class="info">'
+                  //. '<div class="link">' . l('Пx', 'node/' . $media->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $media->title, 'target' => '_blank'))) . '</div>'
+                  . '<div class="link">' . l('Пx', 'node/' . 1, array('attributes' => array('title' =>  'Открыть проект: ' . $media->shortcode, 'target' => '_blank'))) . '</div>'
+                . '</div>'
+              . '</div>';
+      }
+      $out = '<div class="masonry-items grid" id="grid">' . $out . '</div>';
+      
+      
+      
+      print '<div style="margin-top: 40px">' . $rows . '</div>'; 
+      
+      
+      ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
