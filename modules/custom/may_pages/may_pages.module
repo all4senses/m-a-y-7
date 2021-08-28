@@ -148,6 +148,34 @@ function may_pages_preprocess_page($variables) {
   // Add the Mansory functionality to a4s-insta saved medias views page
   if ($_GET['q'] == 'a4s-insta-saved-medias') {
     
+    drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick/slick.js');
+    drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
+    drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
+
+    $styles = array('350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', '1200' => '1200w');
+    //static $slick_lightbox_source_data;
+    //if (!isset($slick_lightbox_source_data)) 
+    {
+      $slick_lightbox_source_data = array(
+        // Add New Allowed Content attributes to tags in CKEditor
+        'slick_lightbox_source_data' => array('sizes' => array_keys($styles)),
+      );
+      drupal_add_js($slick_lightbox_source_data, array('type' => 'setting'));
+    }
+    drupal_add_js('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.min.js');
+    drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick-lightbox/dist/slick-lightbox.css', array('weight' => 99, 'group' => 200));
+
+    
+    
+    drupal_add_js('sites/all/libraries/jquery.plugins/masonry/dist/masonry.pkgd.min.js');
+    drupal_add_js('sites/all/libraries/jquery.plugins/masonry-extra/imagesloaded.pkgd.min.js');
+    drupal_add_js('sites/all/libraries/jquery.plugins/jquery_lazyload/jquery.lazyload.min.js');
+
+  //  drupal_add_js('sites/all/libraries/jquery.plugins/masonry-extra/grid_loading_effects/js/AnimOnScroll.js');
+  //  drupal_add_css('sites/all/libraries/jquery.plugins/masonry-extra/grid_loading_effects/css/component.css', array('weight' => 99, 'group' => 200));
+  //  drupal_add_css('sites/all/libraries/jquery.plugins/masonry-extra/grid_loading_effects/css/default.css', array('weight' => 99, 'group' => 200));
+
+    drupal_add_js(drupal_get_path('module', 'may_pages') . '/js/may_masonry.js');
   }
 }
 
@@ -467,7 +495,7 @@ function may_pages_get_project_types() {
 
 
 require_once 'sites/all/vendor/autoload.php';
-use \ColorThief\ColorThief;
+//use \ColorThief\ColorThief;
 /**
  * 
  * @param type $project_type
@@ -581,7 +609,10 @@ function may_pages_get_pictures_by_type() {
         else {
           //dpm('Used styled (small) image one for fid: ' . $image->fid);
         }
-        $dominantColor = ColorThief::getColor($sourceImage);
+        
+        //$dominantColor = ColorThief::getColor($sourceImage);
+        $dominantColor = \ColorThief\ColorThief::getColor($sourceImage);
+        
         if(!empty($dominantColor)) {
           $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
           $results[$key]->i_maincolor = $hex;
