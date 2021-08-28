@@ -171,7 +171,15 @@ function a4s_instagram_menu() {
             'menu_name' => 'main-menu',
             'type' => MENU_NORMAL_ITEM,
           );
-        }        
+        }      
+        
+    $items['insta/saved-media'] = array(
+      'title' => t('Saved media'),
+      'page callback' => 'a4s_instagram_stub_page',
+      'access callback' => 'user_is_logged_in',
+      'menu_name' => 'main-menu',
+      'type' => MENU_NORMAL_ITEM,
+    ); 
   
   $items['settings'] = array(
     'title' => t('Settings'),
