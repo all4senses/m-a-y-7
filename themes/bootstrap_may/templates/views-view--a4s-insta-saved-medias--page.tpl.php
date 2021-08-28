@@ -80,7 +80,7 @@
         if (!empty($media->extra_data['i_asp'])) {
           $media->i_aspect = $media->extra_data['i_asp'];
           $media->i_dimensions_str = $media->extra_data['i_dim'];
-          $media->i_maincolor = $media->extra_data['i_col'];
+          $media->i_maincolor = !empty($media->extra_data['i_col']) ? $media->extra_data['i_col'] : NULL;
         }
         else {
           
@@ -95,6 +95,7 @@
           
           
           // Get the main color of the image
+          /*
           $closest_style_width = '350';
           $sourceImage = 'f/styles/' . $closest_style_width . '/public/' . $media->image_path_public;
           if (!file_exists($sourceImage)) {
@@ -124,6 +125,7 @@
             //Set a default color.
             $media->i_maincolor = 'rgb(219, 212, 209)';
           }
+          */
           
           
           
@@ -142,7 +144,9 @@
         } // End of if (empty($image->extra_data)) {
 
       
-      
+        if (empty($media->i_maincolor)) {
+          $media->i_maincolor = 'rgb(219, 212, 209)';
+        }
       
       
         
