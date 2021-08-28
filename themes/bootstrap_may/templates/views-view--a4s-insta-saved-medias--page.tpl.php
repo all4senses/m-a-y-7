@@ -76,10 +76,11 @@ dpm($variables['view']->result, 'view->result');
         foreach ($media as $key => $value) {
           // a4s_insta_own_accounts_saved_medias_display_url
           $new_key = str_replace('a4s_insta_own_accounts_saved_medias_', '', $key);
-          $media->$new_key = $value;
+          $media->{$new_key} = $value;
           unset($media->{$key});
         }
         
+        dpm($media, '$media');
         
         //$imageinfo = getimagesize($image->uri);
         
