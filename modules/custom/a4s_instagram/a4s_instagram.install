@@ -1013,6 +1013,21 @@ function a4s_instagram_schema() {
         'not null' => FALSE,
         'default' => NULL,
       ),
+        
+      'media_caption_access' => array(
+        'description' => 'Additional caption of a media',
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'extra_data' => array(
+        'description' => 'Extra data, like an additional calculated image attributes, etc. JSON encoded',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
 
     ),
     'indexes' => array(
@@ -1256,4 +1271,25 @@ function a4s_instagram_update_7023() {
    $thumbnail = $schema['a4s_insta_clicks_by_tag']['fields']['thumbnail'];
    db_change_field('a4s_insta_clicks_by_tag', 'thumbnail', 'thumbnail', $thumbnail, array());
  }
+}
+
+
+/**
+ * Add new field extra_data to a4s_insta_own_accounts_saved_medias.
+ */
+function a4s_instagram_update_7024() {
+  if (!db_field_exists('a4s_insta_own_accounts_saved_medias', 'extra_data')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_own_accounts_saved_medias', 'extra_data', $schema['a4s_insta_own_accounts_saved_medias']['fields']['extra_data']);
+  }
+}
+
+/**
+ * Add new field media_caption_access to a4s_insta_own_accounts_saved_medias.
+ */
+function a4s_instagram_update_7025() {
+  if (!db_field_exists('a4s_insta_own_accounts_saved_medias', 'media_caption_access')) {
+    $schema = a4s_instagram_schema();
+    db_add_field('a4s_insta_own_accounts_saved_medias', 'media_caption_access', $schema['a4s_insta_own_accounts_saved_medias']['fields']['media_caption_access']);
+  }
 }

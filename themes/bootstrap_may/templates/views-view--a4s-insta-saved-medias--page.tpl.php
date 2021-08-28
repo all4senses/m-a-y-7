@@ -68,7 +68,15 @@ dpm($variables['view']->result, 'view->result');
       
       
       
-      
+      if (!isset($variables['view']->result[0]->extra_data)) {
+        $mids = array_keys($variables['view']->result);
+        $query = db_select('a4s_insta_own_accounts_saved_medias', 'm');
+          $query->condition('m.mid', $mids, 'IN');
+          $query->fields('a', 'mid', 'extra_data');
+          if($result = $query->execute()->fetchObject()) {
+            
+          }
+      }
       
       $out = '';
       foreach($variables['view']->result as $media) {
