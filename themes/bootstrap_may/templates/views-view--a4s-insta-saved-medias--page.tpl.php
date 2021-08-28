@@ -72,7 +72,7 @@
         
         $media->image_path_original = $media->display_url;
         list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
-        $media->image_path_original = str_replace('/f/', 'f/', $media->image_path_original);
+        //$media->image_path_original = str_replace('/f/', 'f/', $media->image_path_original);
         
         
         $media->extra_data = !empty($media->extra_data) ? json_decode($media->extra_data, TRUE) : [];
