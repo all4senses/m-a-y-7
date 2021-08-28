@@ -80,7 +80,7 @@ dpm($variables['view']->result, 'view->result');
           //unset($media->{$key});
         }
         
-        dpm($media, '$media');
+        //dpm($media, '$media');
         
         //$imageinfo = getimagesize($image->uri);
         
