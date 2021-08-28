@@ -148,10 +148,7 @@
           $media->i_maincolor = 'rgb(219, 212, 209)';
         }
       
-      
-        
-        
-        
+       
         
         //data-original will be refined in js according to the current picture size
         $out .= '<div class="masonry-item" style="background:' . $media->i_maincolor . ';">'
@@ -166,7 +163,7 @@
                 . '/>'
                 . '<div class="info">'
                   //. '<div class="link">' . l('Пx', 'node/' . $media->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $media->title, 'target' => '_blank'))) . '</div>'
-                  . '<div class="link">' . l('Пx', 'node/' . 1, array('attributes' => array('title' =>  'Открыть проект: ' . $media->shortcode, 'target' => '_blank'))) . '</div>'
+                  . '<div class="link">' . l('Пx', $media->display_url, array('attributes' => array('title' =>  'Открыть проект: ' . $media->shortcode, 'target' => '_blank'))) . '</div>'
                 . '</div>'
               . '</div>';
       }
