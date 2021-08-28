@@ -52,11 +52,11 @@ function closest (num, arr) {
             $('.masonry-items img').each(function(index, value){
                 // Find out and set a current more appropriate size image url
                
-                /*
+                
                 closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
                 current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
                 $(this).attr('data-original', current_size_url);
-                /*
+                
                 
                 // Find out and set an image url for full screen slick lightbox slideshow
                 /*
@@ -74,6 +74,8 @@ function closest (num, arr) {
                 
                 sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
                 */
+               
+                // Do not use styles, always show full image
                 sicklightfull = $(this).attr('data-original');
                 
                 $(this).attr('data-sicklightfull', sicklightfull);
