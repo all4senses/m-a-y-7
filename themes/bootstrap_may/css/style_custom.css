@@ -636,10 +636,28 @@ footer {
   position: absolute;
   bottom: 5px;
   right: 5px;
-  background: gray;
-  width: 20px;
+  
+  /* A$S MANUAL */
+  /*background: gray;*/
+  /*width: 20px;*/
+  
+  
   padding: 0 5px;
+    
+  /* A$S MANUAL */
+  text-align: right;
 }
+
+/* A$S MANUAL */
+.masonry-items .masonry-item .info .link {
+    background: lightgray;
+    opacity: 0.7;
+}
+.masonry-items .masonry-item .info .owner {
+    background: red;
+    color: white;
+}
+
 /* line 166, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item .info .link a {
   color: white;
