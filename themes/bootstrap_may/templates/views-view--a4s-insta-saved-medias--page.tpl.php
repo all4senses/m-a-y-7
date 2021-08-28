@@ -93,7 +93,60 @@ dpm($variables['view']->result, 'view->result');
         $media->i_dimensions_str = $imageinfo[3];
 
         //$media->image_path_original = str_replace('public://', '/f/', $image->uri);
+        $media->image_path_original = $media->display_url;
         //list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
+        list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
+        
+        
+        
+        
+        
+        
+        
+        
+        if (empty($media->i_maincolor)) {
+        
+          $closest_style_width = '350';
+          $sourceImage = 'f/styles/' . $closest_style_width . '/public/' . $media->image_path_public;
+          if (!file_exists($sourceImage)) {
+            // If styled file does not yet exist, use the original file.
+            $sourceImage = 'f/' . $media->image_path_public;
+            //dpm('Not existed styled image, used original one for fid: ' . $image->fid);
+          }
+          else {
+            //dpm('Used styled (small) image one for fid: ' . $image->fid);
+          }
+
+          //$dominantColor = ColorThief::getColor($sourceImage);
+          $dominantColor = \ColorThief\ColorThief::getColor($sourceImage);
+
+          if(!empty($dominantColor)) {
+            $hex = '#' . sprintf('%02x', $dominantColor[0]) . sprintf('%02x', $dominantColor[1]) . sprintf('%02x', $dominantColor[2]);
+            $media->i_maincolor = $hex;
+
+            // Save just found color to DB.
+            // ...
+            // ...
+            
+            
+          } // End of if(!empty($dominantColor)) {
+          else {
+            //dpm('Error creating maincolor for fid: ' . $image->fid . '... using the default one');
+            //Set a default color.
+            $media->i_maincolor = 'rgb(219, 212, 209)';
+          }
+
+        } // End of if (empty($image->i_maincolor)) {
+        else {
+          //dpm('Main color is set for fid: ' . $image->fid);
+        }
+      
+      
+      
+      
+        
+        
+        
         
         //data-original will be refined in js according to the current picture size
         $out .= '<div class="masonry-item" style="background:' . $media->i_maincolor . ';">'
