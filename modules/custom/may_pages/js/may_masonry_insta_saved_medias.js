@@ -55,10 +55,8 @@ function closest (num, arr) {
                 /*
                 closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
                 current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                */
-                current_size_url = $(this).attr('data-originalpath');
-                
                 $(this).attr('data-original', current_size_url);
+                /*
                 
                 // Find out and set an image url for full screen slick lightbox slideshow
                 /*
