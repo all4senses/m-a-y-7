@@ -26,7 +26,6 @@
  *
  * @ingroup views_templates
  */
-dpm($variables['view']->result, 'view->result');
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -56,27 +55,7 @@ dpm($variables['view']->result, 'view->result');
     <div class="view-content">
       <?php 
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-//      if (!isset($variables['view']->result[0]->extra_data)) {
-//        $mids = array_keys($variables['view']->result);
-//        $query = db_select('a4s_insta_own_accounts_saved_medias', 'm');
-//          $query->condition('m.mid', $mids, 'IN');
-//          $query->fields('a', 'mid', 'extra_data');
-//          if($result = $query->execute()->fetchObject()) {
-//            
-//          }
-//      }
+      //dpm($variables['view']->result, 'view->result');
       
       $out = '';
       foreach($variables['view']->result as $media) {
