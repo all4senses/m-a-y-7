@@ -76,7 +76,7 @@ dpm($variables['view']->result, 'view->result');
         //$imageinfo = getimagesize($image->uri);
         
         // '/f/insta_media/santiagopgm_BkTzi1JBD5t.jpg';
-        $url = str_replace('/f/', 'public://', $image->display_url);
+        $url = str_replace('/f/', 'public://', $media->display_url);
         $url =  drupal_realpath($url);
         $imageinfo = getimagesize($url);
         
