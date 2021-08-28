@@ -84,7 +84,7 @@
               $out .= '<div class="masonry-item" style="background:' . $image->i_maincolor . ';">'
                       . '<img data-originalpath="/' . $image->image_path_public . '" data-iaspect="' . $image->i_aspect . '" ' . $image->i_dimensions_str . ' class="masonry-item-img" data-original="' . $image->image_path_original . '"/>'
                       . '<div class="info">'
-                        . '<div class="link">' . l('П', 'node/' . $image->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $image->title, 'target' => '_blank'))) . '</div>'
+                        . '<div class="link">' . l('Пx', 'node/' . $image->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $image->title, 'target' => '_blank'))) . '</div>'
                       . '</div>'
                     . '</div>';
               
