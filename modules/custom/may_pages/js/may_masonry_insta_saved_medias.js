@@ -71,7 +71,6 @@ function closest (num, arr) {
                 $(this).attr('data-sicklightfull', sicklightfull);
                 */
                
-               
                 // OR
                
                 // Do not use styles, always show full image for full screen slick lightbox slideshow
@@ -79,7 +78,9 @@ function closest (num, arr) {
                 $(this).attr('data-sicklightfull', sicklightfull);
                 
                 
-                // Find out and set a current more appropriate size image url
+                
+                // FOR THUMBNAILS
+                // Find out and set a current more appropriate size image url 
                 closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
                 current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
                 $(this).attr('data-original', current_size_url);
@@ -135,12 +136,7 @@ function closest (num, arr) {
                 var sicklightfull, closest_style_width, newWidth, newHeight;
 
                 $('.masonry-items img').each(function(index, value){
-                    // Find out and set a current more appropriate size image url
-
-//                    closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
-//                    current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-//                    $(this).attr('data-original', current_size_url);
-
+                    
                     // Find out and set an image url for full screen slick lightbox slideshow
                     /*
                     var i_aspect = $(this).attr('data-iaspect');
@@ -156,11 +152,25 @@ function closest (num, arr) {
                     closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
 
                     sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                    */
-                    
-                    sicklightfull = $(this).attr('data-original');
                     
                     $(this).attr('data-sicklightfull', sicklightfull);
+                    */
+                   
+                    // OR
+                   
+                    // Do not use styles, always show full image for full screen slick lightbox slideshow
+                    sicklightfull = $(this).attr('data-original');
+                    $(this).attr('data-sicklightfull', sicklightfull);
+                    
+                    
+                    
+                    // Find out and set a current more appropriate size image url
+                    /*
+                    closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
+                    current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                    $(this).attr('data-original', current_size_url);
+                    */
+                    
                 });
             }
         
