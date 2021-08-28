@@ -166,7 +166,8 @@
                   //. '<div class="link">' . l('Пx', 'node/' . $media->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $media->title, 'target' => '_blank'))) . '</div>'
                   ////. '<div class="link">' . l('Пx', $media->display_url, array('attributes' => array('title' =>  'Открыть проект: ' . $media->shortcode, 'target' => '_blank'))) . '</div>'
                   . '<div class="link">' . l('S', $media->display_url, array('attributes' => array('title' =>  'Show: ' . $media->media_caption/*, 'target' => '_blank'*/))) . '</div>'
-                . '<div class="link">' . l('O', $_GET['q'], array('query' => array('owner_username' => $media->owner_username), 'attributes' => array('title' =>  'Owner: ' . $media->owner_username/*, 'target' => '_blank'*/))) . '</div>'
+                  . '<div class="link">' . l('O', $_GET['q'], array('query' => array('owner_username' => $media->owner_username), 'attributes' => array('title' =>  'Owner: ' . $media->owner_username/*, 'target' => '_blank'*/))) . '</div>'
+                  . '<div class="link">' . $media->owner_username . '</div>'
                 . '</div>'
               . '</div>';
       }
