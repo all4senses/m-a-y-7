@@ -94,12 +94,12 @@ dpm($variables['view']->result, 'view->result');
 
         //$media->image_path_original = str_replace('public://', '/f/', $image->uri);
         
-        //$media->image_path_original = $media->display_url;
-        $media->image_path_original = str_replace('/f/', 'f/', $media->display_url);
+        $media->image_path_original = $media->display_url;
+        
         
         //list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
         list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
-        
+        $media->image_path_original = str_replace('/f/', 'f/', $media->image_path_original);
         
         
         
