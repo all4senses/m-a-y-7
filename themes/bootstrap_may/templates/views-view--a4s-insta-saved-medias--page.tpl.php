@@ -104,8 +104,8 @@ dpm($variables['view']->result, 'view->result');
         
         
         
-        dpm($media, '$media');
-        return;
+        //dpm($media, '$media');
+        //return;
         
         
         if (empty($media->i_maincolor)) {
