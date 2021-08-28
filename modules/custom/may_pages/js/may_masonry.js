@@ -16,7 +16,7 @@ function closest (num, arr) {
     Drupal.behaviors.may_masonry = {
         attach: function (context, settings) {
 
-            console.log('may_masonry.....');
+            //console.log('may_masonry.....');
             
             var $grid = $('.masonry-items').masonry({
                 // options...
