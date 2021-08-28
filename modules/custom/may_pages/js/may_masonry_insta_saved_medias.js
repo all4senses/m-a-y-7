@@ -74,16 +74,16 @@ function closest (num, arr) {
                 // OR
                
                 // Do not use styles, always show full image for full screen slick lightbox slideshow
-                sicklightfull = $(this).attr('data-original');
+                sicklightfull = $(this).attr('data-saveoriginal');
                 $(this).attr('data-sicklightfull', sicklightfull);
                 
                 
                 
                 // FOR THUMBNAILS
                 // Find out and set a current more appropriate size image url 
-                closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
-                current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                $(this).attr('data-original', current_size_url);
+//                closest_style_width = closest($(this).parent().width(), Drupal.settings.slick_lightbox_source_data.sizes);
+//                current_size_url = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+//                $(this).attr('data-original', current_size_url);
 
             });
             
@@ -159,7 +159,7 @@ function closest (num, arr) {
                     // OR
                    
                     // Do not use styles, always show full image for full screen slick lightbox slideshow
-                    sicklightfull = $(this).attr('data-original');
+                    sicklightfull = $(this).attr('data-saveoriginal');
                     $(this).attr('data-sicklightfull', sicklightfull);
                     
                     
