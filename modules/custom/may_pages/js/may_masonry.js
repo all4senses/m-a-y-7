@@ -47,7 +47,7 @@ function closest (num, arr) {
             var w_width = jQuery(window).width();
             var w_height = jQuery(window).height();
             var w_aspect = w_height/w_width;
-            var sicklightfull, current_size_url, closest_style_width, newWidth, newHeight;
+            var slicklightfull, current_size_url, closest_style_width, newWidth, newHeight;
             
             $('.masonry-items img').each(function(index, value){
                 // Find out and set a current more appropriate size image url
@@ -69,8 +69,8 @@ function closest (num, arr) {
                 //closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
                 closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
                 
-                sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                $(this).attr('data-sicklightfull', sicklightfull);
+                slicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                $(this).attr('data-slicklightfull', slicklightfull);
             });
             
             
@@ -97,8 +97,8 @@ function closest (num, arr) {
             
             
             jQuery('.masonry-items').slickLightbox({
-                src: 'data-sicklightfull', // 'src',
-                itemSelector: 'img[data-sicklightfull]'
+                src: 'data-slicklightfull', // 'src',
+                itemSelector: 'img[data-slicklightfull]'
             }).addClass('slick_lightbox');
 
           
@@ -119,7 +119,7 @@ function closest (num, arr) {
                 var w_width = jQuery(window).width();
                 var w_height = jQuery(window).height();
                 var w_aspect = w_height/w_width;
-                var sicklightfull, closest_style_width, newWidth, newHeight;
+                var slicklightfull, closest_style_width, newWidth, newHeight;
 
                 $('.masonry-items img').each(function(index, value){
                     // Find out and set a current more appropriate size image url
@@ -141,8 +141,8 @@ function closest (num, arr) {
                     //closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
                     closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
 
-                    sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                    $(this).attr('data-sicklightfull', sicklightfull);
+                    slicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                    $(this).attr('data-slicklightfull', slicklightfull);
                 });
             }
         

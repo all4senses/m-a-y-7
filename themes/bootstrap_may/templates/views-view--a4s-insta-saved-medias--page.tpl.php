@@ -165,7 +165,7 @@
                 . '<div class="info">'
                   //. '<div class="link">' . l('Пx', 'node/' . $media->nid, array('attributes' => array('title' =>  'Открыть проект: ' . $media->title, 'target' => '_blank'))) . '</div>'
                   ////. '<div class="link">' . l('Пx', $media->display_url, array('attributes' => array('title' =>  'Открыть проект: ' . $media->shortcode, 'target' => '_blank'))) . '</div>'
-                  . '<div class="link">' . l('П', $media->display_url, array('attributes' => array('title' =>  'Открыть проект: ' . $media->shortcode/*, 'target' => '_blank'*/))) . '</div>'
+                  . '<div class="link">' . l('П', $media->display_url, array('attributes' => array('title' =>  'Открыть: ' . $media->media_caption/*, 'target' => '_blank'*/))) . '</div>'
                 . '</div>'
               . '</div>';
       }

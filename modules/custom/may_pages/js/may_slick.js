@@ -218,7 +218,7 @@ function closest (num, arr) {
             var w_height = jQuery(window).height();
             var w_aspect = w_height/w_width;
             
-            var sicklightfull, closest_style_width, newWidth, newHeight;
+            var slicklightfull, closest_style_width, newWidth, newHeight;
             
             $('article:not(.slick_lightbox) img').each(function(index, value){
                 
@@ -234,13 +234,13 @@ function closest (num, arr) {
                 //closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
                 closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
                 
-                sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                $(this).attr('data-sicklightfull', sicklightfull);
+                slicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                $(this).attr('data-slicklightfull', slicklightfull);
             });
             
             $('article:not(.slick_lightbox)').slickLightbox({
-                src: 'data-sicklightfull', // 'src',
-                itemSelector: 'img[data-sicklightfull]'
+                src: 'data-slicklightfull', // 'src',
+                itemSelector: 'img[data-slicklightfull]'
             }).addClass('slick_lightbox');
 
 
@@ -262,7 +262,7 @@ function closest (num, arr) {
                 var w_height = jQuery(window).height();
                 var w_aspect = w_height/w_width;
                 //console.log('1 w_width: ' + w_width + ', w_height: ' + w_height);
-                var sicklightfull, closest_style_width, newWidth, newHeight;
+                var slicklightfull, closest_style_width, newWidth, newHeight;
 
                 $('article img').each(function(index, value){
                     // Find out and set a current more appropriate size image url
@@ -287,8 +287,8 @@ function closest (num, arr) {
                     closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
                     //console.log('closest_style_width: ' + closest_style_width);
 
-                    sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
-                    $(this).attr('data-sicklightfull', sicklightfull);
+                    slicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                    $(this).attr('data-slicklightfull', slicklightfull);
                 });
             }
             
