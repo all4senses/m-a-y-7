@@ -655,6 +655,32 @@ function may_pages_get_pictures_by_type() {
 
 
 /**
+ * Implements hook_entity_info().
+ */
+function may_pages_entity_info() {
+  
+  // Added these entity types only to be able to use views and VBO
+  // without this VBO will not appear in views with this products
+  $entities = array(
+    'a4s_insta_own_accounts_saved_medias' => array(
+      'label' => t('A4s Insta: Own accounts saved medias'),
+      'base table' => 'a4s_insta_own_accounts_saved_medias',
+      'entity keys' => array(
+        'id' => 'mid',
+        'label' => 'shortcode',
+      ),
+      'entity class' => 'Entity',
+      'controller class' => 'EntityAPIController',
+      'module' => 'may_pages',
+    ),
+      
+  );
+
+  return $entities;
+}
+
+
+/**
  * 
  * @param type $existing
  * @param type $type
