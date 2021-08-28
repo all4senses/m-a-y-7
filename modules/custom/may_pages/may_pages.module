@@ -152,8 +152,9 @@ function may_pages_preprocess_page($variables) {
     drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick.css', array('weight' => 99, 'group' => 200));
     drupal_add_css('sites/all/libraries/jquery.plugins/_sliders/slick/slick-theme.css', array('weight' => 99, 'group' => 200));
 
-    //$styles = array('350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', '1200' => '1200w');
-    $styles = array(/*'350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', */'1200' => '1200w');
+    $styles = array('350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', '1200' => '1200w');
+    //$styles = array(/*'350' => '350w', '500' => '500w', '800' => '800w', '1000' => '1000w', */'1200' => '1200w');
+    
     //static $slick_lightbox_source_data;
     //if (!isset($slick_lightbox_source_data)) 
     {
