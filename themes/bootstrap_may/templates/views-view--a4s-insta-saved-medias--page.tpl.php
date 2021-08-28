@@ -80,36 +80,34 @@ dpm($variables['view']->result, 'view->result');
           //unset($media->{$key});
         }
         
-        //dpm($media, '$media');
         
-        //$imageinfo = getimagesize($image->uri);
-        
-        // '/f/insta_media/santiagopgm_BkTzi1JBD5t.jpg';
-        $url = str_replace('/f/', 'public://', $media->display_url);
-        $url =  drupal_realpath($url);
-        $imageinfo = getimagesize($url);
-        
-        $media->i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
-        $media->i_dimensions_str = $imageinfo[3];
-
         //$media->image_path_original = str_replace('public://', '/f/', $image->uri);
         
         $media->image_path_original = $media->display_url;
-        
-        
-        //list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
         list(, $media->image_path_public) = explode('/f/', $media->image_path_original);
         $media->image_path_original = str_replace('/f/', 'f/', $media->image_path_original);
         
         
+        $media->extra_data = !empty($media->extra_data) ? json_decode($media->extra_data, TRUE) : [];
         
-        
-        //dpm($media, '$media');
-        //return;
-        
-        
-        if (empty($media->i_maincolor)) {
-        
+        if (!empty($media->extra_data['i_asp'])) {
+          $media->i_aspect = $media->extra_data['i_asp'];
+          $media->i_dimensions_str = $media->extra_data['i_dim'];
+          $media->i_maincolor = $media->extra_data['i_col'];
+        }
+        else {
+          
+          // '/f/insta_media/santiagopgm_BkTzi1JBD5t.jpg';
+          $url = str_replace('/f/', 'public://', $media->display_url);
+          $url = drupal_realpath($url);
+          $imageinfo = getimagesize($url);
+
+          $media->i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
+          $media->i_dimensions_str = $imageinfo[3];
+          
+          
+          
+          // Get the main color of the image
           $closest_style_width = '350';
           $sourceImage = 'f/styles/' . $closest_style_width . '/public/' . $media->image_path_public;
           if (!file_exists($sourceImage)) {
@@ -139,11 +137,23 @@ dpm($variables['view']->result, 'view->result');
             //Set a default color.
             $media->i_maincolor = 'rgb(219, 212, 209)';
           }
+          
+          
+          
+          // Save just found image attributes to DB.
+          $media->extra_data['i_asp'] = $media->i_aspect;
+          $media->extra_data['i_dim'] = $media->i_dimensions_str;
+          $media->extra_data['i_col'] = $media->i_maincolor;
+          
+          db_update('a4s_insta_own_accounts_saved_medias')
+            ->fields(array(
+              'extra_data' => json_encode($media->extra_data),
+            ))
+          ->condition('mid', $media->mid)
+          ->execute();
 
-        } // End of if (empty($image->i_maincolor)) {
-        else {
-          //dpm('Main color is set for fid: ' . $image->fid);
-        }
+        } // End of if (empty($image->extra_data)) {
+
       
       
       
@@ -157,9 +167,7 @@ dpm($variables['view']->result, 'view->result');
                 //. '<img data-originalpath="/' . $media->image_path_public . '" data-iaspect="' . $media->i_aspect . '" ' . $media->i_dimensions_str . ' class="masonry-item-img" data-original="' . $media->image_path_original . '"/>'
                 . '<img '
                       . 'data-originalpath="/' . $media->image_path_public . '" '
-                      //. 'data-originalpath="/' . $media->display_url . '" '
                       . 'data-original="' . $media->image_path_original . '"'
-                      //. 'data-original="' . $media->display_url . '"'
                       . 'data-iaspect="' . $media->i_aspect . '" ' 
                       . $media->i_dimensions_str 
                       . ' class="masonry-item-img" '
