@@ -143,7 +143,8 @@ function closest (num, arr) {
                     //closest_style_width = closest(newWidth - 70, Drupal.settings.slick_lightbox_source_data.sizes);
                     closest_style_width = closest(newWidth, Drupal.settings.slick_lightbox_source_data.sizes);
 
-                    sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                    //sicklightfull = '/f/styles/' + closest_style_width + '/public' + $(this).attr('data-originalpath');
+                    sicklightfull = $(this).attr('data-originalpath');
                     $(this).attr('data-sicklightfull', sicklightfull);
                 });
             }
