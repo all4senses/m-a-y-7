@@ -176,8 +176,9 @@
       
       
       
-      
-      print '<div style="margin-top: 40px">' . $rows . '</div>'; 
+      // Original standsrd views output
+      // We don't need it anymore
+      //print '<div style="margin-top: 40px">' . $rows . '</div>'; 
       
       
       ?>
