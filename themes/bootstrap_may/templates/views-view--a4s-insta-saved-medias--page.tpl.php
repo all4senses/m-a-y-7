@@ -132,7 +132,7 @@
           // Save just found image attributes to DB.
           $media->extra_data['i_asp'] = $media->i_aspect;
           $media->extra_data['i_dim'] = $media->i_dimensions_str;
-          $media->extra_data['i_col'] = $media->i_maincolor;
+          $media->extra_data['i_col'] = !empty($media->i_maincolor) ? $media->i_maincolor : '';
           
           db_update('a4s_insta_own_accounts_saved_medias')
             ->fields(array(
