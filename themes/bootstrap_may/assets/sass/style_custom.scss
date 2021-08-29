@@ -169,6 +169,7 @@ footer {
         }
     }
     
+    
     @include MQ(M) {
         .masonry-item { 
             width: 24% !important;
@@ -184,6 +185,48 @@ footer {
     }
      
 }
+
+
+
+/* TODO: Move this to SCSS!!! (to above) */
+
+/* A4S MANUAL OVERRIDE */
+.masonry-items .masonry-item .info {
+  position: absolute;
+  bottom: 15px;
+  right: 0px;
+  padding: 0 5px;
+  text-align: right;
+}
+.slick-lightbox {
+    /* Make a slickslider background less transparent */
+    /* Same could be achieved via the js call of .slickLightbox */
+    /* background: rgba(0,0,0,.91) !important; */
+}
+.masonry-items .masonry-item .info .link {
+    background: lightgray;
+    opacity: 0.7;
+}
+.masonry-items .masonry-item .owner {
+    position: absolute;
+    bottom: 0px;
+    color: lightgray;
+    font-size: 10px;
+    right: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Fix for not clickable left arrow.
 .slick-lightbox .slick-arrow {

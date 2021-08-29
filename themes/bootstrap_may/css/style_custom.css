@@ -634,25 +634,24 @@ footer {
 /* line 159, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item .info {
   position: absolute;
-  
-  /*
   bottom: 5px;
   right: 5px;
   background: gray;
   width: 20px;
   padding: 0 5px;
-  */
-  
-  
-  
-  /* A4S MANUAL */
+}
+
+
+
+
+/* A4S MANUAL OVERRIDE */
+.masonry-items .masonry-item .info {
+  position: absolute;
   bottom: 15px;
   right: 0px;
   padding: 0 5px;
   text-align: right;
 }
-
-/* A4S MANUAL */
 .slick-lightbox {
     /* Make a slickslider background less transparent */
     /* Same could be achieved via the js call of .slickLightbox */
@@ -669,6 +668,12 @@ footer {
     font-size: 10px;
     right: 5px;
 }
+
+
+
+
+
+
 
 /* line 166, ../assets/sass/style_custom.scss */
 .masonry-items .masonry-item .info .link a {
