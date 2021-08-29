@@ -158,7 +158,7 @@
                       . 'data-original="' . $media->image_path_original . '"'
                       . 'data-saveoriginal="' . $media->image_path_original . '"'
                       . 'data-iaspect="' . $media->i_aspect . '" ' 
-                      . 'data-mediacaption="' . "<a target='_blank' href='" . $media->image_path_original . "'>" . $media->media_caption . '</a>" '
+                      . 'data-mediacaption="' . "<a target='_blank' href='" . $media->image_path_original . "'>" . utf8_decode($media->media_caption) . '</a>" '
                 . $media->i_dimensions_str 
                       . ' class="masonry-item-img" '
                       
