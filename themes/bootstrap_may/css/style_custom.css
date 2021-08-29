@@ -653,6 +653,10 @@ footer {
 }
 
 /* A4S MANUAL */
+.slick-lightbox {
+    /* Make a slickslider background less transparent */
+    background: rgba(0,0,0,.91) !important;
+}
 .masonry-items .masonry-item .info .link {
     background: lightgray;
     opacity: 0.7;
