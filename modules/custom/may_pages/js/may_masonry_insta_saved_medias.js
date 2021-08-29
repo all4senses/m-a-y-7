@@ -113,7 +113,8 @@ function closest (num, arr) {
             jQuery('.masonry-items').slickLightbox({
                 src: 'data-slicklightfull', // 'src',
                 itemSelector: 'img[data-slicklightfull]',
-                background: 'rgba(0,0,0,.91)' // Make a slickslider background less transparent
+                background: 'rgba(0,0,0,.91)', // Make a slickslider background less transparent
+                caption: 'Test caption'
             }).addClass('slick_lightbox');
 
           
