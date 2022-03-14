@@ -87,6 +87,9 @@
           // '/f/insta_media/santiagopgm_BkTzi1JBD5t.jpg';
           $url = str_replace('/f/', 'public://', $media->display_url);
           $url = drupal_realpath($url);
+          if (!file_exists($url)) {
+            continue;
+          }
           $imageinfo = getimagesize($url);
 
           $media->i_aspect = $imageinfo[1]/$imageinfo[0]; // h/w
